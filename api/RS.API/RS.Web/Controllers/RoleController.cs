@@ -14,9 +14,9 @@ namespace RS.Web.Controllers
     [ValidateModel]
     public class RoleController : Controller
     {
-        private readonly IRoleManager _roleManager;
+        private readonly IRoleManagerService _roleManager;
 
-        public RoleController(IRoleManager roleManager)
+        public RoleController(IRoleManagerService roleManager)
         {
             this._roleManager = roleManager;
           

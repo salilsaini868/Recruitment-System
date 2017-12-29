@@ -6,7 +6,7 @@ using System;
 
 namespace RS.Service.Logic
 {
-    public class RoleManager : IRoleManager
+    public class RoleManager : IRoleManagerService
     {
         private readonly IRoleRepository _roleRepository;
         private RS.Entity.Models.Roles _role;

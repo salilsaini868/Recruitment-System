@@ -4,7 +4,7 @@ using System;
 
 namespace RS.Service.Interfaces
 {
-    public interface IRoleManager
+    public interface IRoleManagerService
     {
         /// <summary>
         /// Create a new Role
