@@ -13,13 +13,19 @@ namespace RS.Web
         public static IServiceCollection RegisterAddTransient(IServiceCollection services)
         {
             #region Repository
+            services.AddTransient<IApprovalRepository, ApprovalRepository>();
+            services.AddTransient<ICandidateRepository, CandidateRepository>();
+            services.AddTransient<IOpeningRepository, OpeningRepository>();
             services.AddTransient<IRoleRepository, RoleRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             #endregion
 
             #region Services
-            services.AddTransient<IRoleManager, RoleManager>();
-            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IApprovalManagerService, ApprovalManagerService>();
+            services.AddTransient<ICandidateManagerService, CandidateManagerService>();
+            services.AddTransient<IOpeningManagerService, OpeningManagerService>();
+            services.AddTransient<IRoleManagerService, RoleManager>();
+            services.AddTransient<IUserService, UserManagerService>();
             #endregion
 
             return services;

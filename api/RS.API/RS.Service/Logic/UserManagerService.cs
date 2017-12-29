@@ -7,12 +7,12 @@ using RS.Data.Interfaces;
 
 namespace RS.Service.Logic
 {
-    public class UserService : IUserService
+    public class UserManagerService : IUserService
     {
         #region Global Variables
         private readonly IUserRepository _userRepository;
         #endregion
-        public UserService(IUserRepository userRepository)
+        public UserManagerService(IUserRepository userRepository)
         {
             this._userRepository = userRepository;
         }
