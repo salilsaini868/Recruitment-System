@@ -21,22 +21,22 @@ namespace RS.Web.Controllers
             this._userService = userService;
         }
 
-        /// <summary>
-        /// Save new User
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public HttpResponseMessage UserCreate([FromBody]UserModel model)
-        {
-            StatusEnum.Status status = _userService.SaveUser(model);
-            var resp = new HttpResponseMessage(HttpStatusCode.OK)
-            {
-                Content = new StringContent(string.Format(UserAccountNotification.UserCreated)),
-                ReasonPhrase = UserAccountNotification.UserCreated,
-            };
-            return resp;
-        }
+        ///// <summary>
+        ///// Save new User
+        ///// </summary>
+        ///// <param name="model"></param>
+        ///// <returns></returns>
+        //[HttpPost]
+        //public HttpResponseMessage UserCreate([FromBody]UserModel model)
+        //{
+        //    StatusEnum.Status status = _userService.SaveUser(model);
+        //    var resp = new HttpResponseMessage(HttpStatusCode.OK)
+        //    {
+        //        Content = new StringContent(string.Format(UserAccountNotification.UserCreated)),
+        //        ReasonPhrase = UserAccountNotification.UserCreated,
+        //    };
+        //    return resp;
+        //}
 
 
         [HttpPost]
@@ -51,46 +51,46 @@ namespace RS.Web.Controllers
         ///// </summary>
         ///// <param name="model"></param>
         ///// <returns></returns>
-        [HttpPost]
-        public HttpResponseMessage UpdateUser([FromBody]UserModel model)
-        {
+        //[HttpPost]
+        //public HttpResponseMessage UpdateUser([FromBody]UserModel model)
+        //{
 
-            StatusEnum.Status status = _userService.UpdateUser(model);
+        //    StatusEnum.Status status = _userService.UpdateUser(model);
 
-            var resp = new HttpResponseMessage(HttpStatusCode.OK)
-            {
-                Content = new StringContent(string.Format(UserAccountNotification.UserCreated)),
-                ReasonPhrase = UserAccountNotification.UserCreated,
-            };
-            return resp;
-        }
+        //    var resp = new HttpResponseMessage(HttpStatusCode.OK)
+        //    {
+        //        Content = new StringContent(string.Format(UserAccountNotification.UserCreated)),
+        //        ReasonPhrase = UserAccountNotification.UserCreated,
+        //    };
+        //    return resp;
+        //}
 
-        [HttpGet]
-        public dynamic GetAllUser()
-        {
-            var userlist = _userService.GetAllUser();
-            return userlist;
-        }
+        //[HttpGet]
+        //public dynamic GetAllUser()
+        //{
+        //    var userlist = _userService.GetAllUser();
+        //    return userlist;
+        //}
 
-        [HttpGet]
-        public dynamic GetUserByID(Guid id)
-        {
-            dynamic entity = _userService.GetUser(id);
-            return entity;
-        }
+        //[HttpGet]
+        //public dynamic GetUserByID(Guid id)
+        //{
+        //    dynamic entity = _userService.GetUser(id);
+        //    return entity;
+        //}
 
-        [HttpGet]
-        public HttpResponseMessage DeleteUser(Guid roleid)
-        {
-            StatusEnum.Status status = _userService.DeleteUser(roleid);
+        //[HttpGet]
+        //public HttpResponseMessage DeleteUser(Guid roleid)
+        //{
+        //    StatusEnum.Status status = _userService.DeleteUser(roleid);
 
-            var resp = new HttpResponseMessage(HttpStatusCode.OK)
-            {
-                Content = new StringContent(string.Format(UserAccountNotification.UserDeleted)),
-                ReasonPhrase = UserAccountNotification.UserDeleted,
-            };
-            return resp;
-        }
+        //    var resp = new HttpResponseMessage(HttpStatusCode.OK)
+        //    {
+        //        Content = new StringContent(string.Format(UserAccountNotification.UserDeleted)),
+        //        ReasonPhrase = UserAccountNotification.UserDeleted,
+        //    };
+        //    return resp;
+        //}
 
     }
 }

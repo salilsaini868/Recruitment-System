@@ -22,44 +22,44 @@ namespace RS.Web.Controllers
           
         }
 
-        [HttpPost]
-        public HttpResponseMessage RoleCreate([FromBody] RoleModel model)
-        {
-            StatusEnum.Status status = _roleManager.CreateRole(model);
+        //[HttpPost]
+        //public HttpResponseMessage RoleCreate([FromBody] RoleModel model)
+        //{
+        //    StatusEnum.Status status = _roleManager.CreateRole(model);
 
-            var resp = new HttpResponseMessage(HttpStatusCode.OK)
-            {
-                Content = new StringContent(string.Format(RoleStatusNotification.RoleCreated)),
-                ReasonPhrase = RoleStatusNotification.RoleCreated,
-            };
-            return resp;
-        }
+        //    var resp = new HttpResponseMessage(HttpStatusCode.OK)
+        //    {
+        //        Content = new StringContent(string.Format(RoleStatusNotification.RoleCreated)),
+        //        ReasonPhrase = RoleStatusNotification.RoleCreated,
+        //    };
+        //    return resp;
+        //}
 
-        [HttpPost]
-        public HttpResponseMessage RoleUpdate([FromBody] RoleModel model)
-        {
-            StatusEnum.Status status = _roleManager.UpdateRole(model);
+        //[HttpPost]
+        //public HttpResponseMessage RoleUpdate([FromBody] RoleModel model)
+        //{
+        //    StatusEnum.Status status = _roleManager.UpdateRole(model);
 
-            var resp = new HttpResponseMessage(HttpStatusCode.OK)
-            {
-                Content = new StringContent(string.Format(RoleStatusNotification.RoleUpdated)),
-                ReasonPhrase = RoleStatusNotification.RoleUpdated,
-            };
-            return resp;
-        }
+        //    var resp = new HttpResponseMessage(HttpStatusCode.OK)
+        //    {
+        //        Content = new StringContent(string.Format(RoleStatusNotification.RoleUpdated)),
+        //        ReasonPhrase = RoleStatusNotification.RoleUpdated,
+        //    };
+        //    return resp;
+        //}
 
-        [HttpGet]
-        public HttpResponseMessage RoleDelete(Guid roleid)
-        {
-            StatusEnum.Status status = _roleManager.DeleteRole(roleid);
+        //[HttpGet]
+        //public HttpResponseMessage RoleDelete(Guid roleid)
+        //{
+        //    StatusEnum.Status status = _roleManager.DeleteRole(roleid);
 
-            var resp = new HttpResponseMessage(HttpStatusCode.OK)
-            {
-                Content = new StringContent(string.Format(RoleStatusNotification.RoleDeleted)),
-                ReasonPhrase = RoleStatusNotification.RoleDeleted,
-            };
-            return resp;
-        }
+        //    var resp = new HttpResponseMessage(HttpStatusCode.OK)
+        //    {
+        //        Content = new StringContent(string.Format(RoleStatusNotification.RoleDeleted)),
+        //        ReasonPhrase = RoleStatusNotification.RoleDeleted,
+        //    };
+        //    return resp;
+        //}
 
 
         [HttpGet]

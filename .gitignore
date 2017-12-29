@@ -195,9 +195,10 @@ _Pvt_Extensions
 
 # angular init files
 favicon.ico
-api/Gjenesis.API/.DS_Store
-api/Gjenesis.BL/.DS_Store
-api/Gjenesis.Tester/.DS_Store
+api/RS.API/.DS_Store
+api/RS.API/.DS_Store
+api/RS.API/.DS_Store
 api/.DS_Store
-api/Gjenesis.DAL/.DS_Store
+api/RS.API/.DS_Store
 .DS_Store
+/api/RS.API/.vs
