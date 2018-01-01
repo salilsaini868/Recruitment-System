@@ -2,6 +2,10 @@
 using RS.Data;
 using RS.Entity;
 using RS.Entity.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System;
+using RS.ViewModel.User;
 
 namespace RS.Data.Logic
 {
@@ -10,6 +14,12 @@ namespace RS.Data.Logic
         private readonly RSContext _context;
         public UserRepository(RSContext context) : base(context) {
             this._context = context;
+        }
+
+        public Users LoginUser(string username, string password)
+        {
+            return  _context.Users.FirstOrDefault(x => x.UserName == username && x.Password == password);
+ 
         }
     }
 }
