@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RS.ViewModel.User
 {
-    public class UserModel
+    public class UserViewModel
     {
         public int UserId { get; set; }
         public string UserName { get; set; }
