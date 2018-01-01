@@ -1,0 +1,140 @@
+/* tslint:disable */
+import { Injectable } from '@angular/core';
+import {Http, Response, Headers, Request, RequestOptionsArgs,RequestOptions, URLSearchParams } from '@angular/http';
+import { {{#definitions}}{{name}}{{^last}}, {{/last}}{{/definitions}} } from './models';
+import 'rxjs/Rx';
+
+/**
+* Created with angular2-swagger-client-generator v{{&version}}
+*/
+@Injectable()
+export class {{serviceName}} {
+domain:string;
+public defaultHeaders : Headers = new Headers();
+constructor(public http: Http){
+{{#domain}}
+  this.domain = '{{&.}}';
+{{/domain}}
+{{^domain}}
+  this.domain = '';
+{{/domain}}
+}
+/*
+constructor(public http: Http, options?: any) {
+var domain = (typeof options === 'object') ? options.domain : options;
+this.domain = typeof(domain) === 'string' ? domain : '{{&domain}}';
+
+if(this.domain.length === 0) {
+throw new Error('Domain parameter must be specified as a string.');
+}
+
+{{#isSecure}}
+  this.token = (typeof options === 'object') ? (options.token ? options.token : {}) : {};
+{{/isSecure}}
+}
+*/
+
+
+{{#methods}}
+  /**
+  {{#summaryLines}}
+    * {{&.}}
+  {{/summaryLines}}
+  *
+  * @method
+  * @name {{&methodName}}
+  {{#parameters}}
+    {{^isSingleton}}* @param {{=<% %>=}}{<%&type%>}<%={{ }}=%> {{&camelCaseName}} - {{&description}}{{/isSingleton}}
+  {{/parameters}}
+  *
+  */
+  public {{&methodName}}({{#parameters}}{{&camelCaseName}}: {{typescriptType}}{{^last}}, {{/last}}{{/parameters}}) {
+  let bodyVar={};
+  let headers = new Headers(this.defaultHeaders.toJSON());
+  let payload = {};
+  let queryParameters=new URLSearchParams();
+
+
+  {{#parameters}}
+    {{#required}}
+      if({{&camelCaseName}} === undefined){
+      throw new Error('Missing required {{&typescriptType}} parameter: {{&camelCaseName}}');
+      }
+    {{/required}}
+    {{#isQueryParameter}}
+      {{#isSingleton}}
+        queryParameters.set('{{&name}}',{{&singleton}}.toString());
+      {{/isSingleton}}
+      {{^isSingleton}}
+        {{#isPatternType}}
+          Object.keys(parameters).forEach(function(parameterName) {
+          if(new RegExp('{{&pattern}}').test(parameterName)){
+          queryParameters.set('parameterName',parameters[parameterName].toString());
+          }
+          });
+        {{/isPatternType}}
+        {{^isPatternType}}
+
+          {{#typescriptType}}
+            {{#isArrayParameter}}
+              if({{&camelCaseName}} !== undefined && {{&camelCaseName}}.length>0){
+              {{&camelCaseName}}.forEach((element) => {
+              queryParameters.append('{{&name}}',element.toString());
+              });
+              }
+            {{/isArrayParameter}}
+            {{^isArrayParameter}}
+              {{#isNumberParameter}}
+                if ({{&camelCaseName}} !== 0) {
+                queryParameters.set('{{&name}}',{{&camelCaseName}}.toString());
+                }
+              {{/isNumberParameter}}
+              {{^isNumberParameter}}
+                if ({{&camelCaseName}} !== '') {
+                queryParameters.set('{{&name}}',{{&camelCaseName}});
+                }
+              {{/isNumberParameter}}
+            {{/isArrayParameter}}
+          {{/typescriptType}}
+        {{/isPatternType}}
+
+      {{/isSingleton}}
+    {{/isQueryParameter}}
+    {{#isHeaderParameter}}
+      {{#isSingleton}}
+        headers.append('{{&name}}', '{{&singleton}}');
+      {{/isSingleton}}
+      {{^isSingleton}}
+        if({{&camelCaseName}} !== undefined){
+        headers.append('{{&name}}', {{&camelCaseName}});
+        }
+      {{/isSingleton}}
+    {{/isHeaderParameter}}
+    {{#isFormParameter}}
+      {{#isSingleton}}
+        form['{{&name}}'] = '{{&singleton}}';
+      {{/isSingleton}}
+      {{^isSingleton}}
+        if({{&camelCaseName}} !== undefined){
+        form['{{&name}}'] = {{&camelCaseName}};
+        }
+      {{/isSingleton}}
+      headers.append('Content-Type', 'application/x-www-form-urlencoded');
+    {{/isFormParameter}}
+    {{#isBodyParameter}}
+      bodyVar={{&camelCaseName}};
+    {{/isBodyParameter}}
+  {{/parameters}}
+  headers.append('Content-Type', 'application/json');
+  let uri = `{{&backTickPath}}`;
+  let options = new RequestOptions({ headers: headers, search: queryParameters });
+
+  return this.http
+  .{{angular2httpMethod}}(this.domain + uri{{#hasPayload}}, JSON.stringify(bodyVar){{/hasPayload}}, options)
+  .map((res: Response) => {
+     return res.arrayBuffer().byteLength > 0 ? res.json() : {};
+  });
+
+  }
+{{/methods}}
+}

@@ -3,13 +3,15 @@
  */
 
 import {Routes, RouterModule} from '@angular/router';
-import {HomeComponent} from './home/home.component';
+// import {HomeComponent} from './home/home.component';
 import {ErrorComponent} from './error/error.component';
+
+import { LoginComponent } from './Login/login.Component';
 
 const APP_ROUTES: Routes = [
   {
     path: '',
-    component: HomeComponent
+    component: LoginComponent
   },
   {
     path: '**',
