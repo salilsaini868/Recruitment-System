@@ -1,7 +1,7 @@
 import {AppPage} from './app.po';
 import {browser, by, element} from 'protractor';
 
-describe('angular-boilerplate App', () => {
+describe('RHPM App', () => {
   let page: AppPage;
 
   beforeEach(() => {
