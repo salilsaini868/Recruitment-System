@@ -27,14 +27,13 @@ namespace RS.Service.Logic
         public UserViewModel LoginUser(string username, string Password)
         {
             Users user =_userRepository.LoginUser(username,Password);
-            UserViewModel userView = new UserViewModel()
+            return new UserViewModel()
                                     {
                                         UserId = user.UserId,
                                         UserName = user.UserName,
                                         Email = user.Email
                                     };
-            return userView;
-
+       
         }
 
         #endregion

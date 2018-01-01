@@ -24,8 +24,7 @@ namespace RS.Web.Controllers
         [HttpPost]
         public UserViewModel UserLogin([FromBody]UserLoginModel LoginModel)
         {
-            UserViewModel user = _userService.LoginUser(LoginModel.UserEmail, LoginModel.UserPassword);
-            return user;
+            return _userService.LoginUser(LoginModel.UserEmail, LoginModel.UserPassword);
         }
 
     }
