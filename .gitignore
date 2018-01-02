@@ -22,6 +22,12 @@ bld/
 [Oo]bj/
 [Ll]og/
 
+# Visual Studio 2015/2017 cache/options directory
+*.ide*
+/.vs/
+.vs/
+/.vs
+
 # MSTest test Results
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
@@ -201,5 +207,4 @@ api/RS.API/.DS_Store
 api/.DS_Store
 api/RS.API/.DS_Store
 .DS_Store
-/api/RS.API/.vs
-api/RS.API/.vs/RS.Web/v15/
+

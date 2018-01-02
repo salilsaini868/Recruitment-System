@@ -1,6 +1,5 @@
 ﻿using RS.Data.Interfaces;
 using RS.Entity.Models;
-using RS.ViewModel.User;
 
 namespace RS.Data.Interfaces
 {

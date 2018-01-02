@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RS.Entity.Models
 {
-    public partial class ApprovalEvents : BaseEntity
+    public partial class ApprovalEvents
     {
         public ApprovalEvents()
         {
@@ -15,12 +15,18 @@ namespace RS.Entity.Models
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity), Key]
         public int ApprovalEventId { get; set; }
+
+        [Required, MaxLength(150)]
         public string ApprovalEventName { get; set; }
+
         public int ApprovalEventOrder { get; set; }
+
         public int ApprovalId { get; set; }
 
         public Approvals Approval { get; set; }
+
         public ICollection<ApprovalActions> ApprovalActions { get; set; }
+
         public ICollection<ApprovalEventRoles> ApprovalEventRoles { get; set; }
     }
 }

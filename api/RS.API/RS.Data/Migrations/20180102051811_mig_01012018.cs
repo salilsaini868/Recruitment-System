@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace RS.Data.Migrations
 {
-    public partial class Mig_28122017 : Migration
+    public partial class mig_01012018 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,16 +15,8 @@ namespace RS.Data.Migrations
                 {
                     ApprovalId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ApprovalDesc = table.Column<string>(nullable: true),
-                    ApprovalName = table.Column<string>(nullable: true),
-                    CreatedBy = table.Column<int>(nullable: false),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    DeletedBy = table.Column<int>(nullable: true),
-                    DeletedDate = table.Column<DateTime>(nullable: true),
-                    IsActive = table.Column<bool>(nullable: false),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    ModifiedBy = table.Column<int>(nullable: true),
-                    ModifiedDate = table.Column<DateTime>(nullable: true)
+                    ApprovalDesc = table.Column<string>(maxLength: 500, nullable: true),
+                    ApprovalName = table.Column<string>(maxLength: 150, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -40,12 +32,12 @@ namespace RS.Data.Migrations
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     DeletedBy = table.Column<int>(nullable: true),
                     DeletedDate = table.Column<DateTime>(nullable: true),
+                    Description = table.Column<string>(maxLength: 500, nullable: false),
                     IsActive = table.Column<bool>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     ModifiedBy = table.Column<int>(nullable: true),
                     ModifiedDate = table.Column<DateTime>(nullable: true),
-                    OpeningDescription = table.Column<string>(nullable: true),
-                    OpeningDetails = table.Column<string>(nullable: true)
+                    Title = table.Column<string>(maxLength: 150, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -58,8 +50,8 @@ namespace RS.Data.Migrations
                 {
                     QualificationId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    QualificationDesc = table.Column<string>(nullable: true),
-                    QualificationName = table.Column<string>(nullable: true)
+                    Description = table.Column<string>(maxLength: 500, nullable: false),
+                    Name = table.Column<string>(maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -72,7 +64,7 @@ namespace RS.Data.Migrations
                 {
                     RoleId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    RoleName = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -85,8 +77,8 @@ namespace RS.Data.Migrations
                 {
                     SkillId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    SkillDescription = table.Column<string>(nullable: true),
-                    SkillName = table.Column<string>(nullable: true)
+                    Description = table.Column<string>(maxLength: 500, nullable: true),
+                    Name = table.Column<string>(maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -97,19 +89,20 @@ namespace RS.Data.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<Guid>(nullable: false),
                     CreatedBy = table.Column<int>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     DeletedBy = table.Column<int>(nullable: true),
                     DeletedDate = table.Column<DateTime>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(maxLength: 50, nullable: false),
+                    FirstName = table.Column<string>(maxLength: 50, nullable: false),
                     IsActive = table.Column<bool>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
+                    LastName = table.Column<string>(maxLength: 50, nullable: true),
                     ModifiedBy = table.Column<int>(nullable: true),
                     ModifiedDate = table.Column<DateTime>(nullable: true),
-                    Password = table.Column<string>(nullable: true),
-                    UserName = table.Column<string>(nullable: true)
+                    Password = table.Column<string>(maxLength: 50, nullable: false),
+                    UserName = table.Column<string>(maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -122,17 +115,9 @@ namespace RS.Data.Migrations
                 {
                     ApprovalEventId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ApprovalEventName = table.Column<string>(nullable: true),
+                    ApprovalEventName = table.Column<string>(maxLength: 150, nullable: false),
                     ApprovalEventOrder = table.Column<int>(nullable: false),
-                    ApprovalId = table.Column<int>(nullable: false),
-                    CreatedBy = table.Column<int>(nullable: false),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    DeletedBy = table.Column<int>(nullable: true),
-                    DeletedDate = table.Column<DateTime>(nullable: true),
-                    IsActive = table.Column<bool>(nullable: false),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    ModifiedBy = table.Column<int>(nullable: true),
-                    ModifiedDate = table.Column<DateTime>(nullable: true)
+                    ApprovalId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -150,29 +135,29 @@ namespace RS.Data.Migrations
                 columns: table => new
                 {
                     CandidateId = table.Column<Guid>(nullable: false),
-                    CandidateDesc = table.Column<string>(nullable: true),
-                    CandidateExperienceMonth = table.Column<int>(nullable: false),
-                    CandidateExperienceYear = table.Column<int>(nullable: false),
-                    CandidateFirstName = table.Column<string>(nullable: true),
-                    CandidateGender = table.Column<int>(nullable: false),
-                    CandidateLastName = table.Column<string>(nullable: true),
-                    CandidateOrganisation = table.Column<string>(nullable: true),
-                    CandidateQualificationId = table.Column<int>(nullable: false),
                     CreatedBy = table.Column<int>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     DeletedBy = table.Column<int>(nullable: true),
                     DeletedDate = table.Column<DateTime>(nullable: true),
+                    Description = table.Column<string>(maxLength: 500, nullable: true),
+                    ExperienceMonth = table.Column<int>(nullable: false),
+                    ExperienceYear = table.Column<int>(nullable: false),
+                    FirstName = table.Column<string>(maxLength: 50, nullable: false),
+                    Gender = table.Column<int>(nullable: false),
                     IsActive = table.Column<bool>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
+                    LastName = table.Column<string>(maxLength: 50, nullable: true),
                     ModifiedBy = table.Column<int>(nullable: true),
-                    ModifiedDate = table.Column<DateTime>(nullable: true)
+                    ModifiedDate = table.Column<DateTime>(nullable: true),
+                    Organisation = table.Column<string>(maxLength: 150, nullable: false),
+                    QualificationId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Candidate", x => x.CandidateId);
                     table.ForeignKey(
-                        name: "FK_Candidate_Qualifications_CandidateQualificationId",
-                        column: x => x.CandidateQualificationId,
+                        name: "FK_Candidate_Qualifications_QualificationId",
+                        column: x => x.QualificationId,
                         principalTable: "Qualifications",
                         principalColumn: "QualificationId",
                         onDelete: ReferentialAction.Cascade);
@@ -185,7 +170,8 @@ namespace RS.Data.Migrations
                     OpeningSkillId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     OpeningId = table.Column<Guid>(nullable: false),
-                    SkillId = table.Column<int>(nullable: false)
+                    SkillId = table.Column<int>(nullable: false),
+                    SkillType = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -205,13 +191,10 @@ namespace RS.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ApprovalActions",
+                name: "UserRoles",
                 columns: table => new
                 {
-                    ApprovalActionId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ApprovalActionName = table.Column<string>(nullable: true),
-                    ApprovalEventId = table.Column<int>(nullable: false),
+                    UserRolesId = table.Column<Guid>(nullable: false),
                     CreatedBy = table.Column<int>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     DeletedBy = table.Column<int>(nullable: true),
@@ -219,7 +202,35 @@ namespace RS.Data.Migrations
                     IsActive = table.Column<bool>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     ModifiedBy = table.Column<int>(nullable: true),
-                    ModifiedDate = table.Column<DateTime>(nullable: true)
+                    ModifiedDate = table.Column<DateTime>(nullable: true),
+                    RoleId = table.Column<int>(nullable: false),
+                    UserId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserRoles", x => x.UserRolesId);
+                    table.ForeignKey(
+                        name: "FK_UserRoles_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
+                        principalColumn: "RoleId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserRoles_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ApprovalActions",
+                columns: table => new
+                {
+                    ApprovalActionId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ApprovalActionName = table.Column<string>(maxLength: 150, nullable: false),
+                    ApprovalEventId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -276,12 +287,12 @@ namespace RS.Data.Migrations
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     DeletedBy = table.Column<int>(nullable: true),
                     DeletedDate = table.Column<DateTime>(nullable: true),
+                    DocumentName = table.Column<string>(maxLength: 150, nullable: false),
                     IsActive = table.Column<bool>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     ModifiedBy = table.Column<int>(nullable: true),
                     ModifiedDate = table.Column<DateTime>(nullable: true),
-                    UploadedDocumentName = table.Column<string>(nullable: true),
-                    UploadedDocumentPath = table.Column<string>(nullable: true)
+                    UploadedDocument = table.Column<string>(maxLength: 150, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -295,39 +306,12 @@ namespace RS.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CandidateSkills",
-                columns: table => new
-                {
-                    CandidateSkillId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CandidateId = table.Column<Guid>(nullable: false),
-                    SkillId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CandidateSkills", x => x.CandidateSkillId);
-                    table.ForeignKey(
-                        name: "FK_CandidateSkills_Candidate_CandidateId",
-                        column: x => x.CandidateId,
-                        principalTable: "Candidate",
-                        principalColumn: "CandidateId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CandidateSkills_Skills_SkillId",
-                        column: x => x.SkillId,
-                        principalTable: "Skills",
-                        principalColumn: "SkillId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ApprovalTransactions",
                 columns: table => new
                 {
                     ApprovalTransactionId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ApprovalActionId = table.Column<int>(nullable: false),
-                    ApprovalEventOrderNumber = table.Column<int>(nullable: false),
                     ApprovalId = table.Column<int>(nullable: false),
                     CreatedBy = table.Column<int>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
@@ -335,11 +319,12 @@ namespace RS.Data.Migrations
                     DeletedDate = table.Column<DateTime>(nullable: true),
                     EntityId = table.Column<Guid>(nullable: false),
                     EntityType = table.Column<int>(nullable: false),
+                    EventOrderNumber = table.Column<int>(nullable: false),
                     IsActive = table.Column<bool>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     ModifiedBy = table.Column<int>(nullable: true),
                     ModifiedDate = table.Column<DateTime>(nullable: true),
-                    NextApprovalEventOrderNumber = table.Column<int>(nullable: false)
+                    NextEventOrderNumber = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -359,13 +344,13 @@ namespace RS.Data.Migrations
                     ApprovalTransactionDetailId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ApprovalActionId = table.Column<int>(nullable: false),
-                    ApprovalEventOrderNumber = table.Column<int>(nullable: false),
                     ApprovalTransactionId = table.Column<int>(nullable: false),
-                    Comments = table.Column<string>(nullable: true),
+                    Comments = table.Column<string>(maxLength: 500, nullable: true),
                     CreatedBy = table.Column<int>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     DeletedBy = table.Column<int>(nullable: true),
                     DeletedDate = table.Column<DateTime>(nullable: true),
+                    EventOrderNumber = table.Column<int>(nullable: false),
                     IsActive = table.Column<bool>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     ModifiedBy = table.Column<int>(nullable: true),
@@ -413,24 +398,14 @@ namespace RS.Data.Migrations
                 column: "ApprovalActionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Candidate_CandidateQualificationId",
+                name: "IX_Candidate_QualificationId",
                 table: "Candidate",
-                column: "CandidateQualificationId");
+                column: "QualificationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CandidateDocuments_CandidateId",
                 table: "CandidateDocuments",
                 column: "CandidateId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CandidateSkills_CandidateId",
-                table: "CandidateSkills",
-                column: "CandidateId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CandidateSkills_SkillId",
-                table: "CandidateSkills",
-                column: "SkillId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OpeningSkills_OpeningId",
@@ -441,6 +416,16 @@ namespace RS.Data.Migrations
                 name: "IX_OpeningSkills_SkillId",
                 table: "OpeningSkills",
                 column: "SkillId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserRoles_RoleId",
+                table: "UserRoles",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserRoles_UserId",
+                table: "UserRoles",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -455,16 +440,10 @@ namespace RS.Data.Migrations
                 name: "CandidateDocuments");
 
             migrationBuilder.DropTable(
-                name: "CandidateSkills");
-
-            migrationBuilder.DropTable(
                 name: "OpeningSkills");
 
             migrationBuilder.DropTable(
-                name: "Users");
-
-            migrationBuilder.DropTable(
-                name: "Roles");
+                name: "UserRoles");
 
             migrationBuilder.DropTable(
                 name: "ApprovalTransactions");
@@ -477,6 +456,12 @@ namespace RS.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Skills");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "ApprovalActions");

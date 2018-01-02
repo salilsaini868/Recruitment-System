@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RS.Entity.Models
 {
-    public partial class Qualifications
+    public partial class Qualifications :BaseEntity
     {
         public Qualifications()
         {
@@ -14,8 +14,12 @@ namespace RS.Entity.Models
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity), Key]
         public int QualificationId { get; set; }
-        public string QualificationName { get; set; }
-        public string QualificationDesc { get; set; }
+
+        [Required, MaxLength(50)]
+        public string Name { get; set; }
+
+        [Required, MaxLength(500)]
+        public string Description { get; set; }
 
         public ICollection<Candidate> Candidate { get; set; }
     }

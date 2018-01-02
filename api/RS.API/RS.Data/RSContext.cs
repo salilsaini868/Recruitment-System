@@ -24,7 +24,6 @@ namespace RS.Data
         public virtual DbSet<ApprovalTransactions> ApprovalTransactions { get; set; }
         public virtual DbSet<Candidate> Candidate { get; set; }
         public virtual DbSet<CandidateDocuments> CandidateDocuments { get; set; }
-        public virtual DbSet<CandidateSkills> CandidateSkills { get; set; }
         public virtual DbSet<Openings> Openings { get; set; }
         public virtual DbSet<OpeningSkills> OpeningSkills { get; set; }
         public virtual DbSet<Qualifications> Qualifications { get; set; }

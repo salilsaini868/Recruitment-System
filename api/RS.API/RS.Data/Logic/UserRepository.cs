@@ -5,7 +5,7 @@ using RS.Entity.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System;
-using RS.ViewModel.User;
+
 
 namespace RS.Data.Logic
 {

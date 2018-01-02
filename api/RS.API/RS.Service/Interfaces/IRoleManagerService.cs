@@ -11,20 +11,20 @@ namespace RS.Service.Interfaces
         /// </summary>
         /// <param name="model">role data in model</param>
         /// <returns></returns>
-        StatusEnum.Status CreateRole(RoleModel model);
+        Status CreateRole(RoleModel model);
         /// <summary>
         /// update a  Role
         /// </summary>
         /// <param name="model">role data in model</param>
         /// <returns></returns>
 
-        StatusEnum.Status UpdateRole(RoleModel model);
+        Status UpdateRole(RoleModel model);
         /// <summary>
         /// Delete a  Role
         /// </summary>
         /// <param name="model">role data in model</param>
         /// <returns></returns>
-        StatusEnum.Status DeleteRole(Guid id);
+        Status DeleteRole(Guid id);
         /// <summary>
         /// Get Role Info
         /// </summary>

@@ -15,14 +15,14 @@ namespace RS.Service.Logic
             this._roleRepository = roleRepository;
         }
 
-        public StatusEnum.Status CreateRole(RoleModel model)
+        public Status CreateRole(RoleModel model)
         {
-            StatusEnum.Status status = StatusEnum.Status.Success;
+            Status status = Status.Success;
             try
             {
                 _role = new RS.Entity.Models.Roles();
                 // _role.RoleId = model.RoleId;
-                _role.RoleName = model.RoleName;
+                _role.Name = model.RoleName;
                 //_role.Description = model.Description;
                 //_role.IsDeleted = model.IsDeleted;
                 //_role.DeletedBy = model.DeletedBy;
@@ -34,21 +34,21 @@ namespace RS.Service.Logic
             }
             catch (Exception)
             {
-                status = StatusEnum.Status.Fail;
+                status = Status.Fail;
                 throw;
             }
 
             return status;
         }
 
-        public StatusEnum.Status UpdateRole(RoleModel model)
+        public Status UpdateRole(RoleModel model)
         {
-            StatusEnum.Status status = StatusEnum.Status.Success;
+            Status status = Status.Success;
             try
             {
                 RS.Entity.Models.Roles roleUpdate = _roleRepository.GetByID(model.RoleId);
                 roleUpdate.RoleId = model.RoleId;
-                roleUpdate.RoleName = model.RoleName;
+                roleUpdate.Name = model.RoleName;
                 //roleUpdate.Description = model.Description;
                 //roleUpdate.IsDeleted = model.IsDeleted;
                 //roleUpdate.DeletedBy = model.DeletedBy;
@@ -61,15 +61,15 @@ namespace RS.Service.Logic
             }
             catch (Exception)
             {
-                status = StatusEnum.Status.Fail;
+                status = Status.Fail;
                 throw;
             }
             return status;
         }
 
-        public StatusEnum.Status DeleteRole(Guid id)
+        public Status DeleteRole(Guid id)
         {
-            StatusEnum.Status status = StatusEnum.Status.Success;
+            Status status = Status.Success;
             try
             {
                 RS.Entity.Models.Roles roleDelete = _roleRepository.GetByID(id);
@@ -79,7 +79,7 @@ namespace RS.Service.Logic
             }
             catch (Exception)
             {
-                status = StatusEnum.Status.Fail;
+                status = Status.Fail;
             }
             return status;
         }

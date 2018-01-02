@@ -14,8 +14,8 @@ namespace RS.Entity.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity), Key]
         public int ApprovalTransactionId { get; set; }
         public int ApprovalId { get; set; }
-        public int ApprovalEventOrderNumber { get; set; }
-        public int NextApprovalEventOrderNumber { get; set; }
+        public int EventOrderNumber { get; set; }
+        public int NextEventOrderNumber { get; set; }
         public int ApprovalActionId { get; set; }
         public Guid EntityId { get; set; }
         public int EntityType { get; set; }
