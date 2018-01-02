@@ -1,8 +1,10 @@
 ﻿using RS.Data.Interfaces;
 using RS.Entity.Models;
+using System.Linq;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 namespace RS.Data.Logic
 {
@@ -14,9 +16,23 @@ namespace RS.Data.Logic
             this._context = context;
         }
 
-        public int createSkill(Skills skill)
+        public dynamic CreateSkill(Skills skill)
+        {
+            _context.Skills.Add(skill);
+            return _context.SaveChanges();
+        }
+
+        public dynamic DeleteSkill(int id)
         {
             throw new NotImplementedException();
         }
+
+        public dynamic UpdateSkill(Skills skill)
+        {
+            _context.Entry(skill).State = EntityState.Modified;
+            return _context.SaveChanges();
+        }
+
+
     }
 }

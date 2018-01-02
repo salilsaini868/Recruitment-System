@@ -2,8 +2,12 @@
 
 namespace RS.Data.Interfaces
 {
-    interface ISkillRepository : IRepository<Skills>
+    public interface ISkillRepository : IRepository<Skills>
     {
-        int createSkill(Skills skill);
+        dynamic CreateSkill(Skills skill);
+
+        dynamic UpdateSkill(Skills skill);
+
+        dynamic DeleteSkill(int id);
     }
 }
