@@ -1,5 +1,6 @@
 ﻿using RS.Service.Interfaces;
 using RS.Common.Enums;
+using RS.Common.Extensions;
 using RS.Entity;
 using RS.ViewModel.User;
 using System;
@@ -27,13 +28,9 @@ namespace RS.Service.Logic
         public UserViewModel LoginUser(string username, string Password)
         {
             Users user =_userRepository.LoginUser(username,Password);
-            return new UserViewModel()
-                                    {
-                                        UserId = user.UserId,
-                                        UserName = user.UserName,
-                                        Email = user.Email
-                                    };
-       
+            UserViewModel userView = new UserViewModel();
+            userView.MapFromModel(user, "UserName;Password" );
+            return userView;
         }
 
         #endregion
