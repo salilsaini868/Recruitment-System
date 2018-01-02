@@ -5,14 +5,15 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
+using RS.Common.Enums;
 using RS.Data;
 using System;
 
 namespace RS.Data.Migrations
 {
     [DbContext(typeof(RSContext))]
-    [Migration("20171228134719_Mig_28122017")]
-    partial class Mig_28122017
+    [Migration("20180102051811_mig_01012018")]
+    partial class mig_01012018
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,25 +27,11 @@ namespace RS.Data.Migrations
                     b.Property<int>("ApprovalActionId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ApprovalActionName");
+                    b.Property<string>("ApprovalActionName")
+                        .IsRequired()
+                        .HasMaxLength(150);
 
                     b.Property<int>("ApprovalEventId");
-
-                    b.Property<int>("CreatedBy");
-
-                    b.Property<DateTime>("CreatedDate");
-
-                    b.Property<int?>("DeletedBy");
-
-                    b.Property<DateTime?>("DeletedDate");
-
-                    b.Property<bool>("IsActive");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<int?>("ModifiedBy");
-
-                    b.Property<DateTime?>("ModifiedDate");
 
                     b.HasKey("ApprovalActionId");
 
@@ -92,27 +79,13 @@ namespace RS.Data.Migrations
                     b.Property<int>("ApprovalEventId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ApprovalEventName");
+                    b.Property<string>("ApprovalEventName")
+                        .IsRequired()
+                        .HasMaxLength(150);
 
                     b.Property<int>("ApprovalEventOrder");
 
                     b.Property<int>("ApprovalId");
-
-                    b.Property<int>("CreatedBy");
-
-                    b.Property<DateTime>("CreatedDate");
-
-                    b.Property<int?>("DeletedBy");
-
-                    b.Property<DateTime?>("DeletedDate");
-
-                    b.Property<bool>("IsActive");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<int?>("ModifiedBy");
-
-                    b.Property<DateTime?>("ModifiedDate");
 
                     b.HasKey("ApprovalEventId");
 
@@ -126,25 +99,12 @@ namespace RS.Data.Migrations
                     b.Property<int>("ApprovalId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ApprovalDesc");
+                    b.Property<string>("ApprovalDesc")
+                        .HasMaxLength(500);
 
-                    b.Property<string>("ApprovalName");
-
-                    b.Property<int>("CreatedBy");
-
-                    b.Property<DateTime>("CreatedDate");
-
-                    b.Property<int?>("DeletedBy");
-
-                    b.Property<DateTime?>("DeletedDate");
-
-                    b.Property<bool>("IsActive");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<int?>("ModifiedBy");
-
-                    b.Property<DateTime?>("ModifiedDate");
+                    b.Property<string>("ApprovalName")
+                        .IsRequired()
+                        .HasMaxLength(150);
 
                     b.HasKey("ApprovalId");
 
@@ -158,11 +118,10 @@ namespace RS.Data.Migrations
 
                     b.Property<int>("ApprovalActionId");
 
-                    b.Property<int>("ApprovalEventOrderNumber");
-
                     b.Property<int>("ApprovalTransactionId");
 
-                    b.Property<string>("Comments");
+                    b.Property<string>("Comments")
+                        .HasMaxLength(500);
 
                     b.Property<int>("CreatedBy");
 
@@ -171,6 +130,8 @@ namespace RS.Data.Migrations
                     b.Property<int?>("DeletedBy");
 
                     b.Property<DateTime?>("DeletedDate");
+
+                    b.Property<int>("EventOrderNumber");
 
                     b.Property<bool>("IsActive");
 
@@ -194,8 +155,6 @@ namespace RS.Data.Migrations
 
                     b.Property<int>("ApprovalActionId");
 
-                    b.Property<int>("ApprovalEventOrderNumber");
-
                     b.Property<int>("ApprovalId");
 
                     b.Property<int>("CreatedBy");
@@ -210,6 +169,8 @@ namespace RS.Data.Migrations
 
                     b.Property<int>("EntityType");
 
+                    b.Property<int>("EventOrderNumber");
+
                     b.Property<bool>("IsActive");
 
                     b.Property<bool>("IsDeleted");
@@ -218,7 +179,7 @@ namespace RS.Data.Migrations
 
                     b.Property<DateTime?>("ModifiedDate");
 
-                    b.Property<int>("NextApprovalEventOrderNumber");
+                    b.Property<int>("NextEventOrderNumber");
 
                     b.HasKey("ApprovalTransactionId");
 
@@ -232,22 +193,6 @@ namespace RS.Data.Migrations
                     b.Property<Guid>("CandidateId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("CandidateDesc");
-
-                    b.Property<int>("CandidateExperienceMonth");
-
-                    b.Property<int>("CandidateExperienceYear");
-
-                    b.Property<string>("CandidateFirstName");
-
-                    b.Property<int>("CandidateGender");
-
-                    b.Property<string>("CandidateLastName");
-
-                    b.Property<string>("CandidateOrganisation");
-
-                    b.Property<int>("CandidateQualificationId");
-
                     b.Property<int>("CreatedBy");
 
                     b.Property<DateTime>("CreatedDate");
@@ -256,17 +201,39 @@ namespace RS.Data.Migrations
 
                     b.Property<DateTime?>("DeletedDate");
 
+                    b.Property<string>("Description")
+                        .HasMaxLength(500);
+
+                    b.Property<int>("ExperienceMonth");
+
+                    b.Property<int>("ExperienceYear");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<int>("Gender");
+
                     b.Property<bool>("IsActive");
 
                     b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("LastName")
+                        .HasMaxLength(50);
 
                     b.Property<int?>("ModifiedBy");
 
                     b.Property<DateTime?>("ModifiedDate");
 
+                    b.Property<string>("Organisation")
+                        .IsRequired()
+                        .HasMaxLength(150);
+
+                    b.Property<int>("QualificationId");
+
                     b.HasKey("CandidateId");
 
-                    b.HasIndex("CandidateQualificationId");
+                    b.HasIndex("QualificationId");
 
                     b.ToTable("Candidate");
                 });
@@ -286,6 +253,10 @@ namespace RS.Data.Migrations
 
                     b.Property<DateTime?>("DeletedDate");
 
+                    b.Property<string>("DocumentName")
+                        .IsRequired()
+                        .HasMaxLength(150);
+
                     b.Property<bool>("IsActive");
 
                     b.Property<bool>("IsDeleted");
@@ -294,33 +265,15 @@ namespace RS.Data.Migrations
 
                     b.Property<DateTime?>("ModifiedDate");
 
-                    b.Property<string>("UploadedDocumentName");
-
-                    b.Property<string>("UploadedDocumentPath");
+                    b.Property<string>("UploadedDocument")
+                        .IsRequired()
+                        .HasMaxLength(150);
 
                     b.HasKey("CandidateDocumentId");
 
                     b.HasIndex("CandidateId");
 
                     b.ToTable("CandidateDocuments");
-                });
-
-            modelBuilder.Entity("RS.Entity.Models.CandidateSkills", b =>
-                {
-                    b.Property<int>("CandidateSkillId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid>("CandidateId");
-
-                    b.Property<int>("SkillId");
-
-                    b.HasKey("CandidateSkillId");
-
-                    b.HasIndex("CandidateId");
-
-                    b.HasIndex("SkillId");
-
-                    b.ToTable("CandidateSkills");
                 });
 
             modelBuilder.Entity("RS.Entity.Models.Openings", b =>
@@ -336,6 +289,10 @@ namespace RS.Data.Migrations
 
                     b.Property<DateTime?>("DeletedDate");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500);
+
                     b.Property<bool>("IsActive");
 
                     b.Property<bool>("IsDeleted");
@@ -344,9 +301,9 @@ namespace RS.Data.Migrations
 
                     b.Property<DateTime?>("ModifiedDate");
 
-                    b.Property<string>("OpeningDescription");
-
-                    b.Property<string>("OpeningDetails");
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(150);
 
                     b.HasKey("OpeningId");
 
@@ -362,6 +319,8 @@ namespace RS.Data.Migrations
 
                     b.Property<int>("SkillId");
 
+                    b.Property<int>("SkillType");
+
                     b.HasKey("OpeningSkillId");
 
                     b.HasIndex("OpeningId");
@@ -376,9 +335,13 @@ namespace RS.Data.Migrations
                     b.Property<int>("QualificationId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("QualificationDesc");
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500);
 
-                    b.Property<string>("QualificationName");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
                     b.HasKey("QualificationId");
 
@@ -390,7 +353,9 @@ namespace RS.Data.Migrations
                     b.Property<int>("RoleId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("RoleName");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
                     b.HasKey("RoleId");
 
@@ -402,18 +367,21 @@ namespace RS.Data.Migrations
                     b.Property<int>("SkillId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("SkillDescription");
+                    b.Property<string>("Description")
+                        .HasMaxLength(500);
 
-                    b.Property<string>("SkillName");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100);
 
                     b.HasKey("SkillId");
 
                     b.ToTable("Skills");
                 });
 
-            modelBuilder.Entity("RS.Entity.Models.Users", b =>
+            modelBuilder.Entity("RS.Entity.Models.UserRoles", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<Guid>("UserRolesId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("CreatedBy");
@@ -424,8 +392,6 @@ namespace RS.Data.Migrations
 
                     b.Property<DateTime?>("DeletedDate");
 
-                    b.Property<string>("Email");
-
                     b.Property<bool>("IsActive");
 
                     b.Property<bool>("IsDeleted");
@@ -434,9 +400,58 @@ namespace RS.Data.Migrations
 
                     b.Property<DateTime?>("ModifiedDate");
 
-                    b.Property<string>("Password");
+                    b.Property<int>("RoleId");
 
-                    b.Property<string>("UserName");
+                    b.Property<Guid>("UserId");
+
+                    b.HasKey("UserRolesId");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserRoles");
+                });
+
+            modelBuilder.Entity("RS.Entity.Models.Users", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("CreatedBy");
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<int?>("DeletedBy");
+
+                    b.Property<DateTime?>("DeletedDate");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("LastName")
+                        .HasMaxLength(50);
+
+                    b.Property<int?>("ModifiedBy");
+
+                    b.Property<DateTime?>("ModifiedDate");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
                     b.HasKey("UserId");
 
@@ -459,7 +474,7 @@ namespace RS.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("RS.Entity.Models.Roles", "Role")
-                        .WithMany("ApprovalEventRoles")
+                        .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -490,9 +505,9 @@ namespace RS.Data.Migrations
 
             modelBuilder.Entity("RS.Entity.Models.Candidate", b =>
                 {
-                    b.HasOne("RS.Entity.Models.Qualifications", "CandidateQualification")
+                    b.HasOne("RS.Entity.Models.Qualifications", "Qualification")
                         .WithMany("Candidate")
-                        .HasForeignKey("CandidateQualificationId")
+                        .HasForeignKey("QualificationId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -501,19 +516,6 @@ namespace RS.Data.Migrations
                     b.HasOne("RS.Entity.Models.Candidate", "Candidate")
                         .WithMany("CandidateDocuments")
                         .HasForeignKey("CandidateId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("RS.Entity.Models.CandidateSkills", b =>
-                {
-                    b.HasOne("RS.Entity.Models.Candidate", "Candidate")
-                        .WithMany("CandidateSkills")
-                        .HasForeignKey("CandidateId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("RS.Entity.Models.Skills", "Skill")
-                        .WithMany("CandidateSkills")
-                        .HasForeignKey("SkillId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -527,6 +529,19 @@ namespace RS.Data.Migrations
                     b.HasOne("RS.Entity.Models.Skills", "Skill")
                         .WithMany("OpeningSkills")
                         .HasForeignKey("SkillId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("RS.Entity.Models.UserRoles", b =>
+                {
+                    b.HasOne("RS.Entity.Models.Roles", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("RS.Entity.Models.Users")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

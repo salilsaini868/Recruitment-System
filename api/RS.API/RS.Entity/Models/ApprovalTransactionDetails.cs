@@ -10,8 +10,10 @@ namespace RS.Entity.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity), Key]
         public int ApprovalTransactionDetailId { get; set; }
         public int ApprovalTransactionId { get; set; }
-        public int ApprovalEventOrderNumber { get; set; }
+        public int EventOrderNumber { get; set; }
         public int ApprovalActionId { get; set; }
+
+        [MaxLength(500)]
         public string Comments { get; set; }
        
     }

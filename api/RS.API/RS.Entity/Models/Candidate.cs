@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RS.Entity.Models
 {
@@ -10,23 +11,37 @@ namespace RS.Entity.Models
         public Candidate()
         {
             CandidateDocuments = new HashSet<CandidateDocuments>();
-            CandidateSkills = new HashSet<CandidateSkills>();
         }
 
-        [Key]
-        [DefaultValue("newid()")]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid CandidateId { get; set; }
-        public int CandidateGender { get; set; }
-        public string CandidateFirstName { get; set; }
-        public string CandidateLastName { get; set; }
-        public int CandidateExperienceYear { get; set; }
-        public int CandidateExperienceMonth { get; set; }
-        public int CandidateQualificationId { get; set; }
-        public string CandidateOrganisation { get; set; }
-        public string CandidateDesc { get; set; }
 
-        public Qualifications CandidateQualification { get; set; }
+        [Required]
+        public int Gender { get; set; }
+
+        [Required, MaxLength(50)]
+        public string FirstName { get; set; }
+
+        [MaxLength(50)]
+        public string LastName { get; set; }
+
+        [Required]
+        public int ExperienceYear { get; set; }
+
+        [Required]
+        public int ExperienceMonth { get; set; }
+
+        [Required]
+        public int QualificationId { get; set; }
+
+        [Required, MaxLength(150)]
+        public string Organisation { get; set; }
+
+        [MaxLength(500)]
+        public string Description { get; set; }
+
+        public Qualifications Qualification { get; set; }
+
         public ICollection<CandidateDocuments> CandidateDocuments { get; set; }
-        public ICollection<CandidateSkills> CandidateSkills { get; set; }
     }
 }
