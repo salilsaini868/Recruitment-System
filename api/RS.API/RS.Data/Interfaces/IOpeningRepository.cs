@@ -4,6 +4,6 @@ namespace RS.Data.Interfaces
 {
     public interface IOpeningRepository : IRepository<Openings>
     {
-
+        
     }
 }
