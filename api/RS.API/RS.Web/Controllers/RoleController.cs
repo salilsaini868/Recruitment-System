@@ -22,57 +22,17 @@ namespace RS.Web.Controllers
           
         }
 
-        //[HttpPost]
-        //public HttpResponseMessage RoleCreate([FromBody] RoleModel model)
-        //{
-        //    StatusEnum.Status status = _roleManager.CreateRole(model);
-
-        //    var resp = new HttpResponseMessage(HttpStatusCode.OK)
-        //    {
-        //        Content = new StringContent(string.Format(RoleStatusNotification.RoleCreated)),
-        //        ReasonPhrase = RoleStatusNotification.RoleCreated,
-        //    };
-        //    return resp;
-        //}
-
-        //[HttpPost]
-        //public HttpResponseMessage RoleUpdate([FromBody] RoleModel model)
-        //{
-        //    StatusEnum.Status status = _roleManager.UpdateRole(model);
-
-        //    var resp = new HttpResponseMessage(HttpStatusCode.OK)
-        //    {
-        //        Content = new StringContent(string.Format(RoleStatusNotification.RoleUpdated)),
-        //        ReasonPhrase = RoleStatusNotification.RoleUpdated,
-        //    };
-        //    return resp;
-        //}
-
-        //[HttpGet]
-        //public HttpResponseMessage RoleDelete(Guid roleid)
-        //{
-        //    StatusEnum.Status status = _roleManager.DeleteRole(roleid);
-
-        //    var resp = new HttpResponseMessage(HttpStatusCode.OK)
-        //    {
-        //        Content = new StringContent(string.Format(RoleStatusNotification.RoleDeleted)),
-        //        ReasonPhrase = RoleStatusNotification.RoleDeleted,
-        //    };
-        //    return resp;
-        //}
-
-
         [HttpGet]
-        public dynamic GetAllRole()
+        public IResult GetAllRole()
         {
             var rolelist = _roleManager.GetAllRole();
             return rolelist;
         }
 
         [HttpGet]
-        public dynamic GetRoleByID(Guid id)
+        public IResult GetRoleById(int id)
         {
-            dynamic roleRecord = _roleManager.GetRoleByID(id);
+            dynamic roleRecord = _roleManager.GetRoleById(id);
             return roleRecord;
         }
     }
