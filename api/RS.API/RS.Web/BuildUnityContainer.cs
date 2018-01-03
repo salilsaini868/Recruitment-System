@@ -18,6 +18,8 @@ namespace RS.Web
             services.AddTransient<IOpeningRepository, OpeningRepository>();
             services.AddTransient<IRoleRepository, RoleRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<ISkillRepository, SkillRepository>();
+            services.AddTransient<IQualificationRepository, QualificationRepository>();
             #endregion
 
             #region Services
@@ -26,6 +28,8 @@ namespace RS.Web
             services.AddTransient<IOpeningManagerService, OpeningManagerService>();
             services.AddTransient<IRoleManagerService, RoleManager>();
             services.AddTransient<IUserService, UserManagerService>();
+            services.AddTransient<ISkillManagerService, SkillManagerService>();
+            services.AddTransient<IQualificationManagerService, QualificationManagerService>();
             #endregion
 
             return services;

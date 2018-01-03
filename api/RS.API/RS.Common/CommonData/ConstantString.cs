@@ -92,6 +92,23 @@
         public const string RoleDeleted = "Role Deleted";
 
     }
+    public static class SkillStatusNotification
+    {
+        public const string SkillCreated = "Skill Created";
+        public const string SkillUpdated = "Skill Updated";
+        public const string SkillDeleted = "Skill Deleted";
+        public const string DuplicateSkill = "Skill with the same name Already Exists!.";
+
+    }
+
+    public static class QualificationStatusNotification
+    {
+        public const string QualificationCreated = "Qualification Created";
+        public const string QualificationUpdated = "Qualification Updated";
+        public const string QualificationDeleted = "Qualification Deleted";
+        public const string DuplicateQualification = "Qualification with the same name Already Exists!.";
+
+    }
 
     public static class HullTypeStatusNotification
     {
@@ -103,5 +120,6 @@
     public static class CommonErrorMessages
     {
         public const string UnknownError = "Sorry, we have encountered an error.";
+        public const string BadRequest = "Invalid Request";
     }
 }
