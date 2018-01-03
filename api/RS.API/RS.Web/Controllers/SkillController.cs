@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RS.Service.Interfaces;
@@ -13,6 +14,7 @@ namespace RS.Web.Controllers
     [Produces("application/json")]
     [Route("api/Skill/[Action]")]
     [ValidateModel]
+    [Authorize]
     public class SkillController : Controller
     {
         private readonly ISkillManagerService _skillService;

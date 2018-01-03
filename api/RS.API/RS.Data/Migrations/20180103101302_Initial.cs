@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace RS.Data.Migrations
 {
-    public partial class mig_01012018 : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -28,14 +28,14 @@ namespace RS.Data.Migrations
                 columns: table => new
                 {
                     OpeningId = table.Column<Guid>(nullable: false),
-                    CreatedBy = table.Column<int>(nullable: false),
+                    CreatedBy = table.Column<Guid>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
-                    DeletedBy = table.Column<int>(nullable: true),
+                    DeletedBy = table.Column<Guid>(nullable: true),
                     DeletedDate = table.Column<DateTime>(nullable: true),
                     Description = table.Column<string>(maxLength: 500, nullable: false),
                     IsActive = table.Column<bool>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<Guid>(nullable: true),
                     ModifiedDate = table.Column<DateTime>(nullable: true),
                     Title = table.Column<string>(maxLength: 150, nullable: false)
                 },
@@ -50,7 +50,15 @@ namespace RS.Data.Migrations
                 {
                     QualificationId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreatedBy = table.Column<Guid>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    DeletedBy = table.Column<Guid>(nullable: true),
+                    DeletedDate = table.Column<DateTime>(nullable: true),
                     Description = table.Column<string>(maxLength: 500, nullable: false),
+                    IsActive = table.Column<bool>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    ModifiedBy = table.Column<Guid>(nullable: true),
+                    ModifiedDate = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(maxLength: 50, nullable: false)
                 },
                 constraints: table =>
@@ -77,7 +85,15 @@ namespace RS.Data.Migrations
                 {
                     SkillId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreatedBy = table.Column<Guid>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    DeletedBy = table.Column<Guid>(nullable: true),
+                    DeletedDate = table.Column<DateTime>(nullable: true),
                     Description = table.Column<string>(maxLength: 500, nullable: true),
+                    IsActive = table.Column<bool>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    ModifiedBy = table.Column<Guid>(nullable: true),
+                    ModifiedDate = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(maxLength: 100, nullable: false)
                 },
                 constraints: table =>
@@ -90,16 +106,16 @@ namespace RS.Data.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<Guid>(nullable: false),
-                    CreatedBy = table.Column<int>(nullable: false),
+                    CreatedBy = table.Column<Guid>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
-                    DeletedBy = table.Column<int>(nullable: true),
+                    DeletedBy = table.Column<Guid>(nullable: true),
                     DeletedDate = table.Column<DateTime>(nullable: true),
                     Email = table.Column<string>(maxLength: 50, nullable: false),
                     FirstName = table.Column<string>(maxLength: 50, nullable: false),
                     IsActive = table.Column<bool>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     LastName = table.Column<string>(maxLength: 50, nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<Guid>(nullable: true),
                     ModifiedDate = table.Column<DateTime>(nullable: true),
                     Password = table.Column<string>(maxLength: 50, nullable: false),
                     UserName = table.Column<string>(maxLength: 50, nullable: false)
@@ -135,9 +151,9 @@ namespace RS.Data.Migrations
                 columns: table => new
                 {
                     CandidateId = table.Column<Guid>(nullable: false),
-                    CreatedBy = table.Column<int>(nullable: false),
+                    CreatedBy = table.Column<Guid>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
-                    DeletedBy = table.Column<int>(nullable: true),
+                    DeletedBy = table.Column<Guid>(nullable: true),
                     DeletedDate = table.Column<DateTime>(nullable: true),
                     Description = table.Column<string>(maxLength: 500, nullable: true),
                     ExperienceMonth = table.Column<int>(nullable: false),
@@ -147,7 +163,7 @@ namespace RS.Data.Migrations
                     IsActive = table.Column<bool>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     LastName = table.Column<string>(maxLength: 50, nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<Guid>(nullable: true),
                     ModifiedDate = table.Column<DateTime>(nullable: true),
                     Organisation = table.Column<string>(maxLength: 150, nullable: false),
                     QualificationId = table.Column<int>(nullable: false)
@@ -195,13 +211,13 @@ namespace RS.Data.Migrations
                 columns: table => new
                 {
                     UserRolesId = table.Column<Guid>(nullable: false),
-                    CreatedBy = table.Column<int>(nullable: false),
+                    CreatedBy = table.Column<Guid>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
-                    DeletedBy = table.Column<int>(nullable: true),
+                    DeletedBy = table.Column<Guid>(nullable: true),
                     DeletedDate = table.Column<DateTime>(nullable: true),
                     IsActive = table.Column<bool>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<Guid>(nullable: true),
                     ModifiedDate = table.Column<DateTime>(nullable: true),
                     RoleId = table.Column<int>(nullable: false),
                     UserId = table.Column<Guid>(nullable: false)
@@ -250,13 +266,13 @@ namespace RS.Data.Migrations
                     ApprovalEventRoleId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ApprovalEventId = table.Column<int>(nullable: false),
-                    CreatedBy = table.Column<int>(nullable: false),
+                    CreatedBy = table.Column<Guid>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
-                    DeletedBy = table.Column<int>(nullable: true),
+                    DeletedBy = table.Column<Guid>(nullable: true),
                     DeletedDate = table.Column<DateTime>(nullable: true),
                     IsActive = table.Column<bool>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<Guid>(nullable: true),
                     ModifiedDate = table.Column<DateTime>(nullable: true),
                     RoleId = table.Column<int>(nullable: false)
                 },
@@ -283,14 +299,14 @@ namespace RS.Data.Migrations
                 {
                     CandidateDocumentId = table.Column<Guid>(nullable: false),
                     CandidateId = table.Column<Guid>(nullable: false),
-                    CreatedBy = table.Column<int>(nullable: false),
+                    CreatedBy = table.Column<Guid>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
-                    DeletedBy = table.Column<int>(nullable: true),
+                    DeletedBy = table.Column<Guid>(nullable: true),
                     DeletedDate = table.Column<DateTime>(nullable: true),
                     DocumentName = table.Column<string>(maxLength: 150, nullable: false),
                     IsActive = table.Column<bool>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<Guid>(nullable: true),
                     ModifiedDate = table.Column<DateTime>(nullable: true),
                     UploadedDocument = table.Column<string>(maxLength: 150, nullable: false)
                 },
@@ -313,16 +329,16 @@ namespace RS.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ApprovalActionId = table.Column<int>(nullable: false),
                     ApprovalId = table.Column<int>(nullable: false),
-                    CreatedBy = table.Column<int>(nullable: false),
+                    CreatedBy = table.Column<Guid>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
-                    DeletedBy = table.Column<int>(nullable: true),
+                    DeletedBy = table.Column<Guid>(nullable: true),
                     DeletedDate = table.Column<DateTime>(nullable: true),
                     EntityId = table.Column<Guid>(nullable: false),
                     EntityType = table.Column<int>(nullable: false),
                     EventOrderNumber = table.Column<int>(nullable: false),
                     IsActive = table.Column<bool>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<Guid>(nullable: true),
                     ModifiedDate = table.Column<DateTime>(nullable: true),
                     NextEventOrderNumber = table.Column<int>(nullable: false)
                 },
@@ -346,14 +362,14 @@ namespace RS.Data.Migrations
                     ApprovalActionId = table.Column<int>(nullable: false),
                     ApprovalTransactionId = table.Column<int>(nullable: false),
                     Comments = table.Column<string>(maxLength: 500, nullable: true),
-                    CreatedBy = table.Column<int>(nullable: false),
+                    CreatedBy = table.Column<Guid>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
-                    DeletedBy = table.Column<int>(nullable: true),
+                    DeletedBy = table.Column<Guid>(nullable: true),
                     DeletedDate = table.Column<DateTime>(nullable: true),
                     EventOrderNumber = table.Column<int>(nullable: false),
                     IsActive = table.Column<bool>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<Guid>(nullable: true),
                     ModifiedDate = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
