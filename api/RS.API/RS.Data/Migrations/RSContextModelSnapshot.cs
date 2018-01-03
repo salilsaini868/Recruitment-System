@@ -46,11 +46,11 @@ namespace RS.Data.Migrations
 
                     b.Property<int>("ApprovalEventId");
 
-                    b.Property<int>("CreatedBy");
+                    b.Property<Guid>("CreatedBy");
 
                     b.Property<DateTime>("CreatedDate");
 
-                    b.Property<int?>("DeletedBy");
+                    b.Property<Guid?>("DeletedBy");
 
                     b.Property<DateTime?>("DeletedDate");
 
@@ -58,7 +58,7 @@ namespace RS.Data.Migrations
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<int?>("ModifiedBy");
+                    b.Property<Guid?>("ModifiedBy");
 
                     b.Property<DateTime?>("ModifiedDate");
 
@@ -122,11 +122,11 @@ namespace RS.Data.Migrations
                     b.Property<string>("Comments")
                         .HasMaxLength(500);
 
-                    b.Property<int>("CreatedBy");
+                    b.Property<Guid>("CreatedBy");
 
                     b.Property<DateTime>("CreatedDate");
 
-                    b.Property<int?>("DeletedBy");
+                    b.Property<Guid?>("DeletedBy");
 
                     b.Property<DateTime?>("DeletedDate");
 
@@ -136,7 +136,7 @@ namespace RS.Data.Migrations
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<int?>("ModifiedBy");
+                    b.Property<Guid?>("ModifiedBy");
 
                     b.Property<DateTime?>("ModifiedDate");
 
@@ -156,11 +156,11 @@ namespace RS.Data.Migrations
 
                     b.Property<int>("ApprovalId");
 
-                    b.Property<int>("CreatedBy");
+                    b.Property<Guid>("CreatedBy");
 
                     b.Property<DateTime>("CreatedDate");
 
-                    b.Property<int?>("DeletedBy");
+                    b.Property<Guid?>("DeletedBy");
 
                     b.Property<DateTime?>("DeletedDate");
 
@@ -174,7 +174,7 @@ namespace RS.Data.Migrations
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<int?>("ModifiedBy");
+                    b.Property<Guid?>("ModifiedBy");
 
                     b.Property<DateTime?>("ModifiedDate");
 
@@ -192,11 +192,11 @@ namespace RS.Data.Migrations
                     b.Property<Guid>("CandidateId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("CreatedBy");
+                    b.Property<Guid>("CreatedBy");
 
                     b.Property<DateTime>("CreatedDate");
 
-                    b.Property<int?>("DeletedBy");
+                    b.Property<Guid?>("DeletedBy");
 
                     b.Property<DateTime?>("DeletedDate");
 
@@ -220,7 +220,7 @@ namespace RS.Data.Migrations
                     b.Property<string>("LastName")
                         .HasMaxLength(50);
 
-                    b.Property<int?>("ModifiedBy");
+                    b.Property<Guid?>("ModifiedBy");
 
                     b.Property<DateTime?>("ModifiedDate");
 
@@ -244,11 +244,11 @@ namespace RS.Data.Migrations
 
                     b.Property<Guid>("CandidateId");
 
-                    b.Property<int>("CreatedBy");
+                    b.Property<Guid>("CreatedBy");
 
                     b.Property<DateTime>("CreatedDate");
 
-                    b.Property<int?>("DeletedBy");
+                    b.Property<Guid?>("DeletedBy");
 
                     b.Property<DateTime?>("DeletedDate");
 
@@ -260,7 +260,7 @@ namespace RS.Data.Migrations
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<int?>("ModifiedBy");
+                    b.Property<Guid?>("ModifiedBy");
 
                     b.Property<DateTime?>("ModifiedDate");
 
@@ -280,11 +280,11 @@ namespace RS.Data.Migrations
                     b.Property<Guid>("OpeningId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("CreatedBy");
+                    b.Property<Guid>("CreatedBy");
 
                     b.Property<DateTime>("CreatedDate");
 
-                    b.Property<int?>("DeletedBy");
+                    b.Property<Guid?>("DeletedBy");
 
                     b.Property<DateTime?>("DeletedDate");
 
@@ -296,7 +296,7 @@ namespace RS.Data.Migrations
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<int?>("ModifiedBy");
+                    b.Property<Guid?>("ModifiedBy");
 
                     b.Property<DateTime?>("ModifiedDate");
 
@@ -334,11 +334,11 @@ namespace RS.Data.Migrations
                     b.Property<int>("QualificationId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("CreatedBy");
+                    b.Property<Guid>("CreatedBy");
 
                     b.Property<DateTime>("CreatedDate");
 
-                    b.Property<int?>("DeletedBy");
+                    b.Property<Guid?>("DeletedBy");
 
                     b.Property<DateTime?>("DeletedDate");
 
@@ -350,7 +350,7 @@ namespace RS.Data.Migrations
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<int?>("ModifiedBy");
+                    b.Property<Guid?>("ModifiedBy");
 
                     b.Property<DateTime?>("ModifiedDate");
 
@@ -382,11 +382,11 @@ namespace RS.Data.Migrations
                     b.Property<int>("SkillId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("CreatedBy");
+                    b.Property<Guid>("CreatedBy");
 
                     b.Property<DateTime>("CreatedDate");
 
-                    b.Property<int?>("DeletedBy");
+                    b.Property<Guid?>("DeletedBy");
 
                     b.Property<DateTime?>("DeletedDate");
 
@@ -397,7 +397,7 @@ namespace RS.Data.Migrations
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<int?>("ModifiedBy");
+                    b.Property<Guid?>("ModifiedBy");
 
                     b.Property<DateTime?>("ModifiedDate");
 
@@ -415,11 +415,11 @@ namespace RS.Data.Migrations
                     b.Property<Guid>("UserRolesId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("CreatedBy");
+                    b.Property<Guid>("CreatedBy");
 
                     b.Property<DateTime>("CreatedDate");
 
-                    b.Property<int?>("DeletedBy");
+                    b.Property<Guid?>("DeletedBy");
 
                     b.Property<DateTime?>("DeletedDate");
 
@@ -427,7 +427,7 @@ namespace RS.Data.Migrations
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<int?>("ModifiedBy");
+                    b.Property<Guid?>("ModifiedBy");
 
                     b.Property<DateTime?>("ModifiedDate");
 
@@ -449,11 +449,11 @@ namespace RS.Data.Migrations
                     b.Property<Guid>("UserId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("CreatedBy");
+                    b.Property<Guid>("CreatedBy");
 
                     b.Property<DateTime>("CreatedDate");
 
-                    b.Property<int?>("DeletedBy");
+                    b.Property<Guid?>("DeletedBy");
 
                     b.Property<DateTime?>("DeletedDate");
 
@@ -472,7 +472,7 @@ namespace RS.Data.Migrations
                     b.Property<string>("LastName")
                         .HasMaxLength(50);
 
-                    b.Property<int?>("ModifiedBy");
+                    b.Property<Guid?>("ModifiedBy");
 
                     b.Property<DateTime?>("ModifiedDate");
 

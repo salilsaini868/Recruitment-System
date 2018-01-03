@@ -43,9 +43,10 @@ namespace RS.ViewModel.User
         {
             public string WardenTeamId { get; set; }
         }
+
         public class UserLoginModel
         {
-            public string UserEmail { get; set; }
+            public string UserName { get; set; }
             public string UserPassword { get; set; }
         }
     }

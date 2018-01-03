@@ -4,6 +4,7 @@ using RS.Common.Extensions;
 using RS.Entity;
 using RS.ViewModel.User;
 using System;
+using System.Linq;
 using RS.Data.Interfaces;
 using RS.Common.CommonData;
 using RS.Entity.Models;
@@ -27,9 +28,16 @@ namespace RS.Service.Logic
 
         public UserViewModel LoginUser(string username, string Password)
         {
-            Users user =_userRepository.LoginUser(username,Password);
-            UserViewModel userView = new UserViewModel();
-            userView.MapFromModel(user, "UserName;Password" );
+            UserViewModel userView = null;
+            var user = _userRepository.LoginUser(username, Password);
+            if (user != null)
+            {
+                userView = new UserViewModel();
+                userView.MapFromModel(user, "UserName;");
+                userView.FullName = user.FirstName + " " + user.LastName;
+                var firstOrDefault = user.UserRoles.FirstOrDefault();
+                if (firstOrDefault != null) userView.Role = firstOrDefault.Role.Name;
+            }
             return userView;
         }
 

@@ -3,28 +3,47 @@ using RS.Common.CommonData;
 using RS.Common.Enums;
 using RS.ViewModel.User;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using RS.Service.Interfaces;
 using static RS.ViewModel.User.LoginModel;
+using System.Text;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 
 namespace RS.Web.Controllers
 {
     [Produces("application/json")]
     [Route("api/User/[Action]")]
     [ValidateModel]
+    [Authorize]
     public class UserController : Controller
     {
         private readonly IUserService _userService;
+
         public UserController(IUserService userService)
         {
-            this._userService = userService;
+            _userService = userService;
         }
 
-        [HttpPost]
-        public UserViewModel UserLogin([FromBody]UserLoginModel LoginModel)
+        [HttpGet]
+        public IActionResult GetUserDetails()
         {
-            return _userService.LoginUser(LoginModel.UserEmail, LoginModel.UserPassword);
+            var identity = (ClaimsIdentity)User.Identity;
+            IEnumerable<Claim> claims = identity.Claims;
+            var details = new
+            {
+                Name = identity.FindFirst(ClaimTypes.Name).Value,
+                Email = identity.FindFirst(ClaimTypes.Email).Value,
+                Role = identity.FindFirst(ClaimTypes.Role).Value,
+                Sid = identity.FindFirst(ClaimTypes.Sid).Value
+            };
+            return new ObjectResult(details);
         }
 
     }
