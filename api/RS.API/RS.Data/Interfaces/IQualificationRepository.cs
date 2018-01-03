@@ -5,7 +5,7 @@ using System.Text;
 
 namespace RS.Data.Interfaces
 {
-    public interface ISkillRepository : IRepository<Skills>
+    public interface IQualificationRepository : IRepository<Qualifications>
     {
 
     }

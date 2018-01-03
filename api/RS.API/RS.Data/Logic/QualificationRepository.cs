@@ -6,10 +6,10 @@ using System.Text;
 
 namespace RS.Data.Logic
 {
-    public class SkillRepository : Repository<Skills>, ISkillRepository
+    public class QualificationRepository : Repository<Qualifications>, IQualificationRepository
     {
         private readonly RSContext _context;
-        public SkillRepository(RSContext context) : base(context) {
+        public QualificationRepository(RSContext context) : base(context) {
 
             this._context = context;
         }

@@ -11,7 +11,7 @@ namespace RS.Common.CommonData
 
         Status Status { get; set; }
 
-        String ExceptionMessage { get; set; }
+        String Message { get; set; }
 
         dynamic Body { get; set; }
     }
@@ -20,7 +20,7 @@ namespace RS.Common.CommonData
     {
         public Operation Operation { get; set; }
         public Status Status { get; set; }
-        public String ExceptionMessage { get; set; }
+        public String Message { get; set; }
         public dynamic Body { get; set; }
     }
 }
