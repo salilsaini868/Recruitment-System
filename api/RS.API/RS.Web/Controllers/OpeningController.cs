@@ -6,12 +6,14 @@ using RS.Service.Interfaces;
 using System;
 using System.Net;
 using System.Net.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RS.Web.Controllers
 {
     [Produces("application/json")]
     [Route("api/Opening/[Action]")]
     [ValidateModel]
+    [Authorize]
     public class OpeningController : Controller
     {
         private readonly IOpeningManagerService _openingManager;

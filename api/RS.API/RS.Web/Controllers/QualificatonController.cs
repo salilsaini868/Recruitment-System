@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RS.Service.Interfaces;
@@ -14,6 +15,7 @@ namespace RS.Web.Controllers
     [Produces("application/json")]
     [Route("api/Qualificaton/[Action]")]
     [ValidateModel]
+    [Authorize]
     public class QualificatonController : Controller
     {
         private readonly IQualificationManagerService _qualificationService;

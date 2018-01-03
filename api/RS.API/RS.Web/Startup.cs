@@ -7,6 +7,9 @@ using Microsoft.Extensions.Logging;
 using RS.Data;
 using RS.Data.Interfaces;
 using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System;
 
 namespace RS.Web
 {
@@ -56,13 +59,36 @@ namespace RS.Web
             // Register the Swagger generator, defining one or more Swagger documents
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info {
-                    Version = "v1",
-                    Title = "RS System",
-                    Description = "A sample API architecture for RS system.",
-                    TermsOfService = "None",
-                    License = new License { Name = "Evry India", Url = "http://evry.com/" }
+                c.SwaggerDoc("v1.0", new Info { Title = "RHPM API v1.0", Version = "v1.0" });
+
+                c.AddSecurityDefinition("Bearer", new ApiKeyScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = "header",
+                    Type = "apiKey"
                 });
+            });
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = "Jwt";
+                options.DefaultChallengeScheme = "Jwt";
+            }).AddJwtBearer("Jwt", options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateAudience = false,
+                    //ValidAudience = "the audience you want to validate",
+                    ValidateIssuer = false,
+                    //ValidIssuer = "the isser you want to validate",
+
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["SigningKey"])),
+
+                    ValidateLifetime = true, //validate the expiration and not before values in the token
+                    ClockSkew = TimeSpan.FromMinutes(5) //5 minute tolerance for the expiration date
+                };
             });
         }
 
@@ -84,8 +110,11 @@ namespace RS.Web
             // Enable middleware to serve swagger-ui (HTML, JS, CSS etc.), specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "RS API V1");
+                c.SwaggerEndpoint("/swagger/v1.0/swagger.json", "Versioned API v1.0");
+                c.DocExpansion("none");
             });
+
+            app.UseAuthentication();
             app.UseMvc();
             app.UseDefaultFiles();
 			app.UseStaticFiles();

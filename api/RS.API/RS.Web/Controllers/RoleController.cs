@@ -6,12 +6,14 @@ using RS.Service.Interfaces;
 using System;
 using System.Net;
 using System.Net.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RS.Web.Controllers
 {
     [Produces("application/json")]
     [Route("api/Role/[Action]")]
     [ValidateModel]
+    [Authorize]
     public class RoleController : Controller
     {
         private readonly IRoleManagerService _roleManager;
