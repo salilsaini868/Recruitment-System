@@ -2,6 +2,7 @@ using Omu.ValueInjecter;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Security.Claims;
 using Omu.ValueInjecter.Injections;
 
 namespace RS.Common.Extensions
@@ -24,10 +25,14 @@ namespace RS.Common.Extensions
             return target;
         }
 
-        public static object MapFromViewModel<TModel>(this object target, TModel viewModel, string ignoreProperties = null) where TModel : class, new()
+        public static object MapFromViewModel<TModel>(this object target, TModel viewModel, ClaimsIdentity identity = null, string ignoreProperties = null) where TModel : class, new()
         {
             target.InjectFrom(new IgnoreProperty(ignoreProperties), viewModel)
                  .InjectFrom<AvoidNullProps>(viewModel);
+            if (identity != null)
+            {
+                target.MapAuditColumns(identity);
+            }
             return target;
         }
     }
@@ -41,7 +46,7 @@ namespace RS.Common.Extensions
                 tp.SetValue(target, val);
         }
     }
-    
+
     public class IgnoreProperty : LoopInjection
     {
         private readonly string[] _ignoreProperties;
