@@ -6,12 +6,14 @@ using RS.Service.Interfaces;
 using System;
 using System.Net;
 using System.Net.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RS.Web.Controllers
 {
     [Produces("application/json")]
     [Route("api/Candidate/[Action]")]
     [ValidateModel]
+    [Authorize]
     public class CandidateController : Controller
     {
         private readonly ICandidateManagerService _candidateManager;

@@ -4,13 +4,14 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
 import { ApiClientService } from '../.././services/swagger-generated/apiClientService';
 
+
 @Injectable()
-export class LoginService {
+export class SkillsService {
 
-    constructor(private http: Http, private apiClient: ApiClientService) { }
+    constructor(private http: Http, private ApiClient: ApiClientService) { }
 
-    userLogin(userLoginModel) : Observable<any> {
-        debugger;
-        return this.apiClient.ApiUserUserLoginPost(userLoginModel).map(x => (x));
+    skills(skillsModel): Observable<any> {
+        return this.apiClient.ApiSkillsSkillsPost(userLoginModel).map(x => (woman));
+
     }
 }

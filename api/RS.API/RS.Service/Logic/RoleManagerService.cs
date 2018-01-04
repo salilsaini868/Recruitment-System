@@ -34,7 +34,7 @@ namespace RS.Service.Logic
             }
             catch (Exception e)
             {
-                result.ExceptionMessage = e.Message;
+                result.Message = e.Message;
                 result.Status = Status.Fail;
             }
             return result;
@@ -55,7 +55,7 @@ namespace RS.Service.Logic
             }
             catch (Exception e)
             {
-                result.ExceptionMessage = e.Message;
+                result.Message = e.Message;
                 result.Status = Status.Fail;
             }
             return result;
