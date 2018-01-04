@@ -1,3 +1,32 @@
-<p>Login Screen</p>
+<div class="container">
+    <div class="login panel panel-default">
+        <div class="panelheader panel-heading">Login</div>
+        <div class="panel-body">
+            <form (ngSubmit)="onSubmit(loginForm)" #loginForm="ngForm">
+                <div class="form-group">
+                    <div>
+                        <label>User Name</label>
+                        
+                        <div *ngIf="user.errors && (user.dirty || user.touched)" [hidden]="!user.errors.required" class="validation-error">
+                            {{ 'OTHERS.REQUIRED' | translate }}
+                        </div>
+                        <div>
+                            <input style="text-transform: none;" type="text" required name="user" [(ngModel)]="userEmail" #user="ngModel" maxlength="25">
+                        </div>
+                    </div>
+                    <div>
+                        <label>Password</label>
 
-<a>Click to login</a>
+                        <div *ngIf="pass.errors && (pass.dirty || pass.touched)" [hidden]="!pass.errors.required" class="validation-error">
+                            {{ 'OTHERS.REQUIRED' | translate }}
+                        </div>
+                        <div>
+                            <input style="text-transform: none;" type="password" required name="pass" [(ngModel)]="userPassword" #pass="ngModel" maxlength="25">
+                        </div>
+                    </div>
+                    <button id="bttn" type="submit" class="btn btn-primary">Login</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

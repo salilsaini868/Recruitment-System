@@ -43,6 +43,15 @@
 
     }
 
+    public static class UserStatusNotification
+    {
+        public const string UserCreated = "User Created";
+        public const string UserUpdated = "User Updated";
+        public const string UserDeleted = "User Deleted";
+        public const string DuplicateUser = "User with the same name or Email Already Exists!.";
+
+    }
+
     public static class QualificationStatusNotification
     {
         public const string QualificationCreated = "Qualification Created";

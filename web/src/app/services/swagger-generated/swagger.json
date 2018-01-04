@@ -1,0 +1,480 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "v1",
+        "title": "RS System",
+        "description": "A sample API architecture for RS system.",
+        "termsOfService": "None",
+        "license": {
+            "name": "Evry India",
+            "url": "http://evry.com/"
+        }
+    },
+    "basePath": "/",
+    "paths": {
+        "/api/Approval/GetAllApprovals": {
+            "get": {
+                "tags": [
+                    "Approval"
+                ],
+                "operationId": "ApiApprovalGetAllApprovalsGet",
+                "consumes": [],
+                "produces": [],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Candidate/GetAllCandidates": {
+            "get": {
+                "tags": [
+                    "Candidate"
+                ],
+                "operationId": "ApiCandidateGetAllCandidatesGet",
+                "consumes": [],
+                "produces": [],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Opening/GetAllOpenings": {
+            "get": {
+                "tags": [
+                    "Opening"
+                ],
+                "operationId": "ApiOpeningGetAllOpeningsGet",
+                "consumes": [],
+                "produces": [],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Qualificaton/CreateQualification": {
+            "post": {
+                "tags": [
+                    "Qualificaton"
+                ],
+                "operationId": "ApiQualificatonCreateQualificationPost",
+                "consumes": [
+                    "application/json-patch+json",
+                    "application/json",
+                    "text/json",
+                    "application/*+json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "qualificationView",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/QualificationViewModel"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/IResult"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Qualificaton/UpdateQualification": {
+            "put": {
+                "tags": [
+                    "Qualificaton"
+                ],
+                "operationId": "ApiQualificatonUpdateQualificationPut",
+                "consumes": [
+                    "application/json-patch+json",
+                    "application/json",
+                    "text/json",
+                    "application/*+json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "qualificationView",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/QualificationViewModel"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/IResult"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Qualificaton/GetAllQualification": {
+            "get": {
+                "tags": [
+                    "Qualificaton"
+                ],
+                "operationId": "ApiQualificatonGetAllQualificationGet",
+                "consumes": [],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/IResult"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Qualificaton/GetQualificationlById": {
+            "get": {
+                "tags": [
+                    "Qualificaton"
+                ],
+                "operationId": "ApiQualificatonGetQualificationlByIdGet",
+                "consumes": [],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/IResult"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Role/GetAllRole": {
+            "get": {
+                "tags": [
+                    "Role"
+                ],
+                "operationId": "ApiRoleGetAllRoleGet",
+                "consumes": [],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/IResult"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Role/GetRoleById": {
+            "get": {
+                "tags": [
+                    "Role"
+                ],
+                "operationId": "ApiRoleGetRoleByIdGet",
+                "consumes": [],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/IResult"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Skill/CreateSkill": {
+            "post": {
+                "tags": [
+                    "Skill"
+                ],
+                "operationId": "ApiSkillCreateSkillPost",
+                "consumes": [
+                    "application/json-patch+json",
+                    "application/json",
+                    "text/json",
+                    "application/*+json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "skillView",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/SkillViewModel"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/IResult"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Skill/UpdateSkill": {
+            "put": {
+                "tags": [
+                    "Skill"
+                ],
+                "operationId": "ApiSkillUpdateSkillPut",
+                "consumes": [
+                    "application/json-patch+json",
+                    "application/json",
+                    "text/json",
+                    "application/*+json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "skillView",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/SkillViewModel"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/IResult"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Skill/GetAllSkill": {
+            "get": {
+                "tags": [
+                    "Skill"
+                ],
+                "operationId": "ApiSkillGetAllSkillGet",
+                "consumes": [],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/IResult"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Skill/GetSkillById": {
+            "get": {
+                "tags": [
+                    "Skill"
+                ],
+                "operationId": "ApiSkillGetSkillByIdGet",
+                "consumes": [],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/IResult"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/User/UserLogin": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "operationId": "ApiUserUserLoginPost",
+                "consumes": [
+                    "application/json-patch+json",
+                    "application/json",
+                    "text/json",
+                    "application/*+json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "LoginModel",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/UserLoginModel"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/UserViewModel"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "QualificationViewModel": {
+            "type": "object",
+            "properties": {
+                "qualificationId": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                }
+            }
+        },
+        "IResult": {
+            "type": "object",
+            "properties": {
+                "operation": {
+                    "format": "int32",
+                    "enum": [
+                        1,
+                        2,
+                        3,
+                        4
+                    ],
+                    "type": "integer"
+                },
+                "status": {
+                    "format": "int32",
+                    "enum": [
+                        0,
+                        1
+                    ],
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "body": {
+                    "type": "object"
+                }
+            }
+        },
+        "SkillViewModel": {
+            "type": "object",
+            "properties": {
+                "skillId": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                }
+            }
+        },
+        "UserLoginModel": {
+            "type": "object",
+            "properties": {
+                "userEmail": {
+                    "type": "string"
+                },
+                "userPassword": {
+                    "type": "string"
+                }
+            }
+        },
+        "UserViewModel": {
+            "type": "object",
+            "properties": {
+                "userId": {
+                    "format": "uuid",
+                    "type": "string"
+                },
+                "userName": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {}
+}

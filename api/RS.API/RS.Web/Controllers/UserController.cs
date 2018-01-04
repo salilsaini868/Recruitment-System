@@ -25,9 +25,9 @@ namespace RS.Web.Controllers
     [Authorize]
     public class UserController : Controller
     {
-        private readonly IUserService _userService;
+        private readonly IUserManagerService _userService;
 
-        public UserController(IUserService userService)
+        public UserController(IUserManagerService userService)
         {
             _userService = userService;
         }
@@ -38,6 +38,34 @@ namespace RS.Web.Controllers
             var identity = (ClaimsIdentity)User.Identity;
             var details = GenericHelper.GetUserClaimDetails(identity);
             return new ObjectResult(details);
+        }
+
+        [HttpPost]
+        public IResult CreateUser([FromBody]UserViewModel userView)
+        {
+            var createdUser = _userService.CreateUser(userView);
+            return createdUser;
+        }
+
+        [HttpPut]
+        public IResult UpdateUser([FromBody]UserViewModel userView)
+        {
+            var updatedUser = _userService.UpdateUser(userView);
+            return updatedUser;
+        }
+
+        [HttpGet]
+        public IResult GetAllUser()
+        {
+            var userList = _userService.GetAllUser();
+            return userList;
+        }
+
+        [HttpGet]
+        public IResult GetUserById(int id)
+        {
+            var userRecord = _userService.GetUserById(id);
+            return userRecord;
         }
 
     }

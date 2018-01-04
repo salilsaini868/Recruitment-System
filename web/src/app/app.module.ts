@@ -9,6 +9,9 @@ import { AppRouterModule } from './app.routes';
 import { AppComponent } from './app.component';
 import { ErrorModule } from './error/error.module';
 
+//Service
+import { ApiClientService } from '../app/services/swagger-generated/apiClientService';
+
 // Module
 import { LoginModule } from './Login/shared/login.module';
 import { AdminModule } from './admin/shared/admin.module';
@@ -26,7 +29,7 @@ import { SharedModule } from './shared/shared.module';
     SharedModule.forRoot()
     ],
   exports: [],
-  providers: [],
+  providers: [ApiClientService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

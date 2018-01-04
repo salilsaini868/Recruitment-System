@@ -22,9 +22,9 @@ namespace RS.Web.Controllers
     public class LoginController : Controller
     {
         private readonly IConfiguration _configuration;
-        private readonly IUserService _userService;
+        private readonly IUserManagerService _userService;
 
-        public LoginController(IConfiguration configuration, IUserService userService)
+        public LoginController(IConfiguration configuration, IUserManagerService userService)
         {
             _userService = userService;
             _configuration = configuration;
