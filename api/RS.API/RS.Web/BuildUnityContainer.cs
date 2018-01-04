@@ -27,7 +27,7 @@ namespace RS.Web
             services.AddTransient<ICandidateManagerService, CandidateManagerService>();
             services.AddTransient<IOpeningManagerService, OpeningManagerService>();
             services.AddTransient<IRoleManagerService, RoleManager>();
-            services.AddTransient<IUserService, UserManagerService>();
+            services.AddTransient<IUserManagerService, UserManagerService>();
             services.AddTransient<ISkillManagerService, SkillManagerService>();
             services.AddTransient<IQualificationManagerService, QualificationManagerService>();
             #endregion

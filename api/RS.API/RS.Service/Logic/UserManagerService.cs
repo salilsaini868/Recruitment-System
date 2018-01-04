@@ -8,6 +8,7 @@ using System.Linq;
 using RS.Data.Interfaces;
 using RS.Common.CommonData;
 using RS.Entity.Models;
+using System.Collections.Generic;
 
 namespace RS.Service.Logic
 {
@@ -21,7 +22,7 @@ namespace RS.Service.Logic
             this._userRepository = userRepository;
         }
 
-        public IResult createUser(UserViewModel user)
+        public IResult CreateUser(UserViewModel user)
         {
             var result = new Result
             {
@@ -36,7 +37,7 @@ namespace RS.Service.Logic
                 if (duplicateUser != null)
                 {
                     result.Status = Status.Fail;
-                    result.Message = SkillStatusNotification.DuplicateSkill;
+                    result.Message = UserStatusNotification.DuplicateUser;
                     result.Body = null;
                 }
                 else
@@ -57,12 +58,44 @@ namespace RS.Service.Logic
 
         public IResult GetAllUser()
         {
-            throw new NotImplementedException();
+            var result = new Result
+            {
+                Operation = Operation.Read,
+                Status = Status.Success
+            };
+            try
+            {
+                var users = new List<UserViewModel>();
+                var allUsers = _userRepository.GetAll().ToList();
+                result.Body = users.MapFromModel<Users, UserViewModel>(allUsers);
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Fail;
+            }
+            return result;
         }
 
         public IResult GetUserById(int id)
         {
-            throw new NotImplementedException();
+            var result = new Result
+            {
+                Operation = Operation.Read,
+                Status = Status.Success
+            };
+            try
+            {
+                var user = new UserViewModel();
+                var getUser = _userRepository.GetByID(id);
+                result.Body = user.MapFromModel(getUser);
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Fail;
+            }
+            return result;
         }
         #region private members
 
@@ -85,9 +118,38 @@ namespace RS.Service.Logic
             return userView;
         }
 
-        public IResult updateUser(UserViewModel user)
+        public IResult UpdateUser(UserViewModel user)
         {
-            throw new NotImplementedException();
+            var result = new Result
+            {
+                Operation = Operation.Update,
+                Status = Status.Success
+            };
+            try
+            {
+                var userModel = new Users();
+                userModel.MapFromViewModel(user);
+                var duplicateUser = _userRepository.GetFirstOrDefault(x => x.UserName == user.UserName || x.Email == user.Email);
+                if (duplicateUser != null)
+                {
+                    result.Status = Status.Fail;
+                    result.Message = UserStatusNotification.DuplicateUser;
+                    result.Body = null;
+                }
+                else
+                {
+                    _userRepository.Update(userModel);
+                    _userRepository.SaveChanges();
+                    result.Body = userModel;
+                }
+
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Fail;
+            }
+            return result;
         }
 
         #endregion
