@@ -8,16 +8,20 @@ using RS.ViewModel.Skill;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using System.Security.Principal;
 using System.Text;
 
 namespace RS.Service.Logic
 {
     public class SkillManagerService : ISkillManagerService
     {
+        private readonly ClaimsPrincipal _principal;
         private readonly ISkillRepository _skillRepository;
-        public SkillManagerService(ISkillRepository skillRepository)
+        public SkillManagerService(IPrincipal principal, ISkillRepository skillRepository)
         {
-            this._skillRepository = skillRepository;
+            _skillRepository = skillRepository;
+            _principal = principal as ClaimsPrincipal;
         }
 
         public IResult CreateSkill(SkillViewModel skill)
@@ -29,8 +33,6 @@ namespace RS.Service.Logic
             };
             try
             {
-                var skillModel = new Skills();
-                skillModel.MapFromViewModel(skill);
                 var duplicateSkill = _skillRepository.GetFirstOrDefault(x => x.Name == skill.Name);
                 if (duplicateSkill != null)
                 {
@@ -40,6 +42,8 @@ namespace RS.Service.Logic
                 }
                 else
                 {
+                    var skillModel = new Skills();
+                    skillModel.MapFromViewModel(skill, (ClaimsIdentity)_principal.Identity);
                     _skillRepository.Create(skillModel);
                     _skillRepository.SaveChanges();
                     result.Body = skillModel;
@@ -109,9 +113,7 @@ namespace RS.Service.Logic
             };
             try
             {
-                var skillModel = new Skills();
-                skillModel.MapFromViewModel(skill);
-                var duplicateSkill = _skillRepository.GetFirstOrDefault(x => x.Name == skill.Name);
+                var duplicateSkill = _skillRepository.GetFirstOrDefault(x => x.Name == skill.Name && x.SkillId != skill.SkillId);
                 if (duplicateSkill != null)
                 {
                     result.Status = Status.Fail;
@@ -120,11 +122,13 @@ namespace RS.Service.Logic
                 }
                 else
                 {
+                    var skillModel = new Skills();
+                    skillModel.MapFromViewModel(skill, (ClaimsIdentity)_principal.Identity);
                     _skillRepository.Update(skillModel);
                     _skillRepository.SaveChanges();
                     result.Body = skillModel;
                 }
-               
+
             }
             catch (Exception e)
             {

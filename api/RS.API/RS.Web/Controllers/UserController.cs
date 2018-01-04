@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using RS.Common.CommonData;
+using RS.Common.Extensions;
 using RS.Common.Enums;
 using RS.ViewModel.User;
 using System;
@@ -35,14 +36,7 @@ namespace RS.Web.Controllers
         public IActionResult GetUserDetails()
         {
             var identity = (ClaimsIdentity)User.Identity;
-            IEnumerable<Claim> claims = identity.Claims;
-            var details = new
-            {
-                Name = identity.FindFirst(ClaimTypes.Name).Value,
-                Email = identity.FindFirst(ClaimTypes.Email).Value,
-                Role = identity.FindFirst(ClaimTypes.Role).Value,
-                Sid = identity.FindFirst(ClaimTypes.Sid).Value
-            };
+            var details = GenericHelper.GetUserClaimDetails(identity);
             return new ObjectResult(details);
         }
 
