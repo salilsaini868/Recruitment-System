@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -14,7 +15,7 @@ import {
 
 @NgModule({
   imports: [
-    BrowserModule, AdminRouterModule,
+    BrowserModule, AdminRouterModule,FormsModule,ReactiveFormsModule,
     TranslateModule.forRoot()
   ],
   exports: [],
@@ -23,6 +24,7 @@ import {
     SkillComponent, SkillsComponent
   ],
   providers: [],
+  bootstrap: [],
 })
 
 export class AdminModule {

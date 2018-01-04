@@ -7,11 +7,16 @@ import {Routes, RouterModule} from '@angular/router';
 import {ErrorComponent} from './error/error.component';
 
 import { LoginComponent } from './Login/login.Component';
+import { SkillsComponent } from './admin/skills/skills.component';
 
 const APP_ROUTES: Routes = [
   {
     path: '',
-    component: LoginComponent
+    component: SkillsComponent
+  },
+  {
+    path:'skill',
+    component: SkillsComponent
   },
   {
     path: '**',

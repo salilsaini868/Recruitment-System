@@ -4,8 +4,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { MomentModule } from 'angular2-moment';
-import { FormsModule } from '@angular/forms';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRouterModule } from './app.routes';
 import { AppComponent } from './app.component';
 import { ErrorModule } from './error/error.module';

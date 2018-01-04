@@ -1,1 +1,48 @@
-<p>skills</p>
+<div>
+    
+    <form>
+        <h3>Crreate skills</h3><p> <span class="glyphicon glyphicon-plus"></span></p>   
+        <div class="form-group">
+            <label for="name">skills </label>
+            <input type="text" class="form-control" [(ngModel)]="model.name" name="name" required>
+
+            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">^ </button>
+            <div id="demo" class="collapse">
+            </div>
+            <div class="form-group">
+
+                <label for="description">Description </label>
+                <textarea>
+           <input type="text" class="form-control" [(ngModel)]="model.description">
+       </textarea>
+            </div>
+            <button type="button" class="btn btn-primary" (click)="addSkills">Save</button>
+        </div>
+    </form>
+</div>
+
+
+<div class="container">
+    <h2></h2>
+    <table class="table table-striped">
+        <thead>
+            <tbody>
+                <tr *ngFor="let skill of skills; let i=index">
+                    <td>{{skills.name}}</td>
+                    <td> {{skills.description}}</td>
+                    <td>
+                        <a class="btn btn-success" (click)="editSkills(i)"><p> <span class="glyphicon glyphicon-edit"></span></p> </a>
+                        <a class="btn btn-danger" (click)="deleteSkills(i)"><p> <span class="glyphicon glyphicon-remove"></span></p></a>
+                    </td>
+                </tr>
+            </tbody>
+    </table>
+</div>
+
+<div *ngIf="msg" role="alert" class="alert alert-info alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeAlert()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <span class="sr-only">Error:</span> {{msg}}
+</div>
