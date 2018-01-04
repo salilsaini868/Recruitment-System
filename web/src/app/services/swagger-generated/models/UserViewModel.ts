@@ -7,5 +7,7 @@ export interface UserViewModel {
     email: string;
     firstName: string;
     lastName: string;
+    fullName: string;
+    role: string;
 
 }

@@ -34,7 +34,7 @@ namespace RS.Web.Controllers
         [HttpPost]
         public IActionResult LoginUser([FromBody]UserLoginModel loginModel)
         {
-            var user = _userService.LoginUser(loginModel.UserName, loginModel.UserPassword);
+            var user = _userService.LoginUser(loginModel.UserEmail, loginModel.UserPassword);
             if (user == null)
                 return Unauthorized();
             return new ObjectResult(GenerateToken(user));
