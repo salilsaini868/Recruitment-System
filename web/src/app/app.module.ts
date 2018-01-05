@@ -3,14 +3,9 @@ import { NgModule } from '@angular/core';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MomentModule } from 'angular2-moment';
-
-
 import { AppRouterModule } from './app.routes';
 import { AppComponent } from './app.component';
 import { ErrorModule } from './error/error.module';
-
-//Service
-import { ApiClientService } from '../app/services/swagger-generated/apiClientService';
 
 // Module
 import { LoginModule } from './Login/shared/login.module';
@@ -23,13 +18,13 @@ import { SharedModule } from './shared/shared.module';
     AppComponent
   ],
   imports: [
-    AppRouterModule, BrowserModule, ErrorModule,  
+    SharedModule,
+    AppRouterModule, ErrorModule,  
     MomentModule,
-    LoginModule, AdminModule,ServiceModule,
-    SharedModule.forRoot()
+    LoginModule, AdminModule,ServiceModule
     ],
   exports: [],
-  providers: [ApiClientService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -9,15 +9,19 @@ using RS.Common.Enums;
 using RS.Entity.Models;
 using RS.Common.Extensions;
 using System.Linq;
+using System.Security.Claims;
+using System.Security.Principal;
 
 namespace RS.Service.Logic
 {
     public class QualificationManagerService : IQualificationManagerService
     {
+        private readonly ClaimsPrincipal _principal;
         private readonly IQualificationRepository _qualificationRepository;
-        public QualificationManagerService(IQualificationRepository qualificationRepository)
+        public QualificationManagerService(IPrincipal principal, IQualificationRepository qualificationRepository)
         {
             this._qualificationRepository = qualificationRepository;
+            _principal = principal as ClaimsPrincipal;
         }
         public IResult CreateQualification(QualificationViewModel qualification)
         {
@@ -28,8 +32,6 @@ namespace RS.Service.Logic
             };
             try
             {
-                var qualificationModel = new Qualifications();
-                qualificationModel.MapFromViewModel(qualification);
                 var duplicatequalification = _qualificationRepository.GetFirstOrDefault(x => x.Name == qualification.Name);
                 if (duplicatequalification != null)
                 {
@@ -39,6 +41,8 @@ namespace RS.Service.Logic
                 }
                 else
                 {
+                    var qualificationModel = new Qualifications();
+                    qualificationModel.MapFromViewModel(qualification, (ClaimsIdentity)_principal.Identity);
                     _qualificationRepository.Create(qualificationModel);
                     _qualificationRepository.SaveChanges();
                     result.Body = qualificationModel;
@@ -108,9 +112,7 @@ namespace RS.Service.Logic
             };
             try
             {
-                var qualificationModel = new Qualifications();
-                qualificationModel.MapFromViewModel(qualification);
-                var duplicatequalification = _qualificationRepository.GetFirstOrDefault(x => x.Name == qualification.Name);
+                var duplicatequalification = _qualificationRepository.GetFirstOrDefault(x => x.Name == qualification.Name && x.QualificationId != qualification.QualificationId);
                 if (duplicatequalification != null)
                 {
                     result.Status = Status.Fail;
@@ -119,6 +121,8 @@ namespace RS.Service.Logic
                 }
                 else
                 {
+                    var qualificationModel = new Qualifications();
+                    qualificationModel.MapFromViewModel(qualification, (ClaimsIdentity)_principal.Identity);
                     _qualificationRepository.Update(qualificationModel);
                     _qualificationRepository.SaveChanges();
                     result.Body = qualificationModel;

@@ -1,7 +1,7 @@
 /* tslint:disable */
 
 export interface UserLoginModel {
-    userEmail: string;
+    userName: string;
     userPassword: string;
 
 }

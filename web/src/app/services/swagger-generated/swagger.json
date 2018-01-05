@@ -1,14 +1,8 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "v1",
-        "title": "RS System",
-        "description": "A sample API architecture for RS system.",
-        "termsOfService": "None",
-        "license": {
-            "name": "Evry India",
-            "url": "http://evry.com/"
-        }
+        "version": "v1.0",
+        "title": "RHPM API v1.0"
     },
     "basePath": "/",
     "paths": {
@@ -35,6 +29,36 @@
                 "operationId": "ApiCandidateGetAllCandidatesGet",
                 "consumes": [],
                 "produces": [],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Login/LoginUser": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "operationId": "ApiLoginLoginUserPost",
+                "consumes": [
+                    "application/json-patch+json",
+                    "application/json",
+                    "text/json",
+                    "application/*+json"
+                ],
+                "produces": [],
+                "parameters": [
+                    {
+                        "name": "loginModel",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/UserLoginModel"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -344,12 +368,27 @@
                 }
             }
         },
-        "/api/User/UserLogin": {
+        "/api/User/GetUserDetails": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "operationId": "ApiUserGetUserDetailsGet",
+                "consumes": [],
+                "produces": [],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/User/CreateUser": {
             "post": {
                 "tags": [
                     "User"
                 ],
-                "operationId": "ApiUserUserLoginPost",
+                "operationId": "ApiUserCreateUserPost",
                 "consumes": [
                     "application/json-patch+json",
                     "application/json",
@@ -361,11 +400,11 @@
                 ],
                 "parameters": [
                     {
-                        "name": "LoginModel",
+                        "name": "userView",
                         "in": "body",
                         "required": false,
                         "schema": {
-                            "$ref": "#/definitions/UserLoginModel"
+                            "$ref": "#/definitions/UserViewModel"
                         }
                     }
                 ],
@@ -373,7 +412,91 @@
                     "200": {
                         "description": "Success",
                         "schema": {
+                            "$ref": "#/definitions/IResult"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/User/UpdateUser": {
+            "put": {
+                "tags": [
+                    "User"
+                ],
+                "operationId": "ApiUserUpdateUserPut",
+                "consumes": [
+                    "application/json-patch+json",
+                    "application/json",
+                    "text/json",
+                    "application/*+json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "userView",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
                             "$ref": "#/definitions/UserViewModel"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/IResult"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/User/GetAllUser": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "operationId": "ApiUserGetAllUserGet",
+                "consumes": [],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/IResult"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/User/GetUserById": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "operationId": "ApiUserGetUserByIdGet",
+                "consumes": [],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/IResult"
                         }
                     }
                 }
@@ -381,6 +504,17 @@
         }
     },
     "definitions": {
+        "UserLoginModel": {
+            "type": "object",
+            "properties": {
+                "userName": {
+                    "type": "string"
+                },
+                "userPassword": {
+                    "type": "string"
+                }
+            }
+        },
         "QualificationViewModel": {
             "type": "object",
             "properties": {
@@ -440,17 +574,6 @@
                 }
             }
         },
-        "UserLoginModel": {
-            "type": "object",
-            "properties": {
-                "userEmail": {
-                    "type": "string"
-                },
-                "userPassword": {
-                    "type": "string"
-                }
-            }
-        },
         "UserViewModel": {
             "type": "object",
             "properties": {
@@ -472,9 +595,22 @@
                 },
                 "lastName": {
                     "type": "string"
+                },
+                "fullName": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string"
                 }
             }
         }
     },
-    "securityDefinitions": {}
+    "securityDefinitions": {
+        "Bearer": {
+            "name": "Authorization",
+            "in": "header",
+            "type": "apiKey",
+            "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\""
+        }
+    }
 }

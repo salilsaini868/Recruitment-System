@@ -11,7 +11,7 @@
                             {{ 'OTHERS.REQUIRED' | translate }}
                         </div>
                         <div>
-                            <input style="text-transform: none;" type="text" required name="user" [(ngModel)]="userEmail" #user="ngModel" maxlength="25">
+                            <input style="text-transform: none;" type="text" required name="user" [(ngModel)]="loginModel.userEmail" #user="ngModel" maxlength="25">
                         </div>
                     </div>
                     <div>
@@ -21,7 +21,7 @@
                             {{ 'OTHERS.REQUIRED' | translate }}
                         </div>
                         <div>
-                            <input style="text-transform: none;" type="password" required name="pass" [(ngModel)]="userPassword" #pass="ngModel" maxlength="25">
+                            <input style="text-transform: none;" type="password" required name="pass" [(ngModel)]="loginModel.userPassword" #pass="ngModel" maxlength="25">
                         </div>
                     </div>
                     <button id="bttn" type="submit" class="btn btn-primary">Login</button>
