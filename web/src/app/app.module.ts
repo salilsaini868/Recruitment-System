@@ -3,12 +3,8 @@ import { NgModule } from '@angular/core';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MomentModule } from 'angular2-moment';
-<<<<<<< HEAD
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-=======
 
 
->>>>>>> develop
 import { AppRouterModule } from './app.routes';
 import { AppComponent } from './app.component';
 import { ErrorModule } from './error/error.module';

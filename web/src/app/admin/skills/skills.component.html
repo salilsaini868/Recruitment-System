@@ -1,41 +1,51 @@
-<div>
-    
-    <form>
-        <h3>Crreate skills</h3><p> <span class="glyphicon glyphicon-plus"></span></p>   
-        <div class="form-group">
-            <label for="name">skills </label>
-            <input type="text" class="form-control" [(ngModel)]="model.name" name="name" required>
-
-            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">^ </button>
-            <div id="demo" class="collapse">
-            </div>
-            <div class="form-group">
-
-                <label for="description">Description </label>
-                <textarea>
-           <input type="text" class="form-control" [(ngModel)]="model.description">
-       </textarea>
-            </div>
-            <button type="button" class="btn btn-primary" (click)="addSkills">Save</button>
+<div class="container">
+    <div class='panel panel-primary'>
+        <div class='panel-heading'>
+            Create skills 
         </div>
-    </form>
+        <div class="panel-body">
+            <form class="form-horizontal">
+                <label class="col-sm-2" for="name">skills Name:</label>
+                <div class="col-col-3">
+                    <input type="text" class="col col-6" id="skills" name="skills" [(ngModel)]="model.skills">
+                </div>
+
+                <label class="col-sm-2" for="description"> Description: </label>
+                <div class="form-group">
+                    <input type="text" class="col-col-6" id="description" name="description" [(ngModel)]="model.description">
+                </div>
+                <button type="button" class="btn btn-primary " (click)="addSkills()">Save</button>
+            </form>
+        </div>
+    </div>
 </div>
 
 
 <div class="container">
-    <h2></h2>
-    <table class="table table-striped">
+    <h3>skills details</h3>
+    <table class="table table-bordered">
         <thead>
-            <tbody>
-                <tr *ngFor="let skill of skills; let i=index">
-                    <td>{{skills.name}}</td>
-                    <td> {{skills.description}}</td>
-                    <td>
-                        <a class="btn btn-success" (click)="editSkills(i)"><p> <span class="glyphicon glyphicon-edit"></span></p> </a>
-                        <a class="btn btn-danger" (click)="deleteSkills(i)"><p> <span class="glyphicon glyphicon-remove"></span></p></a>
-                    </td>
-                </tr>
-            </tbody>
+            <tr>
+                <th width=400> skills</th>
+                <th width=400> description</th>
+                <th width=400> action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let skills of skills; let i=index">
+                <td>{{skills.skills}}</td>
+                <td> {{skills.description}}</td>
+                <td>
+                    <a class="btn btn-success" (click)="editSkills(i)">
+                        <p> <span class="glyphicon glyphicon-edit"></span></p>
+                    </a>
+                    <a class="btn btn-danger" (click)="deleteSkills(i)">
+                        <p> <span class="glyphicon glyphicon-remove"></span></p>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+
     </table>
 </div>
 
