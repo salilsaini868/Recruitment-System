@@ -1,6 +1,4 @@
 import { NgModule } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
-import { BrowserModule } from '@angular/platform-browser';
 
 // Route
 import { AdminRouterModule } from './admin.route';
@@ -10,12 +8,13 @@ import {
   AdminDashboardComponent, QualificationComponent, QualificationsComponent,
   SkillComponent, SkillsComponent
 } from '../index.admin';
+import { SharedModule } from "../../shared/shared.module";
 
 
 @NgModule({
   imports: [
-    BrowserModule, AdminRouterModule,
-    TranslateModule.forRoot()
+    AdminRouterModule,
+    SharedModule
   ],
   exports: [],
   declarations: [

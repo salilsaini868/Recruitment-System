@@ -11,7 +11,6 @@ import { SpinnerService } from '../spinner/spinner.service';
 
 @Injectable()
 export class AuthenticatedHttpService extends Http {
-
   token: string;
   constructor(backend: XHRBackend, defaultOptions: RequestOptions,
     private injector: Injector, private spinnerService: SpinnerService) {

@@ -1,5 +1,5 @@
-
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from '../../shared/guards/auth.guard';
 
 // Components
 import {
@@ -11,23 +11,28 @@ import {
 const ADMIN_ROUTES: Routes = [
   {
     path: 'AdminDashboard',
-    component: AdminDashboardComponent
+    component: AdminDashboardComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'Qualification',
-    component: QualificationComponent
+    component: QualificationComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'Qualifications',
-    component: QualificationsComponent
+    component: QualificationsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'Skill',
-    component: SkillComponent
+    component: SkillComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'Skills',
-    component: SkillsComponent
+    component: SkillsComponent,
+    canActivate: [AuthGuard]
   }
 ];
 
