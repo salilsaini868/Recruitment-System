@@ -1,7 +1,7 @@
 /* tslint:disable */
 import { Injectable } from '@angular/core';
 import {Http, Response, Headers, Request, RequestOptionsArgs,RequestOptions, URLSearchParams } from '@angular/http';
-import { QualificationViewModel, IResult, SkillViewModel, UserLoginModel, UserViewModel } from './models';
+import { UserLoginModel, QualificationViewModel, IResult, SkillViewModel, UserViewModel } from './models';
 import 'rxjs/Rx';
 
 /**
@@ -79,6 +79,32 @@ throw new Error('Domain parameter must be specified as a string.');
   /**
   *
   * @method
+  * @name ApiLoginLoginUserPost
+    * @param {UserLoginModel} loginModel - 
+  *
+  */
+  public ApiLoginLoginUserPost(loginModel: UserLoginModel) {
+  let bodyVar={};
+  let headers = new Headers(this.defaultHeaders.toJSON());
+  let payload = {};
+  let queryParameters=new URLSearchParams();
+
+
+      bodyVar=loginModel;
+  headers.append('Content-Type', 'application/json');
+  let uri = `/api/Login/LoginUser`;
+  let options = new RequestOptions({ headers: headers, search: queryParameters });
+
+  return this.http
+  .post(this.domain + uri, JSON.stringify(bodyVar), options)
+  .map((res: Response) => {
+     return res.arrayBuffer().byteLength > 0 ? res.json() : {};
+  });
+
+  }
+  /**
+  *
+  * @method
   * @name ApiOpeningGetAllOpeningsGet
   *
   */
@@ -104,7 +130,7 @@ throw new Error('Domain parameter must be specified as a string.');
   *
   * @method
   * @name ApiQualificatonCreateQualificationPost
-    * @param {QualificationViewModel} qualificationView - A sample API architecture for RS system.
+    * @param {QualificationViewModel} qualificationView - 
   *
   */
   public ApiQualificatonCreateQualificationPost(qualificationView: QualificationViewModel) {
@@ -130,7 +156,7 @@ throw new Error('Domain parameter must be specified as a string.');
   *
   * @method
   * @name ApiQualificatonUpdateQualificationPut
-    * @param {QualificationViewModel} qualificationView - A sample API architecture for RS system.
+    * @param {QualificationViewModel} qualificationView - 
   *
   */
   public ApiQualificatonUpdateQualificationPut(qualificationView: QualificationViewModel) {
@@ -180,7 +206,7 @@ throw new Error('Domain parameter must be specified as a string.');
   *
   * @method
   * @name ApiQualificatonGetQualificationlByIdGet
-    * @param {integer} id - A sample API architecture for RS system.
+    * @param {integer} id - 
   *
   */
   public ApiQualificatonGetQualificationlByIdGet(id: number) {
@@ -237,7 +263,7 @@ throw new Error('Domain parameter must be specified as a string.');
   *
   * @method
   * @name ApiRoleGetRoleByIdGet
-    * @param {integer} id - A sample API architecture for RS system.
+    * @param {integer} id - 
   *
   */
   public ApiRoleGetRoleByIdGet(id: number) {
@@ -270,7 +296,7 @@ throw new Error('Domain parameter must be specified as a string.');
   *
   * @method
   * @name ApiSkillCreateSkillPost
-    * @param {SkillViewModel} skillView - A sample API architecture for RS system.
+    * @param {SkillViewModel} skillView - 
   *
   */
   public ApiSkillCreateSkillPost(skillView: SkillViewModel) {
@@ -296,7 +322,7 @@ throw new Error('Domain parameter must be specified as a string.');
   *
   * @method
   * @name ApiSkillUpdateSkillPut
-    * @param {SkillViewModel} skillView - A sample API architecture for RS system.
+    * @param {SkillViewModel} skillView - 
   *
   */
   public ApiSkillUpdateSkillPut(skillView: SkillViewModel) {
@@ -346,7 +372,7 @@ throw new Error('Domain parameter must be specified as a string.');
   *
   * @method
   * @name ApiSkillGetSkillByIdGet
-    * @param {integer} id - A sample API architecture for RS system.
+    * @param {integer} id - 
   *
   */
   public ApiSkillGetSkillByIdGet(id: number) {
@@ -378,24 +404,131 @@ throw new Error('Domain parameter must be specified as a string.');
   /**
   *
   * @method
-  * @name ApiUserUserLoginPost
-    * @param {UserLoginModel} LoginModel - A sample API architecture for RS system.
+  * @name ApiUserGetUserDetailsGet
   *
   */
-  public ApiUserUserLoginPost(LoginModel: UserLoginModel) {
+  public ApiUserGetUserDetailsGet() {
   let bodyVar={};
   let headers = new Headers(this.defaultHeaders.toJSON());
   let payload = {};
   let queryParameters=new URLSearchParams();
 
 
-      bodyVar=LoginModel;
   headers.append('Content-Type', 'application/json');
-  let uri = `/api/User/UserLogin`;
+  let uri = `/api/User/GetUserDetails`;
+  let options = new RequestOptions({ headers: headers, search: queryParameters });
+
+  return this.http
+  .get(this.domain + uri, options)
+  .map((res: Response) => {
+     return res.arrayBuffer().byteLength > 0 ? res.json() : {};
+  });
+
+  }
+  /**
+  *
+  * @method
+  * @name ApiUserCreateUserPost
+    * @param {UserViewModel} userView - 
+  *
+  */
+  public ApiUserCreateUserPost(userView: UserViewModel) {
+  let bodyVar={};
+  let headers = new Headers(this.defaultHeaders.toJSON());
+  let payload = {};
+  let queryParameters=new URLSearchParams();
+
+
+      bodyVar=userView;
+  headers.append('Content-Type', 'application/json');
+  let uri = `/api/User/CreateUser`;
   let options = new RequestOptions({ headers: headers, search: queryParameters });
 
   return this.http
   .post(this.domain + uri, JSON.stringify(bodyVar), options)
+  .map((res: Response) => {
+     return res.arrayBuffer().byteLength > 0 ? res.json() : {};
+  });
+
+  }
+  /**
+  *
+  * @method
+  * @name ApiUserUpdateUserPut
+    * @param {UserViewModel} userView - 
+  *
+  */
+  public ApiUserUpdateUserPut(userView: UserViewModel) {
+  let bodyVar={};
+  let headers = new Headers(this.defaultHeaders.toJSON());
+  let payload = {};
+  let queryParameters=new URLSearchParams();
+
+
+      bodyVar=userView;
+  headers.append('Content-Type', 'application/json');
+  let uri = `/api/User/UpdateUser`;
+  let options = new RequestOptions({ headers: headers, search: queryParameters });
+
+  return this.http
+  .put(this.domain + uri, JSON.stringify(bodyVar), options)
+  .map((res: Response) => {
+     return res.arrayBuffer().byteLength > 0 ? res.json() : {};
+  });
+
+  }
+  /**
+  *
+  * @method
+  * @name ApiUserGetAllUserGet
+  *
+  */
+  public ApiUserGetAllUserGet() {
+  let bodyVar={};
+  let headers = new Headers(this.defaultHeaders.toJSON());
+  let payload = {};
+  let queryParameters=new URLSearchParams();
+
+
+  headers.append('Content-Type', 'application/json');
+  let uri = `/api/User/GetAllUser`;
+  let options = new RequestOptions({ headers: headers, search: queryParameters });
+
+  return this.http
+  .get(this.domain + uri, options)
+  .map((res: Response) => {
+     return res.arrayBuffer().byteLength > 0 ? res.json() : {};
+  });
+
+  }
+  /**
+  *
+  * @method
+  * @name ApiUserGetUserByIdGet
+    * @param {integer} id - 
+  *
+  */
+  public ApiUserGetUserByIdGet(id: number) {
+  let bodyVar={};
+  let headers = new Headers(this.defaultHeaders.toJSON());
+  let payload = {};
+  let queryParameters=new URLSearchParams();
+
+
+      if(id === undefined){
+      throw new Error('Missing required number parameter: id');
+      }
+
+                if (id !== 0) {
+                queryParameters.set('id',id.toString());
+                }
+
+  headers.append('Content-Type', 'application/json');
+  let uri = `/api/User/GetUserById`;
+  let options = new RequestOptions({ headers: headers, search: queryParameters });
+
+  return this.http
+  .get(this.domain + uri, options)
   .map((res: Response) => {
      return res.arrayBuffer().byteLength > 0 ? res.json() : {};
   });

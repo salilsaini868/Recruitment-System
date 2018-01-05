@@ -5,18 +5,19 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 //Service
 import { LoginService } from './login.service';
-
 // Route
 import { LoginRouterModule } from './login.route';
 
 // Component
 import { LoginComponent } from '../login.Component';
+import { SharedModule } from "../../shared/shared.module";
 
 
 @NgModule({
   imports: [
     BrowserModule, LoginRouterModule, FormsModule, HttpModule,
-    TranslateModule.forRoot()
+    TranslateModule.forRoot(),
+    SharedModule
   ],
   exports: [],
   declarations: [

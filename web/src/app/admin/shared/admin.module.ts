@@ -8,20 +8,22 @@ import { AdminRouterModule } from './admin.route';
 
 // Components
 import {
-  AdminDashboardComponent, QualificationComponent, QualificationsComponent,
-  SkillComponent, SkillsComponent
+  AdminDashboardComponent, QualificationsComponent, SkillsComponent
 } from '../index.admin';
+
+// Module
+import { SharedModule } from '../../shared/shared.module';
 
 
 @NgModule({
   imports: [
     BrowserModule, AdminRouterModule,FormsModule,ReactiveFormsModule,
-    TranslateModule.forRoot()
+    TranslateModule.forRoot(),
+    SharedModule
   ],
   exports: [],
   declarations: [
-    AdminDashboardComponent, QualificationComponent, QualificationsComponent,
-    SkillComponent, SkillsComponent
+    AdminDashboardComponent, QualificationsComponent, SkillsComponent
   ],
   providers: [],
   bootstrap: [],

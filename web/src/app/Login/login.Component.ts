@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { isNullOrUndefined } from 'util';
+import { Router } from "@angular/router";
 import { LoginService } from './shared/login.service';
-import { UserLoginModel } from '.././services/swagger-generated/models';
+import { UserLoginModel } from '.././services/swagger-generated/models/UserLoginModel';
+
+// Constants
+import { AppConstants } from '../shared/constant/constant.variable';
 
 @Component({
   selector: 'login',
@@ -9,14 +13,8 @@ import { UserLoginModel } from '.././services/swagger-generated/models';
 })
 
 export class LoginComponent implements OnInit {
-
-  userEmail: string;
-  userPassword: string;
-  loginModel: UserLoginModel;
-  invalidCredentials : boolean;
-  errorMessage : string;
-
-  constructor(private loginService: LoginService) {
+  loginModel: UserLoginModel = {} as UserLoginModel;
+  constructor(private loginService: LoginService, private router: Router) {
   }
 
   ngOnInit() {
@@ -24,20 +22,19 @@ export class LoginComponent implements OnInit {
 
   onSubmit(loginForm) {
     if (loginForm.valid) {
-      let loginModel;
-      loginModel = { userEmail: this.userEmail, userPassword: this.userPassword } as UserLoginModel;
-      this.loginService.userLogin(loginModel).subscribe(
+      this.loginService.userLogin(this.loginModel).subscribe(
         (data) => {
           if (!isNullOrUndefined(data)) {
-                localStorage.setItem("auth_token", data);
+            console.log(data);
+            localStorage.setItem(AppConstants.AuthToken, data);
+            this.router.navigate(['AdminDashboard']);
           } else {
-            this.invalidCredentials = true;
+
           }
         },
         (err) => {
-          this.errorMessage = err.message;
-        }
-      )
+
+        });
     }
   }
 
