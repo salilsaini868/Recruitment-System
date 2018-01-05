@@ -21,6 +21,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, 'i18n/', '.json');
 }
 
+export function GetToken() {
+    return localStorage.getItem(AppConstants.AuthToken);
+}
+
 @NgModule({
     imports: [
         BrowserModule,
@@ -36,10 +40,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         }),
         JwtModule.forRoot({
             config: {
-                tokenGetter: () => {
-                    return localStorage.getItem(AppConstants.AuthToken);
-                },
-                whitelistedDomains: [''] // localhost:4200 example example
+                tokenGetter: GetToken,
+                whitelistedDomains: [''] // example http://localhost:4200/
             }
         })
     ],
@@ -59,6 +61,8 @@ export function HttpLoaderFactory(http: HttpClient) {
             useClass: AuthenticatedHttpService
         }]
 })
+
+
 
 export class SharedModule {
     static forRoot() {
