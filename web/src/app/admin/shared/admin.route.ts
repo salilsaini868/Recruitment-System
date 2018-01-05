@@ -4,7 +4,7 @@ import { AuthGuard } from '../../shared/guards/auth.guard';
 // Components
 import {
   AdminDashboardComponent, QualificationComponent, QualificationsComponent,
-  SkillComponent, SkillsComponent
+  SkillComponent, SkillsComponent, UserComponent
 } from '../index.admin';
 
 

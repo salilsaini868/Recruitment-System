@@ -6,7 +6,7 @@ import { AdminRouterModule } from './admin.route';
 // Components
 import {
   AdminDashboardComponent, QualificationComponent, QualificationsComponent,
-  SkillComponent, SkillsComponent
+  SkillComponent, SkillsComponent, UserComponent
 } from '../index.admin';
 import { SharedModule } from "../../shared/shared.module";
 
@@ -19,7 +19,7 @@ import { SharedModule } from "../../shared/shared.module";
   exports: [],
   declarations: [
     AdminDashboardComponent, QualificationComponent, QualificationsComponent,
-    SkillComponent, SkillsComponent
+    SkillComponent, SkillsComponent, UserComponent
   ],
   providers: [],
 })
