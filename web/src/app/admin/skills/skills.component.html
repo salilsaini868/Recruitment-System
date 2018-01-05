@@ -14,7 +14,7 @@
                 <div class="form-group">
                     <input type="text" class="col-col-6" id="description" name="description" [(ngModel)]="model.description">
                 </div>
-                <button type="button" class="btn btn-primary " (click)="addSkills()">Save</button>
+                <button type="button" class="btn btn-primary " (click)="addSkill()">Save</button>
             </form>
         </div>
     </div>
@@ -48,11 +48,14 @@
 
     </table>
 </div>
-
-<div *ngIf="msg" role="alert" class="alert alert-info alert-dismissible">
+<div class=" col-md-4">
+<div *ngIf="msg"  class="alert alert-success alert-dismissible">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeAlert()">
-        <span aria-hidden="true">&times;</span>
+        <a href="#" class="close" (click)="clickMe()"aria-hidden="true">&times;</a>
     </button>
     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
     <span class="sr-only">Error:</span> {{msg}}
 </div>
+</div>
+<div class="clearfix"></div>
+<hr>

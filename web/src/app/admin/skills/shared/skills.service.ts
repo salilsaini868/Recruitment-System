@@ -10,9 +10,9 @@ export class SkillsService {
 
     constructor(private http: Http, private apiClient: ApiClientService) { }
 
-    CreateSkills(SkillsModel) : Observable<any> {
+    addSkill(SkillsModel) : Observable<any> {
         
-        return this.apiClient.ApiSkillUpdateSkillPut(SkillsModel).map(x => (x));
+        return this.apiClient.ApiSkillCreateSkillPost(SkillsModel).map(x => (x));
     }
    
 }

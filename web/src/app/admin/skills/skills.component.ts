@@ -8,38 +8,35 @@ import { SkillViewModel } from '../../services/swagger-generated/models';
 })
 
 export class SkillsComponent implements OnInit {
-  
-//   skillsModel: SkillViewModel = {} as SkillViewModel;
+
+  skillsModel: SkillViewModel = {} as SkillViewModel;
 
 
-//  skillsList  : SkillViewModel [] = [] ;
-//  add(skillsList : SkillViewModel ) {
-//    this.skillsList .push(skillsList )
-//  }
+  //  skillsList  : SkillViewModel [] = [] ;
+  //  add(skillsList : SkillViewModel ) {
+  //    this.skillsList .push(skillsList )
+  //  }
 
-//  onSubmit(skillsform){
+  //  onSubmit(skillsform){
 
-//   if (skillsform.valid) {
-//      this.skillsService.skills(skillsViewModel)
-//   }
+  //   if (skillsform.valid) {
+  //      this.skillsService.skills(skillsViewModel)
+  //   }
 
-//  }
-
-
-
-//  getSkills():Observable<Skills[]> {
-//    this.skillsService.add('SkillsService: fetched skills');
-//   return of(SkillsModel);
-// }
+  //  }
 
 
-  // constructor(private skillsService: SkillsService) {
+
+  //  getSkills():Observable<Skills[]> {
+  //    this.skillsService.add('SkillsService: fetched skills');
+  //   return of(SkillsModel);
   // }
 
-  skills = [
-    // { skills: "bharath", description: "new " },
-    // { skills: "keerthi", description: "gothilla" }
-  ];
+
+  constructor(private skillsService: SkillsService) {
+  }
+
+  skills = [];
   ngOnInit() {
   }
 
@@ -48,16 +45,15 @@ export class SkillsComponent implements OnInit {
   msg: any = "";
 
 
-// createSkills(){
-// this.skillsService.CreateSkills(this.skillsModel)
-// .subscribe((res) => {
-//   if (res) {
-//                     this.msg = "skills Confirmed Successfully";
-//                     this.skillsModal.dismiss();
-//                     this.getskills();
-//                 }
-//   }
-//   }
+  addSkill() {
+    this.skillsService.addSkill(this.skillsModel)
+      .subscribe((res) => {
+        if (res) {
+          console.log(res)
+
+        }
+      })
+  }
 
 
 
@@ -68,17 +64,21 @@ export class SkillsComponent implements OnInit {
   }
 
   deleteSkills(i) {
-    this.skills.splice(i,1);
+    this.skills.splice(i, 1);
     this.msg = " deleted successfully";
   }
 
 
-   myValue;
-   editSkills(i){
-   this.model.skills= this.skills[i].skills;
-   this.model.description = this.skills[i].description;
-   this.myValue = i;
-   this.msg=" update successfully";
-    }
+  myValue;
+  editSkills(i) {
+    this.model.skills = this.skills[i].skills;
+    this.model.description = this.skills[i].description;
+    this.myValue = i;
+    this.msg = " update successfully";
   }
+  clickMe() {
+    this.msg = "";
+
+  }
+}
 
