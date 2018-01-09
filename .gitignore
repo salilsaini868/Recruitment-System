@@ -208,3 +208,4 @@ api/.DS_Store
 api/RS.API/.DS_Store
 .DS_Store
 
+*.pubxml
