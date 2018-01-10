@@ -3,28 +3,74 @@ import { NgModule } from '@angular/core';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MomentModule } from 'angular2-moment';
-import { AppRouterModule } from './app.routes';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
+
+// components
 import { AppComponent } from './app.component';
-import { ErrorModule } from './error/error.module';
+import { AppRouterModule } from './app.routes';
 
 // Module
 import { LoginModule } from './Login/shared/login.module';
 import { AdminModule } from './admin/shared/admin.module';
-import { ServiceModule } from './services/services.module';
 import { SharedModule } from './shared/shared.module';
+import { ErrorModule } from './error/error.module';
+
+// constants
+import { AppConstants } from './shared/constant/constant.variable';
+
+
+import { AuthService, RoleGuardService, SpinnerDirective, SpinnerService, AuthInterceptor } from './shared/index.shared';
+import { ApiModule } from './webapi/api.module';
+
+
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
+
+export function GetToken() {
+  return localStorage.getItem(AppConstants.AuthToken);
+}
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent, SpinnerDirective
   ],
   imports: [
-    SharedModule,
-    AppRouterModule, ErrorModule,  
-    MomentModule,
-    LoginModule, AdminModule,ServiceModule
-    ],
+    AppRouterModule, ErrorModule, BrowserModule, FormsModule,
+    MomentModule, HttpClientModule, ApiModule,
+    LoginModule, AdminModule, SharedModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      }
+    }),
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: GetToken,
+        whitelistedDomains: [''] // example http://localhost:4200/
+      }
+    })
+  ],
   exports: [],
-  providers: [],
+  providers: [
+    AuthService,
+    RoleGuardService,
+    JwtHelperService,
+    SpinnerService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    }
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+
+export class AppModule {
+}

@@ -10,6 +10,7 @@ import {
 
 // Module
 import { SharedModule } from '../../shared/shared.module';
+import { LoginServiceApp } from '../../Login/shared/login.serviceApp';
 
 
 @NgModule({
@@ -21,7 +22,7 @@ import { SharedModule } from '../../shared/shared.module';
   declarations: [
     AdminDashboardComponent, QualificationsComponent, SkillsComponent
   ],
-  providers: [],
+  providers: [LoginServiceApp],
 })
 
 export class AdminModule {

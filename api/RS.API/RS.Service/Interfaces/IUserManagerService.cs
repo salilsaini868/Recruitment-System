@@ -7,7 +7,7 @@ namespace RS.Service.Interfaces
 {
     public interface IUserManagerService
     {
-        UserViewModel LoginUser(string Email, string Password);
+        IResult LoginUser(string userName, string password);
 
         IResult CreateUser(UserViewModel user);
 

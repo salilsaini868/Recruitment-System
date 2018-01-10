@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { isNullOrUndefined } from 'util';
-import { Router } from "@angular/router";
-import { LoginService } from './shared/login.service';
-import { UserLoginModel } from '.././services/swagger-generated/models/UserLoginModel';
+import { Router } from '@angular/router';
+import { LoginServiceApp } from './shared/login.serviceApp';
+
 
 // Constants
 import { AppConstants } from '../shared/constant/constant.variable';
+import { UserLoginModel } from '../webapi/models';
 
 @Component({
   selector: 'login',
@@ -14,10 +15,11 @@ import { AppConstants } from '../shared/constant/constant.variable';
 
 export class LoginComponent implements OnInit {
   loginModel: UserLoginModel = {} as UserLoginModel;
-  constructor(private loginService: LoginService, private router: Router) {
+  constructor(private loginService: LoginServiceApp, private router: Router) {
   }
 
   ngOnInit() {
+
   }
 
   onSubmit(loginForm) {
@@ -25,8 +27,8 @@ export class LoginComponent implements OnInit {
       this.loginService.userLogin(this.loginModel).subscribe(
         (data) => {
           if (!isNullOrUndefined(data)) {
-            console.log(data);
-            localStorage.setItem(AppConstants.AuthToken, data);
+            console.log(data.body);
+            localStorage.setItem(AppConstants.AuthToken, data.body);
             this.router.navigate(['AdminDashboard']);
           } else {
 
