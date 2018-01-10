@@ -1,10 +1,10 @@
-import {Directive, ElementRef, OnDestroy, OnInit} from '@angular/core';
-import {Subscription} from 'rxjs/Subscription';
+import { Directive, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 
 // Services
-import {SpinnerService} from './spinner.service';
+import { SpinnerService } from './spinner.service';
 
-@Directive({selector: '[spinner]'})
+@Directive({ selector: '[spinner]' })
 export class SpinnerDirective implements OnInit, OnDestroy {
 
   subscription: Subscription;

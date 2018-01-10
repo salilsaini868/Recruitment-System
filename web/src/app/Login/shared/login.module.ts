@@ -2,20 +2,21 @@ import { NgModule } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-//Service
-import { LoginService } from './login.service';
+
+// Service
+import { LoginServiceApp } from './login.serviceApp';
 // Route
 import { LoginRouterModule } from './login.route';
 
 // Component
 import { LoginComponent } from '../login.Component';
-import { SharedModule } from "../../shared/shared.module";
+import { SharedModule } from '../../shared/shared.module';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
   imports: [
-    BrowserModule, LoginRouterModule, FormsModule, HttpModule,
+    BrowserModule, LoginRouterModule, FormsModule,
     TranslateModule.forRoot(),
     SharedModule
   ],
@@ -23,7 +24,7 @@ import { SharedModule } from "../../shared/shared.module";
   declarations: [
     LoginComponent
   ],
-  providers: [LoginService],
+  providers: [LoginServiceApp],
 })
 
 export class LoginModule {

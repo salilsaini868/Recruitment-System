@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { LoginServiceApp } from '../../Login/shared/login.serviceApp';
 
 @Component({
   selector: 'admindashboard',
@@ -6,9 +7,12 @@ import {Component, OnInit} from '@angular/core';
 })
 
 export class AdminDashboardComponent implements OnInit {
-  constructor() {
+  constructor(private loginService: LoginServiceApp ) {
   }
 
-  ngOnInit() {
+  ngOnInit() {  
+    this.loginService.getUser().subscribe(t => {     
+      console.log(t);
+    });
   }
 }
