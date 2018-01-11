@@ -1,25 +1,33 @@
 <div class="container">
-    <div class='panel panel-primary'>
-        <div class='panel-heading'>
-            Create skills 
+    <div class="panel panel-primary">
+        <div id="isCreate" class="panel-heading">
+            Create skills
+        </div>
+        <div *ngIf="isUpdate" id="updatePanel" class="panel-heading">
+            Update skills
         </div>
         <div class="panel-body">
-            <form class="form-horizontal">
+            <form (ngSubmit)="onSubmit(skillsForm)" #skillsForm="ngForm" class="form-horizontal">
+
                 <label class="col-sm-2" for="name">skills Name:</label>
                 <div class="col-col-3">
-                    <input type="text" class="col col-6" id="skills" name="skills" [(ngModel)]="model.skills">
-                </div>
-
+                    <input type="hidden" name="skillId" [(ngModel)]="skillsModel.skillId">
+                    <input type="text" class="col col-6" id="skills" id="name" name="name" [(ngModel)]="skillsModel.name" required minlength="3"
+                        maxlength="15" element-validation>
+                    <small *ngIf="skillsModel.name" class="text-danger">
+                 *Minimum 3 characher requried.
+                </small>
+                </div><br>
                 <label class="col-sm-2" for="description"> Description: </label>
                 <div class="form-group">
-                    <input type="text" class="col-col-6" id="description" name="description" [(ngModel)]="model.description">
+                    <input type="text" class="col-col-6" id="description" name="description" [(ngModel)]="skillsModel.description">
                 </div>
-                <button type="button" class="btn btn-primary " (click)="addSkill()">Save</button>
+                <button type="submit" id="btnSave" class="btn btn-primary">Save</button>
+                <button *ngIf="isUpdate" id="btnUpdate" type="submit" class="btn btn-primary">Update</button>
             </form>
         </div>
     </div>
 </div>
-
 
 <div class="container">
     <h3>skills details</h3>
@@ -32,30 +40,29 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let skills of skills; let i=index">
-                <td>{{skills.skills}}</td>
-                <td> {{skills.description}}</td>
+            <tr *ngFor="let skills of skills">
+                <td>{{skills.name}}</td>
+                <td>{{skills.description}}</td>
                 <td>
-                    <a class="btn btn-success" (click)="editSkills(i)">
+                    <a class="btn btn-success" (click)="editSkills(skills)">
                         <p> <span class="glyphicon glyphicon-edit"></span></p>
                     </a>
-                    <a class="btn btn-danger" (click)="deleteSkills(i)">
+                    <a class="btn btn-danger" (click)="deleteSkills(skills)">
                         <p> <span class="glyphicon glyphicon-remove"></span></p>
                     </a>
                 </td>
             </tr>
         </tbody>
-
     </table>
 </div>
 <div class=" col-md-4">
-<div *ngIf="msg"  class="alert alert-success alert-dismissible">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeAlert()">
+    <div *ngIf="msg" role="alert" class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeAlert()">
         <a href="#" class="close" (click)="clickMe()"aria-hidden="true">&times;</a>
     </button>
-    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-    <span class="sr-only">Error:</span> {{msg}}
-</div>
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span> {{msg}}
+    </div>
 </div>
 <div class="clearfix"></div>
 <hr>

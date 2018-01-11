@@ -12,11 +12,7 @@ import { SkillsComponent } from './admin/skills/skills.component';
 const APP_ROUTES: Routes = [
   {
     path: '',
-    component: SkillsComponent
-  },
-  {
-    path:'skill',
-    component: SkillsComponent
+    component: LoginComponent
   },
   {
     path: '**',

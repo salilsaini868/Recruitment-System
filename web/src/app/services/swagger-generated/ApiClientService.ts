@@ -84,6 +84,7 @@ throw new Error('Domain parameter must be specified as a string.');
   *
   */
   public ApiLoginLoginUserPost(loginModel: UserLoginModel) {
+    
   let bodyVar={};
   let headers = new Headers(this.defaultHeaders.toJSON());
   let payload = {};
@@ -300,9 +301,10 @@ throw new Error('Domain parameter must be specified as a string.');
   *
   */
   public ApiSkillCreateSkillPost(skillView: SkillViewModel) {
-  let bodyVar={};
+
+  let bodyVar={ };
   let headers = new Headers(this.defaultHeaders.toJSON());
-  let payload = {};
+  let payload = { };
   let queryParameters=new URLSearchParams();
 
 

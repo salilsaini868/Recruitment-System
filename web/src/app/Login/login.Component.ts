@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
           if (!isNullOrUndefined(data)) {
             console.log(data);
             localStorage.setItem(AppConstants.AuthToken, data);
-            this.router.navigate(['AdminDashboard']);
+            this.router.navigate(['Skills']);
           } else {
 
           }

@@ -9,10 +9,23 @@ import { ApiClientService } from '../../../services/swagger-generated/apiClientS
 export class SkillsService {
 
     constructor(private http: Http, private apiClient: ApiClientService) { }
-
-    addSkill(SkillsModel) : Observable<any> {
-        
+    addSkill(SkillsModel): Observable<any> {
         return this.apiClient.ApiSkillCreateSkillPost(SkillsModel).map(x => (x));
     }
-   
+
+    listSkill(): Observable<any> {
+        return this.apiClient.ApiSkillGetAllSkillGet().map(x => (x));
+    }
+
+    deleteSkill(): Observable<any> {
+        return;
+    }
+
+    updateSkill(SkillsModel): Observable<void> {
+        return this.apiClient.ApiSkillUpdateSkillPut(SkillsModel).map(x => (x));
+    }
 }
+
+
+
+
