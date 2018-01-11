@@ -5,10 +5,13 @@ import { AdminRouterModule } from './admin.route';
 
 // Components
 import {
-  AdminDashboardComponent, QualificationComponent, QualificationsComponent,
+  AdminDashboardComponent, QualificationsComponent,
   SkillComponent, SkillsComponent, UserComponent
 } from '../index.admin';
-import { SharedModule } from "../../shared/shared.module";
+
+// Module
+import { SharedModule } from '../../shared/shared.module';
+import { LoginServiceApp } from '../../Login/shared/login.serviceApp';
 
 
 @NgModule({
@@ -18,10 +21,10 @@ import { SharedModule } from "../../shared/shared.module";
   ],
   exports: [],
   declarations: [
-    AdminDashboardComponent, QualificationComponent, QualificationsComponent,
+    AdminDashboardComponent, QualificationsComponent,
     SkillComponent, SkillsComponent, UserComponent
   ],
-  providers: [],
+  providers: [LoginServiceApp],
 })
 
 export class AdminModule {

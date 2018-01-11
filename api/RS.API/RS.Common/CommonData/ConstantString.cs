@@ -45,6 +45,7 @@
 
     public static class UserStatusNotification
     {
+        public const string InValidUser = "Incorrect username or password";
         public const string UserCreated = "User Created";
         public const string UserUpdated = "User Updated";
         public const string UserDeleted = "User Deleted";

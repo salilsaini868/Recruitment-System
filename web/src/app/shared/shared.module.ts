@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import { Http } from '@angular/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -9,43 +8,26 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 
+
 // Services
+import { SpinnerService, RoleGuardService, AuthService } from './index.shared';
 
-import { AuthenticatedHttpService, SpinnerService, AuthGuard } from './index.shared';
+// Constant
+import { AppConstants } from './constant/constant.variable';
+import { HttpInterceptorHandler } from '@angular/common/http/src/interceptor';
 
-// create loader for translation
-export function HttpLoaderFactory(http: HttpClient) {
-    return new TranslateHttpLoader(http, 'i18n/', '.json');
-}
 
 @NgModule({
     imports: [
-        BrowserModule,
         HttpClientModule,
-        CommonModule, FormsModule, ReactiveFormsModule, RouterModule,
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: HttpLoaderFactory,
-                deps: [HttpClient],
-            },
-            isolate: false
-        })
+        CommonModule, FormsModule, ReactiveFormsModule, RouterModule
     ],
-    declarations: [
-
-    ],
-    exports: [
-        CommonModule, FormsModule, ReactiveFormsModule, TranslateModule, RouterModule
-    ],
-    providers: [
-        AuthGuard,
-        SpinnerService,
-        {
-            provide: Http,
-            useClass: AuthenticatedHttpService
-        }]
+    declarations: [],
+    exports: [],
+    providers: []
 })
+
+
 
 export class SharedModule {
     static forRoot() {
@@ -55,8 +37,4 @@ export class SharedModule {
         };
     }
 
-    constructor(private translate: TranslateService) {
-        this.translate.addLangs(['en', 'nb']);
-        this.translate.use('en');
-    }
 }

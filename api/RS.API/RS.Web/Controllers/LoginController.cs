@@ -19,6 +19,7 @@ namespace RS.Web.Controllers
     [Produces("application/json")]
     [Route("api/Login/[Action]")]
     [ValidateModel]
+    [AllowAnonymous]
     public class LoginController : Controller
     {
         private readonly IConfiguration _configuration;
@@ -30,14 +31,22 @@ namespace RS.Web.Controllers
             _configuration = configuration;
         }
 
-        [AllowAnonymous]
+
         [HttpPost]
-        public IActionResult LoginUser([FromBody]UserLoginModel loginModel)
+        [AllowAnonymous]
+        public IResult LoginUser([FromBody]UserLoginModel loginModel)
         {
-            var user = _userService.LoginUser(loginModel.UserEmail, loginModel.UserPassword);
-            if (user == null)
-                return Unauthorized();
-            return new ObjectResult(GenerateToken(user));
+            var userResult = _userService.LoginUser(loginModel.UserEmail, loginModel.UserPassword);
+            if (userResult.Status == Status.Success)
+            {
+                var token = new ObjectResult(GenerateToken(userResult.Body));
+                userResult.Body = token.Value;
+            }
+            else
+            {
+                userResult.Body = Unauthorized();
+            }
+            return userResult;
         }
 
         #region Private methods

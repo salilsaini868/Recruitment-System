@@ -103,19 +103,38 @@ namespace RS.Service.Logic
 
         #region public methods
 
-        public UserViewModel LoginUser(string username, string Password)
+        public IResult LoginUser(string username, string password)
         {
-            UserViewModel userView = null;
-            var user = _userRepository.LoginUser(username, Password);
-            if (user != null)
+            var result = new Result
             {
-                userView = new UserViewModel();
-                userView.MapFromModel(user, "UserName;");
-                userView.FullName = user.FirstName + " " + user.LastName;
-                var firstOrDefault = user.UserRoles.FirstOrDefault();
-                if (firstOrDefault != null) userView.Role = firstOrDefault.Role.Name;
+                Operation = Operation.Read,
+                Status = Status.Success
+            };
+            try
+            {
+                var user = _userRepository.LoginUser(username, password);
+                if (user != null)
+                {
+                    var userView = new UserViewModel();
+                    userView.MapFromModel(user, "UserName;");
+                    userView.FullName = user.FirstName + " " + user.LastName;
+                    var firstOrDefault = user.UserRoles.FirstOrDefault();
+                    if (firstOrDefault != null) userView.Role = firstOrDefault.Role.Name;
+
+                    result.Body = userView;
+                }
+                else
+                {
+                    result.Message = UserStatusNotification.InValidUser;
+                    result.Status = Status.Fail;
+                }
             }
-            return userView;
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Fail;
+            }
+            return result;
         }
 
         public IResult UpdateUser(UserViewModel user)
