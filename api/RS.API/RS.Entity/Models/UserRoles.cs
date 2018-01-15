@@ -12,6 +12,8 @@ namespace RS.Entity.Models
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid UserRolesId { get; set; }
 
+        public Users user { get; set; }
+
         public Guid UserId { get; set; }
 
         public int RoleId { get; set; }

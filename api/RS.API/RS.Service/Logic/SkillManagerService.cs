@@ -52,7 +52,7 @@ namespace RS.Service.Logic
             catch (Exception e)
             {
                 result.Message = e.Message;
-                result.Status = Status.Fail;
+                result.Status = Status.Error;
             }
             return result;
         }
@@ -78,7 +78,7 @@ namespace RS.Service.Logic
             catch (Exception e)
             {
                 result.Message = e.Message;
-                result.Status = Status.Fail;
+                result.Status = Status.Error;
             }
             return result;
         }
@@ -99,7 +99,7 @@ namespace RS.Service.Logic
             catch (Exception e)
             {
                 result.Message = e.Message;
-                result.Status = Status.Fail;
+                result.Status = Status.Error;
             }
             return result;
         }
@@ -133,7 +133,7 @@ namespace RS.Service.Logic
             catch (Exception e)
             {
                 result.Message = e.Message;
-                result.Status = Status.Fail;
+                result.Status = Status.Error;
             }
             return result;
         }

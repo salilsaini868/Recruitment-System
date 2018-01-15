@@ -22,7 +22,7 @@ import { ErrorModule } from './error/error.module';
 import { AppConstants } from './shared/constant/constant.variable';
 
 
-import { AuthService, RoleGuardService, SpinnerDirective, SpinnerService, AuthInterceptor } from './shared/index.shared';
+import { AuthService, RoleGuardService, SpinnerDirective, SpinnerService, AuthInterceptor, ToastrService } from './shared/index.shared';
 import { ApiModule } from './webapi/api.module';
 
 
@@ -63,6 +63,7 @@ export function GetToken() {
     RoleGuardService,
     JwtHelperService,
     SpinnerService,
+    ToastrService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

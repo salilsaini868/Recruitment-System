@@ -1,0 +1,8 @@
+{
+    "USER":{
+        "DUPLICATEUSER":"UserName or Email Already Exists!"
+    },
+    "COMMON":{
+        "SOMEERROROCURRED":"Some errror has been occured"
+    }
+}

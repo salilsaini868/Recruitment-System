@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
-import { UserViewModel } from '../../services/swagger-generated/models/UserViewModel';
-import { UserService } from './shared/user.service';
+import { UserViewModel } from '../../webapi/models/user-view-model';
+import { UserServiceApp } from './shared/user.serviceApp';
 
 @Component({
     selector: 'users-list',
@@ -12,7 +12,7 @@ export class UsersListComponent implements OnInit {
 
     users: UserViewModel[] = [] as UserViewModel[];
 
-    constructor(private userService: UserService, private router: Router) {
+    constructor(private userService: UserServiceApp, private router: Router) {
     }
 
     ngOnInit() {
@@ -29,11 +29,11 @@ export class UsersListComponent implements OnInit {
     }
 
     addUser(){
-        this.router.navigate(['users']);
+        this.router.navigate(['Users']);
     }
 
     updateUser(userId){
-        this.router.navigate(['users', userId]);
+        this.router.navigate(['Users', userId]);
     }
 
     deleteUser(userId){

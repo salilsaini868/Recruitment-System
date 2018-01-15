@@ -1,6 +1,6 @@
 ﻿namespace RS.Common.Enums
 {
-    public enum Status { Fail, Success }
+    public enum Status { Fail, Success, Error }
 
     public enum ApprovalSkill
     {

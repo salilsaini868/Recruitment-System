@@ -7,7 +7,7 @@
                     <label>User Name</label>
 
                     <div *ngIf="user.errors && (user.dirty || user.touched)" [hidden]="!user.errors.required" class="validation-error">
-                        {{ 'OTHERS.REQUIRED' | translate }}
+                        {{ 'USERNAME.REQUIRED' | translate }}
                     </div>
                     <div>
                         <input style="text-transform: none;" type="text" required name="user" [(ngModel)]="loginModel.userEmail" #user="ngModel"
@@ -18,7 +18,7 @@
                     <label>Password</label>
 
                     <div *ngIf="pass.errors && (pass.dirty || pass.touched)" [hidden]="!pass.errors.required" class="validation-error">
-                        {{ 'OTHERS.REQUIRED' | translate }}
+                        {{ 'PASSWORD.REQUIRED' | translate }}
                     </div>
                     <div>
                         <input style="text-transform: none;" type="password" required name="pass" [(ngModel)]="loginModel.userPassword" #pass="ngModel"
@@ -26,7 +26,7 @@
                     </div>
                 </div>
                 <button id="bttn" type="submit" class="btn btn-primary">Login</button>
+            </form>
         </div>
-        </form>
     </div>
 </div>

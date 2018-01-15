@@ -8,7 +8,7 @@
                         <label>First Name</label>
 
                         <div *ngIf="firstName.errors && (firstName.dirty || firstName.touched)" [hidden]="!firstName.errors.required" class="validation-error">
-                            {{ 'OTHERS.REQUIRED' | translate }}
+                            {{ 'FIRSTNAME.REQUIRED' | translate }}
                         </div>
                         <div>
                             <input style="text-transform: none;" type="text" required name="firstName" [(ngModel)]="userModel.firstName" #firstName="ngModel"
@@ -18,9 +18,6 @@
                     <div>
                         <label>Last Name</label>
 
-                        <div *ngIf="lastName.errors && (lastName.dirty || lastName.touched)" [hidden]="!lastName.errors.required" class="validation-error">
-                            {{ 'OTHERS.REQUIRED' | translate }}
-                        </div>
                         <div>
                             <input style="text-transform: none;" type="text" required name="lastName" [(ngModel)]="userModel.lastName" #lastName="ngModel"
                                 maxlength="25">
@@ -30,36 +27,61 @@
                         <label>User Name</label>
 
                         <div *ngIf="userName.errors && (userName.dirty || userName.touched)" [hidden]="!userName.errors.required" class="validation-error">
-                            {{ 'OTHERS.REQUIRED' | translate }}
+                            {{ 'USERNAME.REQUIRED' | translate }}
+                        </div>
+                        <div [hidden]="!userName.hasError('pattern')">UserName format should be
+                            <small>
+                                <b>joe@rhpm.com</b>
+                            </small>
                         </div>
                         <div>
-                            <input style="text-transform: none;" type="text" required name="userName" [(ngModel)]="userModel.userName" #userName="ngModel"
-                                maxlength="25">
+                            <input style="text-transform: none;" type="text" required name="userName" pattern="^\w+([\.-]?\w+)*@rhpm.com$" [(ngModel)]="userModel.userName"
+                                #userName="ngModel" maxlength="25">
                         </div>
                     </div>
                     <div>
                         <label>Password</label>
 
                         <div *ngIf="password.errors && (password.dirty || password.touched)" [hidden]="!password.errors.required" class="validation-error">
-                            {{ 'OTHERS.REQUIRED' | translate }}
+                            {{ 'PASSWORD.REQUIRED' | translate }}
+                        </div>
+                        <div [hidden]="!password.hasError('pattern')">Password must contain minimum 8 characters
                         </div>
                         <div>
-                            <input style="text-transform: none;" type="text" required name="password" [(ngModel)]="userModel.password" #password="ngModel"
-                                maxlength="25">
+                            <input style="text-transform: none;" type="password" required name="password" pattern="^[a-z0-9_-]{8,}$" [(ngModel)]="userModel.password"
+                                #password="ngModel" maxlength="25">
                         </div>
                     </div>
                     <div>
                         <label>Email ID</label>
 
                         <div *ngIf="email.errors && (email.dirty || email.touched)" [hidden]="!email.errors.required" class="validation-error">
-                            {{ 'OTHERS.REQUIRED' | translate }}
+                            {{ 'EMAIL.REQUIRED' | translate }}
                         </div>
+                        <div [hidden]="!email.hasError('pattern')">Email format should be
+                            <small>
+                                <b>joe@abc.com</b>
+                            </small>
+                        </div>
+
                         <div>
-                            <input style="text-transform: none;" type="text" required name="email" [(ngModel)]="userModel.email" #email="ngModel" maxlength="25">
+                            <input style="text-transform: none;" type="text" required name="email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                                [(ngModel)]="userModel.email" #email="ngModel" maxlength="25">
+                        </div>
+                    </div>
+                    <div>
+                        <label>Role</label>
+                        <div>
+                            <select [(ngModel)]="userModel.roleId" [ngModelOptions]="{standalone: true}">
+                                <option disabled selected [ngValue]="null">--select--</option>
+                                <option *ngFor="let role of roles" [ngValue]="role.roleId">{{role.name}}</option>
+                            </select>
                         </div>
                     </div>
                 </div>
-                <button id="bttn" type="submit" class="btn btn-primary">Save</button>
+                <div>
+                    <button id="bttn" type="submit" class="btn btn-primary">Save</button>
+                </div>
             </form>
         </div>
     </div>

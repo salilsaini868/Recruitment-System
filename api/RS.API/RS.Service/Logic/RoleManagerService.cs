@@ -28,14 +28,14 @@ namespace RS.Service.Logic
             };
             try
             {
-                var roles = new List<RoleModel>();
+                var roles = new List<RoleViewModel>();
                 var allRoles = _roleRepository.GetAll().ToList();
-                result.Body = roles.MapFromModel<Roles, RoleModel>(allRoles);
+                result.Body = roles.MapFromModel<Roles, RoleViewModel>(allRoles);
             }
             catch (Exception e)
             {
                 result.Message = e.Message;
-                result.Status = Status.Fail;
+                result.Status = Status.Error;
             }
             return result;
 
@@ -49,14 +49,14 @@ namespace RS.Service.Logic
             };
             try
             {
-                var role = new RoleModel();
+                var role = new RoleViewModel();
                 var getRole = _roleRepository.GetByID(id);
                 result.Body = role.MapFromModel(getRole);
             }
             catch (Exception e)
             {
                 result.Message = e.Message;
-                result.Status = Status.Fail;
+                result.Status = Status.Error;
             }
             return result;
         }

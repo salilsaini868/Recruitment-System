@@ -154,7 +154,7 @@ namespace RS.Data
         public IQueryable<T> GetAll(Expression<Func<T, bool>> exp)
         {
             return context.Set<T>().Where(exp);
-        }
+        }   
         public T Get(Expression<Func<T, bool>> exp)
         {
             return context.Set<T>().Where(exp).FirstOrDefault(); ;

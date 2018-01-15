@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
           if (!isNullOrUndefined(data)) {
             console.log(data.body);
             localStorage.setItem(AppConstants.AuthToken, data.body);
-            this.router.navigate(['AdminDashboard']);
+            this.router.navigate(['Userslist']);
           } else {
 
           }
