@@ -15,7 +15,7 @@ import { UserLoginModel } from '../webapi/models';
 
 export class LoginComponent implements OnInit {
   loginModel: UserLoginModel = {} as UserLoginModel;
-  constructor(private loginService: LoginServiceApp, private router: Router) {
+  constructor(private loginServiceApp: LoginServiceApp, private router: Router) {
   }
 
   ngOnInit() {
@@ -24,12 +24,11 @@ export class LoginComponent implements OnInit {
 
   onSubmit(loginForm) {
     if (loginForm.valid) {
-      this.loginService.userLogin(this.loginModel).subscribe(
+      this.loginServiceApp.userLogin(this.loginModel).subscribe(
         (data) => {
           if (!isNullOrUndefined(data)) {
-            console.log(data.body);
             localStorage.setItem(AppConstants.AuthToken, data.body);
-            this.router.navigate(['Userslist']);
+            this.router.navigate(['Users']);
           } else {
 
           }

@@ -38,12 +38,21 @@ namespace RS.Service.Logic
             };
             try
             {
-                var duplicateUser = _userRepository.GetFirstOrDefault(x => (x.IsActive && !x.IsDeleted) && (x.UserName == user.UserName || x.Email == user.Email));
-                if (duplicateUser != null)
+                var duplicateUserName = _userRepository.GetFirstOrDefault(x => (x.IsActive && !x.IsDeleted) && (x.UserName == user.UserName));
+                var duplicateEmail = _userRepository.GetFirstOrDefault(x => (x.IsActive && !x.IsDeleted) && (x.Email == user.Email));
+                if (duplicateUserName != null)
                 {
                     result.Status = Status.Fail;
-                    result.Message = UserStatusNotification.DuplicateUser;
+                    result.Message = UserStatusNotification.DuplicateUserName;
                     result.Body = null;
+                    return result;
+                }
+                else if (duplicateEmail != null)
+                {
+                    result.Status = Status.Fail;
+                    result.Message = UserStatusNotification.DuplicateEmail;
+                    result.Body = null;
+                    return result;
                 }
                 else
                 {
@@ -173,12 +182,21 @@ namespace RS.Service.Logic
             };
             try
             {
-                var duplicateUser = _userRepository.GetFirstOrDefault(x => (x.IsActive && !x.IsDeleted) && (x.UserName == user.UserName || x.Email == user.Email) && x.UserId != user.UserId);
-                if (duplicateUser != null)
+                var duplicateUserName = _userRepository.GetFirstOrDefault(x => (x.IsActive && !x.IsDeleted) && (x.UserName == user.UserName) && (x.UserId != user.UserId));
+                var duplicateEmail = _userRepository.GetFirstOrDefault(x => (x.IsActive && !x.IsDeleted) && (x.Email == user.Email) && (x.UserId != user.UserId));
+                if (duplicateUserName != null)
                 {
                     result.Status = Status.Fail;
-                    result.Message = UserStatusNotification.DuplicateUser;
+                    result.Message = UserStatusNotification.DuplicateUserName;
                     result.Body = null;
+                    return result;
+                }
+                else if (duplicateEmail != null)
+                {
+                    result.Status = Status.Fail;
+                    result.Message = UserStatusNotification.DuplicateEmail;
+                    result.Body = null;
+                    return result;
                 }
                 else
                 {

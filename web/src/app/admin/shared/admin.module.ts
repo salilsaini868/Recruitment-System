@@ -12,13 +12,12 @@ import { UserServiceApp } from '../users/shared/user.serviceApp';
 // Components
 import {
   AdminDashboardComponent, QualificationsComponent,
-  SkillComponent, SkillsComponent, UserComponent, UsersListComponent
+  SkillComponent, SkillsComponent, UserComponent, UsersComponent
 } from '../index.admin';
 
 // Module
 import { SharedModule } from '../../shared/shared.module';
 import { LoginServiceApp } from '../../Login/shared/login.serviceApp';
-
 
 @NgModule({
   imports: [
@@ -31,7 +30,7 @@ import { LoginServiceApp } from '../../Login/shared/login.serviceApp';
   exports: [],
   declarations: [
     AdminDashboardComponent, QualificationsComponent,
-    SkillComponent, SkillsComponent, UserComponent, UsersListComponent
+    SkillComponent, SkillsComponent, UserComponent, UsersComponent
   ],
   providers: [LoginServiceApp, UserServiceApp],
 })

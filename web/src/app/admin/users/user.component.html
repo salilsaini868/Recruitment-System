@@ -48,8 +48,24 @@
                         <div [hidden]="!password.hasError('pattern')">Password must contain minimum 8 characters
                         </div>
                         <div>
-                            <input style="text-transform: none;" type="password" required name="password" pattern="^[a-z0-9_-]{8,}$" [(ngModel)]="userModel.password"
-                                #password="ngModel" maxlength="25">
+                            <input style="text-transform: none;" type="password" required name="password" pattern="^[a-z0-9_-]{8,}$"
+                                [(ngModel)]="userModel.password" #password="ngModel" maxlength="25">
+                        </div>
+                    </div>
+                    <div>
+                        <label>Confirm Password</label>
+
+                        <div *ngIf="confirmPassword.errors && (confirmPassword.dirty || confirmPassword.touched)" [hidden]="!confirmPassword.errors.required"
+                            class="validation-error">
+                            {{ 'CONFIRM PASSWORD.REQUIRED' | translate }}
+                        </div>
+                        <div *ngIf="passwordMismatchError" class="alert alert-danger"> 
+                            {{ passwordMismatchError }} 
+                        </div>
+
+                        <div>
+                            <input style="text-transform: none;" type="password" required name="confirmPassword" [(ngModel)]="userModel.confirmPassword"
+                                #confirmPassword="ngModel" maxlength="25">
                         </div>
                     </div>
                     <div>

@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 // Components
 import {
   AdminDashboardComponent, QualificationsComponent,
-  SkillComponent, SkillsComponent, UserComponent, UsersListComponent
+  SkillComponent, SkillsComponent, UserComponent, UsersComponent
 } from '../index.admin';
 
 import { RoleGuardService } from '../../shared/index.shared';
@@ -29,20 +29,20 @@ const ADMIN_ROUTES: Routes = [
     data: { expectedRole: 'Admin' }
   },
   {
+    path: 'User',
+    component: UserComponent,
+    canActivate: [RoleGuardService],
+    data: { expectedRole: 'Admin' }
+  },
+  {
+    path: 'User/:userId',
+    component: UserComponent,
+    canActivate: [RoleGuardService],
+    data: { expectedRole: 'Admin' }
+  },
+  {
     path: 'Users',
-    component: UserComponent,
-    canActivate: [RoleGuardService],
-    data: { expectedRole: 'Admin' }
-  },
-  {
-    path: 'Users/:userId',
-    component: UserComponent,
-    canActivate: [RoleGuardService],
-    data: { expectedRole: 'Admin' }
-  },
-  {
-    path: 'Userslist',
-    component: UsersListComponent,
+    component: UsersComponent,
     canActivate: [RoleGuardService],
     data: { expectedRole: 'Admin' }
   }

@@ -59,7 +59,8 @@
         public const string UserCreated = "User Created";
         public const string UserUpdated = "User Updated";
         public const string UserDeleted = "User Deleted";
-        public const string DuplicateUser = "Username or Email Already Exists";
+        public const string DuplicateUserName = "Username Already Exists";
+        public const string DuplicateEmail = "Email Already Exists";
 
     }
 

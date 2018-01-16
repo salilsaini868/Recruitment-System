@@ -4,11 +4,11 @@ import { UserViewModel } from '../../webapi/models/user-view-model';
 import { UserServiceApp } from './shared/user.serviceApp';
 
 @Component({
-    selector: 'users-list',
-    templateUrl: 'users-list.component.html'
+    selector: 'users',
+    templateUrl: 'users.component.html'
 })
 
-export class UsersListComponent implements OnInit {
+export class UsersComponent implements OnInit {
 
     users: UserViewModel[] = [] as UserViewModel[];
 
@@ -23,17 +23,16 @@ export class UsersListComponent implements OnInit {
         this.userService.getAllUsers().subscribe(
             (data) => {
                 this.users = data.body;
-                console.log(this.users);
             }
         )
     }
 
     addUser(){
-        this.router.navigate(['Users']);
+        this.router.navigate(['User']);
     }
 
     updateUser(userId){
-        this.router.navigate(['Users', userId]);
+        this.router.navigate(['User', userId]);
     }
 
     deleteUser(userId){

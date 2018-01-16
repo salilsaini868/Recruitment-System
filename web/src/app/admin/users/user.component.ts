@@ -15,8 +15,9 @@ export class UserComponent implements OnInit {
 
     userModel: UserViewModel = {} as UserViewModel;
     roles: RoleViewModel[] = [] as RoleViewModel[];
+    passwordMismatchError: String;
 
-    constructor(private userService: UserServiceApp, private route: ActivatedRoute, private router: Router) {
+    constructor(private userServiceApp: UserServiceApp, private route: ActivatedRoute, private router: Router) {
     }
 
     ngOnInit() {
@@ -29,28 +30,25 @@ export class UserComponent implements OnInit {
     }
 
     getAllRole() {
-        this.userService.getAllRoles().subscribe(
+        this.userServiceApp.getAllRoles().subscribe(
             (data) => {
                 this.roles = data.body;
-                console.log(data.body);
-                console.log(this.roles);
             }
         );
     }
 
     showUsersList() {
-        this.router.navigate(['Userslist']);
+        this.router.navigate(['Users']);
     }
 
     getUserById() {
         this.route.params.subscribe((params: Params) => {
             let userId = params['userId'];
             if (!isNullOrUndefined(userId)) {
-                this.userService.getUserById(userId).subscribe(
+                this.userServiceApp.getUserById(userId).subscribe(
                     (data) => {
                         this.userModel = data.body;
-                        console.log(this.userModel);
-                        console.log(data.body);
+                        this.userModel.confirmPassword = this.userModel.password;
                     }
                 );
             }
@@ -59,20 +57,22 @@ export class UserComponent implements OnInit {
 
     onSubmit(userForm) {
         if (userForm.valid) {
-            if (isNullOrUndefined(this.userModel.userId)) {
-                this.userService.createUser(this.userModel).subscribe(
-                    (data) => {
-                        console.log(data.body);
-                        this.showUsersList();
-                    }
-                );
+            if (this.userModel.password === this.userModel.confirmPassword) {
+                if (isNullOrUndefined(this.userModel.userId)) {
+                    this.userServiceApp.createUser(this.userModel).subscribe(
+                        (data) => {
+                            this.showUsersList();
+                        }
+                    );
+                } else {
+                    this.userServiceApp.updateUser(this.userModel).subscribe(
+                        (data) => {
+                            this.showUsersList();
+                        }
+                    );
+                }
             } else {
-                this.userService.updateUser(this.userModel).subscribe(
-                    (data) => {
-                        console.log(data.body);
-                        this.showUsersList();
-                    }
-                );
+                this.passwordMismatchError = "Password Doesnot Match";
             }
         }
     }

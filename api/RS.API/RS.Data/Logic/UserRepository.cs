@@ -31,7 +31,7 @@ namespace RS.Data.Logic
 
         public Users LoginUser(string username, string password)
         {
-            return _context.Users.Include(t => t.UserRoles).ThenInclude(r => r.Role).FirstOrDefault(x => (x.IsActive && !x.IsDeleted) && (x.UserName == username && x.Password == password));
+            return _context.Users.Include(t => t.UserRoles).ThenInclude(r => r.Role).FirstOrDefault(x => (x.IsActive && !x.IsDeleted) && (x.UserName == username.ToLower() && x.Password == password.ToLower()));
         }
 
         public void UpdateUserRole(UserRoles userRole)

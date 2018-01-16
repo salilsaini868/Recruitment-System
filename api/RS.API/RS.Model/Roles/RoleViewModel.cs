@@ -8,8 +8,7 @@ namespace RS.ViewModel.Roles
     {
         public int RoleId { get; set; }
 
-        [Required]
-        [MaxLength(200)]
+        [Required, MaxLength(200)]
         public string Name { get; set; }
        
     }

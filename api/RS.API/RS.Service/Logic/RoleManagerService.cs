@@ -28,9 +28,9 @@ namespace RS.Service.Logic
             };
             try
             {
-                var roles = new List<RoleViewModel>();
+                var roleViewModels = new List<RoleViewModel>();
                 var allRoles = _roleRepository.GetAll().ToList();
-                result.Body = roles.MapFromModel<Roles, RoleViewModel>(allRoles);
+                result.Body = roleViewModels.MapFromModel<Roles, RoleViewModel>(allRoles);
             }
             catch (Exception e)
             {
@@ -49,9 +49,9 @@ namespace RS.Service.Logic
             };
             try
             {
-                var role = new RoleViewModel();
+                var roleViewModel = new RoleViewModel();
                 var getRole = _roleRepository.GetByID(id);
-                result.Body = role.MapFromModel(getRole);
+                result.Body = roleViewModel.MapFromModel(getRole);
             }
             catch (Exception e)
             {
