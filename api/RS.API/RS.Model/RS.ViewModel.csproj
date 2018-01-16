@@ -9,7 +9,6 @@
   <ItemGroup>
     <Folder Include="Approval\" />
     <Folder Include="Candidate\" />
-    <Folder Include="Opening\" />
   </ItemGroup>
 
 </Project>

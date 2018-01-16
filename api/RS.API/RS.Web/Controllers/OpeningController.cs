@@ -7,27 +7,51 @@ using System;
 using System.Net;
 using System.Net.Http;
 using Microsoft.AspNetCore.Authorization;
+using RS.ViewModel.Opening;
 
 namespace RS.Web.Controllers
 {
     [Produces("application/json")]
     [Route("api/Opening/[Action]")]
-    [ValidateModel]
     [Authorize]
     public class OpeningController : Controller
     {
-        private readonly IOpeningManagerService _openingManager;
+        private readonly IOpeningManagerService _openingManagerService;
 
-        public OpeningController(IOpeningManagerService openingManager)
+        public OpeningController(IOpeningManagerService openingManagerService)
         {
-            _openingManager = openingManager;
+            _openingManagerService = openingManagerService;
 
         }
 
-        [HttpGet]
-        public dynamic GetAllOpenings()
+        [ValidateModel]
+        [HttpPost]
+        public IResult CreateOpening([FromBody]OpeningViewModel openingViewModel)
         {
-            return null;
+            var createdOpening = _openingManagerService.CreateOpening(openingViewModel);
+            return createdOpening;
+        }
+
+        [ValidateModel]
+        [HttpPut]
+        public IResult UpdateOpening([FromBody]OpeningViewModel openingViewModel)
+        {
+            var updatedOpening = _openingManagerService.UpdateOpening(openingViewModel);
+            return updatedOpening;
+        }
+
+        [HttpGet]
+        public IResult GetAllOpening()
+        {
+            var openingList = _openingManagerService.GetAllOpenings();
+            return openingList;
+        }
+
+        [HttpGet]
+        public IResult GetOpeningById(Guid id)
+        {
+            var openingRecord = _openingManagerService.GetOpeningById(id);
+            return openingRecord;
         }
     }
 }
