@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { SkillsService } from './shared/skills.serviceApp';
+import { SkillsServiceApp} from './shared/skills.serviceApp';
 import { SkillViewModel } from '../../webapi/models/skill-view-model';
 
 @Component({
   selector: 'skills',
-  templateUrl: 'skills.component.html',
-  styleUrls: ['./skills.component.css']
+  templateUrl: 'skills.component.html'
 })
 
 export class SkillsComponent implements OnInit {
@@ -16,17 +15,15 @@ export class SkillsComponent implements OnInit {
 
   isCreate: boolean = false;
   isUpdate: boolean = false;
-  isUserExists: boolean = false;
+  isSkillExists: boolean = false;
 
   addskills(skillsList: SkillViewModel) {
-    this.skillsList.push(skillsList)
   }
-  constructor(private SkillsServiceApp: SkillsService) {
+  constructor(private SkillsServiceApp: SkillsServiceApp) {
   }
   ngOnInit() {
     this.listSkill();
   }
-  model: any = {};
   msg: any = "";
 
   onSubmit(skillsform) {
@@ -34,9 +31,7 @@ export class SkillsComponent implements OnInit {
       if (this.skillsModel['skillId'] === undefined) {
         this.SkillsServiceApp.addSkill(this.skillsModel).subscribe(
           (data) => {
-            console.log(data.body);
             this.skills.push(data.body);
-            console.log("skills", this.skills)
             this.msg = " created successfully";
           }
         );
@@ -50,7 +45,6 @@ export class SkillsComponent implements OnInit {
           }
         );
       }
-      console.log(name, this.skillsModel.name);
       if (name == this.skillsModel.name) {
       }
       document.getElementById('updatePanel').style.display = 'block';
@@ -65,7 +59,7 @@ export class SkillsComponent implements OnInit {
     let skillName = $this.skillsModel.name;
     this.skills.forEach(function (skill) {
       if (skill['name'] === skillName) {
-        $this.isUserExists = true;
+        $this.isSkillExists = true;
         return;
       }
     });
@@ -75,7 +69,6 @@ export class SkillsComponent implements OnInit {
       .subscribe((data) => {
         if (data) {
           this.skills = data.body;
-          console.log(this.skills)
         }
       })
   }
@@ -84,7 +77,6 @@ export class SkillsComponent implements OnInit {
     this.SkillsServiceApp.deleteSkill()
       .subscribe((data) => {
         if (data) {
-          console.log(data)
         }
         this.msg = "deleted successfully";
       })

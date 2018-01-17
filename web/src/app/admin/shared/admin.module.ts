@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { SkillsService } from '../skills/shared/skills.serviceApp';
+import { SkillsServiceApp } from '../skills/shared/skills.serviceApp';
 
 // Route
 import { AdminRouterModule } from './admin.route';
@@ -28,7 +28,7 @@ import { LoginServiceApp } from '../../Login/shared/login.serviceApp';
     AdminDashboardComponent, QualificationsComponent, SkillsComponent
   ],
   bootstrap: [],
-  providers: [LoginServiceApp, SkillsService ],
+  providers: [LoginServiceApp, SkillsServiceApp ],
 })
 
 export class AdminModule {

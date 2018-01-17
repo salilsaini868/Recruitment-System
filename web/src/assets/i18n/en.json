@@ -8,8 +8,8 @@
         "UPDATE_SKILLS":"Update Skills",
         "MESSAGE":"This skill with same already exists. Please choose another one..!"
     },
-    "SKILLS_DETAILS": {
-        "SKILLS_DETAILS":"Skills Details",
+    "SKILL_DETAILS": {
+        "SKILL_DETAILS":"Skill Details",
         "SKILLS": "skills",
         "DESCRIPTION": "Description",
         "ACTION": "action"

@@ -13,7 +13,7 @@
                     <input type="hidden" name="skillId" [(ngModel)]="skillsModel.skillId">
                     <input type="text" class="col col-6" id="skills" id="name" name="name" [(ngModel)]="skillsModel.name" required minlength="3"
                         maxlength="20" element-validation (blur)="checkNameExitsOnBlur()">
-                <small *ngIf="isUserExists" id="nameExists" class="text-danger">T{{ 'SKILLS.MESSAGE' | translate }}</small>
+                <small *ngIf="isSkillExists" id="nameExists" class="text-danger">{{'SKILLS.MESSAGE' | translate}}</small>
                 </div><br>
                 <label class="col-sm-2" for="description">{{ 'SKILLS.DESCRIPTION' | translate }} </label>
                 
@@ -27,13 +27,13 @@
     </div>
 </div>
 <div class="container">
-    <h3>{{ 'SKILLS_DETAILS.SKILLS_DETAILS' | translate }}</h3>
+    <h3>{{ 'SKILL_DETAILS.SKILL_DETAILS' | translate }}</h3>
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th width=400> {{ 'SKILLS_DETAILS.SKILLS' | translate }}</th>
-                <th width=400> {{ 'SKILLS_DETAILS.DESCRIPTION' | translate }}</th>
-                <th width=400> {{ 'SKILLS_DETAILS.ACTION' | translate }}</th>
+                <th width=400> {{ 'SKILL_DETAILS.SKILLS' | translate }}</th>
+                <th width=400> {{ 'SKILL_DETAILS.DESCRIPTION' | translate }}</th>
+                <th width=400> {{ 'SKILL_DETAILS.ACTION' | translate }}</th>
             </tr>
         </thead>
         <tbody>
@@ -44,6 +44,9 @@
                     <a class="btn btn-success" (click)="editSkills(skills)">
                         <p> <span class="glyphicon glyphicon-edit"></span></p>
                     </a>
+                    <!-- <div *ngIf='skills&&skills.length==0'  class="alert alert-info"  role="alert">skills deleting...</div> -->
+
+
                     <a class="btn btn-danger" (click)="deleteSkills(skills)">
                         <p> <span class="glyphicon glyphicon-remove"></span></p>
                     </a>

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'qualifications',
@@ -6,9 +6,10 @@ import {Component, OnInit} from '@angular/core';
 })
 
 export class QualificationsComponent implements OnInit {
-  constructor() {
+constructor() {
   }
-
-  ngOnInit() {
-  }
+ngOnInit(){
+    
 }
+}
+

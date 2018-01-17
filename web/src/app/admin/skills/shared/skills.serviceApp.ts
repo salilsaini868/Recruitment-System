@@ -5,7 +5,7 @@ import 'rxjs/Rx';
 import { SkillService } from '../../../webapi/services/skill.service';
 
 @Injectable()
-export class SkillsService {
+export class SkillsServiceApp {
 
     constructor(private apiSkillsService: SkillService) { }
     addSkill(SkillsModel): Observable<any> {
