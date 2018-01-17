@@ -1,0 +1,17 @@
+{
+    "SKILLS": {
+        "NAME": "Skill name",
+        "DESCRIPTION": "Description",
+        "SAVE":"Save",
+        "UPDATE":"Update",
+        "CREATE_SKILLS":"Create Skills",
+        "UPDATE_SKILLS":"Update Skills",
+        "MESSAGE":"This skill with same already exists. Please choose another one..!"
+    },
+    "SKILLS_DETAILS": {
+        "SKILLS_DETAILS":"Skills Details",
+        "SKILLS": "skills",
+        "DESCRIPTION": "Description",
+        "ACTION": "action"
+    }
+}

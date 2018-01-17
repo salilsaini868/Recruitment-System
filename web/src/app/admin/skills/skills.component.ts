@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SkillsService } from './shared/skills.service';
-import { SkillViewModel } from '../../services/swagger-generated/models';
+import { SkillsService } from './shared/skills.serviceApp';
+import { SkillViewModel } from '../../webapi/models/skill-view-model';
 
 @Component({
   selector: 'skills',
@@ -16,14 +16,13 @@ export class SkillsComponent implements OnInit {
 
   isCreate: boolean = false;
   isUpdate: boolean = false;
+  isUserExists: boolean = false;
 
   addskills(skillsList: SkillViewModel) {
     this.skillsList.push(skillsList)
   }
-
-  constructor(private skillsService: SkillsService) {
+  constructor(private SkillsServiceApp: SkillsService) {
   }
-
   ngOnInit() {
     this.listSkill();
   }
@@ -33,7 +32,7 @@ export class SkillsComponent implements OnInit {
   onSubmit(skillsform) {
     if (skillsform.valid) {
       if (this.skillsModel['skillId'] === undefined) {
-        this.skillsService.addSkill(this.skillsModel).subscribe(
+        this.SkillsServiceApp.addSkill(this.skillsModel).subscribe(
           (data) => {
             console.log(data.body);
             this.skills.push(data.body);
@@ -44,12 +43,15 @@ export class SkillsComponent implements OnInit {
         this.skillsModel.name = "";
         this.skillsModel.description = "";
       } else {
-        this.skillsService.updateSkill(this.skillsModel).subscribe(
+        this.SkillsServiceApp.updateSkill(this.skillsModel).subscribe(
           (data) => {
             this.listSkill();
             this.msg = " updated successfully";
           }
         );
+      }
+      console.log(name, this.skillsModel.name);
+      if (name == this.skillsModel.name) {
       }
       document.getElementById('updatePanel').style.display = 'block';
       document.getElementById('btnUpdate').style.display = 'inline';
@@ -58,8 +60,18 @@ export class SkillsComponent implements OnInit {
     }
     this.isCreate = true;
   }
+  checkNameExitsOnBlur() {
+    let $this = this;
+    let skillName = $this.skillsModel.name;
+    this.skills.forEach(function (skill) {
+      if (skill['name'] === skillName) {
+        $this.isUserExists = true;
+        return;
+      }
+    });
+  }
   listSkill() {
-    this.skillsService.listSkill()
+    this.SkillsServiceApp.listSkill()
       .subscribe((data) => {
         if (data) {
           this.skills = data.body;
@@ -69,14 +81,13 @@ export class SkillsComponent implements OnInit {
   }
   deleteSkills(i) {
     this.skills.splice(i, 1);
-    this.skillsService.deleteSkill()
+    this.SkillsServiceApp.deleteSkill()
       .subscribe((data) => {
         if (data) {
           console.log(data)
         }
-        this.msg = " deleted successfully";
+        this.msg = "deleted successfully";
       })
-
   }
   editSkills(skills) {
     this.skillsModel.skillId = skills.skillId;
@@ -86,10 +97,9 @@ export class SkillsComponent implements OnInit {
     this.isCreate = false;
     document.getElementById('isCreate').style.display = 'none';
     document.getElementById('btnSave').style.display = 'none';
-
   }
   clickMe() {
-    this.msg = "null";
+    this.msg = "";
   }
 }
 
