@@ -11,5 +11,6 @@ namespace RS.Data.Logic
           
                 this._context = context;
         }
+
     }
 }

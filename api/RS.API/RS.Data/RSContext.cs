@@ -30,6 +30,7 @@ namespace RS.Data
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<Skills> Skills { get; set; }
         public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<UserRoles> UserRoles { get; set; }
 
     }
 }

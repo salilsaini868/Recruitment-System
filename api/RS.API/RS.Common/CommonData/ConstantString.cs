@@ -13,6 +13,16 @@
         public const string CreatedDate = "CreatedDate";
 
         /// <summary>
+        /// Deleted Date Column
+        /// </summary>
+        public const string DeletedDate = "DeletedDate";
+
+        /// <summary>
+        /// Deleted by column
+        /// </summary>
+        public static string DeletedBy = "DeletedBy";
+
+        /// <summary>
         /// The modified by column
         /// </summary>
         public static string ModifiedBy = "ModifiedBy";
@@ -49,7 +59,8 @@
         public const string UserCreated = "User Created";
         public const string UserUpdated = "User Updated";
         public const string UserDeleted = "User Deleted";
-        public const string DuplicateUser = "User with the same name or Email Already Exists!.";
+        public const string DuplicateUserName = "Username Already Exists";
+        public const string DuplicateEmail = "Email Already Exists";
 
     }
 

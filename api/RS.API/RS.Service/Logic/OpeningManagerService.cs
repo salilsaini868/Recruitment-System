@@ -16,7 +16,5 @@ namespace RS.Service.Logic
         {
             _openingRepository = openingRepository;
         }
-
-
     }
 }
