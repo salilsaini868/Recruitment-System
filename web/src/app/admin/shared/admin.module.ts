@@ -6,7 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 // Route
 import { AdminRouterModule } from './admin.route';
 
-//Service
+// Service
 import { UserServiceApp } from '../users/shared/user.serviceApp';
 
 // Components
@@ -21,11 +21,11 @@ import { LoginServiceApp } from '../../Login/shared/login.serviceApp';
 
 @NgModule({
   imports: [
-    AdminRouterModule,
-    SharedModule,
     FormsModule,
     TranslateModule,
-    BrowserModule
+    BrowserModule,
+    SharedModule,
+    AdminRouterModule
   ],
   exports: [],
   declarations: [

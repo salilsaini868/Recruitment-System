@@ -4,10 +4,10 @@
         <div class="panel-body">
             <form (ngSubmit)="onSubmit(loginForm)" #loginForm="ngForm">
                 <div>
-                    <label>User Name</label>
+                    <label>{{ 'USER.USERNAME' | translate }}</label>
 
                     <div *ngIf="user.errors && (user.dirty || user.touched)" [hidden]="!user.errors.required" class="validation-error">
-                        {{ 'USERNAME.REQUIRED' | translate }}
+                        {{ 'USER.REQUIRED' | translate }}
                     </div>
                     <div>
                         <input style="text-transform: none;" type="text" required name="user" [(ngModel)]="loginModel.userEmail" #user="ngModel"
@@ -15,17 +15,17 @@
                     </div>
                 </div>
                 <div>
-                    <label>Password</label>
+                    <label>{{ 'USER.PASSWORD' | translate }}</label>
 
                     <div *ngIf="pass.errors && (pass.dirty || pass.touched)" [hidden]="!pass.errors.required" class="validation-error">
-                        {{ 'PASSWORD.REQUIRED' | translate }}
+                        {{ 'USER.REQUIRED' | translate }}
                     </div>
                     <div>
                         <input style="text-transform: none;" type="password" required name="pass" [(ngModel)]="loginModel.userPassword" #pass="ngModel"
                             maxlength="25">
                     </div>
                 </div>
-                <button id="bttn" type="submit" class="btn btn-primary">Login</button>
+                <button id="bttn" type="submit" class="btn btn-primary">{{ 'USER.LOGIN' | translate }}</button>
             </form>
         </div>
     </div>

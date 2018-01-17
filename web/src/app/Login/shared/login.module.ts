@@ -14,10 +14,12 @@ import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
-    BrowserModule, LoginRouterModule, FormsModule,
+    BrowserModule, FormsModule,
     TranslateModule.forRoot(),
+    LoginRouterModule
   ],
-  exports: [],
+  exports: [
+  ],
   declarations: [
     LoginComponent
   ],

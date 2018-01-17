@@ -4,10 +4,10 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>Email</th>
-                <th>Role</th>
+                <th>{{ 'USER.FIRSTNAME' | translate }}</th>
+                <th>{{ 'USER.LASTNAME' | translate}}</th>
+                <th>{{ 'USER.EMAIL' | translate }}</th>
+                <th>{{ 'USER.ROLE' | translate }}</th>
             </tr>
         </thead>
         <tbody>
@@ -17,8 +17,8 @@
                 <td>{{user.email}}</td>
                 <td>{{user.role}}</td>
                 <td>
-                    <button title="Delete" class="btn btn-danger" (click)="deleteUser(user.userId)">Delete</button>
-                    <button title="Edit" class="btn btn-primary" (click)="updateUser(user.userId)">Update</button>
+                    <button title="Delete" class="btn btn-danger" (click)="deleteUser(user.userId)">{{ 'USER.DELETE' | translate }}</button>
+                    <button title="Edit" class="btn btn-primary" (click)="updateUser(user.userId)">{{ 'USER.UPDATE' | translate }}</button>
                 </td>
             </tr>
         </tbody>

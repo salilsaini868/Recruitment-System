@@ -1,6 +1,23 @@
 {
     "USER":{
-        "DUPLICATEUSER":"UserName or Email Already Exists!"
+        "DUPLICATEUSER":"UserName or Email Already Exists!",
+        "FIRSTNAME": "First Name",
+        "LASTNAME": "Last Name",
+        "USERNAME": "User Name",
+        "EMAIL": "Email ID",
+        "PASSWORD": "Password",
+        "CONFIRM": "Confirm Password",
+        "ROLE": "Role",
+        "REQUIRED": "Required",
+        "USERNAMEFORMAT":"UserName format must be",
+        "EMAILFORMAT":"Email format must be",
+        "USERNAMEPATTERN":"joe@rhpm.com",
+        "EMAILPATTERN":"joe@abc.com",
+        "PASSWORDPATTERN": "Password must contain minimum 8 characters",
+        "PASSWORDMISMATCH": "Password doesnot match",
+        "LOGIN":"Login",
+        "UPDATE":"Update",
+        "DELETE":"Delete"
     },
     "COMMON":{
         "SOMEERROROCURRED":"Some errror has been occured"

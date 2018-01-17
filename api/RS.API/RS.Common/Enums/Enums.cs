@@ -2,7 +2,7 @@
 {
     public enum Status { Fail, Success, Error }
 
-    public enum ApprovalSkill
+    public enum OpeningSkillType
     {
         Primary = 1,
         Secondary = 2

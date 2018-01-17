@@ -11,7 +11,7 @@ import { RoleGuardService } from '../../shared/index.shared';
 
 const ADMIN_ROUTES: Routes = [
   {
-    path: 'AdminDashboard',
+    path: 'Dashboard',
     component: AdminDashboardComponent,
     canActivate: [RoleGuardService],
     data: { expectedRole: 'Admin' }

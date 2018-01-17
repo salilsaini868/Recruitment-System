@@ -9,7 +9,7 @@ import { AppConstants } from '../shared/constant/constant.variable';
 import { UserLoginModel } from '../webapi/models';
 
 @Component({
-  selector: 'login',
+  selector: 'app-login',
   templateUrl: 'login.component.html'
 })
 
@@ -19,7 +19,14 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isAuthenticated();
+  }
 
+  isAuthenticated() {
+    const token = localStorage.getItem(AppConstants.AuthToken);
+    if (!isNullOrUndefined(token)) {
+      this.router.navigate(['Dashboard']);
+    }
   }
 
   onSubmit(loginForm) {
@@ -28,7 +35,7 @@ export class LoginComponent implements OnInit {
         (data) => {
           if (!isNullOrUndefined(data)) {
             localStorage.setItem(AppConstants.AuthToken, data.body);
-            this.router.navigate(['Users']);
+            this.router.navigate(['Dashboard']);
           } else {
 
           }

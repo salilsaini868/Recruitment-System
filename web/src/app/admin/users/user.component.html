@@ -5,10 +5,10 @@
             <form (ngSubmit)="onSubmit(userForm)" #userForm="ngForm">
                 <div>
                     <div>
-                        <label>First Name</label>
+                        <label>{{ 'USER.FIRSTNAME' | translate }}</label>
 
                         <div *ngIf="firstName.errors && (firstName.dirty || firstName.touched)" [hidden]="!firstName.errors.required" class="validation-error">
-                            {{ 'FIRSTNAME.REQUIRED' | translate }}
+                            {{ 'USER.REQUIRED' | translate }}
                         </div>
                         <div>
                             <input style="text-transform: none;" type="text" required name="firstName" [(ngModel)]="userModel.firstName" #firstName="ngModel"
@@ -16,7 +16,7 @@
                         </div>
                     </div>
                     <div>
-                        <label>Last Name</label>
+                        <label>{{ 'USER.LASTNAME' | translate}}</label>
 
                         <div>
                             <input style="text-transform: none;" type="text" required name="lastName" [(ngModel)]="userModel.lastName" #lastName="ngModel"
@@ -24,14 +24,14 @@
                         </div>
                     </div>
                     <div>
-                        <label>User Name</label>
+                        <label>{{ 'USER.USERNAME' | translate }}</label>
 
                         <div *ngIf="userName.errors && (userName.dirty || userName.touched)" [hidden]="!userName.errors.required" class="validation-error">
-                            {{ 'USERNAME.REQUIRED' | translate }}
+                            {{ 'USER.REQUIRED' | translate }}
                         </div>
-                        <div [hidden]="!userName.hasError('pattern')">UserName format should be
+                        <div [hidden]="!userName.hasError('pattern')">{{ 'USER.USERNAMEFORMAT' | translate }}
                             <small>
-                                <b>joe@rhpm.com</b>
+                                <b>{{ 'USER.EMAILPATTERN' | translate }}</b>
                             </small>
                         </div>
                         <div>
@@ -40,12 +40,12 @@
                         </div>
                     </div>
                     <div>
-                        <label>Password</label>
+                        <label>{{ 'USER.PASSWORD' | translate }}</label>
 
                         <div *ngIf="password.errors && (password.dirty || password.touched)" [hidden]="!password.errors.required" class="validation-error">
-                            {{ 'PASSWORD.REQUIRED' | translate }}
+                            {{ 'USER.REQUIRED' | translate }}
                         </div>
-                        <div [hidden]="!password.hasError('pattern')">Password must contain minimum 8 characters
+                        <div [hidden]="!password.hasError('pattern')">{{ 'USER.PASSWORDPATTERN' | translate }}
                         </div>
                         <div>
                             <input style="text-transform: none;" type="password" required name="password" pattern="^[a-z0-9_-]{8,}$"
@@ -53,11 +53,11 @@
                         </div>
                     </div>
                     <div>
-                        <label>Confirm Password</label>
+                        <label>{{ 'USER.CONFIRM' | translate }}</label>
 
                         <div *ngIf="confirmPassword.errors && (confirmPassword.dirty || confirmPassword.touched)" [hidden]="!confirmPassword.errors.required"
                             class="validation-error">
-                            {{ 'CONFIRM PASSWORD.REQUIRED' | translate }}
+                            {{ 'USER.REQUIRED' | translate }}
                         </div>
                         <div *ngIf="passwordMismatchError" class="alert alert-danger"> 
                             {{ passwordMismatchError }} 
@@ -69,14 +69,14 @@
                         </div>
                     </div>
                     <div>
-                        <label>Email ID</label>
+                        <label>{{ 'USER.EMAIL' | translate }}</label>
 
                         <div *ngIf="email.errors && (email.dirty || email.touched)" [hidden]="!email.errors.required" class="validation-error">
-                            {{ 'EMAIL.REQUIRED' | translate }}
+                            {{ 'USER.REQUIRED' | translate }}
                         </div>
-                        <div [hidden]="!email.hasError('pattern')">Email format should be
+                        <div [hidden]="!email.hasError('pattern')">{{ 'USER.EMAILFORMAT' | translate }}
                             <small>
-                                <b>joe@abc.com</b>
+                                <b>{{ 'USER.EMAILPATTERN' | translate }}</b>
                             </small>
                         </div>
 
@@ -86,7 +86,7 @@
                         </div>
                     </div>
                     <div>
-                        <label>Role</label>
+                        <label>{{ 'USER.ROLE' | translate }}</label>
                         <div>
                             <select [(ngModel)]="userModel.roleId" [ngModelOptions]="{standalone: true}">
                                 <option disabled selected [ngValue]="null">--select--</option>

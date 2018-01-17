@@ -10,14 +10,14 @@ import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 
 // Services
-import { SpinnerService, RoleGuardService, AuthService, ToastrService } from './index.shared';
+import { SpinnerService, RoleGuardService, AuthService, ToastrService, HeaderComponent } from './index.shared';
 
 // Constant
 import { AppConstants } from './constant/constant.variable';
 import { HttpInterceptorHandler } from '@angular/common/http/src/interceptor';
 
 export function HttpLoaderFactory(http: HttpClient) {
-    return new TranslateHttpLoader(http,'./assets/i18n/', '.json');
+    return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
 

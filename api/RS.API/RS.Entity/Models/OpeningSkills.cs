@@ -16,7 +16,7 @@ namespace RS.Entity.Models
         public int SkillId { get; set; }
 
         [Required]
-        public ApprovalSkill SkillType { get; set; }
+        public OpeningSkillType SkillType { get; set; }
 
         public Openings Opening { get; set; }
 

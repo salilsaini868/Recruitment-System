@@ -1,17 +1,12 @@
-/**
- * Created by orjanertkjern on 24/04/2017.
- */
-
-import {Routes, RouterModule} from '@angular/router';
-// import {HomeComponent} from './home/home.component';
-import {ErrorComponent} from './error/error.component';
-
-import { LoginComponent } from './Login/login.component';
+import { Routes, RouterModule } from '@angular/router';
+import { ErrorComponent } from './error/error.component';
+import { RoleGuardService } from './shared/index.shared';
 
 const APP_ROUTES: Routes = [
   {
     path: '',
-    component: LoginComponent
+    redirectTo: 'login',
+    pathMatch: 'full'
   },
   {
     path: '**',
@@ -19,5 +14,5 @@ const APP_ROUTES: Routes = [
   },
 ];
 
-export let AppRouterModule = RouterModule.forRoot(APP_ROUTES, {useHash: false});
+export let AppRouterModule = RouterModule.forRoot(APP_ROUTES, { useHash: false });
 
