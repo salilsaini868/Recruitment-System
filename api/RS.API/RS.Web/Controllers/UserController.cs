@@ -62,7 +62,7 @@ namespace RS.Web.Controllers
         }
 
         [HttpGet]
-        public IResult GetUserById(int id)
+        public IResult GetUserById(Guid id)
         {
             var userRecord = _userService.GetUserById(id);
             return userRecord;

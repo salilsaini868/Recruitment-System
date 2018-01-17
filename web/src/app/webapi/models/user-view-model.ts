@@ -11,4 +11,6 @@ export class UserViewModel {
     lastName?: string;
     fullName?: string;
     role?: string;
+    roleId?: number;
+    confirmPassword?:string;    
 }

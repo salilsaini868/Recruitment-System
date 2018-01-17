@@ -9,27 +9,33 @@ import { AppConstants } from '../shared/constant/constant.variable';
 import { UserLoginModel } from '../webapi/models';
 
 @Component({
-  selector: 'login',
+  selector: 'app-login',
   templateUrl: 'login.component.html'
 })
 
 export class LoginComponent implements OnInit {
   loginModel: UserLoginModel = {} as UserLoginModel;
-  constructor(private loginService: LoginServiceApp, private router: Router) {
+  constructor(private loginServiceApp: LoginServiceApp, private router: Router) {
   }
 
   ngOnInit() {
+    this.isAuthenticated();
+  }
 
+  isAuthenticated() {
+    const token = localStorage.getItem(AppConstants.AuthToken);
+    if (!isNullOrUndefined(token)) {
+      this.router.navigate(['Dashboard']);
+    }
   }
 
   onSubmit(loginForm) {
     if (loginForm.valid) {
-      this.loginService.userLogin(this.loginModel).subscribe(
+      this.loginServiceApp.userLogin(this.loginModel).subscribe(
         (data) => {
           if (!isNullOrUndefined(data)) {
-            console.log(data.body);
             localStorage.setItem(AppConstants.AuthToken, data.body);
-            this.router.navigate(['AdminDashboard']);
+            this.router.navigate(['Dashboard']);
           } else {
 
           }

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'qualifications',
+  selector: 'app-qualifications-list',
   templateUrl: 'qualifications.component.html'
 })
 

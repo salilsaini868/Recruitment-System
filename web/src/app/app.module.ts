@@ -21,8 +21,8 @@ import { ErrorModule } from './error/error.module';
 // constants
 import { AppConstants } from './shared/constant/constant.variable';
 
-
-import { AuthService, RoleGuardService, SpinnerDirective, SpinnerService, AuthInterceptor } from './shared/index.shared';
+import { AuthService, RoleGuardService, SpinnerDirective, SpinnerService,
+  AuthInterceptor, ToastrService, HeaderComponent } from './shared/index.shared';
 import { ApiModule } from './webapi/api.module';
 
 
@@ -37,12 +37,12 @@ export function GetToken() {
 
 @NgModule({
   declarations: [
-    AppComponent, SpinnerDirective
+    AppComponent, SpinnerDirective, HeaderComponent
   ],
   imports: [
     AppRouterModule, ErrorModule, BrowserModule, FormsModule,
-    MomentModule, HttpClientModule, ApiModule,
-    LoginModule, AdminModule, SharedModule,
+    MomentModule, HttpClientModule, ApiModule, LoginModule,
+    AdminModule, SharedModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -63,6 +63,7 @@ export function GetToken() {
     RoleGuardService,
     JwtHelperService,
     SpinnerService,
+    ToastrService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
