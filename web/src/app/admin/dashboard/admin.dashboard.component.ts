@@ -1,18 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginServiceApp } from '../../Login/shared/login.serviceApp';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'admindashboard',
+  selector: 'app-admindashboard',
   templateUrl: 'admin.dashboard.component.html'
 })
 
 export class AdminDashboardComponent implements OnInit {
-  constructor(private loginService: LoginServiceApp ) {
+  constructor(private router: Router) {
   }
 
   ngOnInit() {  
-    this.loginService.getUser().subscribe(t => {     
-      console.log(t);
-    });
   }
 }

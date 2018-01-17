@@ -50,6 +50,21 @@ namespace RS.Common.Extensions
             }
         }
 
+        public static void MapDeleteColumns(this object model, ClaimsIdentity identity)
+        {
+            if (identity != null)
+            {
+                var authorizedInfo = GenericHelper.GetUserClaimDetails(identity);
+                if (model != null && authorizedInfo != null)
+                {
+                    SetColumnValue(Constants.IsActiveColumn, model, false);
+                    SetColumnValue(Constants.IsDeletedColumn, model, true);
+                    SetColumnValue(Constants.DeletedDate, model, DateTime.Now);
+                    SetColumnValue(Constants.DeletedBy, model, authorizedInfo.UserId);
+                }
+            }
+        }
+
 
         /// <summary>
         /// Gets the column value.

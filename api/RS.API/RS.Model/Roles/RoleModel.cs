@@ -8,11 +8,10 @@ namespace RS.ViewModel.Roles
     {
         public int RoleId { get; set; }
 
-        [Required]
-        [MaxLength(200)]
+        [Required, MaxLength(200)]
         public string RoleName { get; set; }
-        [Required]
-        [MaxLength(200)]
+
+        [Required, MaxLength(200)]
         public string Description { get; set; }
 
         public bool IsDeleted { get; set; }

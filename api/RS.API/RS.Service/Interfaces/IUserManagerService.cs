@@ -15,6 +15,6 @@ namespace RS.Service.Interfaces
 
         IResult GetAllUser();
 
-        IResult GetUserById(int id);
+        IResult GetUserById(Guid id);
     }
 }

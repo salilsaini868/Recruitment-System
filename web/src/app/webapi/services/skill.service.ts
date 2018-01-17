@@ -168,5 +168,5 @@ export class SkillService extends BaseService {
     );
   }}
 
-export module SkillsServiceApp {
+export module SkillService {
 }

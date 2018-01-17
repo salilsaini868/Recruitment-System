@@ -3,7 +3,7 @@ import { SkillsServiceApp} from './shared/skills.serviceApp';
 import { SkillViewModel } from '../../webapi/models/skill-view-model';
 
 @Component({
-  selector: 'skills',
+  selector: 'app-skills',
   templateUrl: 'skills.component.html'
 })
 
