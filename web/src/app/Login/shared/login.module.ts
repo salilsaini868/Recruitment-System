@@ -2,10 +2,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { BrowserModule } from '@angular/platform-browser';
-<<<<<<< HEAD
-import { FormsModule } from '@angular/forms';
-=======
->>>>>>> develop
 
 // Service
 import { LoginServiceApp } from './login.serviceApp';

@@ -37,21 +37,12 @@ export function GetToken() {
 
 @NgModule({
   declarations: [
-<<<<<<< HEAD
-    AppComponent, SpinnerDirective
-  ],
-  imports: [
-    AppRouterModule, ErrorModule, BrowserModule, FormsModule,
-    MomentModule, HttpClientModule, ApiModule,
-    LoginModule, AdminModule, SharedModule,
-=======
     AppComponent, SpinnerDirective, HeaderComponent
   ],
   imports: [
     AppRouterModule, ErrorModule, BrowserModule, FormsModule,
     MomentModule, HttpClientModule, ApiModule, LoginModule,
     AdminModule, SharedModule,
->>>>>>> develop
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -72,10 +63,7 @@ export function GetToken() {
     RoleGuardService,
     JwtHelperService,
     SpinnerService,
-<<<<<<< HEAD
-=======
     ToastrService,
->>>>>>> develop
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

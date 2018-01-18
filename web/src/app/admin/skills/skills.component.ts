@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SkillsServiceApp} from './shared/skills.serviceApp';
+import { SkillsServiceApp } from './shared/skills.serviceApp';
 import { SkillViewModel } from '../../webapi/models/skill-view-model';
 
 @Component({
@@ -11,13 +11,12 @@ export class SkillsComponent implements OnInit {
 
   skillsModel: SkillViewModel = {} as SkillViewModel;
   skills: SkillViewModel[] = [];
-  skillsList: SkillViewModel[];
-
   isCreate: boolean = false;
   isUpdate: boolean = false;
+  
   isSkillExists: boolean = false;
 
-  addskills(skillsList: SkillViewModel) {
+  addskills(skills: SkillViewModel) {
   }
   constructor(private SkillsServiceApp: SkillsServiceApp) {
   }
@@ -47,12 +46,9 @@ export class SkillsComponent implements OnInit {
       }
       if (name == this.skillsModel.name) {
       }
-      document.getElementById('updatePanel').style.display = 'block';
-      document.getElementById('btnUpdate').style.display = 'inline';
       this.skillsModel.name = "";
       this.skillsModel.description = "";
     }
-    this.isCreate = true;
   }
   checkNameExitsOnBlur() {
     let $this = this;
@@ -73,6 +69,7 @@ export class SkillsComponent implements OnInit {
       })
   }
   deleteSkills(i) {
+    alert('Are you sure you want to delete this skill?');
     this.skills.splice(i, 1);
     this.SkillsServiceApp.deleteSkill()
       .subscribe((data) => {
@@ -88,7 +85,8 @@ export class SkillsComponent implements OnInit {
     this.isUpdate = true;
     this.isCreate = false;
     document.getElementById('isCreate').style.display = 'none';
-    document.getElementById('btnSave').style.display = 'none';
+    document.getElementById('btnUpdate').style.display = 'inline';
+
   }
   clickMe() {
     this.msg = "";

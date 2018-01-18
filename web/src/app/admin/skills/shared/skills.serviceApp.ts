@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
-import { SkillServiceApp } from '../../../webapi/services/skill.service';
+import { SkillService } from '../../../webapi/services/skill.service';
 
 @Injectable()
-export class SkillsService {
+export class SkillsServiceApp {
 
-    constructor(private apiSkillsService: SkillServiceApp) { }
+    constructor(private apiSkillsService: SkillService) { }
     addSkill(SkillsModel): Observable<any> {
         return this.apiSkillsService.ApiSkillCreateSkillPost(SkillsModel).map(x => (x));
     }
