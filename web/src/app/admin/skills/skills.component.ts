@@ -8,34 +8,34 @@ import { SkillViewModel } from '../../webapi/models/skill-view-model';
 })
 
 export class SkillsComponent implements OnInit {
-
   skillsModel: SkillViewModel = {} as SkillViewModel;
-  skills: SkillViewModel[] = [];
+  skills: SkillViewModel[] = [] as SkillViewModel[];
   isCreate: boolean = false;
   isUpdate: boolean = false;
-  
-  isSkillExists: boolean = false;
+  msg: any = "";
+  errorMsg:string = "";
 
-  addskills(skills: SkillViewModel) {
-  }
+  
   constructor(private SkillsServiceApp: SkillsServiceApp) {
   }
   ngOnInit() {
     this.listSkill();
   }
-  msg: any = "";
-
   onSubmit(skillsform) {
     if (skillsform.valid) {
       if (this.skillsModel['skillId'] === undefined) {
         this.SkillsServiceApp.addSkill(this.skillsModel).subscribe(
           (data) => {
-            this.skills.push(data.body);
+            if(data.status === 0){
+                this.errorMsg = data.message;
+            }else{
+              this.errorMsg = "";
+            }
+            this.listSkill();
+            console.log(data.status,this.errorMsg);
             this.msg = " created successfully";
           }
         );
-        this.skillsModel.name = "";
-        this.skillsModel.description = "";
       } else {
         this.SkillsServiceApp.updateSkill(this.skillsModel).subscribe(
           (data) => {
@@ -44,21 +44,7 @@ export class SkillsComponent implements OnInit {
           }
         );
       }
-      if (name == this.skillsModel.name) {
-      }
-      this.skillsModel.name = "";
-      this.skillsModel.description = "";
     }
-  }
-  checkNameExitsOnBlur() {
-    let $this = this;
-    let skillName = $this.skillsModel.name;
-    this.skills.forEach(function (skill) {
-      if (skill['name'] === skillName) {
-        $this.isSkillExists = true;
-        return;
-      }
-    });
   }
   listSkill() {
     this.SkillsServiceApp.listSkill()
@@ -86,7 +72,6 @@ export class SkillsComponent implements OnInit {
     this.isCreate = false;
     document.getElementById('isCreate').style.display = 'none';
     document.getElementById('btnUpdate').style.display = 'inline';
-
   }
   clickMe() {
     this.msg = "";

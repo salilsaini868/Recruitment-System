@@ -6,7 +6,7 @@
         "UPDATE":"Update",
         "CREATE_SKILLS":"Create Skills",
         "UPDATE_SKILLS":"Update Skills",
-        "MESSAGE":"This skill with same already exists. Please choose another one..!"
+        "MESSAGE":"Skill with the same name Already Exists!."
     },
     "SKILL_DETAILS": {
         "SKILL_DETAILS":"Skill Details",
