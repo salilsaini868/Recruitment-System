@@ -26,7 +26,6 @@ import { AuthService, RoleGuardService, SpinnerDirective, SpinnerService,
 import { ApiModule } from './webapi/api.module';
 
 
-
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -42,7 +41,7 @@ export function GetToken() {
   imports: [
     AppRouterModule, ErrorModule, BrowserModule, FormsModule,
     MomentModule, HttpClientModule, ApiModule, LoginModule,
-    AdminModule, SharedModule,
+    AdminModule, SharedModule, 
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
