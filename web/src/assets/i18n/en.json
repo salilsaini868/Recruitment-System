@@ -14,6 +14,21 @@
         "DESCRIPTION": "Description",
         "ACTION": "action"
     },
+    "QUALIFICATIONS": {
+        "NAME": "Qualification name",
+        "DESCRIPTION": "Description",
+        "SAVE":"Save",
+        "UPDATE":"Update",
+        "CREATE_QUALIFICATIONS":"Create Qualification",
+        "UPDATE_QUALIFICATIONS":"Update Qualification",
+        "MESSAGE":"This Qualification with same already exists. Please choose another one..!"
+    },
+    "QUALIFICATION_DETAILS": {
+        "QUALIFICATION_DETAILS":"Qualification Details",
+        "QUALIFICATIONS": "Qualifications",
+        "DESCRIPTION": "Description",
+        "ACTION": "action"
+    },
     "USER":{
         "DUPLICATEUSER":"UserName or Email Already Exists!",
         "FIRSTNAME": "First Name",
