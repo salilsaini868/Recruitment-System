@@ -9,6 +9,7 @@ import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators/map';
 import { filter } from 'rxjs/operators/filter';
 
+import { IResult } from '../models/iresult';
 
 
 @Injectable()
@@ -21,36 +22,39 @@ export class ApprovalService extends BaseService {
   }
 
   /**
+   * @param approvalId - undefined
    */
-  ApiApprovalGetAllApprovalsGetResponse(): Observable<HttpResponse<void>> {
+  ApiApprovalGetAllApprovalEventsGetResponse(approvalId: number): Observable<HttpResponse<IResult>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
+    if (approvalId != null) __params = __params.set("approvalId", approvalId.toString());
     let req = new HttpRequest<any>(
       "GET",
-      this.rootUrl + `/api/Approval/GetAllApprovals`,
+      this.rootUrl + `/api/Approval/GetAllApprovalEvents`,
       __body,
       {
         headers: __headers,
         params: __params,
-        responseType: 'text'
+        responseType: 'json'
       });
 
     return this.http.request<any>(req).pipe(
       filter(_r => _r instanceof HttpResponse),
       map(_r => {
         let _resp = _r as HttpResponse<any>;
-        let _body: void = null;
-        
-        return _resp.clone({body: _body}) as HttpResponse<void>;
+        let _body: IResult = null;
+        _body = _resp.body as IResult
+        return _resp.clone({body: _body}) as HttpResponse<IResult>;
       })
     );
   }
 
   /**
+   * @param approvalId - undefined
    */
-  ApiApprovalGetAllApprovalsGet(): Observable<void> {
-    return this.ApiApprovalGetAllApprovalsGetResponse().pipe(
+  ApiApprovalGetAllApprovalEventsGet(approvalId: number): Observable<IResult> {
+    return this.ApiApprovalGetAllApprovalEventsGetResponse(approvalId).pipe(
       map(_r => _r.body)
     );
   }}

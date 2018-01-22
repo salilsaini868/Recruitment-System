@@ -51,7 +51,7 @@ export class UserComponent implements OnInit {
                 this.userServiceApp.getUserById(userId).subscribe(
                     (data) => {
                         this.userModel = data.body;
-                        this.userModel.confirmPassword = this.userModel.password;
+                      //  this.userModel.confirmPassword = this.userModel.password;
                     }
                 );
             }
@@ -60,7 +60,7 @@ export class UserComponent implements OnInit {
 
     onSubmit(userForm) {
         if (userForm.valid) {
-            if (this.userModel.password === this.userModel.confirmPassword) {
+         //   if (this.userModel.password === this.userModel.confirmPassword) {
                 if (isNullOrUndefined(this.userModel.userId)) {
                     this.userServiceApp.createUser(this.userModel).subscribe(
                         (data) => {
@@ -80,7 +80,7 @@ export class UserComponent implements OnInit {
                         this.passwordMismatchError = data;
                     });
             }
-        }
+       // }
     }
 
 }
