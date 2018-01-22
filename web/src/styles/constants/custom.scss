@@ -1,0 +1,222 @@
+/*========= HEADER CSS STARTS HERE =========*/
+
+.main-header{    
+    .logo{
+        margin:20px 0 14px;
+        display: inline-block;
+    }
+    .top-nav{
+        ul{
+            li{
+                a{
+                    &:hover{
+                        color:darken($light-blue, 20%);
+
+                    }
+                    color:$light-blue;
+                    font-size: 16px;
+                    text-decoration:none;
+                    text-transform: uppercase;
+                }
+                list-style: none;
+            }
+            margin:14px 0 0;
+            padding:0;
+        }
+        margin:14px 0 10px;
+    }
+    background:$white-color;
+    -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 300; margin-bottom:30px;}
+
+/*========= HEADER CSS END HERE =========*/
+
+
+/*========= LOGIN CSS START HERE =========*/
+
+.login-main{
+    .login-area{
+        @media screen and(max-width:$mobile-screen) {
+            width:100%;
+        }
+        width:50%;
+        margin:0 auto;
+        background: rgba(255,255,255,0.9);
+        padding:30px 40px;
+    }
+    .login-mid{
+        width:100%;
+    }
+    .heading{
+        font-size: 27px;
+        line-height: 30px;
+        margin:0 0 40px;
+        color:$blue-bg;
+        text-transform: uppercase;
+    }
+    label{
+        color:$white-color;
+    }
+        .type-text{
+            border: 1px solid rgba(6, 58, 84, 0.2);
+            width: 100%;
+            height: 40px;
+            outline: 0;
+            color: $blue-bg;
+            padding: 0 0 0 10px;
+        }
+        .validation-error{
+            color:$black-color;
+        }
+
+        .round-btn{
+            &:hover{
+                background: $white-color;
+                color:$blue-bg;
+                border:2px solid $blue-bg;
+            }
+            margin: 20px 0 0;
+            padding: 14px 30px 12px;
+            background: $blue-bg;
+            outline: none;
+            text-transform: uppercase;
+            font-weight: bold;
+            color:$white-color;
+            font-size: 15px;
+            border-radius: 25px;
+            border:2px solid $white-color;
+            -webkit-transition: all ease 0.25s;
+            transition: all ease 0.25s;
+        }
+
+
+    width:100%;
+    float: left;
+    padding:130px 0 80px;
+    background-image:url(../assets/images/login-bg.jpg);
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: cover;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    background-attachment: fixed;
+}
+
+.forgot{
+    a{
+        &:hover{
+            color:$black-color;
+            text-decoration: none;
+        }
+        text-decoration: underline;
+        color:lighten($blue-bg, 20%);
+        font-size: 16px;
+    }
+}
+
+/*========= LOGIN CSS END HERE =========*/
+
+/*========= FOOTER CSS START HERE =========*/
+
+.footer-main{
+    .footer-list{
+        li{
+            a{
+                &:hover{
+                    text-decoration: none;
+                    color:lighten($white-color, 10%);
+                }
+                font-size: 15px;
+                line-height: 18px;
+                color:darken($white-color, 14%);
+            }
+            @media screen and(max-width:$small-screen) {
+                display:block;
+                margin: 10px 0;
+            }
+            margin: 10px 20px 10px 0;
+            display: inline-block;
+        }
+        @media screen and(max-width:$small-screen) {
+            text-align: left;
+            margin: 0 0 20px;
+        }
+        .col-xs-12{
+        @media screen and(max-width:$mobile-screen) {
+            width:45%;  
+        }
+    }
+        padding: 0;
+        margin: 6px 0 0 0;
+    }
+    .footer-social{
+        li{
+            a{
+                &:hover{
+                    text-decoration:none;
+                }
+                svg{
+                    @media screen and(max-width:$mobile-screen){
+                        height: 30px;
+                        width: 30px;
+                    }
+                    height: 40px;
+                    width: 40px;
+                    float: left;
+                    margin-right: 15px;
+                }
+                span{
+                    @media screen and(max-width:$ipad-screen){
+                        margin-top: 5px;
+                    }
+                    margin-top: 10px;
+                    color: $white-color;
+                    float: left;
+                }
+                height: 30px;
+                fill: $white-color;
+                margin-bottom: 5px;
+                padding: 10px 0;
+            }
+            @media screen and(max-width:$ipad-screen){
+                margin:0 20px 0 0;
+            }
+            @media screen and(max-width:$mobile-screen){
+                width:100%;
+                float: left;
+                margin: 0 0 10px 0;
+            }                 
+            @media screen and(max-width:$small-screen){
+                display:block;
+             }
+            margin:0 40px 0 0;
+            display: inline-block;
+        }
+        @media screen and(max-width:$small-screen){
+           text-align: center;
+        }
+        margin: 0;
+        padding: 0;
+    }
+    @media screen and(max-width:$mobile-screen){
+        position: relative;
+     }
+    width:100%;
+    float: left;
+    background: $blue-bg;
+    padding:20px 0 10px;
+    margin: 40px 0 0 0;
+    position: fixed;
+    bottom:0;
+    left: 0;
+    right:0;
+}
+
+/*========= FOOTER CSS END HERE =========*/
+
+

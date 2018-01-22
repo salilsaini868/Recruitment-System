@@ -8,7 +8,7 @@
         "PASSWORD": "Password",
         "CONFIRM": "Confirm Password",
         "ROLE": "Role",
-        "REQUIRED": "Required",
+        "REQUIRED": "This field is required",
         "USERNAMEFORMAT":"UserName format must be",
         "EMAILFORMAT":"Email format must be",
         "USERNAMEPATTERN":"joe@rhpm.com",
