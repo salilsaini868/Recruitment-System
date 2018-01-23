@@ -25,6 +25,8 @@ import { AppConstants } from './shared/constant/constant.variable';
 import { AuthService, RoleGuardService, SpinnerDirective, SpinnerService,
   AuthInterceptor, ToastrService, HeaderComponent } from './shared/index.shared';
 import { ApiModule } from './webapi/api.module';
+import { HeaderMainComponent } from './shared/headerMain/headerMain.component';
+import { FooterComponent } from './shared/footer/footer.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -36,7 +38,7 @@ export function GetToken() {
 
 @NgModule({
   declarations: [
-    AppComponent, SpinnerDirective, HeaderComponent
+    AppComponent, SpinnerDirective, HeaderComponent, HeaderMainComponent, FooterComponent
   ],
   imports: [
     AppRouterModule, ErrorModule, BrowserModule, FormsModule,
