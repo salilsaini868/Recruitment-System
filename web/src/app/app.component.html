@@ -1,5 +1,5 @@
 <div class='loading' spinner></div>
-<header class="main-header">
+<header class="main-header" *ngIf="isTokenExist()">
         <div class="container">
             <div class="row">
                 <app-headerMain class="col-xs-12"></app-headerMain>
@@ -13,4 +13,4 @@
 
 <router-outlet></router-outlet>
 
-<app-footer></app-footer>
+<app-footer *ngIf="isTokenExist()"></app-footer>
