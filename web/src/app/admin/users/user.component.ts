@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { UserViewModel } from '../../webapi/models/user-view-model';
 import { RoleViewModel } from '../../shared/customModels/role-view-model';
 import { UserServiceApp } from './shared/user.serviceApp';
 import { TranslateService } from '@ngx-translate/core';
-import { Params } from '@angular/router/src/shared';
 import { isNullOrUndefined, error } from 'util';
-import { TransferState } from '@angular/platform-browser/src/browser/transfer_state';
 
 @Component({
     selector: 'app-user',
@@ -51,7 +49,7 @@ export class UserComponent implements OnInit {
                 this.userServiceApp.getUserById(userId).subscribe(
                     (data) => {
                         this.userModel = data.body;
-                        this.userModel.confirmPassword = this.userModel.password;
+                      //  this.userModel.confirmPassword = this.userModel.password;
                     }
                 );
             }
@@ -60,7 +58,7 @@ export class UserComponent implements OnInit {
 
     onSubmit(userForm) {
         if (userForm.valid) {
-            if (this.userModel.password === this.userModel.confirmPassword) {
+         //   if (this.userModel.password === this.userModel.confirmPassword) {
                 if (isNullOrUndefined(this.userModel.userId)) {
                     this.userServiceApp.createUser(this.userModel).subscribe(
                         (data) => {
@@ -80,7 +78,7 @@ export class UserComponent implements OnInit {
                         this.passwordMismatchError = data;
                     });
             }
-        }
+       // }
     }
 
 }

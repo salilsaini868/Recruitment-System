@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RS.Common.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,5 +10,6 @@ namespace RS.ViewModel.Skill
         public int SkillId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public OpeningSkillType OpeningSkillType { get; set; }
     }
 }

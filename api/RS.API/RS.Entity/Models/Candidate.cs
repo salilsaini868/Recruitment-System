@@ -34,8 +34,10 @@ namespace RS.Entity.Models
         [Required]
         public int QualificationId { get; set; }
 
-        [Required, MaxLength(150)]
-        public string Organisation { get; set; }
+        [Required]
+        public int OrganizationId { get; set; }
+
+        public Organizations Organisation { get; set; }
 
         [MaxLength(500)]
         public string Description { get; set; }

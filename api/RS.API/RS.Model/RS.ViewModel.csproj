@@ -7,9 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Approval\" />
     <Folder Include="Candidate\" />
-    <Folder Include="Opening\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RS.Common\RS.Common.csproj" />
+    <ProjectReference Include="..\RS.Entity\RS.Entity.csproj" />
   </ItemGroup>
 
 </Project>

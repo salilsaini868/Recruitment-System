@@ -60,7 +60,6 @@ namespace RS.Service.Logic
                     userModel.MapFromViewModel(user, (ClaimsIdentity)_principal.Identity);
 
                     UserRoles userRole = new UserRoles();
-                    userRole.user = userModel;
                     userRole.RoleId = user.RoleId;
                     userRole.Role = _roleRepository.GetByID(user.RoleId);
                     userRole.MapAuditColumns((ClaimsIdentity)_principal.Identity);
@@ -211,7 +210,6 @@ namespace RS.Service.Logic
                     {
                         userRoleModel.ForEach(x => x.MapDeleteColumns((ClaimsIdentity)_principal.Identity));
                         var userRole = new UserRoles();
-                        userRole.user = userModel;
                         userRole.RoleId = user.RoleId;
                         userRole.Role = _roleRepository.GetByID(user.RoleId);
                         userRole.MapAuditColumns((ClaimsIdentity)_principal.Identity);

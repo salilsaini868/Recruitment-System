@@ -1,0 +1,57 @@
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panelheader panel-heading">Create Opening</div>
+        <div class="panel-body">
+            <form (ngSubmit)="onSubmit(openingForm)" #openingForm="ngForm">
+                <div class="form-group">
+                    <div>
+                        <label>{{ 'OPENING.TITLE' | translate }}</label>
+                        <div *ngIf="title.errors && (title.dirty || title.touched)" [hidden]="!title.errors.required" class="validation-error">
+                            {{ 'OPENING.REQUIRED' | translate }}
+                        </div>
+                        <div>
+                            <input style="text-transform: none;" type="text" required name="title" [(ngModel)]="openingModel.title" #title="ngModel"
+                                maxlength="25">
+                        </div>
+                    </div>
+                    <div>
+                        <label>{{ 'OPENING.DESCRIPTION' | translate }}</label>
+                        <div *ngIf="description.errors && (description.dirty || description.touched)" [hidden]="!description.errors.required" class="validation-error">
+                            {{ 'OPENING.REQUIRED' | translate }}
+                        </div>
+                        <div>
+                            <textarea style="text-transform: none;" type="text" required name="description" [(ngModel)]="openingModel.description" #description="ngModel"
+                                maxlength="250">
+                                </textarea>
+                        </div>
+                    </div>
+                    <div>
+                        <label>{{ 'OPENING.PRIMARYSKILLS' | translate }}*</label>
+                        <div *ngFor="let skill of primarySkillModels">
+                            <div class="col-xs-3">
+                                <label>
+                                    <input type="checkbox" [checked]="skill.isChecked" name="skillType" [attr.value]="skill.skillId" (change)="onChangePrimarySkills(skill, $event.target.checked)"
+                                        [name]="skill.name" />
+                                    <span innerHTML="{{skill.name}}"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label>{{ 'OPENING.SECONDARYSKILLS' | translate }}</label>
+                        <div *ngFor="let skill of secondarySkillModels">
+                            <div class="col-xs-3">
+                                <label>
+                                    <input type="checkbox" [checked]="skill.isChecked" [attr.value]="skill.skillId" (change)="onChangeSecondarySkills(skill, $event.target.checked)"
+                                        [name]="skill.name"/>
+                                    <span innerHTML="{{skill.name}}"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="bttn" type="submit" class="btn btn-primary">{{ 'OPENING.SAVE' | translate }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -6,7 +6,7 @@ using RS.Common.Enums;
 
 namespace RS.Entity.Models
 {
-    public partial class OpeningSkills
+    public partial class OpeningSkills : BaseEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity), Key]
         public int OpeningSkillId { get; set; }

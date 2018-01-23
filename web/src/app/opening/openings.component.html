@@ -1,0 +1,26 @@
+<div class="container">
+        <h2>{{ 'OPENING.LIST' | translate }}</h2>
+        <button style="float:right" title="Add" class="btn btn-primary" (click)="addOpening()">Add</button>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>{{ 'OPENING.TITLE' | translate }}</th>
+                    <th>{{ 'OPENING.DESCRIPTION' | translate }}</th>
+                    <th>{{ 'OPENING.PRIMARYSKILLS' | translate }}</th>
+                    <th>{{ 'OPENING.SECONDARYSKILLS' | translate }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let opening of openings">
+                    <td>{{opening.title}}</td>
+                    <td>{{opening.description}}</td>
+                    <td *ngFor="let skill of opening.primarySkillTypes">{{skill.name}}</td>
+                    <td *ngFor="let skill of opening.secondarySkillTypes">{{skill.name}}</td>
+                    <td>
+                        <button title="Delete" class="btn btn-danger" (click)="deleteOpening(opening.openingId)">{{ 'OPENING.DELETE' | translate }}</button>
+                        <button title="Edit" class="btn btn-primary" (click)="updateOpening(opening.openingId)">{{ 'OPENING.UPDATE' | translate }}</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>

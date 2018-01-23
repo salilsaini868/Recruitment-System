@@ -25,10 +25,15 @@ namespace RS.Web.Controllers
 
         }
 
+        /// <summary>
+        /// Get approval events by approval Id
+        /// </summary>
+        /// <param name="approvalId"></param>
+        /// <returns></returns>
         [HttpGet]
-        public dynamic GetAllApprovals()
+        public IResult GetAllApprovalEvents(int approvalId)
         {
-            return null;
+            return _approvalManager.GetApprovalEvents(approvalId);
         }
     }
 }
