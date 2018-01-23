@@ -167,7 +167,7 @@ export class UserService extends BaseService {
   /**
    * @param id - undefined
    */
-  ApiUserGetUserByIdGetResponse(id: number): Observable<HttpResponse<IResult>> {
+  ApiUserGetUserByIdGetResponse(id: string): Observable<HttpResponse<IResult>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -196,7 +196,7 @@ export class UserService extends BaseService {
   /**
    * @param id - undefined
    */
-  ApiUserGetUserByIdGet(id: number): Observable<IResult> {
+  ApiUserGetUserByIdGet(id: string): Observable<IResult> {
     return this.ApiUserGetUserByIdGetResponse(id).pipe(
       map(_r => _r.body)
     );

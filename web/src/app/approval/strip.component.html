@@ -1,0 +1,17 @@
+<ul *ngIf="approvalEvents.length > 0">
+  <li *ngFor="let approvalEvent of approvalEvents">
+    <a (click)="onApprovalEventClick(approvalEvent)"> {{ approvalEvent.approvalEventName }}</a>
+  </li>
+</ul>
+
+<!-- pop up section -->
+<div *ngIf="currentEventClicked != null">
+  <table  *ngIf="currentEventClicked.approvalActions.length > 0">
+    <tr>
+      <td *ngFor="let approvalActions of currentEventClicked.approvalActions">
+        <a (click)="onApprovalActionClick(approvalActions)" >{{approvalActions.approvalActionName }}
+        </a>
+      </td>
+    </tr>
+  </table>
+</div>

@@ -25,7 +25,9 @@
         "../node_modules/ng2-toastr/bundles/ng2-toastr.min.css",
         "../node_modules/font-awesome/css/font-awesome.css"
       ],
-      "scripts": [],
+      "scripts": [
+        "../node_modules/bootstrap/dist/js/bootstrap.min.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
@@ -59,8 +61,7 @@
   },
   "defaults": {
     "styleExt": "scss",
-    "component": {
-    }
+    "component": {}
   },
   "warnings": {
     "typescriptMismatch": false
