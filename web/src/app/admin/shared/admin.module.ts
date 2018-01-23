@@ -3,6 +3,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { SkillsServiceApp } from '../skills/shared/skills.serviceApp';
+import { QualificationsServiceApp } from '../qualifications/shared/qualifications.serviceApp';
 
 // Route
 import { AdminRouterModule } from './admin.route';
@@ -35,7 +36,7 @@ import { ApprovalModule } from '../../approval/shared/approval.module';
     SkillComponent, SkillsComponent, UserComponent, UsersComponent
   ],
   bootstrap: [],
-  providers: [LoginServiceApp, SkillsServiceApp, UserServiceApp],
+  providers: [LoginServiceApp, SkillsServiceApp, UserServiceApp,QualificationsServiceApp],
 })
 
 export class AdminModule {
