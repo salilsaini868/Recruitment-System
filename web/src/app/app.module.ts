@@ -41,7 +41,11 @@ export function GetToken() {
   imports: [
     AppRouterModule, ErrorModule, BrowserModule, FormsModule,
     MomentModule, HttpClientModule, ApiModule, LoginModule,
+<<<<<<< HEAD
     AdminModule, SharedModule, OpeningModule,
+=======
+    AdminModule, SharedModule, 
+>>>>>>> develop
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
