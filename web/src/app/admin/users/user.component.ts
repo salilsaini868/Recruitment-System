@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { UserViewModel } from '../../webapi/models/user-view-model';
 import { RoleViewModel } from '../../shared/customModels/role-view-model';
 import { UserServiceApp } from './shared/user.serviceApp';
 import { TranslateService } from '@ngx-translate/core';
-import { Params } from '@angular/router/src/shared';
 import { isNullOrUndefined, error } from 'util';
-import { TransferState } from '@angular/platform-browser/src/browser/transfer_state';
 
 @Component({
     selector: 'app-user',

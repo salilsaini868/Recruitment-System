@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 import { UserViewModel } from '../../webapi/models/user-view-model';
 import { UserServiceApp } from './shared/user.serviceApp';
 import { debuglog } from 'util';
 
 @Component({
-    selector: 'users',
+    selector: 'app-users',
     templateUrl: 'users.component.html'
 })
 
@@ -20,23 +20,23 @@ export class UsersComponent implements OnInit {
        this.getAllUsers();
     }
 
-    getAllUsers(){
+    getAllUsers() {
         this.userService.getAllUsers().subscribe(
             (data) => {
                 this.users = data.body;
             }
-        )
+        );
     }
 
-    addUser(){
+    addUser() {
         this.router.navigate(['User']);
     }
 
-    updateUser(userId){
+    updateUser(userId) {
         this.router.navigate(['User', userId]);
     }
 
-    deleteUser(userId){
+    deleteUser(userId) {
 
     }
 }

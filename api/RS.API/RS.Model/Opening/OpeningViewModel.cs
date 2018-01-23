@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RS.ViewModel.Skill;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,5 +10,7 @@ namespace RS.ViewModel.Opening
         public Guid OpeningId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        public List<SkillViewModel> PrimarySkillTypes { get; set; }
+        public List<SkillViewModel> SecondarySkillTypes { get; set; }
     }
 }

@@ -12,6 +12,7 @@ using System.Security.Principal;
 using RS.Common.Extensions;
 using System.Collections.Generic;
 using System.Linq;
+using RS.ViewModel.Skill;
 
 namespace RS.Service.Logic
 {
@@ -27,7 +28,7 @@ namespace RS.Service.Logic
             _principal = principal as ClaimsPrincipal;
         }
 
-        public IResult CreateOpening(OpeningViewModel opening)
+        public IResult CreateOpening(OpeningViewModel openingViewModel)
         {
             var result = new Result
             {
@@ -36,21 +37,23 @@ namespace RS.Service.Logic
             };
             try
             {
-                var duplicateOpening = _openingRepository.GetFirstOrDefault(x => x.Title == opening.Title);
-                if (duplicateOpening != null)
+                var openingModel = new Openings();
+                openingModel.MapFromViewModel(openingViewModel, (ClaimsIdentity)_principal.Identity);
+                var openingSkillList = new List<OpeningSkills>();
+                var openingSkills = openingViewModel.PrimarySkillTypes.Union(openingViewModel.SecondarySkillTypes).ToList();
+
+                foreach (var item in openingSkills)
                 {
-                    result.Status = Status.Fail;
-                    result.Message = OpeningStatusNotification.DuplicateOpening;
-                    result.Body = null;
+                    var openingSkill = new OpeningSkills
+                    {
+                        SkillId = item.SkillId,
+                        SkillType = item.OpeningSkillType
+                    };
+                    openingSkill.MapAuditColumns((ClaimsIdentity)_principal.Identity);
+                    openingSkillList.Add(openingSkill);
                 }
-                else
-                {
-                    var openingModel = new Openings();
-                    openingModel.MapFromViewModel(opening, (ClaimsIdentity)_principal.Identity);
-                    _openingRepository.Create(openingModel);
-                    _openingRepository.SaveChanges();
-                    result.Body = openingModel;
-                }
+                _openingRepository.CreateOpening(openingModel, openingSkillList);
+                result.Body = openingModel.OpeningId;
             }
             catch (Exception e)
             {
@@ -76,7 +79,13 @@ namespace RS.Service.Logic
             {
                 var openingViewModels = new List<OpeningViewModel>();
                 var allOpenings = _openingRepository.GetAll().ToList();
-                result.Body = openingViewModels.MapFromModel<Openings, OpeningViewModel>(allOpenings);
+
+                result.Body = allOpenings.Select(opening =>
+                {
+                    var openingViewModel = new OpeningViewModel();
+                    MapPrimaryandSecondarySkills(openingViewModel, opening);
+                    return openingViewModel.MapFromModel(opening);
+                }).ToList();
             }
             catch (Exception e)
             {
@@ -95,9 +104,10 @@ namespace RS.Service.Logic
             };
             try
             {
-                var openingModel = new OpeningViewModel();
                 var getOpening = _openingRepository.GetByID(id);
-                result.Body = openingModel.MapFromModel(getOpening);
+                var openingViewModel = new OpeningViewModel();
+                MapPrimaryandSecondarySkills(openingViewModel, getOpening);
+                result.Body = openingViewModel.MapFromModel(getOpening);
             }
             catch (Exception e)
             {
@@ -107,7 +117,7 @@ namespace RS.Service.Logic
             return result;
         }
 
-        public IResult UpdateOpening(OpeningViewModel opening)
+        public IResult UpdateOpening(OpeningViewModel openingViewModel)
         {
             var result = new Result
             {
@@ -116,22 +126,56 @@ namespace RS.Service.Logic
             };
             try
             {
-                var duplicateOpening = _openingRepository.GetFirstOrDefault(x => x.Title == opening.Title && x.OpeningId != opening.OpeningId);
-                if (duplicateOpening != null)
+                var openingModel = new Openings();
+                openingModel.MapFromViewModel(openingViewModel, (ClaimsIdentity)_principal.Identity);
+                var openingDetail = _openingRepository.GetByID(openingViewModel.OpeningId);
+                var skillViewModelList = openingViewModel.PrimarySkillTypes.Union(openingViewModel.SecondarySkillTypes).ToList();
+                var skillModelList = openingDetail.OpeningSkills.Where(x => (x.IsActive && !x.IsDeleted)).Select(x => x.Skill).ToList();
+    
+                var existingSkills = skillViewModelList.Select(x => x.SkillId).Intersect(skillModelList.Select(x => x.SkillId)).ToList();
+                var addingSkills = skillViewModelList.Select(x => x.SkillId).Except(existingSkills).ToList();
+                var removingSkills = skillModelList.Select(x => x.SkillId).Except(existingSkills).ToList();
+
+                if (existingSkills.Any())
                 {
-                    result.Status = Status.Fail;
-                    result.Message = OpeningStatusNotification.DuplicateOpening;
-                    result.Body = null;
+                    var openingSkills = openingDetail.OpeningSkills.Where(x => existingSkills.Contains(x.SkillId)).ToList();
+                    openingSkills.ForEach(x => x.MapAuditColumns((ClaimsIdentity)_principal.Identity));
+                }
+
+                if (removingSkills.Any())
+                {
+                    var openingSkills = openingDetail.OpeningSkills.Where(x => removingSkills.Contains(x.SkillId)).ToList();
+                    openingSkills.ForEach(x => x.MapDeleteColumns((ClaimsIdentity)_principal.Identity));
+                }
+
+                var openingSkillList = new List<OpeningSkills>();
+                if (addingSkills.Any())
+                {
+                    var addingSkillList = skillViewModelList.Where(x => addingSkills.Contains(x.SkillId)).ToList();
+                    foreach (var item in addingSkillList)
+                    {
+                        var openingSkill = new OpeningSkills()
+                        {
+                            OpeningId = openingDetail.OpeningId,
+                            SkillId = item.SkillId,
+                            SkillType = item.OpeningSkillType
+                        };
+                        openingSkill.MapAuditColumns((ClaimsIdentity)_principal.Identity);
+                        openingSkillList.Add(openingSkill);
+                    }
+                }
+
+                if (openingSkillList.Any())
+                {
+                    _openingRepository.UpdateOpeningSkills(openingSkillList);
                 }
                 else
                 {
-                    var openingModel = new Openings();
-                    openingModel.MapFromViewModel(opening, (ClaimsIdentity)_principal.Identity);
                     _openingRepository.Update(openingModel);
                     _openingRepository.SaveChanges();
-                    result.Body = openingModel;
-                }
 
+                }
+                result.Body = openingModel.OpeningId;
             }
             catch (Exception e)
             {
@@ -139,6 +183,34 @@ namespace RS.Service.Logic
                 result.Status = Status.Fail;
             }
             return result;
+        }
+
+        public void MapPrimaryandSecondarySkills(OpeningViewModel openingViewModel, Openings opening)
+        {
+            var primarySkillList = opening.OpeningSkills.Where(x => x.SkillType == OpeningSkillType.Primary && (x.IsActive && !x.IsDeleted)).Select(x => x.Skill).ToList();
+            var secondarySkillList = opening.OpeningSkills.Where(x => x.SkillType == OpeningSkillType.Secondary && (x.IsActive && !x.IsDeleted)).Select(x => x.Skill).ToList();
+            openingViewModel.PrimarySkillTypes = new List<SkillViewModel>();
+            openingViewModel.SecondarySkillTypes = new List<SkillViewModel>();
+            if (primarySkillList.Any())
+            {
+                foreach (var skill in primarySkillList)
+                {
+                    var skillViewModel = new SkillViewModel();
+                    skillViewModel.MapFromModel(skill);
+                    skillViewModel.OpeningSkillType = OpeningSkillType.Primary;
+                    openingViewModel.PrimarySkillTypes.Add(skillViewModel);
+                }
+            }
+            if (secondarySkillList.Any())
+            {
+                foreach (var skill in secondarySkillList)
+                {
+                    var skillViewModel = new SkillViewModel();
+                    skillViewModel.MapFromModel(skill);
+                    skillViewModel.OpeningSkillType = OpeningSkillType.Secondary;
+                    openingViewModel.SecondarySkillTypes.Add(skillViewModel);
+                }
+            }
         }
 
     }

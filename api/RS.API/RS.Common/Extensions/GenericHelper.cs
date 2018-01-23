@@ -65,7 +65,6 @@ namespace RS.Common.Extensions
             }
         }
 
-
         /// <summary>
         /// Gets the column value.
         /// </summary>

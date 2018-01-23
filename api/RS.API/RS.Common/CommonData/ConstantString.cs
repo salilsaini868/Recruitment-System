@@ -73,15 +73,6 @@
 
     }
 
-    public static class OpeningStatusNotification
-    {
-        public const string OpeningCreated = "Opening Created";
-        public const string OpeningUpdated = "Opening Updated";
-        public const string OpeningDeleted = "Opening Deleted";
-        public const string DuplicateOpening = "Opening with the same title Already Exists!.";
-
-    }
-
     public static class CommonErrorMessages
     {
         public const string UnknownError = "Sorry, we have encountered an error.";
