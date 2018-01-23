@@ -1,5 +1,20 @@
 <div class='loading' spinner></div>
+<header class="main-header" *ngIf="isTokenExist()">
+        <div class="container">
+            <div class="row">
+                <app-headerMain class="col-xs-12"></app-headerMain>
+            </div>
+        </div>
+    </header>
+
 <div *ngIf="isTokenExist()">
     <!-- <app-header></app-header> -->
 </div>
+
+
 <router-outlet></router-outlet>
+
+<app-footer *ngIf="isTokenExist()"></app-footer>
+
+
+

@@ -14,6 +14,21 @@
         "DESCRIPTION": "Description",
         "ACTION": "action"
     },
+    "QUALIFICATIONS": {
+        "NAME": "Qualification name",
+        "DESCRIPTION": "Description",
+        "SAVE":"Save",
+        "UPDATE":"Update",
+        "CREATE_QUALIFICATIONS":"Create Qualification",
+        "UPDATE_QUALIFICATIONS":"Update Qualification",
+        "MESSAGE":"This Qualification with same already exists. Please choose another one..!"
+    },
+    "QUALIFICATION_DETAILS": {
+        "QUALIFICATION_DETAILS":"Qualification Details",
+        "QUALIFICATIONS": "Qualifications",
+        "DESCRIPTION": "Description",
+        "ACTION": "action"
+    },
     "USER":{
         "LIST": "List of Users",
         "DUPLICATEUSER":"UserName or Email Already Exists!",
@@ -24,7 +39,7 @@
         "PASSWORD": "Password",
         "CONFIRM": "Confirm Password",
         "ROLE": "Role",
-        "REQUIRED": "Required",
+        "REQUIRED": "This field is required",
         "USERNAMEFORMAT":"UserName format must be",
         "EMAILFORMAT":"Email format must be",
         "USERNAMEPATTERN":"joe@rhpm.com",

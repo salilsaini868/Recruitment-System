@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { isNullOrUndefined } from 'util';
 import { Router } from '@angular/router';
 import { LoginServiceApp } from './shared/login.serviceApp';
@@ -10,16 +10,24 @@ import { UserLoginModel } from '../webapi/models';
 
 @Component({
   selector: 'app-login',
-  templateUrl: 'login.component.html'
+  templateUrl: 'login.component.html',
+  styleUrls: ['login.scss']
 })
 
 export class LoginComponent implements OnInit {
   loginModel: UserLoginModel = {} as UserLoginModel;
-  constructor(private loginServiceApp: LoginServiceApp, private router: Router) {
+
+  constructor(private loginServiceApp: LoginServiceApp, private router: Router, private renderer: Renderer2) {
   }
 
   ngOnInit() {
+    const routeName = 'login';
+    const urlString = this.router.url.toLowerCase(); 
+    if (urlString.indexOf(routeName.toLowerCase()) > -1 {
+      this.renderer.addClass(document.body, 'login-inner-bg');
+     }
     this.isAuthenticated();
+
   }
 
   isAuthenticated() {
