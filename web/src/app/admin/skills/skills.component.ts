@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { SkillsServiceApp } from './shared/skills.serviceApp';
 import { SkillViewModel } from '../../webapi/models/skill-view-model';
 
@@ -9,59 +9,40 @@ import { SkillViewModel } from '../../webapi/models/skill-view-model';
 
 export class SkillsComponent implements OnInit {
 
+  @Output() deleteFun = new EventEmitter();
+  @Input() pk: any;
+  @Input() lg: boolean = false;
   skillsModel: SkillViewModel = {} as SkillViewModel;
-  skills: SkillViewModel[] = [];
-  isCreate: boolean = false;
-  isUpdate: boolean = false;
-  
-  isSkillExists: boolean = false;
+  skills: SkillViewModel[] = [] as SkillViewModel[];
+  isCreateOrUpdate: boolean = true;
 
-  addskills(skills: SkillViewModel) {
-  }
-  constructor(private SkillsServiceApp: SkillsServiceApp) {
+  constructor(private skillsServiceApp: SkillsServiceApp) {
   }
   ngOnInit() {
     this.listSkill();
   }
-  msg: any = "";
-
   onSubmit(skillsform) {
     if (skillsform.valid) {
       if (this.skillsModel['skillId'] === undefined) {
-        this.SkillsServiceApp.addSkill(this.skillsModel).subscribe(
+        this.skillsServiceApp.addSkill(this.skillsModel).subscribe(
           (data) => {
-            this.skills.push(data.body);
-            this.msg = " created successfully";
+            if (data.status === 0) {
+            } else {
+            }
+            this.listSkill();
           }
         );
-        this.skillsModel.name = "";
-        this.skillsModel.description = "";
       } else {
-        this.SkillsServiceApp.updateSkill(this.skillsModel).subscribe(
+        this.skillsServiceApp.updateSkill(this.skillsModel).subscribe(
           (data) => {
             this.listSkill();
-            this.msg = " updated successfully";
           }
         );
       }
-      if (name == this.skillsModel.name) {
-      }
-      this.skillsModel.name = "";
-      this.skillsModel.description = "";
     }
   }
-  checkNameExitsOnBlur() {
-    let $this = this;
-    let skillName = $this.skillsModel.name;
-    this.skills.forEach(function (skill) {
-      if (skill['name'] === skillName) {
-        $this.isSkillExists = true;
-        return;
-      }
-    });
-  }
   listSkill() {
-    this.SkillsServiceApp.listSkill()
+    this.skillsServiceApp.listSkill()
       .subscribe((data) => {
         if (data) {
           this.skills = data.body;
@@ -69,27 +50,16 @@ export class SkillsComponent implements OnInit {
       })
   }
   deleteSkills(i) {
-    alert('Are you sure you want to delete this skill?');
     this.skills.splice(i, 1);
-    this.SkillsServiceApp.deleteSkill()
-      .subscribe((data) => {
-        if (data) {
-        }
-        this.msg = "deleted successfully";
-      })
+    this.deleteFun.emit('emit');
+    let indexx = this.skills.indexOf(i);
+    this.skillsServiceApp.deleteSkill().subscribe((data) => {
+      if (data) {
+      }
+    })
   }
   editSkills(skills) {
     this.skillsModel.skillId = skills.skillId;
-    this.skillsModel.name = skills.name;
-    this.skillsModel.description = skills.description;
-    this.isUpdate = true;
-    this.isCreate = false;
-    document.getElementById('isCreate').style.display = 'none';
-    document.getElementById('btnUpdate').style.display = 'inline';
-
-  }
-  clickMe() {
-    this.msg = "";
+    this.isCreateOrUpdate = false;
   }
 }
-

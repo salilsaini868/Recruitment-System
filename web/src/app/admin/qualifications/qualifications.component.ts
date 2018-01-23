@@ -12,7 +12,7 @@ export class QualificationsComponent implements OnInit {
   qualifications: QualificationViewModel[] = [] as QualificationViewModel[];
   isCreateOrUpdate: boolean = true;
 
-  constructor(private QualificationsServiceApp: QualificationsServiceApp) {
+  constructor(private qualificationsServiceApp: QualificationsServiceApp) {
   }
   ngOnInit() {
     this.listQualification();
@@ -21,7 +21,7 @@ export class QualificationsComponent implements OnInit {
   onSubmit(qualificationsform) {
     if (qualificationsform.valid) {
       if (this.qualificationsModel['qualificationId'] === undefined) {
-        this.QualificationsServiceApp.addQualification(this.qualificationsModel).subscribe(
+        this.qualificationsServiceApp.addQualification(this.qualificationsModel).subscribe(
           (data) => {
             if(data.status === 0){
             }else{
@@ -30,7 +30,7 @@ export class QualificationsComponent implements OnInit {
           }
         );
         } else {
-        this.QualificationsServiceApp.updateQualification(this.qualificationsModel).subscribe(
+        this.qualificationsServiceApp.updateQualification(this.qualificationsModel).subscribe(
           (data) => {
             this.listQualification();
           }
@@ -39,7 +39,7 @@ export class QualificationsComponent implements OnInit {
     }
   }
   listQualification() {
-    this.QualificationsServiceApp.listQualification()
+    this.qualificationsServiceApp.listQualification()
       .subscribe((data) => {
         if (data) {
           this.qualifications = data.body;
@@ -48,7 +48,7 @@ export class QualificationsComponent implements OnInit {
   }
   deleteQualifications(i) {
     this.qualifications.splice(i, 1);
-    this.QualificationsServiceApp.deleteQualification()
+    this.qualificationsServiceApp.deleteQualification()
       .subscribe((data) => {
         if (data) {
         }
