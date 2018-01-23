@@ -1,1 +1,48 @@
-<p>QualificationsComponent</p>
+  <div class="container">
+    <div class="panel panel-primary">
+        <div id="updatePanel" class="panel-heading">
+            {{(isCreateOrUpdate ? 'QUALIFICATIONS.CREATE_QUALIFICATIONS' : 'QUALIFICATIONS.UPDATE_QUALIFICATIONS') | translate }}
+        </div>
+        <div class="panel-body">
+            <form (ngSubmit)="onSubmit(qualificationsForm)" #qualificationsForm="ngForm" class="form-horizontal">
+                <label class="col-sm-2" for="name"> {{ 'QUALIFICATIONS.NAME' | translate }}</label>
+                <div class="col-col-3">
+                    <input type="hidden" name="qualificationId" [(ngModel)]="qualificationsModel.qualificationId">
+                    <input type="text" class="col col-6" id="qualifications" id="name" name="name" [(ngModel)]="qualificationsModel.name" required minlength="3"
+                        maxlength="20" element-validation>
+                </div><br>
+                <label class="col-sm-2" for="description">{{ 'QUALIFICATIONS.DESCRIPTION' | translate }} </label>
+                <div class="form-group">
+                    <input type="text" class="col-col-6" id="description" name="description" [(ngModel)]="qualificationsModel.description">
+                </div>
+                <button type="submit" id="btnSave" class="btn btn-primary" >{{ 'QUALIFICATIONS.SAVE' | translate }}</button>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <h3>{{ 'QUALIFICATION_DETAILS.QUALIFICATION_DETAILS' | translate }}</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th width=400> {{ 'QUALIFICATION_DETAILS.QUALIFICATIONS' | translate }}</th>
+                <th width=400> {{ 'QUALIFICATION_DETAILS.DESCRIPTION' | translate }}</th>
+                <th width=400> {{ 'QUALIFICATION_DETAILS.ACTION' | translate }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let qualification of qualifications">
+                <td>{{qualification.name}}</td>
+                <td>{{qualification.description}}</td>
+                <td>
+                    <a class="btn btn-success" (click)="editQualifications(qualifications)">
+                        <p> <span class="glyphicon glyphicon-edit"></span></p>
+                    </a>
+                    <a class="btn btn-danger" (click)="deleteQualifications(qualifications)">
+                        <p> <span class="glyphicon glyphicon-remove"></span></p>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

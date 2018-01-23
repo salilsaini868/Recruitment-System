@@ -20,8 +20,8 @@ namespace RS.Data.Logic
         public void CreateUser(Users user, UserRoles userRole)
         {
             user.UserRoles.Add(userRole);
-            this._context.Users.Add(user);
-            this._context.SaveChanges();
+            _context.Users.Add(user);
+            _context.SaveChanges();
         }
 
         public Users GetByID(Guid userId)
@@ -36,7 +36,7 @@ namespace RS.Data.Logic
 
         public void UpdateUserRole(UserRoles userRole)
         {
-            this._context.UserRoles.Add(userRole);
+            _context.UserRoles.Add(userRole);
         }
 
         List<Users> IUserRepository.GetAll()

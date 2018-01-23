@@ -224,13 +224,13 @@ namespace RS.Data.Migrations
 
                     b.Property<DateTime?>("ModifiedDate");
 
-                    b.Property<string>("Organisation")
-                        .IsRequired()
-                        .HasMaxLength(150);
+                    b.Property<int>("OrganizationId");
 
                     b.Property<int>("QualificationId");
 
                     b.HasKey("CandidateId");
+
+                    b.HasIndex("OrganizationId");
 
                     b.HasIndex("QualificationId");
 
@@ -314,6 +314,22 @@ namespace RS.Data.Migrations
                     b.Property<int>("OpeningSkillId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<Guid>("CreatedBy");
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<Guid?>("DeletedBy");
+
+                    b.Property<DateTime?>("DeletedDate");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<Guid?>("ModifiedBy");
+
+                    b.Property<DateTime?>("ModifiedDate");
+
                     b.Property<Guid>("OpeningId");
 
                     b.Property<int>("SkillId");
@@ -327,6 +343,36 @@ namespace RS.Data.Migrations
                     b.HasIndex("SkillId");
 
                     b.ToTable("OpeningSkills");
+                });
+
+            modelBuilder.Entity("RS.Entity.Models.Organizations", b =>
+                {
+                    b.Property<int>("OrganizationId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("CreatedBy");
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<Guid?>("DeletedBy");
+
+                    b.Property<DateTime?>("DeletedDate");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<Guid?>("ModifiedBy");
+
+                    b.Property<DateTime?>("ModifiedDate");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.HasKey("OrganizationId");
+
+                    b.ToTable("Organizations");
                 });
 
             modelBuilder.Entity("RS.Entity.Models.Qualifications", b =>
@@ -536,6 +582,11 @@ namespace RS.Data.Migrations
 
             modelBuilder.Entity("RS.Entity.Models.Candidate", b =>
                 {
+                    b.HasOne("RS.Entity.Models.Organizations", "Organisation")
+                        .WithMany()
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("RS.Entity.Models.Qualifications", "Qualification")
                         .WithMany("Candidate")
                         .HasForeignKey("QualificationId")
@@ -570,7 +621,7 @@ namespace RS.Data.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("RS.Entity.Models.Users")
+                    b.HasOne("RS.Entity.Models.Users", "user")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
