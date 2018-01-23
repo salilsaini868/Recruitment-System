@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { SkillsServiceApp } from './shared/skills.serviceApp';
 import { SkillViewModel } from '../../webapi/models/skill-view-model';
 
@@ -8,14 +8,14 @@ import { SkillViewModel } from '../../webapi/models/skill-view-model';
 })
 
 export class SkillsComponent implements OnInit {
+
+  @Output() deleteFun = new EventEmitter();
+  @Input() pk: any;
+  @Input() lg: boolean = false;
   skillsModel: SkillViewModel = {} as SkillViewModel;
   skills: SkillViewModel[] = [] as SkillViewModel[];
-  isCreate: boolean = false;
-  isUpdate: boolean = false;
-  msg: any = "";
-  errorMsg:string = "";
+  isCreateOrUpdate: boolean = true;
 
-  
   constructor(private SkillsServiceApp: SkillsServiceApp) {
   }
   ngOnInit() {
@@ -26,21 +26,16 @@ export class SkillsComponent implements OnInit {
       if (this.skillsModel['skillId'] === undefined) {
         this.SkillsServiceApp.addSkill(this.skillsModel).subscribe(
           (data) => {
-            if(data.status === 0){
-                this.errorMsg = data.message;
-            }else{
-              this.errorMsg = "";
+            if (data.status === 0) {
+            } else {
             }
             this.listSkill();
-            console.log(data.status,this.errorMsg);
-            this.msg = " created successfully";
           }
         );
       } else {
         this.SkillsServiceApp.updateSkill(this.skillsModel).subscribe(
           (data) => {
             this.listSkill();
-            this.msg = " updated successfully";
           }
         );
       }
@@ -55,26 +50,16 @@ export class SkillsComponent implements OnInit {
       })
   }
   deleteSkills(i) {
-    alert('Are you sure you want to delete this skill?');
     this.skills.splice(i, 1);
-    this.SkillsServiceApp.deleteSkill()
-      .subscribe((data) => {
-        if (data) {
-        }
-        this.msg = "deleted successfully";
-      })
+    this.deleteFun.emit('emit');
+    let indexx = this.skills.indexOf(i);
+    this.SkillsServiceApp.deleteSkill().subscribe((data) => {
+      if (data) {
+      }
+    })
   }
   editSkills(skills) {
     this.skillsModel.skillId = skills.skillId;
-    this.skillsModel.name = skills.name;
-    this.skillsModel.description = skills.description;
-    this.isUpdate = true;
-    this.isCreate = false;
-    document.getElementById('isCreate').style.display = 'none';
-    document.getElementById('btnUpdate').style.display = 'inline';
-  }
-  clickMe() {
-    this.msg = "";
+    this.isCreateOrUpdate = false;
   }
 }
-
