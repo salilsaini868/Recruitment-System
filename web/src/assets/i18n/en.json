@@ -1,4 +1,19 @@
 {
+    "SKILLS": {
+        "NAME": "Skill name",
+        "DESCRIPTION": "Description",
+        "SAVE":"Save",
+        "UPDATE":"Update",
+        "CREATE_SKILLS":"Create Skills",
+        "UPDATE_SKILLS":"Update Skills",
+        "MESSAGE":"Skill with the same name Already Exists!."
+    },
+    "SKILL_DETAILS": {
+        "SKILL_DETAILS":"Skill Details",
+        "SKILLS": "skills",
+        "DESCRIPTION": "Description",
+        "ACTION": "action"
+    },
     "USER":{
         "DUPLICATEUSER":"UserName or Email Already Exists!",
         "FIRSTNAME": "First Name",
