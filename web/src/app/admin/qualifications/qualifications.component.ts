@@ -10,10 +10,7 @@ import { QualificationViewModel } from '../../webapi/models/qualification-view-m
 export class QualificationsComponent implements OnInit {
  qualificationsModel: QualificationViewModel = {} as QualificationViewModel;
   qualifications: QualificationViewModel[] = [] as QualificationViewModel[];
-  isCreate: boolean = false;
-  isUpdate: boolean = false;
-  msg: any = "";
-  errorMsg:string = "";
+  isCreateOrUpdate: boolean = true;
 
   constructor(private QualificationsServiceApp: QualificationsServiceApp) {
   }
@@ -27,11 +24,8 @@ export class QualificationsComponent implements OnInit {
         this.QualificationsServiceApp.addQualification(this.qualificationsModel).subscribe(
           (data) => {
             if(data.status === 0){
-              this.errorMsg = data.message;
             }else{
-              this.errorMsg="";
             }
-            this.msg = "Created successfully";
             this.listQualification();
           }
         );
@@ -39,7 +33,6 @@ export class QualificationsComponent implements OnInit {
         this.QualificationsServiceApp.updateQualification(this.qualificationsModel).subscribe(
           (data) => {
             this.listQualification();
-            this.msg = " Updated successfully";
           }
         );
       }
@@ -54,26 +47,15 @@ export class QualificationsComponent implements OnInit {
       })
   }
   deleteQualifications(i) {
-     alert('Are you sure you want to delete this skill?');
     this.qualifications.splice(i, 1);
     this.QualificationsServiceApp.deleteQualification()
       .subscribe((data) => {
         if (data) {
         }
-        this.msg = "deleted successfully";
       })
   }
   editQualifications(qualifications) {
-    debugger;
     this.qualificationsModel.qualificationId = qualifications.qualificationId;
-    this.qualificationsModel.name = qualifications.name;
-    this.qualificationsModel.description = qualifications.description;
-    this.isUpdate = true;
-    this.isCreate = false;
-    document.getElementById('isCreate').style.display = 'none';
-   // document.getElementById('btnUpdate').style.display = 'inline';
-  }
-  clickMe() {
-    this.msg = "";
+    this.isCreateOrUpdate = false;
   }
 }
