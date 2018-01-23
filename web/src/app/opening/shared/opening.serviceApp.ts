@@ -3,7 +3,6 @@ import { Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { OpeningService, SkillService } from '../../webapi/services';
-import { retry } from 'rxjs/operator/retry';
 import 'rxjs/Rx';
 
 

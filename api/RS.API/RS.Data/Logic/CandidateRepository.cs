@@ -4,7 +4,7 @@ using RS.Entity.Models;
 
 namespace RS.Data.Logic
 {
-    public class CandidateRepository : Repository<Candidate>, ICandidateRepository
+    public class CandidateRepository : Repository<Candidates>, ICandidateRepository
     {
         private readonly RSContext _context;
         public CandidateRepository(RSContext context) : base(context) {

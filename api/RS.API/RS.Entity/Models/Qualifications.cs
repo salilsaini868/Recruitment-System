@@ -9,7 +9,7 @@ namespace RS.Entity.Models
     {
         public Qualifications()
         {
-            Candidate = new HashSet<Candidate>();
+            Candidate = new HashSet<Candidates>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity), Key]
@@ -21,6 +21,6 @@ namespace RS.Entity.Models
         [Required, MaxLength(500)]
         public string Description { get; set; }
 
-        public ICollection<Candidate> Candidate { get; set; }
+        public ICollection<Candidates> Candidate { get; set; }
     }
 }

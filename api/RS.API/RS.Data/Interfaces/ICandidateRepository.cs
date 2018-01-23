@@ -2,7 +2,7 @@
 
 namespace RS.Data.Interfaces
 {
-    public interface ICandidateRepository : IRepository<Candidate>
+    public interface ICandidateRepository : IRepository<Candidates>
     {
 
     }

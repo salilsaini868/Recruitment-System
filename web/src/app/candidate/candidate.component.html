@@ -1,0 +1,76 @@
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panelheader panel-heading">Create Opening</div>
+        <div class="panel-body">
+            <form (ngSubmit)="onSubmit(openingForm)" #openingForm="ngForm">
+                <div class="form-group">
+                    <div>
+                        <label>{{ 'CANDIDATE.OPENING' | translate }}</label>
+                        <div>
+                            <select [(ngModel)]="candidateModel.opening" [ngModelOptions]="{standalone: true}">
+                                <option disabled selected [ngValue]="null">--select--</option>
+                                <option *ngFor="let opening of openings" [ngValue]="opening.openingId">{{opening.title}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label>{{ 'CANDIDATE.FIRSTNAME' | translate }}</label>
+                        <div *ngIf="firstName.errors && (firstName.dirty || firstName.touched)" [hidden]="!firstName.errors.required" class="validation-error">
+                            {{ 'OPENING.REQUIRED' | translate }}
+                        </div>
+                        <div>
+                            <input style="text-transform: none;" type="text" required name="firstName" [(ngModel)]="openingModel.firstName" #firstName="ngModel"
+                                maxlength="250">
+                            </input>
+                        </div>
+                    </div>
+                    <div>
+                        <label>{{ 'CANDIDATE.LASTNAME' | translate }}</label>
+                        <div *ngIf="lastName.errors && (lastName.dirty || lastName.touched)" [hidden]="!lastName.errors.required" class="validation-error">
+                            {{ 'OPENING.REQUIRED' | translate }}
+                        </div>
+                        <div>
+                            <input style="text-transform: none;" type="text" required name="lastName" [(ngModel)]="openingModel.lastName" #lastName="ngModel"
+                                maxlength="250">
+                            </input>
+                        </div>
+                    </div>
+                    <div>
+                        <label>{{ 'CANDIDATE.GENDER' | translate }}</label>
+                        <div>
+                            <select [(ngModel)]="candidateModel.opening" [ngModelOptions]="{standalone: true}">
+                                <option disabled selected [ngValue]="null">--select--</option>
+                                <option *ngFor="let opening of openings" [ngValue]="opening.openingId">{{opening.title}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label>{{ 'CANDIDATE.LASTNAME' | translate }}*</label>
+                        <div *ngFor="let skill of primarySkillModels">
+                            <div class="col-xs-3">
+                                <label>
+                                    <input type="checkbox" [checked]="skill.isChecked" name="skillType" [attr.value]="skill.skillId" (change)="onChangePrimarySkills(skill, $event.target.checked)"
+                                        [name]="skill.name" />
+                                    <span innerHTML="{{skill.name}}"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label>{{ 'OPENING.SECONDARYSKILLS' | translate }}</label>
+                        <div *ngFor="let skill of secondarySkillModels">
+                            <div class="col-xs-3">
+                                <label>
+                                    <input type="checkbox" [checked]="skill.isChecked" [attr.value]="skill.skillId" (change)="onChangeSecondarySkills(skill, $event.target.checked)"
+                                        [name]="skill.name" />
+                                    <span innerHTML="{{skill.name}}"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="bttn" type="submit" class="btn btn-primary">{{ 'OPENING.SAVE' | translate }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
