@@ -12,9 +12,10 @@ using System;
 namespace RS.Data.Migrations
 {
     [DbContext(typeof(RSContext))]
-    partial class RSContextModelSnapshot : ModelSnapshot
+    [Migration("20180123053820_23012018")]
+    partial class _23012018
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

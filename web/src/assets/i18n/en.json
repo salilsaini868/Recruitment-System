@@ -15,6 +15,7 @@
         "ACTION": "action"
     },
     "USER":{
+        "LIST": "List of Users",
         "DUPLICATEUSER":"UserName or Email Already Exists!",
         "FIRSTNAME": "First Name",
         "LASTNAME": "Last Name",
@@ -31,6 +32,19 @@
         "PASSWORDPATTERN": "Password must contain minimum 8 characters",
         "PASSWORDMISMATCH": "Password doesnot match",
         "LOGIN":"Login",
+        "SAVE":"Save",
+        "UPDATE":"Update",
+        "DELETE":"Delete"
+    },
+    "OPENING":{
+        "LIST": "List of Openings",
+        "TITLE": "Job Title",
+        "DESCRIPTION": "Job Description",
+        "PRIMARYSKILLS": "Primary Skills",
+        "SECONDARYSKILLS": "Secondary Skills",
+        "SAMESKILLS": "Skills are same in both primary and secondary",
+        "REQUIRED":"Required",
+        "SAVE":"Save",
         "UPDATE":"Update",
         "DELETE":"Delete"
     },

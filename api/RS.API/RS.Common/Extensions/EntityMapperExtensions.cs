@@ -32,9 +32,10 @@ namespace RS.Common.Extensions
             if (identity != null)
             {
                 target.MapAuditColumns(identity);
-            }
+            }   
             return target;
         }
+
     }
 
     public class AvoidNullProps : LoopInjection

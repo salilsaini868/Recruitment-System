@@ -2,7 +2,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 // Component
 import { LoginComponent } from '../login.component';
-import { RoleGuardService } from '../../shared/index.shared';
 
 const LOGIN_ROUTES: Routes = [
     {
