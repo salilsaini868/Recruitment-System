@@ -48,6 +48,7 @@ export class CandidateComponent implements OnInit {
     }
 
     onSubmit(candidateForm) {
+        debugger;
         if (candidateForm.valid) {
             this.candidateServiceApp.addCandidate(this.candidateModel).subscribe(
                 (data) => {

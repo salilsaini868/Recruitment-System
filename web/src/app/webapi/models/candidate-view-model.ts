@@ -11,6 +11,6 @@ export class CandidateViewModel {
     experienceMonth?: number;
     description?: string;
     organization?: string;
-    qualification?: string;
+    qualification?: number;
     opening?: string;
 }
