@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit {
     if (urlString.indexOf(AppConstants.routeLoginName.toLowerCase()) > -1) {
       this.renderer.addClass(document.body, 'login-inner-bg');
     }
+
     this.isAuthenticated();
 
   }
