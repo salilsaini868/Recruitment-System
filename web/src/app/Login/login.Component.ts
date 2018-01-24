@@ -21,10 +21,10 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    const urlString = this.router.url.toLowerCase();
-    if (urlString.indexOf(AppConstants.routeLoginName.toLowerCase()) > -1) {
-      this.renderer.addClass(document.body, 'login-inner-bg');
-    }
+    // const urlString = this.router.url.toLowerCase();
+    // if (urlString.indexOf(AppConstants.routeLoginName.toLowerCase()) > -1) {
+    //   this.renderer.addClass(document.body, 'login-inner-bg');
+    // }
     this.isAuthenticated();
 
   }
