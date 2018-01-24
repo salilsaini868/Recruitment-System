@@ -13,7 +13,8 @@ namespace RS.ViewModel.Candidate
         public int ExperienceYear { get; set; }
         public int ExperienceMonth { get; set; }
         public string Description { get; set; }
-        public string organization { get; set; }
-        public string Opening { get; set; }
+        public string Organization { get; set; }
+        public string Qualification { get; set; }
+        public Guid Opening { get; set; }
     }
 }

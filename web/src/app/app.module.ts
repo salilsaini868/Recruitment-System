@@ -27,6 +27,7 @@ import { AuthService, RoleGuardService, SpinnerDirective, SpinnerService,
 import { ApiModule } from './webapi/api.module';
 import { HeaderMainComponent } from './shared/headerMain/headerMain.component';
 import { FooterComponent } from './shared/footer/footer.component';
+import { CandidateModule } from './candidate/shared/candidate.module';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -43,7 +44,7 @@ export function GetToken() {
   imports: [
     AppRouterModule, ErrorModule, BrowserModule, FormsModule,
     MomentModule, HttpClientModule, ApiModule, LoginModule,
-    AdminModule, SharedModule, OpeningModule,
+    AdminModule, SharedModule, OpeningModule, CandidateModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

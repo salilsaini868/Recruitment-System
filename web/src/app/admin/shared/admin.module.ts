@@ -13,8 +13,7 @@ import { UserServiceApp } from '../users/shared/user.serviceApp';
 
 // Components
 import {
-  AdminDashboardComponent, QualificationsComponent,
-  SkillComponent, SkillsComponent, UserComponent, UsersComponent
+  AdminDashboardComponent, QualificationsComponent, SkillsComponent, UserComponent, UsersComponent
 } from '../index.admin';
 
 // Module
@@ -33,10 +32,10 @@ import { ApprovalModule } from '../../approval/shared/approval.module';
   exports: [],
   declarations: [
     AdminDashboardComponent, QualificationsComponent,
-    SkillComponent, SkillsComponent, UserComponent, UsersComponent
+    SkillsComponent, UserComponent, UsersComponent
   ],
   bootstrap: [],
-  providers: [LoginServiceApp, SkillsServiceApp, UserServiceApp,QualificationsServiceApp],
+  providers: [LoginServiceApp, SkillsServiceApp, UserServiceApp, QualificationsServiceApp],
 })
 
 export class AdminModule {

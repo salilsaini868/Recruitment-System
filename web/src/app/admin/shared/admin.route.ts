@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 // Components
 import {
   AdminDashboardComponent, QualificationsComponent,
-  SkillComponent, SkillsComponent, UserComponent, UsersComponent
+  SkillsComponent, UserComponent, UsersComponent
 } from '../index.admin';
 
 import { RoleGuardService } from '../../shared/index.shared';

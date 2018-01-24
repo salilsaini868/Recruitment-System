@@ -6,7 +6,8 @@ export { QualificationsComponent } from './qualifications/qualifications.compone
 
 // Skills component
 export { SkillsComponent } from './skills/skills.component';
-export { SkillComponent } from './skills/skill.component';
+
+// Users component
 export { UserComponent } from './users/user.component';
 export { UsersComponent } from './users/users.component';
 

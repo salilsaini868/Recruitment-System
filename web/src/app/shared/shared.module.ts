@@ -9,8 +9,11 @@ import { ToastModule } from 'ng2-toastr/ng2-toastr';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 
-// Services
-import { SpinnerService, RoleGuardService, AuthService, ToastrService, HeaderComponent, HeaderMainComponent, FooterComponent } from './index.shared';
+// Services and Components
+import {
+    SpinnerService, RoleGuardService, AuthService, ToastrService, HeaderComponent,
+    HeaderMainComponent, FooterComponent
+} from './index.shared';
 
 // Constant
 import { AppConstants } from './constant/constant.variable';
@@ -27,11 +30,11 @@ export function HttpLoaderFactory(http: HttpClient) {
         CommonModule, FormsModule, ReactiveFormsModule, RouterModule,
         TranslateModule.forRoot({
             loader: {
-              provide: TranslateLoader,
-              useFactory: HttpLoaderFactory,
-              deps: [HttpClient]
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
             }
-          }), ToastModule.forRoot()
+        }), ToastModule.forRoot()
     ],
     declarations: [],
     exports: [],

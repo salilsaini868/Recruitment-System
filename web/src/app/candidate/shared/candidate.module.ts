@@ -2,20 +2,26 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { CandidateComponent } from '../candidate.component';
 
+// Modules
+import { CandidateRouterModule } from './candidate.route';
+
+// Component
+import { CandidateComponent } from '../index.candidate';
+
+// Services
+import { CandidateServiceApp } from './candidate.serviceApp';
 
 @NgModule({
     imports: [
         BrowserModule,
         FormsModule,
         TranslateModule,
-        CandidateComponent
+        CandidateRouterModule
     ],
     exports: [],
-    declarations: [
-    ],
-    providers: [],
+    declarations: [CandidateComponent],
+    providers: [CandidateServiceApp],
 })
 
 export class CandidateModule {

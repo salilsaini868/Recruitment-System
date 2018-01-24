@@ -88,7 +88,7 @@
                     <div>
                         <label>{{ 'USER.ROLE' | translate }}</label>
                         <div>
-                            <select [(ngModel)]="userModel.roleId" [ngModelOptions]="{standalone: true}">
+                            <select [(ngModel)]="userModel.roleId" [ngModelOptions]="{standalone: true}" required>
                                 <option disabled selected [ngValue]="null">--select--</option>
                                 <option *ngFor="let role of roles" [ngValue]="role.roleId">{{role.name}}</option>
                             </select>
