@@ -18,15 +18,17 @@ import { AdminModule } from './admin/shared/admin.module';
 import { SharedModule } from './shared/shared.module';
 import { ErrorModule } from './error/error.module';
 import { OpeningModule } from './opening/shared/opening.module';
+import { DashboardModule } from './dashboard/shared/dashboard.module';
+import { ApiModule } from './webapi/api.module';
 
 // constants
 import { AppConstants } from './shared/constant/constant.variable';
 
-import { AuthService, RoleGuardService, SpinnerDirective, SpinnerService,
-  AuthInterceptor, ToastrService, HeaderComponent } from './shared/index.shared';
-import { ApiModule } from './webapi/api.module';
-import { HeaderMainComponent } from './shared/headerMain/headerMain.component';
-import { FooterComponent } from './shared/footer/footer.component';
+import {
+  AuthService, RoleGuardService, SpinnerDirective, SpinnerService,
+  AuthInterceptor, ToastrService
+} from './shared/index.shared';
+
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -38,16 +40,12 @@ export function GetToken() {
 
 @NgModule({
   declarations: [
-    AppComponent, SpinnerDirective, HeaderComponent, HeaderMainComponent, FooterComponent
+    AppComponent, SpinnerDirective
   ],
   imports: [
     AppRouterModule, ErrorModule, BrowserModule, FormsModule,
     MomentModule, HttpClientModule, ApiModule, LoginModule,
-<<<<<<< HEAD
-    AdminModule, SharedModule, OpeningModule,
-=======
-    AdminModule, SharedModule, 
->>>>>>> develop
+    AdminModule, SharedModule, OpeningModule, DashboardModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
