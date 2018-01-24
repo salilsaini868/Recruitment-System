@@ -10,7 +10,10 @@ import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 
 // Services
-import { SpinnerService, RoleGuardService, AuthService, ToastrService, HeaderComponent, HeaderMainComponent, FooterComponent } from './index.shared';
+import {
+    SpinnerService, RoleGuardService, AuthService, ToastrService,
+    HeaderComponent, HeaderMainComponent, FooterComponent
+} from './index.shared';
 
 // Constant
 import { AppConstants } from './constant/constant.variable';
@@ -27,18 +30,16 @@ export function HttpLoaderFactory(http: HttpClient) {
         CommonModule, FormsModule, ReactiveFormsModule, RouterModule,
         TranslateModule.forRoot({
             loader: {
-              provide: TranslateLoader,
-              useFactory: HttpLoaderFactory,
-              deps: [HttpClient]
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
             }
-          }), ToastModule.forRoot()
+        }), ToastModule.forRoot()
     ],
-    declarations: [],
-    exports: [],
+    declarations: [HeaderMainComponent, HeaderComponent, FooterComponent],
+    exports: [HeaderMainComponent, HeaderComponent, FooterComponent],
     providers: []
 })
-
-
 
 export class SharedModule {
     static forRoot() {

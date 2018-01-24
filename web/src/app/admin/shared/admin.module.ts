@@ -2,19 +2,18 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { SkillsServiceApp } from '../skills/shared/skills.serviceApp';
-import { QualificationsServiceApp } from '../qualifications/shared/qualifications.serviceApp';
 
 // Route
 import { AdminRouterModule } from './admin.route';
 
 // Service
 import { UserServiceApp } from '../users/shared/user.serviceApp';
+import { QualificationsServiceApp } from '../qualifications/shared/qualifications.serviceApp';
+import { SkillsServiceApp } from '../skills/shared/skills.serviceApp';
 
 // Components
 import {
-  AdminDashboardComponent, QualificationsComponent,
-  SkillComponent, SkillsComponent, UserComponent, UsersComponent
+  QualificationsComponent, SkillsComponent, UserComponent, UsersComponent
 } from '../index.admin';
 
 // Module
@@ -32,11 +31,10 @@ import { ApprovalModule } from '../../approval/shared/approval.module';
   ],
   exports: [],
   declarations: [
-    AdminDashboardComponent, QualificationsComponent,
-    SkillComponent, SkillsComponent, UserComponent, UsersComponent
+    QualificationsComponent, SkillsComponent, UserComponent, UsersComponent
   ],
   bootstrap: [],
-  providers: [LoginServiceApp, SkillsServiceApp, UserServiceApp,QualificationsServiceApp],
+  providers: [LoginServiceApp, SkillsServiceApp, UserServiceApp, QualificationsServiceApp],
 })
 
 export class AdminModule {
