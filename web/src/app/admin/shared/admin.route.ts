@@ -2,20 +2,13 @@ import { Routes, RouterModule } from '@angular/router';
 
 // Components
 import {
-  AdminDashboardComponent, QualificationsComponent,
-  SkillsComponent, UserComponent, UsersComponent
+  QualificationsComponent, SkillsComponent, UserComponent, UsersComponent
 } from '../index.admin';
 
 import { RoleGuardService } from '../../shared/index.shared';
 
 
 const ADMIN_ROUTES: Routes = [
-  {
-    path: 'Dashboard',
-    component: AdminDashboardComponent,
-    canActivate: [RoleGuardService],
-    data: { expectedRole: 'Admin' }
-  },
   {
     path: 'Qualifications',
     component: QualificationsComponent,

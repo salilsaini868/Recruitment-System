@@ -9,10 +9,10 @@ import { ToastModule } from 'ng2-toastr/ng2-toastr';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 
-// Services and Components
+// Services
 import {
-    SpinnerService, RoleGuardService, AuthService, ToastrService, HeaderComponent,
-    HeaderMainComponent, FooterComponent
+    SpinnerService, RoleGuardService, AuthService, ToastrService,
+    HeaderComponent, HeaderMainComponent, FooterComponent
 } from './index.shared';
 
 // Constant
@@ -36,12 +36,10 @@ export function HttpLoaderFactory(http: HttpClient) {
             }
         }), ToastModule.forRoot()
     ],
-    declarations: [],
-    exports: [],
+    declarations: [HeaderMainComponent, HeaderComponent, FooterComponent],
+    exports: [HeaderMainComponent, HeaderComponent, FooterComponent],
     providers: []
 })
-
-
 
 export class SharedModule {
     static forRoot() {
