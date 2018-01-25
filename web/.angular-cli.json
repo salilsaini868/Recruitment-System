@@ -22,7 +22,7 @@
       "styles": [
         "styles/main.scss",
         "../node_modules/bootstrap/dist/css/bootstrap.min.css",
-        "../node_modules/ng2-toastr/bundles/ng2-toastr.min.css",
+        "../node_modules/angular5-toaster/dist/toaster.css",
         "../node_modules/font-awesome/css/font-awesome.css"
       ],
       "scripts": [

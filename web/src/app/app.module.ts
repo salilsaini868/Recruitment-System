@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -26,7 +27,7 @@ import { AppConstants } from './shared/constant/constant.variable';
 
 import {
   AuthService, RoleGuardService, SpinnerDirective, SpinnerService,
-  AuthInterceptor, ToastrService
+  AuthInterceptor
 } from './shared/index.shared';
 
 
@@ -38,14 +39,19 @@ export function GetToken() {
   return localStorage.getItem(AppConstants.AuthToken);
 }
 
+import { ToasterModule, ToasterContainerComponent } from 'angular5-toaster';
+import { DisplayMessageService } from './shared/toastr/display.message.service';
+
+
 @NgModule({
   declarations: [
-    AppComponent, SpinnerDirective
+    AppComponent, SpinnerDirective,
   ],
   imports: [
     AppRouterModule, ErrorModule, BrowserModule, FormsModule,
     MomentModule, HttpClientModule, ApiModule, LoginModule,
     AdminModule, SharedModule, OpeningModule, DashboardModule,
+    ToasterModule, BrowserAnimationsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -66,12 +72,12 @@ export function GetToken() {
     RoleGuardService,
     JwtHelperService,
     SpinnerService,
-    ToastrService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true,
-    }
+    },
+    DisplayMessageService
   ],
   bootstrap: [AppComponent]
 })
