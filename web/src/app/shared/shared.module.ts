@@ -12,7 +12,7 @@ import { BrowserModule } from '@angular/platform-browser';
 // Services
 import {
     SpinnerService, RoleGuardService, AuthService, ToastrService,
-    HeaderComponent, HeaderMainComponent, FooterComponent
+    HeaderComponent, HeaderMainComponent, FooterComponent, leftSideBarComponent
 } from './index.shared';
 
 // Constant
@@ -36,8 +36,8 @@ export function HttpLoaderFactory(http: HttpClient) {
             }
         }), ToastModule.forRoot()
     ],
-    declarations: [HeaderMainComponent, HeaderComponent, FooterComponent],
-    exports: [HeaderMainComponent, HeaderComponent, FooterComponent],
+    declarations: [HeaderMainComponent, HeaderComponent, FooterComponent, leftSideBarComponent],
+    exports: [HeaderMainComponent, HeaderComponent, FooterComponent, leftSideBarComponent],
     providers: []
 })
 
