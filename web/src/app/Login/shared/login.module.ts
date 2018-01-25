@@ -11,6 +11,8 @@ import { LoginRouterModule } from './login.route';
 // Component
 import { LoginComponent } from '../login.component';
 import { HttpClientModule } from '@angular/common/http';
+import { SharedModule } from '../../shared/shared.module';
+
 
 @NgModule({
   imports: [

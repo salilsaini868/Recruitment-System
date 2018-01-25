@@ -1,12 +1,17 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { isNullOrUndefined } from 'util';
 import { Router } from '@angular/router';
-import { LoginServiceApp } from './shared/login.serviceApp';
 
+// Models
+import { UserLoginModel } from '../webapi/models';
 
 // Constants
 import { AppConstants } from '../shared/constant/constant.variable';
-import { UserLoginModel } from '../webapi/models';
+import { Status } from '../app.enum';
+
+// service
+import { DisplayMessageService } from '../shared/toastr/display.message.service';
+import { LoginServiceApp } from './shared/login.serviceApp';
 
 @Component({
   selector: 'app-login',
@@ -17,17 +22,11 @@ import { UserLoginModel } from '../webapi/models';
 export class LoginComponent implements OnInit {
   loginModel: UserLoginModel = {} as UserLoginModel;
 
-  constructor(private loginServiceApp: LoginServiceApp, private router: Router, private renderer: Renderer2) {
+  constructor(private loginServiceApp: LoginServiceApp, private router: Router, private msgService: DisplayMessageService) {
   }
 
   ngOnInit() {
-    const urlString = this.router.url.toLowerCase();
-    if (urlString.indexOf(AppConstants.routeLoginName.toLowerCase()) > -1) {
-      this.renderer.addClass(document.body, 'login-inner-bg');
-    }
-
     this.isAuthenticated();
-
   }
 
   isAuthenticated() {
@@ -41,15 +40,14 @@ export class LoginComponent implements OnInit {
     if (loginForm.valid) {
       this.loginServiceApp.userLogin(this.loginModel).subscribe(
         (data) => {
-          if (!isNullOrUndefined(data)) {
+          if (!isNullOrUndefined(data) && data.status === Status.Success) {
             localStorage.setItem(AppConstants.AuthToken, data.body);
             this.router.navigate(['Dashboard']);
           } else {
-
+            this.msgService.showError('LOGIN.INVALIDLOGIN');
           }
         },
         (err) => {
-
         });
     }
   }

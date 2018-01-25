@@ -1,4 +1,7 @@
 {
+    "LOGIN":{
+        "INVALIDLOGIN":"Invalid username and password"
+    },
     "SKILLS": {
         "NAME": "Skill name",
         "DESCRIPTION": "Description",
