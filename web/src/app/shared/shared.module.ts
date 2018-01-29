@@ -5,13 +5,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { ToastModule } from 'ng2-toastr/ng2-toastr';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 
+
 // Services
 import {
-    SpinnerService, RoleGuardService, AuthService, ToastrService,
+    SpinnerService, RoleGuardService, AuthService,
     HeaderComponent, HeaderMainComponent, FooterComponent
 } from './index.shared';
 
@@ -34,7 +34,7 @@ export function HttpLoaderFactory(http: HttpClient) {
                 useFactory: HttpLoaderFactory,
                 deps: [HttpClient]
             }
-        }), ToastModule.forRoot()
+        }),
     ],
     declarations: [HeaderMainComponent, HeaderComponent, FooterComponent],
     exports: [HeaderMainComponent, HeaderComponent, FooterComponent],
