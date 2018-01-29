@@ -6,9 +6,5 @@ import { Injectable } from '@angular/core';
  */
 @Injectable()
 export class ApiConfiguration {
-<<<<<<< HEAD
   rootUrl: string = "http://localhost:50035";
-=======
-  rootUrl: string = "http://localhost:50035/";
->>>>>>> develop
 }

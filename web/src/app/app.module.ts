@@ -53,11 +53,8 @@ import { DisplayMessageService } from './shared/toastr/display.message.service';
     AppRouterModule, ErrorModule, BrowserModule, FormsModule,
     MomentModule, HttpClientModule, ApiModule, LoginModule,
     AdminModule, SharedModule, OpeningModule, DashboardModule,
-<<<<<<< HEAD
     CandidateModule,
-=======
     ToasterModule, BrowserAnimationsModule,
->>>>>>> develop
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
