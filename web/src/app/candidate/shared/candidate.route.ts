@@ -5,6 +5,7 @@ import { RoleGuardService } from '../../shared/index.shared';
 
 // Component
 import { CandidateComponent } from '../index.candidate';
+import { CandidatesComponent } from '../candidates.component';
 
 const CANDIDATE_ROUTES: Routes = [
     {
@@ -16,6 +17,18 @@ const CANDIDATE_ROUTES: Routes = [
     {
         path: 'Candidate/:candidateId',
         component: CandidateComponent,
+        canActivate: [RoleGuardService],
+        data: { expectedRole: 'Admin' }
+    },
+    {
+        path: 'opening/Candidate/:openingId',
+        component: CandidateComponent,
+        canActivate: [RoleGuardService],
+        data: { expectedRole: 'Admin' }
+    },
+    {
+        path: 'Candidates',
+        component: CandidatesComponent,
         canActivate: [RoleGuardService],
         data: { expectedRole: 'Admin' }
     }

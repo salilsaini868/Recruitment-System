@@ -32,7 +32,6 @@ namespace RS.Data.Logic
         public void UpdateOpeningSkills(List<OpeningSkills> openingSkills)
         {
             openingSkills.ForEach(x => _context.OpeningSkills.Add(x));
-            _context.SaveChanges();
         }
 
         List<Openings> IOpeningRepository.GetAll()

@@ -1,0 +1,24 @@
+<div class="container">
+    <h2>{{ 'CANDIDATE.LIST' | translate }}</h2>
+    <button style="float:right" title="Add" class="btn btn-primary" (click)="addCandidate()">Add</button>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>{{ 'CANDIDATE.NAME' | translate }}</th>
+                <th>{{ 'CANDIDATE.EXPERIENCE' | translate }}</th>
+                <th>{{ 'CANDIDATE.OPENINGFOR' | translate }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let candidate of candidates">
+                <td>{{candidate.firstName}} {{candidate.lastName}}</td>
+                <td>{{candidate.experienceYear}}{{ 'CANDIDATE.YEAR' | translate }} {{candidate.experienceMonth}}{{ 'CANDIDATE.MONTH' | translate }}</td>
+                <td>{{candidate.opening}}</td>
+                <td>
+                    <button title="Delete" class="btn btn-danger" (click)="deleteCandidate(candidate.candidateId)">{{ 'CANDIDATE.DELETE' | translate }}</button>
+                    <button title="Edit" class="btn btn-primary" (click)="updateCandidate(candidate.candidateId)">{{ 'CANDIDATE.UPDATE' | translate }}</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

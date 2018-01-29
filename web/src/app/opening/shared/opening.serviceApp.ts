@@ -5,7 +5,6 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { OpeningService, SkillService } from '../../webapi/services';
 import 'rxjs/Rx';
 
-
 @Injectable()
 export class OpeningServiceApp {
 

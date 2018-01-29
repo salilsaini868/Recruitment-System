@@ -33,4 +33,8 @@ export class OpeningsComponent implements OnInit {
     updateOpening(openingId) {
         this.router.navigate(['opening', openingId]);
     }
+
+    addCandidate(openingId) {
+        this.router.navigate(['opening/Candidate', openingId]);
+    }
 }

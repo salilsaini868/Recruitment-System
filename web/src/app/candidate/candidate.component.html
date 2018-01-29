@@ -9,7 +9,7 @@
                         <div>
                             <select [(ngModel)]="candidateModel.opening" [ngModelOptions]="{standalone: true}" required>
                                 <option disabled selected [ngValue]="null">--select--</option>
-                                <option *ngFor="let opening of openings" [ngValue]="opening.openingId">{{opening.title}}</option>
+                                <option *ngFor="let opening of openings" [ngValue]="opening.openingId" [selected]="openings.length === 1" [disabled]="openings.length === 1">{{opening.title}}</option>
                             </select>
                         </div>
                     </div>
@@ -38,8 +38,8 @@
                         <div>
                             <select [(ngModel)]="candidateModel.gender" [ngModelOptions]="{standalone: true}" required>
                                 <option disabled selected [ngValue]="null">--select--</option>
-                                <option [ngValue]="0">{{ 'CANDIDATE.MALE' | translate }}</option>
-                                <option [ngValue]="1">{{ 'CANDIDATE.FEMALE' | translate }}</option>
+                                <option [ngValue]="1">{{ 'CANDIDATE.MALE' | translate }}</option>
+                                <option [ngValue]="2">{{ 'CANDIDATE.FEMALE' | translate }}</option>
                             </select>
                         </div>
                     </div>
@@ -53,7 +53,7 @@
                         </div>
                     </div>
                     <div>
-                        <label>{{ 'CANDIDATE.YEAR' | translate }}</label>
+                        <label>{{ 'CANDIDATE.EXPERIENCEYEAR' | translate }}</label>
                         <div>
                             <select [(ngModel)]="candidateModel.experienceYear" [ngModelOptions]="{standalone: true}" required>
                                 <option disabled selected [ngValue]="null">--select--</option>
@@ -62,7 +62,7 @@
                         </div>
                     </div>
                     <div>
-                        <label>{{ 'CANDIDATE.MONTH' | translate }}</label>
+                        <label>{{ 'CANDIDATE.EXPERIENCEMONTH' | translate }}</label>
                         <div>
                             <select [(ngModel)]="candidateModel.experienceMonth" [ngModelOptions]="{standalone: true}" required>
                                 <option disabled selected [ngValue]="null">--select--</option>

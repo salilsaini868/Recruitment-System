@@ -8,6 +8,7 @@ import { CandidateRouterModule } from './candidate.route';
 
 // Component
 import { CandidateComponent } from '../index.candidate';
+import { CandidatesComponent } from '../index.candidate';
 
 // Services
 import { CandidateServiceApp } from './candidate.serviceApp';
@@ -20,7 +21,7 @@ import { CandidateServiceApp } from './candidate.serviceApp';
         CandidateRouterModule
     ],
     exports: [],
-    declarations: [CandidateComponent],
+    declarations: [CandidateComponent, CandidatesComponent],
     providers: [CandidateServiceApp],
 })
 

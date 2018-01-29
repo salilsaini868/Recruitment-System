@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CandidateModule } from './shared/candidate.module';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { isNullOrUndefined } from 'util';
 
 // Services
 import { CandidateServiceApp } from './shared/candidate.serviceApp';
@@ -24,22 +25,24 @@ export class CandidateComponent implements OnInit {
     years: number[] = [];
     months: number[] = [];
 
-    constructor(private openigServiceApp: OpeningServiceApp, private candidateServiceApp: CandidateServiceApp,
-        private qualificationServiceApp: QualificationsServiceApp) {
+    constructor(private openingServiceApp: OpeningServiceApp, private candidateServiceApp: CandidateServiceApp,
+        private qualificationServiceApp: QualificationsServiceApp, private route: ActivatedRoute,
+        private router: Router) {
         this.years = Array(30).fill(0).map((x, i) => i);
         this.months = Array(12).fill(0).map((x, i) => i);
     }
 
     ngOnInit(): void {
-        this.getAllOpeningsAndQualifications();
+        this.initializeMethods();
     }
 
-    getAllOpeningsAndQualifications(): void {
-        this.openigServiceApp.getAllOpenings().subscribe(
-            (data) => {
-                this.openings = data.body;
-            }
-        );
+    initializeMethods() {
+        this.getOpenings();
+        this.getCandidateById();
+        this.getAllQualifications();
+    }
+
+    getAllQualifications(): void {
         this.qualificationServiceApp.getAllQualification().subscribe(
             (data) => {
                 this.qualifications = data.body;
@@ -47,14 +50,55 @@ export class CandidateComponent implements OnInit {
         );
     }
 
+    getCandidateById() {
+        this.route.params.subscribe((params: Params) => {
+            const candidateId = params['candidateId'];
+            if (!isNullOrUndefined(candidateId)) {
+                this.candidateServiceApp.getCandidateById(candidateId).subscribe(
+                    (data) => {
+                        this.candidateModel = data.body;
+                        console.log(this.candidateModel);
+                    }
+                );
+            }
+        });
+    }
+
+    getOpenings() {
+        this.route.params.subscribe((params: Params) => {
+            const openingId = params['openingId'];
+            if (!isNullOrUndefined(openingId)) {
+                this.openingServiceApp.getOpeningById(openingId).subscribe(
+                    (data) => {
+                        this.candidateModel.opening = data.body.openingId;
+                        this.openings.push(data.body);
+                    }
+                );
+            } else {
+                this.openingServiceApp.getAllOpenings().subscribe(
+                    (data) => {
+                        this.openings = data.body;
+                    }
+                );
+            }
+        });
+    }
+
     onSubmit(candidateForm) {
-        debugger;
         if (candidateForm.valid) {
-            this.candidateServiceApp.addCandidate(this.candidateModel).subscribe(
-                (data) => {
-                    console.log(data.body);
-                }
-            );
+            if (isNullOrUndefined(this.candidateModel.candidateId)) {
+                this.candidateServiceApp.addCandidate(this.candidateModel).subscribe(
+                    (data) => {
+                        console.log(data.body);
+                    }
+                );
+            } else {
+                this.candidateServiceApp.updateCandidate(this.candidateModel).subscribe(
+                    (data) => {
+                        console.log(data.body);
+                    }
+                );
+            }
         }
     }
 }
