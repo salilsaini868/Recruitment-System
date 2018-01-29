@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { OpeningServiceApp } from './shared/opening.serviceApp';
 import { OpeningViewModel } from '../webapi/models/opening-view-model';
 import { Router } from '@angular/router';
+import { Status } from '../app.enum';
 
 @Component({
     selector: 'app-openings',
@@ -21,7 +22,9 @@ export class OpeningsComponent implements OnInit {
     getAllOpenings() {
         this.openingServiceApp.getAllOpenings().subscribe(
             (data) => {
-                this.openings = data.body;
+                if (data.status === Status.Success) {
+                    this.openings = data.body;
+                }
             }
         );
     }

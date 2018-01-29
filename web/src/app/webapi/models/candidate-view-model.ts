@@ -3,15 +3,14 @@
 /**
  */
 export class CandidateViewModel {
-    experienceMonth?: number;
     candidateId?: string;
+    gender?: number;
     firstName?: string;
     lastName?: string;
     experienceYear?: number;
-    gender?: number;
+    experienceMonth?: number;
     description?: string;
     organization?: string;
     qualification?: number;
     opening?: string;
-    openingTitle?: string;
 }

@@ -11,6 +11,7 @@ import { QualificationsServiceApp } from '../admin/qualifications/shared/qualifi
 import { OpeningViewModel } from '../webapi/models/opening-view-model';
 import { CandidateViewModel } from '../webapi/models';
 import { QualificationViewModel } from '../webapi/models/qualification-view-model';
+import { Status } from '../app.enum';
 
 @Component({
     selector: 'app-candidate',
@@ -45,7 +46,9 @@ export class CandidateComponent implements OnInit {
     getAllQualifications(): void {
         this.qualificationServiceApp.getAllQualification().subscribe(
             (data) => {
-                this.qualifications = data.body;
+                if (data.status === Status.Success) {
+                    this.qualifications = data.body;
+                }
             }
         );
     }
@@ -56,8 +59,9 @@ export class CandidateComponent implements OnInit {
             if (!isNullOrUndefined(candidateId)) {
                 this.candidateServiceApp.getCandidateById(candidateId).subscribe(
                     (data) => {
-                        this.candidateModel = data.body;
-                        console.log(this.candidateModel);
+                        if (data.status === Status.Success) {
+                            this.candidateModel = data.body;
+                        }
                     }
                 );
             }
@@ -70,18 +74,26 @@ export class CandidateComponent implements OnInit {
             if (!isNullOrUndefined(openingId)) {
                 this.openingServiceApp.getOpeningById(openingId).subscribe(
                     (data) => {
-                        this.candidateModel.opening = data.body.openingId;
-                        this.openings.push(data.body);
+                        if (data.status === Status.Success) {
+                            this.candidateModel.opening = data.body.openingId;
+                            this.openings.push(data.body);
+                        }
                     }
                 );
             } else {
                 this.openingServiceApp.getAllOpenings().subscribe(
                     (data) => {
-                        this.openings = data.body;
+                        if (data.status === Status.Success) {
+                            this.openings = data.body;
+                        }
                     }
                 );
             }
         });
+    }
+
+    showCandidateList() {
+        this.router.navigate(['Candidates']);
     }
 
     onSubmit(candidateForm) {
@@ -89,13 +101,17 @@ export class CandidateComponent implements OnInit {
             if (isNullOrUndefined(this.candidateModel.candidateId)) {
                 this.candidateServiceApp.addCandidate(this.candidateModel).subscribe(
                     (data) => {
-                        console.log(data.body);
+                        if (data.status === Status.Success) {
+                            this.showCandidateList();
+                        }
                     }
                 );
             } else {
                 this.candidateServiceApp.updateCandidate(this.candidateModel).subscribe(
                     (data) => {
-                        console.log(data.body);
+                        if (data.status === Status.Success) {
+                            this.showCandidateList();
+                        }
                     }
                 );
             }

@@ -5,8 +5,9 @@ import { OpeningService } from '../webapi/services/opening.service';
 import { OpeningServiceApp } from './shared/opening.serviceApp';
 import { SkillViewModel } from '../webapi/models/skill-view-model';
 import { SkillModel } from '../shared/customModels/skill-model';
-import { OpeningSkillType } from '../app.enum';
+import { OpeningSkillType, Status } from '../app.enum';
 import { isNullOrUndefined } from 'util';
+import { DisplayMessageService } from '../shared/toastr/display.message.service';
 
 @Component({
     selector: 'app-opening',
@@ -22,7 +23,7 @@ export class OpeningComponent implements OnInit {
     secondarySkillModels: SkillModel[] = [] as SkillModel[];
 
     constructor(private openingServiceApp: OpeningServiceApp, private route: ActivatedRoute,
-        private router: Router) {
+        private router: Router, private displayMessage: DisplayMessageService) {
     }
 
     ngOnInit() {
@@ -39,15 +40,17 @@ export class OpeningComponent implements OnInit {
     getAllSkill() {
         this.openingServiceApp.getAllSkills().subscribe(
             (data) => {
-                this.skills = data.body;
-                this.skillModels = this.skills.map(x => {
-                    return {
-                        skillId: x.skillId, name: x.name,
-                        description: x.description, openingSkillType: x.openingSkillType, isChecked: false
-                    };
-                });
-                this.primarySkillModels = this.skillModels.map(x => Object.assign({}, x));
-                this.secondarySkillModels = this.skillModels.map(x => Object.assign({}, x));
+                if (data.status === Status.Success) {
+                    this.skills = data.body;
+                    this.skillModels = this.skills.map(x => {
+                        return {
+                            skillId: x.skillId, name: x.name,
+                            description: x.description, openingSkillType: x.openingSkillType, isChecked: false
+                        };
+                    });
+                    this.primarySkillModels = this.skillModels.map(x => Object.assign({}, x));
+                    this.secondarySkillModels = this.skillModels.map(x => Object.assign({}, x));
+                }
             }
         );
     }
@@ -80,9 +83,11 @@ export class OpeningComponent implements OnInit {
             if (!isNullOrUndefined(openingId)) {
                 this.openingServiceApp.getOpeningById(openingId).subscribe(
                     (data) => {
-                        this.openingModel = data.body;
-                        this.checkedPrimarySkills(this.openingModel.primarySkillTypes);
-                        this.checkedSecondarySkills(this.openingModel.secondarySkillTypes);
+                        if (data.status === Status.Success) {
+                            this.openingModel = data.body;
+                            this.checkedPrimarySkills(this.openingModel.primarySkillTypes);
+                            this.checkedSecondarySkills(this.openingModel.secondarySkillTypes);
+                        }
                     }
                 );
             }
@@ -114,32 +119,41 @@ export class OpeningComponent implements OnInit {
                     if (isNullOrUndefined(this.openingModel.openingId)) {
                         this.openingServiceApp.CreateOpening(this.openingModel).subscribe(
                             (data) => {
-                                this.showOpeningList();
+                                if (data.status === Status.Success) {
+                                    this.showOpeningList();
+                                }
                             }, (err) => {
                             }
                         );
                     } else {
                         this.openingServiceApp.UpdateOpening(this.openingModel).subscribe(
                             (data) => {
-                                this.showOpeningList();
+                                if (data.status === Status.Success) {
+                                    this.showOpeningList();
+                                }
                             }, (err) => {
                             }
                         );
                     }
                 } else {
-                    // this.msg = 'Same skill chosen in Both Skill Type';
+                    this.displayMessage.showWarning('OPENING.SAMESKILLS');
                 }
             } else {
-                // this.msg = 'Primary Skill is Mandatory';
+                this.displayMessage.showWarning('OPENING.PRIMARYSKILLMANDATORY');
             }
         }
     }
 
     SameSkillinBothSkillType(): boolean {
-        const sameSkill = this.openingModel.primarySkillTypes.filter(skill =>
-            this.openingModel.secondarySkillTypes.indexOf(skill) > 0);
+        const sameSkill = [];
+        this.openingModel.primarySkillTypes.forEach(skill => {
+            this.openingModel.secondarySkillTypes.forEach(value => {
+                if (skill.skillId === value.skillId) {
+                    sameSkill.push(skill);
+                }
+            });
+        });
         if (sameSkill.length > 0) { return true; }
         return false;
     }
-
 }

@@ -62,7 +62,8 @@
         "SECONDARYSKILLS": "Secondary Skills",
         "SAMESKILLS": "Skills are same in both primary and secondary",
         "REQUIRED": "Required",
-        "SAVE": "Save",
+        "PRIMARYSKILLMANDATORY":"Primary Skill is Mandatory",
+        "SAVE": "Save   ",
         "UPDATE": "Update",
         "DELETE": "Delete",
         "ADD" : "Add"

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ToasterService, Toast } from 'angular5-toaster';
 
-let toast: Toast = {
+const toast: Toast = {
   animation: 'fade',
   type: '',
   title: '',
