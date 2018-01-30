@@ -8,6 +8,7 @@
             a{
                 .fa{
                     margin-right: 10px;
+                    font-size:15px;
                 }
                 &:hover{
                     background: $blue-gredient;
@@ -35,15 +36,41 @@
     }
     height: 100%;
     width: 220px;
-    overflow: hidden;
     border-right:1px solid lighten($light-blue, 20%);
+    background:$green-dark-color;
+    overflow: hidden;
+}
+.side-bar-main{
     position: absolute;
     left: 0; 
     right:0;
     top:70px;
     bottom:0;
-    overflow: hidden;
-    background:$green-dark-color;
+    width:230px;
+}
+
+.side-left{
+    .side-bar{
+        ul{
+            li{
+                a{
+                    .fa{
+                        font-size: 22px;
+                    }
+                    span{
+                        display: none;
+                    }
+                }
+            }
+        }
+        width:50px !important;
+    }
+ width:60px !important;
+}
+
+.toggle-icon-left{
+    margin:10px -10px 0 0;
+    cursor: pointer;
 }
 
 

@@ -3,13 +3,13 @@ import { Router } from '@angular/router';
 import { AppConstants } from '../constant/constant.variable';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html'
+    selector: 'app-header',
+    templateUrl: './header.component.html'
 })
+
 export class HeaderComponent implements OnInit {
 
     constructor(private router: Router) { }
-
     ngOnInit(): void {
     }
 
