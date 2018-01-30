@@ -7,11 +7,7 @@
         </div>
     </header>
 
-<div *ngIf="isTokenExist()">
-    <!-- <app-header></app-header> -->
-</div>
-
-<left-sideBar></left-sideBar>    
+<left-sideBar *ngIf="isTokenExist()"></left-sideBar>    
 <div class="content-wrapper"><router-outlet></router-outlet></div>
 
 <app-footer *ngIf="isTokenExist()"></app-footer>

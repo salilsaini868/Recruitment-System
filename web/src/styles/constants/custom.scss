@@ -16,6 +16,11 @@
     // float: left;
     padding:20px;
     margin-left:240px;
+    transition: all 0.5s ease-in-out;
+}
+
+.wrap-left{
+    margin-left: 50px;
 }
 
 
@@ -24,7 +29,7 @@
 .main-header{    
     .logo{
         margin:20px 0 14px;
-        display: inline-block;
+        float: left;
     }
     .top-nav{
         ul{
@@ -171,6 +176,17 @@
 
 .search-query:focus + button {
     z-index: 3;   
+}
+
+.toggle-icon-left{
+    .fa{
+        color:$white-color;
+    }
+    margin: 20px 0 0 16px;
+    cursor: pointer;
+    background: $blue-bg;
+    padding: 5px 8px;
+
 }
 
 /*========= HEADER CSS END HERE =========*/

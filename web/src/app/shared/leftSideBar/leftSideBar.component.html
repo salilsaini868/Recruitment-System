@@ -1,12 +1,11 @@
 <div class="side-bar-main">
-        <a (click)="toggleLeft()" class="pull-right toggle-icon-left"><i class="fa fa-bars" aria-hidden="true"></i></a>
 <aside class="side-bar">    
     <ul>
-        <li class="active"><a href="javascript:void(0)"> <i class="fa fa-tachometer"></i><span> Dashboard</span></a></li>
-        <li><a href="javascript:void(0)" routerLink="Users"> <i class="fa fa-users"></i><span> Users</span></a></li>
-        <li><a href="javascript:void(0)" routerLink="Skills"><i class="fa fa-asterisk"></i><span> Skill</span></a></li>
-        <li><a href="javascript:void(0)" routerLink="Qualifications"><i class="fa fa-graduation-cap"></i><span> Qualification</span></a></li>
-        <li><a href="javascript:void(0)" routerLink="openings"><i class="fa fa-folder-open"></i><span>Job Opening</span></a></li>
+        <li [routerLinkActive] ="['active']"><a href="javascript:void(0)" [routerLink]="['Dashboard']"> <i class="fa fa-tachometer"></i><span> Dashboard</span></a></li>
+        <li [routerLinkActive] ="['active']"><a href="javascript:void(0)" [routerLink]= "['Users']"> <i class="fa fa-users"></i><span> Users</span></a></li>
+        <li [routerLinkActive] ="['active']"><a href="javascript:void(0)" [routerLink]="['Skills']"><i class="fa fa-asterisk"></i><span> Skill</span></a></li>
+        <li [routerLinkActive] ="['active']"><a href="javascript:void(0)" [routerLink]="['Qualifications']"><i class="fa fa-graduation-cap"></i><span>Qualification</span></a></li>
+        <li [routerLinkActive] ="['active']"><a href="javascript:void(0)" [routerLink]="['openings']"><i class="fa fa-folder-open"></i><span>Job Opening</span></a></li>
     </ul>   
 </aside> 
 </div>
