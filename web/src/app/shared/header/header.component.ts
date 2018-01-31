@@ -22,11 +22,11 @@ export class HeaderComponent implements OnInit {
 
     toggleLeft(){
         if(!$('.side-bar-main').hasClass("side-bar")) {
-            $('.side-bar-main').toggleClass("side-left", 'slow');
+            $('.side-bar-main').toggleClass("side-left");
         } 
 
         if(!$('div').hasClass(".content-wrapper")) {
-            $('div.content-wrapper').toggleClass("wrap-left", 'slow');
+            $('div.content-wrapper').toggleClass("wrap-left");
         } 
 
         

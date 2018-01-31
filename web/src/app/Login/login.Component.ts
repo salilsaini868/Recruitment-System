@@ -16,7 +16,7 @@ import { LoginServiceApp } from './shared/login.serviceApp';
 @Component({
   selector: 'app-login',
   templateUrl: 'login.component.html',
-  styleUrls: ['login.scss']
+  styleUrls: ['shared/login.scss']
 })
 
 export class LoginComponent implements OnInit {
