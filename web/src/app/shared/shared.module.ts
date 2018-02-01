@@ -12,7 +12,7 @@ import { BrowserModule } from '@angular/platform-browser';
 // Services
 import {
     SpinnerService, RoleGuardService, AuthService,
-    HeaderComponent, HeaderMainComponent, FooterComponent
+    HeaderComponent, FooterComponent, LeftSideBarComponent
 } from './index.shared';
 
 // Constant
@@ -36,8 +36,8 @@ export function HttpLoaderFactory(http: HttpClient) {
             }
         }),
     ],
-    declarations: [HeaderMainComponent, HeaderComponent, FooterComponent],
-    exports: [HeaderMainComponent, HeaderComponent, FooterComponent],
+    declarations: [ HeaderComponent, FooterComponent, LeftSideBarComponent],
+    exports: [ HeaderComponent, FooterComponent, LeftSideBarComponent],
     providers: []
 })
 
