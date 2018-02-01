@@ -3,6 +3,7 @@ import { OpeningServiceApp } from './shared/opening.serviceApp';
 import { OpeningViewModel } from '../webapi/models/opening-view-model';
 import { Router } from '@angular/router';
 import { Status } from '../app.enum';
+import { DisplayMessageService } from '../shared/toastr/display.message.service';
 
 @Component({
     selector: 'app-openings',
@@ -12,7 +13,8 @@ import { Status } from '../app.enum';
 export class OpeningsComponent implements OnInit {
     openings: OpeningViewModel[] = [] as OpeningViewModel[];
 
-    constructor(private openingServiceApp: OpeningServiceApp, private router: Router) {
+    constructor(private openingServiceApp: OpeningServiceApp, private router: Router,
+        private msgService: DisplayMessageService) {
     }
 
     ngOnInit() {
@@ -24,6 +26,8 @@ export class OpeningsComponent implements OnInit {
             (data) => {
                 if (data.status === Status.Success) {
                     this.openings = data.body;
+                } else {
+                    this.msgService.showError('Error');
                 }
             }
         );

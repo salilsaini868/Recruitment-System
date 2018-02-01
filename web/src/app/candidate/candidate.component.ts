@@ -6,12 +6,15 @@ import { isNullOrUndefined } from 'util';
 import { CandidateServiceApp } from './shared/candidate.serviceApp';
 import { OpeningServiceApp } from '../opening/shared/opening.serviceApp';
 import { QualificationsServiceApp } from '../admin/qualifications/shared/qualifications.serviceApp';
+import { UtilityService } from '../shared/utility/utility.service';
+import { TranslateService } from '@ngx-translate/core';
 
 // Models
 import { OpeningViewModel } from '../webapi/models/opening-view-model';
 import { CandidateViewModel } from '../webapi/models';
 import { QualificationViewModel } from '../webapi/models/qualification-view-model';
 import { Status } from '../app.enum';
+import { DisplayMessageService } from '../shared/toastr/display.message.service';
 
 @Component({
     selector: 'app-candidate',
@@ -19,27 +22,35 @@ import { Status } from '../app.enum';
 })
 
 export class CandidateComponent implements OnInit {
-
     candidateModel: CandidateViewModel = {} as CandidateViewModel;
     openings: OpeningViewModel[] = [] as OpeningViewModel[];
     qualifications: QualificationViewModel[] = [] as QualificationViewModel[];
     years: number[] = [];
     months: number[] = [];
+    defaultOption: any;
 
     constructor(private openingServiceApp: OpeningServiceApp, private candidateServiceApp: CandidateServiceApp,
         private qualificationServiceApp: QualificationsServiceApp, private route: ActivatedRoute,
-        private router: Router) {
-        this.years = Array(30).fill(0).map((x, i) => i);
-        this.months = Array(12).fill(0).map((x, i) => i);
+        private router: Router, private utilityService: UtilityService,
+        private msgService: DisplayMessageService, private translateService: TranslateService) {
+        this.years = this.utilityService.fillArray(30);
+        this.months = this.utilityService.fillArray(12);
     }
 
     ngOnInit(): void {
+        this.setDefaultValues();
         this.initializeMethods();
+        this.setDefaultOption();
+    }
+
+    setDefaultValues() {
+        this.candidateModel.gender = -1;
+        this.candidateModel.experienceYear = -1;
+        this.candidateModel.experienceMonth = -1;
     }
 
     initializeMethods() {
         this.getOpenings();
-        this.getCandidateById();
         this.getAllQualifications();
     }
 
@@ -48,7 +59,19 @@ export class CandidateComponent implements OnInit {
             (data) => {
                 if (data.status === Status.Success) {
                     this.qualifications = data.body;
+                    const qualification = this.defaultOption;
+                    this.qualifications.splice(0, 0, { qualificationId: 0, name: qualification });
+                } else {
+                    this.msgService.showError('Error');
                 }
+            }
+        );
+    }
+
+    setDefaultOption() {
+        this.translateService.get('COMMON.SELECTDEFAULT').subscribe(
+            (data) => {
+                this.defaultOption = data;
             }
         );
     }
@@ -61,6 +84,9 @@ export class CandidateComponent implements OnInit {
                     (data) => {
                         if (data.status === Status.Success) {
                             this.candidateModel = data.body;
+                            console.log(this.candidateModel);
+                        } else {
+                            this.msgService.showError('Error');
                         }
                     }
                 );
@@ -77,6 +103,8 @@ export class CandidateComponent implements OnInit {
                         if (data.status === Status.Success) {
                             this.candidateModel.opening = data.body.openingId;
                             this.openings.push(data.body);
+                        } else {
+                            this.msgService.showError('Error');
                         }
                     }
                 );
@@ -85,7 +113,12 @@ export class CandidateComponent implements OnInit {
                     (data) => {
                         if (data.status === Status.Success) {
                             this.openings = data.body;
+                            const opening = this.defaultOption;
+                            this.openings.splice(0, 0, { openingId: '0', title: opening });
+                        } else {
+                            this.msgService.showError('Error');
                         }
+                        this.getCandidateById();
                     }
                 );
             }
@@ -103,6 +136,8 @@ export class CandidateComponent implements OnInit {
                     (data) => {
                         if (data.status === Status.Success) {
                             this.showCandidateList();
+                        } else {
+                            this.msgService.showError('Error');
                         }
                     }
                 );
@@ -111,6 +146,8 @@ export class CandidateComponent implements OnInit {
                     (data) => {
                         if (data.status === Status.Success) {
                             this.showCandidateList();
+                        } else {
+                            this.msgService.showError('Error');
                         }
                     }
                 );

@@ -23,7 +23,7 @@ export class OpeningComponent implements OnInit {
     secondarySkillModels: SkillModel[] = [] as SkillModel[];
 
     constructor(private openingServiceApp: OpeningServiceApp, private route: ActivatedRoute,
-        private router: Router, private displayMessage: DisplayMessageService) {
+        private router: Router, private msgService: DisplayMessageService) {
     }
 
     ngOnInit() {
@@ -50,6 +50,8 @@ export class OpeningComponent implements OnInit {
                     });
                     this.primarySkillModels = this.skillModels.map(x => Object.assign({}, x));
                     this.secondarySkillModels = this.skillModels.map(x => Object.assign({}, x));
+                } else {
+                    this.msgService.showError('Error');
                 }
             }
         );
@@ -87,6 +89,8 @@ export class OpeningComponent implements OnInit {
                             this.openingModel = data.body;
                             this.checkedPrimarySkills(this.openingModel.primarySkillTypes);
                             this.checkedSecondarySkills(this.openingModel.secondarySkillTypes);
+                        } else {
+                            this.msgService.showError('Error');
                         }
                     }
                 );
@@ -121,8 +125,9 @@ export class OpeningComponent implements OnInit {
                             (data) => {
                                 if (data.status === Status.Success) {
                                     this.showOpeningList();
+                                } else {
+                                    this.msgService.showError('Error');
                                 }
-                            }, (err) => {
                             }
                         );
                     } else {
@@ -130,16 +135,17 @@ export class OpeningComponent implements OnInit {
                             (data) => {
                                 if (data.status === Status.Success) {
                                     this.showOpeningList();
+                                } else {
+                                    this.msgService.showError('Error');
                                 }
-                            }, (err) => {
                             }
                         );
                     }
                 } else {
-                    this.displayMessage.showWarning('OPENING.SAMESKILLS');
+                    this.msgService.showWarning('OPENING.SAMESKILLS');
                 }
             } else {
-                this.displayMessage.showWarning('OPENING.PRIMARYSKILLMANDATORY');
+                this.msgService.showWarning('OPENING.PRIMARYSKILLMANDATORY');
             }
         }
     }

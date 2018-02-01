@@ -4,8 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { RoleGuardService } from '../../shared/index.shared';
 
 // Component
-import { CandidateComponent } from '../index.candidate';
-import { CandidatesComponent } from '../candidates.component';
+import { CandidateComponent, CandidatesComponent } from '../index.candidate';
 
 const CANDIDATE_ROUTES: Routes = [
     {

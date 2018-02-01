@@ -43,12 +43,10 @@ namespace RS.Service.Logic
                 var candidateModel = new Candidates();
                 candidateModel.MapFromViewModel(candidate, (ClaimsIdentity)_principal.Identity);
                 candidateModel.QualificationId = candidate.Qualification;
-                candidateModel.Qualification = _qualificationRepository.GetByID(candidate.Qualification);
 
                 var openingCandidate = new OpeningCandidates();
                 openingCandidate.OpeningId = candidate.Opening;
                 openingCandidate.candidate = candidateModel;
-                openingCandidate.Opening = _openingRepository.GetByID(candidate.Opening);
                 openingCandidate.MapAuditColumns((ClaimsIdentity)_principal.Identity);
 
                 var organization = new Organizations();
@@ -56,8 +54,7 @@ namespace RS.Service.Logic
                 organization.MapAuditColumns((ClaimsIdentity)_principal.Identity);
 
                 _candidateRepository.AddCandidate(candidateModel, openingCandidate, organization);
-                _candidateRepository.SaveChanges();
-                result.Body = candidateModel;
+                result.Body = candidateModel.CandidateId;
             }
             catch (Exception e)
             {
@@ -85,16 +82,16 @@ namespace RS.Service.Logic
                 var candidateList = allCandidates.Select(candidate =>
                 {
                     var openingCandidate = _candidateRepository.GetOpeningCandidate(candidate.CandidateId);
-                    var candidateViewModel = new CandidateListModel();
+                    var candidateListModel = new CandidateListModel();
                     if (openingCandidate != null)
                     {
-                        candidateViewModel.Opening = openingCandidate.Opening.Title;
-                        candidateViewModel.ModifiedDate = openingCandidate.Opening.ModifiedDate;
+                        candidateListModel.Opening = openingCandidate.Opening.Title;
+                        candidateListModel.ModifiedDate = openingCandidate.Opening.ModifiedDate;
                     }
-                    return candidateViewModel.MapFromModel(candidate);
+                    return candidateListModel.MapFromModel(candidate);
                 }).ToList();
-                List<CandidateListModel> candidateListModel = candidateList.Cast<CandidateListModel>().ToList();
-                result.Body = candidateListModel.OrderByDescending(x => x.ModifiedDate);
+                List<CandidateListModel> candidateListViewModel = candidateList.Cast<CandidateListModel>().ToList();
+                result.Body = candidateListViewModel.OrderByDescending(x => x.ModifiedDate);
             }
             catch (Exception e)
             {
@@ -138,29 +135,8 @@ namespace RS.Service.Logic
             };
             try
             {
-                var candidateModel = new Candidates();
-                candidateModel.MapFromViewModel(candidate, (ClaimsIdentity)_principal.Identity);
-                candidateModel.QualificationId = candidate.Qualification;
-                candidateModel.Qualification = _qualificationRepository.GetByID(candidate.Qualification);
-
-                var openingCandidate = _candidateRepository.GetOpeningCandidate(candidate.CandidateId);
-                var updatedOpeningCandidate = new OpeningCandidates();
-                if ((openingCandidate != null) && (openingCandidate.Opening.OpeningId != candidate.Opening))
-                {
-                    openingCandidate.MapDeleteColumns((ClaimsIdentity)_principal.Identity);
-                    updatedOpeningCandidate.OpeningId = candidate.Opening;
-                    updatedOpeningCandidate.candidate = candidateModel;
-                    updatedOpeningCandidate.Opening = _openingRepository.GetByID(candidate.Opening);
-                    updatedOpeningCandidate.MapAuditColumns((ClaimsIdentity)_principal.Identity);
-                }
-                var organization = new Organizations();
-                organization.Name = candidate.Organization;
-                organization.MapAuditColumns((ClaimsIdentity)_principal.Identity);
-
-                _candidateRepository.UpdateCandidate(candidateModel, updatedOpeningCandidate, organization);
-                _candidateRepository.Update(candidateModel);
-                _candidateRepository.SaveChanges();
-                result.Body = candidateModel;
+                _candidateRepository.UpdateCandidate(candidate);
+                result.Body = candidate.CandidateId;
 
             }
             catch (Exception e)

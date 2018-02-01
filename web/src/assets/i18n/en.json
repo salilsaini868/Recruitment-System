@@ -92,6 +92,7 @@
         "DELETE": "Delete"
     },
     "COMMON": {
-        "SOMEERROROCURRED": "Some errror has been occured"
+        "SOMEERROROCURRED": "Some errror has been occured",
+        "SELECTDEFAULT":"--select--"
     }
 }

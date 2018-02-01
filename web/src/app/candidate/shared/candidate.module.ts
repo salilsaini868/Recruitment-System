@@ -7,8 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CandidateRouterModule } from './candidate.route';
 
 // Component
-import { CandidateComponent } from '../index.candidate';
-import { CandidatesComponent } from '../index.candidate';
+import { CandidateComponent, CandidatesComponent } from '../index.candidate';
 
 // Services
 import { CandidateServiceApp } from './candidate.serviceApp';

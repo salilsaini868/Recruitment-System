@@ -5,57 +5,86 @@ using RS.Entity.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using RS.ViewModel.Candidate;
+using RS.Common.Extensions;
+using System.Security.Claims;
+using System.Security.Principal;
 
 namespace RS.Data.Logic
 {
     public class CandidateRepository : Repository<Candidates>, ICandidateRepository
     {
         private readonly RSContext _context;
-        public CandidateRepository(RSContext context) : base(context)
+        private readonly ClaimsPrincipal _principal;
+        public CandidateRepository(IPrincipal principal, RSContext context) : base(context)
         {
-
+            this._principal = principal as ClaimsPrincipal;
             this._context = context;
         }
 
         public void AddCandidate(Candidates candidate, OpeningCandidates openingCandidate, Organizations organization)
         {
 
-            var organizationModel = _context.Organizations.FirstOrDefault(x => x.Name.ToLower() == organization.Name.ToLower());
+            var organizationModel = _context.Organizations.FirstOrDefault(x => (x.Name.ToLower() == organization.Name.ToLower()) && (x.IsActive && !x.IsDeleted));
             if (organizationModel == null)
             {
-                _context.Organizations.Add(organization);
-                _context.SaveChanges();
-                candidate.OrganizationId = organization.OrganizationId;
+                candidate.Organisation = organization;
             }
             else
             {
                 candidate.OrganizationId = organizationModel.OrganizationId;
             }
-            candidate.Organisation = organization;
             _context.Candidates.Add(candidate);
             _context.OpeningCandidates.Add(openingCandidate);
+            _context.SaveChanges();
         }
 
-        public void UpdateCandidate(Candidates candidate, OpeningCandidates openingCandidate, Organizations organization)
+        public void UpdateCandidate(CandidateViewModel candidate)
         {
+            var candidateModel = _context.Candidates.Include(t => t.Organisation).FirstOrDefault(x => (x.IsActive && !x.IsDeleted) && (x.CandidateId == candidate.CandidateId));
+            candidateModel.MapFromViewModel(candidate, (ClaimsIdentity)_principal.Identity);
+            candidateModel.QualificationId = candidate.Qualification;
 
-            var organizationModel = _context.Organizations.FirstOrDefault(x => x.Name.ToLower() == organization.Name.ToLower());
-            if (organizationModel == null)
+            var organizationModel = GetOrganization(candidate.Organization);
+            if (organizationModel != null)
             {
+                candidateModel.OrganizationId = organizationModel.OrganizationId;
+            }
 
-                _context.Organizations.Add(organization);
-                _context.SaveChanges();
-                candidate.OrganizationId = organization.OrganizationId;
-            }
-            else
+            var organization = new Organizations();
+            organization.Name = candidate.Organization;
+            organization.MapAuditColumns((ClaimsIdentity)_principal.Identity);
+
+            var openingCandidate = GetOpeningCandidate(candidate.CandidateId);
+            var updatedOpeningCandidate = new OpeningCandidates();
+            if ((openingCandidate != null) && (openingCandidate.Opening.OpeningId != candidate.Opening))
             {
-                candidate.OrganizationId = organizationModel.OrganizationId;
+                openingCandidate.MapDeleteColumns((ClaimsIdentity)_principal.Identity);
+                updatedOpeningCandidate.CandidateId = candidateModel.CandidateId;
+                updatedOpeningCandidate.OpeningId = candidate.Opening;
+                updatedOpeningCandidate.MapAuditColumns((ClaimsIdentity)_principal.Identity);
             }
-            candidate.Organisation = organization;
-            if (openingCandidate.Opening != null)
+            if (!organization.Name.Equals(candidateModel.Organisation.Name))
             {
-                _context.OpeningCandidates.Add(openingCandidate);
+                var org = _context.Organizations.FirstOrDefault(x => (x.Name.ToLower() == organization.Name.ToLower()) && (x.IsActive && !x.IsDeleted));
+                if (org == null)
+                {
+                    candidateModel.Organisation = organization;
+                }
+                else
+                {
+                    candidateModel.OrganizationId = organizationModel.OrganizationId;
+                }
             }
+
+            if (updatedOpeningCandidate.OpeningId != null)
+            {
+                _context.OpeningCandidates.Add(updatedOpeningCandidate);
+            }
+
+            _context.Entry(candidateModel).State = EntityState.Modified;
+            _context.SaveChanges();
+
         }
 
         public Candidates GetByID(Guid candidateId)
@@ -73,5 +102,9 @@ namespace RS.Data.Logic
             return _context.Candidates.Include(t => t.Organisation).Where(x => (x.IsActive && !x.IsDeleted)).ToList();
         }
 
+        public Organizations GetOrganization(string organization)
+        {
+            return _context.Organizations.FirstOrDefault(x => x.Name == organization && (x.IsActive && !x.IsDeleted));
+        }
     }
 }

@@ -7,8 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { OpeningRouterModule } from './opening.route';
 
 // Components
-import { OpeningComponent } from '../opening.component';
-import { OpeningsComponent } from '../openings.component';
+import { OpeningComponent, OpeningsComponent} from '../index.opening';
 
 // Services
 import { OpeningServiceApp } from './opening.serviceApp';

@@ -29,7 +29,7 @@ import { AppConstants } from './shared/constant/constant.variable';
 
 import {
   AuthService, RoleGuardService, SpinnerDirective, SpinnerService,
-  AuthInterceptor
+  AuthInterceptor, UtilityService
 } from './shared/index.shared';
 
 
@@ -75,6 +75,7 @@ import { DisplayMessageService } from './shared/toastr/display.message.service';
     RoleGuardService,
     JwtHelperService,
     SpinnerService,
+    UtilityService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

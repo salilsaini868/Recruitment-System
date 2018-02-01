@@ -7,9 +7,8 @@
                     <div>
                         <label>{{ 'CANDIDATE.OPENING' | translate }}</label>
                         <div>
-                            <select [(ngModel)]="candidateModel.opening" [ngModelOptions]="{standalone: true}" required>
-                                <option disabled selected [ngValue]="null">--select--</option>
-                                <option *ngFor="let opening of openings" [ngValue]="opening.openingId" [selected]="openings.length === 1" [disabled]="openings.length === 1">{{opening.title}}</option>
+                            <select [(ngModel)]="candidateModel.opening" [ngModelOptions]="{standalone: true}" [disabled]="openings.length === 1" required>
+                                <option *ngFor="let opening of openings" [attr.value]="opening.openingId" >{{opening.title}}</option>
                             </select>
                         </div>
                     </div>
@@ -37,9 +36,9 @@
                         <label>{{ 'CANDIDATE.GENDER' | translate }}</label>
                         <div>
                             <select [(ngModel)]="candidateModel.gender" [ngModelOptions]="{standalone: true}" required>
-                                <option disabled selected [ngValue]="null">--select--</option>
-                                <option [ngValue]="1">{{ 'CANDIDATE.MALE' | translate }}</option>
-                                <option [ngValue]="2">{{ 'CANDIDATE.FEMALE' | translate }}</option>
+                                <option [attr.value]="-1" >{{ 'COMMON.SELECTDEFAULT' | translate }}</option>
+                                <option [attr.value]="1">{{ 'CANDIDATE.MALE' | translate }}</option>
+                                <option [attr.value]="2">{{ 'CANDIDATE.FEMALE' | translate }}</option>
                             </select>
                         </div>
                     </div>
@@ -47,8 +46,7 @@
                         <label>{{ 'CANDIDATE.QUALIFICATION' | translate }}</label>
                         <div>
                             <select [(ngModel)]="candidateModel.qualification" [ngModelOptions]="{standalone: true}" required>
-                                <option disabled selected [ngValue]="null">--select--</option>
-                                <option *ngFor="let qualification of qualifications" [ngValue]="qualification.qualificationId">{{qualification.name}}</option>
+                                <option *ngFor="let qualification of qualifications" [attr.value]="qualification.qualificationId">{{qualification.name}}</option>
                             </select>
                         </div>
                     </div>
@@ -56,8 +54,8 @@
                         <label>{{ 'CANDIDATE.EXPERIENCEYEAR' | translate }}</label>
                         <div>
                             <select [(ngModel)]="candidateModel.experienceYear" [ngModelOptions]="{standalone: true}" required>
-                                <option disabled selected [ngValue]="null">--select--</option>
-                                <option *ngFor="let year of years" [ngValue]="year">{{year}}</option>
+                                <option disabled selected [attr.value]="-1">{{ 'COMMON.SELECTDEFAULT' | translate }}</option>
+                                <option *ngFor="let year of years" [attr.value]="year">{{year}}</option>
                             </select>
                         </div>
                     </div>
@@ -65,8 +63,8 @@
                         <label>{{ 'CANDIDATE.EXPERIENCEMONTH' | translate }}</label>
                         <div>
                             <select [(ngModel)]="candidateModel.experienceMonth" [ngModelOptions]="{standalone: true}" required>
-                                <option disabled selected [ngValue]="null">--select--</option>
-                                <option *ngFor="let month of months" [ngValue]="month">{{month}}</option>
+                                <option disabled selected [attr.value]="-1">{{ 'COMMON.SELECTDEFAULT' | translate }}</option>
+                                <option *ngFor="let month of months" [attr.value]="month">{{month}}</option>
                             </select>
                         </div>
                     </div>

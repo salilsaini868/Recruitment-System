@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 
 import { CandidateServiceApp } from './shared/candidate.serviceApp';
 import { CandidateListModel } from '../shared/customModels/candidate-list-model';
+import { DisplayMessageService } from '../shared/toastr/display.message.service';
+import { Status } from '../app.enum';
 
 @Component({
     selector: 'app-candidates',
@@ -12,7 +14,8 @@ import { CandidateListModel } from '../shared/customModels/candidate-list-model'
 export class CandidatesComponent implements OnInit {
     candidates: CandidateListModel[] = [] as CandidateListModel[];
 
-    constructor(private candidateServiceApp: CandidateServiceApp, private router: Router) {
+    constructor(private candidateServiceApp: CandidateServiceApp, private router: Router,
+        private msgService: DisplayMessageService) {
     }
 
     ngOnInit() {
@@ -22,7 +25,11 @@ export class CandidatesComponent implements OnInit {
     getAllCandidates() {
         this.candidateServiceApp.getAllCandidates().subscribe(
             (data) => {
-                this.candidates = data.body;
+                if (data.status === Status.Success) {
+                    this.candidates = data.body;
+                } else {
+                    this.msgService.showError('Error');
+                }
             }
         );
     }

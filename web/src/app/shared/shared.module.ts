@@ -11,7 +11,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 // Services
 import {
-    SpinnerService, RoleGuardService, AuthService,
+    SpinnerService, RoleGuardService, AuthService, UtilityService,
     HeaderComponent, HeaderMainComponent, FooterComponent
 } from './index.shared';
 
@@ -22,7 +22,6 @@ import { HttpInterceptorHandler } from '@angular/common/http/src/interceptor';
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
-
 
 @NgModule({
     imports: [

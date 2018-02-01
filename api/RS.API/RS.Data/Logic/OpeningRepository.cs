@@ -36,7 +36,7 @@ namespace RS.Data.Logic
 
         List<Openings> IOpeningRepository.GetAll()
         {
-            return _context.Openings.Include(t => t.OpeningSkills).ThenInclude(r => r.Skill).Where(x => (x.IsActive && !x.IsDeleted)).ToList();
+            return _context.Openings.Include(t => t.OpeningSkills).ThenInclude(r => r.Skill).Where(x => (x.IsActive && !x.IsDeleted)).OrderByDescending(x => x.CreatedDate).ThenByDescending(x => x.ModifiedDate).ToList();
         }
     }
 }
