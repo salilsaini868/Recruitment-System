@@ -15,10 +15,8 @@ namespace RS.Data.Logic
     public class CandidateRepository : Repository<Candidates>, ICandidateRepository
     {
         private readonly RSContext _context;
-        private readonly ClaimsPrincipal _principal;
-        public CandidateRepository(IPrincipal principal, RSContext context) : base(context)
+        public CandidateRepository(RSContext context) : base(context)
         {
-            this._principal = principal as ClaimsPrincipal;
             this._context = context;
         }
 
@@ -39,50 +37,27 @@ namespace RS.Data.Logic
             _context.SaveChanges();
         }
 
-        public void UpdateCandidate(CandidateViewModel candidate)
+        public void UpdateCandidate(Candidates candidate, OpeningCandidates openingCandidate, Organizations organization)
         {
-            var candidateModel = _context.Candidates.Include(t => t.Organisation).FirstOrDefault(x => (x.IsActive && !x.IsDeleted) && (x.CandidateId == candidate.CandidateId));
-            candidateModel.MapFromViewModel(candidate, (ClaimsIdentity)_principal.Identity);
-            candidateModel.QualificationId = candidate.Qualification;
-
-            var organizationModel = GetOrganization(candidate.Organization);
-            if (organizationModel != null)
+            if (!organization.Name.Equals(candidate.Organisation.Name))
             {
-                candidateModel.OrganizationId = organizationModel.OrganizationId;
-            }
-
-            var organization = new Organizations();
-            organization.Name = candidate.Organization;
-            organization.MapAuditColumns((ClaimsIdentity)_principal.Identity);
-
-            var openingCandidate = GetOpeningCandidate(candidate.CandidateId);
-            var updatedOpeningCandidate = new OpeningCandidates();
-            if ((openingCandidate != null) && (openingCandidate.Opening.OpeningId != candidate.Opening))
-            {
-                openingCandidate.MapDeleteColumns((ClaimsIdentity)_principal.Identity);
-                updatedOpeningCandidate.CandidateId = candidateModel.CandidateId;
-                updatedOpeningCandidate.OpeningId = candidate.Opening;
-                updatedOpeningCandidate.MapAuditColumns((ClaimsIdentity)_principal.Identity);
-            }
-            if (!organization.Name.Equals(candidateModel.Organisation.Name))
-            {
-                var org = _context.Organizations.FirstOrDefault(x => (x.Name.ToLower() == organization.Name.ToLower()) && (x.IsActive && !x.IsDeleted));
-                if (org == null)
+                var organizationModel = _context.Organizations.FirstOrDefault(x => (x.Name.ToLower() == organization.Name.ToLower()) && (x.IsActive && !x.IsDeleted));
+                if (organizationModel == null)
                 {
-                    candidateModel.Organisation = organization;
+                    candidate.Organisation = organization;
                 }
                 else
                 {
-                    candidateModel.OrganizationId = organizationModel.OrganizationId;
+                    candidate.OrganizationId = organizationModel.OrganizationId;
                 }
             }
 
-            if (updatedOpeningCandidate.OpeningId != null)
+            if (openingCandidate.Opening != null)
             {
-                _context.OpeningCandidates.Add(updatedOpeningCandidate);
+                _context.OpeningCandidates.Add(openingCandidate);
             }
 
-            _context.Entry(candidateModel).State = EntityState.Modified;
+            _context.Entry(candidate).State = EntityState.Modified;
             _context.SaveChanges();
 
         }

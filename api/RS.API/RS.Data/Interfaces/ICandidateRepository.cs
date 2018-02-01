@@ -9,7 +9,7 @@ namespace RS.Data.Interfaces
     {
         void AddCandidate(Candidates candidate, OpeningCandidates openingCandidate, Organizations organization);
 
-        void UpdateCandidate(CandidateViewModel candidate);
+        void UpdateCandidate(Candidates candidate, OpeningCandidates openingCandidate, Organizations organization);
 
         new List<Candidates> GetAll();
 

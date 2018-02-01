@@ -135,7 +135,30 @@ namespace RS.Service.Logic
             };
             try
             {
-                _candidateRepository.UpdateCandidate(candidate);
+                var candidateModel = _candidateRepository.GetByID(candidate.CandidateId);
+                candidateModel.MapFromViewModel(candidate, (ClaimsIdentity)_principal.Identity);
+                candidateModel.QualificationId = candidate.Qualification;
+
+                var organizationModel = _candidateRepository.GetOrganization(candidate.Organization);
+                if (organizationModel != null)
+                {
+                    candidateModel.OrganizationId = organizationModel.OrganizationId;
+                }
+
+                var organization = new Organizations();
+                organization.Name = candidate.Organization;
+                organization.MapAuditColumns((ClaimsIdentity)_principal.Identity);
+
+                var openingCandidate = _candidateRepository.GetOpeningCandidate(candidate.CandidateId);
+                var updatedOpeningCandidate = new OpeningCandidates();
+                if ((openingCandidate != null) && (openingCandidate.Opening.OpeningId != candidate.Opening))
+                {
+                    openingCandidate.MapDeleteColumns((ClaimsIdentity)_principal.Identity);
+                    updatedOpeningCandidate.CandidateId = candidateModel.CandidateId;
+                    updatedOpeningCandidate.OpeningId = candidate.Opening;
+                    updatedOpeningCandidate.MapAuditColumns((ClaimsIdentity)_principal.Identity);
+                }
+                _candidateRepository.UpdateCandidate(candidateModel, updatedOpeningCandidate, organization);
                 result.Body = candidate.CandidateId;
 
             }
