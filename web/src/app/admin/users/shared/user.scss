@@ -3,7 +3,37 @@
 /*========= USER CSS START HERE =========*/
 
 .table-responsive-top{
+    .table>thead>tr>th{
+        border-bottom:0px;
+    }
+    
     margin-top:30px;
+    float:left;
+    width:100%;
+    border:1px solid $border-color;
+    // height:300px;
+    // overflow: hidden;
+    // overflow-y: scroll;
+}
+
+.blue-btn{
+    &:hover{
+        background: $blue-bg;
+        color:$white-color;
+    }
+    background-color: transparent;
+    border-radius: 0px;
+    padding:6px 24px;
+    color: $blue-bg;
+    transition: all 0.5s ease;
+}
+
+.no-radius{
+    border-radius:0px;
+}
+
+.btn-pad{
+    padding:6px 24px;
 }
 
 /*========= USER CSS END HERE =========*/

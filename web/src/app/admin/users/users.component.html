@@ -1,9 +1,9 @@
 <div class="content-wrapper">
     <h2>{{ 'USER.LIST' | translate }}</h2>
-    <button  title="Add" class="btn btn-primary pull-right" (click)="addUser()">Add</button>
+    <button  title="Add" class="btn btn-primary pull-right blue-btn" (click)="addUser()">Add</button>
     <div class="clearfix"></div>
      <div class="table-responsive-top">
-       <table class="table table-striped table-bordered">
+       <table class="table table-striped">
         <thead>
             <tr>
                 <th>{{ 'USER.FIRSTNAME' | translate }}</th>
@@ -20,8 +20,8 @@
                 <td>{{user.email}}</td>
                 <td>{{user.role}}</td>
                 <td>
-                    <button title="Delete" class="btn btn-danger" (click)="deleteUser(user.userId)">{{ 'USER.DELETE' | translate }}</button>
-                    <button title="Edit" class="btn btn-primary" (click)="updateUser(user.userId)">{{ 'USER.UPDATE' | translate }}</button>
+                    <button title="Delete" class="btn btn-danger no-radius btn-pad" (click)="deleteUser(user.userId)">{{ 'USER.DELETE' | translate }}</button>
+                    <button title="Edit" class="btn btn-primary  blue-btn" (click)="updateUser(user.userId)">{{ 'USER.UPDATE' | translate }}</button>
                 </td>
             </tr>
         </tbody>

@@ -6,7 +6,8 @@ import { debuglog } from 'util';
 
 @Component({
     selector: 'app-users',
-    templateUrl: 'users.component.html'
+    templateUrl: 'users.component.html',
+    styleUrls: ['shared/user.scss']
 })
 
 export class UsersComponent implements OnInit {
