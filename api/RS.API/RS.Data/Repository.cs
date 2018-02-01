@@ -268,7 +268,7 @@ namespace RS.Data
                     context.Entry(item).State = state;
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
             }

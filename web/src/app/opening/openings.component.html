@@ -19,6 +19,7 @@
                     <td>
                         <button title="Delete" class="btn btn-danger" (click)="deleteOpening(opening.openingId)">{{ 'OPENING.DELETE' | translate }}</button>
                         <button title="Edit" class="btn btn-primary" (click)="updateOpening(opening.openingId)">{{ 'OPENING.UPDATE' | translate }}</button>
+                        <button title="AddCandidate" class="btn btn-primary" (click)="addCandidate(opening.openingId)">{{ 'OPENING.ADD' | translate }}</button>
                     </td>
                 </tr>
             </tbody>

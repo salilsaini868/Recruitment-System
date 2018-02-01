@@ -11,8 +11,8 @@ export class QualificationsServiceApp {
     addQualification(QualificationsModel): Observable<any> {
         return this.apiQualificationsService.ApiQualificatonCreateQualificationPost(QualificationsModel).map(x => (x));
     }
-    
-    listQualification(): Observable<any> {
+
+    getAllQualification(): Observable<any> {
         return this.apiQualificationsService.ApiQualificatonGetAllQualificationGet().map(x => (x));
     }
 

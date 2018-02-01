@@ -20,6 +20,8 @@ import { SharedModule } from './shared/shared.module';
 import { ErrorModule } from './error/error.module';
 import { OpeningModule } from './opening/shared/opening.module';
 import { DashboardModule } from './dashboard/shared/dashboard.module';
+import { CandidateModule } from './candidate/shared/candidate.module';
+
 import { ApiModule } from './webapi/api.module';
 
 // constants
@@ -27,7 +29,7 @@ import { AppConstants } from './shared/constant/constant.variable';
 
 import {
   AuthService, RoleGuardService, SpinnerDirective, SpinnerService,
-  AuthInterceptor
+  AuthInterceptor, UtilityService
 } from './shared/index.shared';
 
 
@@ -51,6 +53,7 @@ import { DisplayMessageService } from './shared/toastr/display.message.service';
     AppRouterModule, ErrorModule, BrowserModule, FormsModule,
     MomentModule, HttpClientModule, ApiModule, LoginModule,
     AdminModule, SharedModule, OpeningModule, DashboardModule,
+    CandidateModule,
     ToasterModule, BrowserAnimationsModule,
     TranslateModule.forRoot({
       loader: {
@@ -72,6 +75,7 @@ import { DisplayMessageService } from './shared/toastr/display.message.service';
     RoleGuardService,
     JwtHelperService,
     SpinnerService,
+    UtilityService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

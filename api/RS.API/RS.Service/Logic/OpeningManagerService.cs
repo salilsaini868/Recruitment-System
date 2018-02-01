@@ -77,9 +77,7 @@ namespace RS.Service.Logic
             };
             try
             {
-                var openingViewModels = new List<OpeningViewModel>();
-                var allOpenings = _openingRepository.GetAll().ToList();
-
+                var allOpenings = _openingRepository.GetAll();
                 result.Body = allOpenings.Select(opening =>
                 {
                     var openingViewModel = new OpeningViewModel();
@@ -167,14 +165,10 @@ namespace RS.Service.Logic
 
                 if (openingSkillList.Any())
                 {
-                    _openingRepository.UpdateOpeningSkills(openingSkillList);
+                    _openingRepository.UpdateOpeningSkills(openingSkillList);  
                 }
-                else
-                {
-                    _openingRepository.Update(openingModel);
-                    _openingRepository.SaveChanges();
-
-                }
+                _openingRepository.Update(openingModel);
+                _openingRepository.SaveChanges();
                 result.Body = openingModel.OpeningId;
             }
             catch (Exception e)
