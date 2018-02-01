@@ -19,15 +19,14 @@ export class HeaderComponent implements OnInit {
         localStorage.clear();
         this.router.navigate(['login']);
     }
+  
+    toggleLeft(){
+        if(!$('.side-bar-main').hasClass("side-bar")) {
+            $('.side-bar-main').toggleClass("side-left");
+        } 
 
-    toggleLeft() {
-        if (!$('.side-bar-main').hasClass('side-bar')) {
-            $('.side-bar-main').toggleClass('side-left', 'slow');
-        }
-
-        if (!$('div').hasClass('.content-wrapper')) {
-            $('div.content-wrapper').toggleClass('wrap-left', 'slow');
-        }
-
+        if(!$('div').hasClass(".content-wrapper")) {
+            $('div.content-wrapper').toggleClass("wrap-left");
+        } 
     }
 }

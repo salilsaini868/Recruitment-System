@@ -7,7 +7,8 @@ import { Status } from '../../app.enum';
 
 @Component({
     selector: 'app-users',
-    templateUrl: 'users.component.html'
+    templateUrl: 'users.component.html',
+    styleUrls: ['shared/user.scss']
 })
 
 export class UsersComponent implements OnInit {

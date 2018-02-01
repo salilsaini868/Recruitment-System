@@ -1,7 +1,23 @@
-@import "../../styles/partials/variable.scss";
+@import "../../../styles/partials/variable.scss";
 
 /*========= LOGIN CSS START HERE =========*/
 
+.login-inner-bg{
+    width:100%;
+    float:left;
+    background-image:url(../../../assets/images/login-bg.jpg);
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: cover;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    background-attachment: fixed;
+    position: absolute;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+}
 .login-main{
     .login-area{
         @media screen and(max-width:$mobile-screen) {
@@ -34,7 +50,8 @@
             padding: 0 0 0 10px;
         }
         .validation-error{
-            color:$black-color;
+            color:$red-color;
+            margin: 4px 0 0 2px;
         }
 
         .round-btn{
@@ -60,7 +77,7 @@
 
     width:100%;
     float: left;
-    margin:160px 0 80px;
+    margin:14% 0 80px;
 
 }
 
