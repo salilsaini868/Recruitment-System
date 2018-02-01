@@ -6,9 +6,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RS.Entity.Models
 {
-    public partial class Candidate : BaseEntity
+    public partial class Candidates : BaseEntity
     {
-        public Candidate()
+        public Candidates()
         {
             CandidateDocuments = new HashSet<CandidateDocuments>();
         }

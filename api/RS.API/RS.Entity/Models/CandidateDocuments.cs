@@ -19,6 +19,7 @@ namespace RS.Entity.Models
         [Required, MaxLength(150)]
         public string UploadedDocument { get; set; }
 
-        public Candidate Candidate { get; set; }
+        public Candidates Candidate { get; set; }
+
     }
 }

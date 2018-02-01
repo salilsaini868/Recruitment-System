@@ -12,9 +12,10 @@ using System;
 namespace RS.Data.Migrations
 {
     [DbContext(typeof(RSContext))]
-    partial class RSContextModelSnapshot : ModelSnapshot
+    [Migration("20180123120224_23012018_2")]
+    partial class _23012018_2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -187,45 +188,7 @@ namespace RS.Data.Migrations
                     b.ToTable("ApprovalTransactions");
                 });
 
-            modelBuilder.Entity("RS.Entity.Models.CandidateDocuments", b =>
-                {
-                    b.Property<Guid>("CandidateDocumentId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid>("CandidateId");
-
-                    b.Property<Guid>("CreatedBy");
-
-                    b.Property<DateTime>("CreatedDate");
-
-                    b.Property<Guid?>("DeletedBy");
-
-                    b.Property<DateTime?>("DeletedDate");
-
-                    b.Property<string>("DocumentName")
-                        .IsRequired()
-                        .HasMaxLength(150);
-
-                    b.Property<bool>("IsActive");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<Guid?>("ModifiedBy");
-
-                    b.Property<DateTime?>("ModifiedDate");
-
-                    b.Property<string>("UploadedDocument")
-                        .IsRequired()
-                        .HasMaxLength(150);
-
-                    b.HasKey("CandidateDocumentId");
-
-                    b.HasIndex("CandidateId");
-
-                    b.ToTable("CandidateDocuments");
-                });
-
-            modelBuilder.Entity("RS.Entity.Models.Candidates", b =>
+            modelBuilder.Entity("RS.Entity.Models.Candidate", b =>
                 {
                     b.Property<Guid>("CandidateId")
                         .ValueGeneratedOnAdd();
@@ -272,12 +235,12 @@ namespace RS.Data.Migrations
 
                     b.HasIndex("QualificationId");
 
-                    b.ToTable("Candidates");
+                    b.ToTable("Candidate");
                 });
 
-            modelBuilder.Entity("RS.Entity.Models.OpeningCandidates", b =>
+            modelBuilder.Entity("RS.Entity.Models.CandidateDocuments", b =>
                 {
-                    b.Property<int>("CandidateOpeningId")
+                    b.Property<Guid>("CandidateDocumentId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<Guid>("CandidateId");
@@ -290,6 +253,10 @@ namespace RS.Data.Migrations
 
                     b.Property<DateTime?>("DeletedDate");
 
+                    b.Property<string>("DocumentName")
+                        .IsRequired()
+                        .HasMaxLength(150);
+
                     b.Property<bool>("IsActive");
 
                     b.Property<bool>("IsDeleted");
@@ -298,15 +265,15 @@ namespace RS.Data.Migrations
 
                     b.Property<DateTime?>("ModifiedDate");
 
-                    b.Property<Guid>("OpeningId");
+                    b.Property<string>("UploadedDocument")
+                        .IsRequired()
+                        .HasMaxLength(150);
 
-                    b.HasKey("CandidateOpeningId");
+                    b.HasKey("CandidateDocumentId");
 
                     b.HasIndex("CandidateId");
 
-                    b.HasIndex("OpeningId");
-
-                    b.ToTable("OpeningCandidates");
+                    b.ToTable("CandidateDocuments");
                 });
 
             modelBuilder.Entity("RS.Entity.Models.Openings", b =>
@@ -614,15 +581,7 @@ namespace RS.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("RS.Entity.Models.CandidateDocuments", b =>
-                {
-                    b.HasOne("RS.Entity.Models.Candidates", "Candidate")
-                        .WithMany("CandidateDocuments")
-                        .HasForeignKey("CandidateId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("RS.Entity.Models.Candidates", b =>
+            modelBuilder.Entity("RS.Entity.Models.Candidate", b =>
                 {
                     b.HasOne("RS.Entity.Models.Organizations", "Organisation")
                         .WithMany()
@@ -635,16 +594,11 @@ namespace RS.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("RS.Entity.Models.OpeningCandidates", b =>
+            modelBuilder.Entity("RS.Entity.Models.CandidateDocuments", b =>
                 {
-                    b.HasOne("RS.Entity.Models.Candidates", "candidate")
-                        .WithMany()
+                    b.HasOne("RS.Entity.Models.Candidate", "Candidate")
+                        .WithMany("CandidateDocuments")
                         .HasForeignKey("CandidateId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("RS.Entity.Models.Openings", "Opening")
-                        .WithMany()
-                        .HasForeignKey("OpeningId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
