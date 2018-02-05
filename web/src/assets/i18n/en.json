@@ -73,7 +73,7 @@
     "FORGOTPASSWORD" :{
         "TITLE": "Forgot password",
         "ENTERMAILID" : "please enter valid email Id:",
-        "REQUEIED ":"*mailID requeied",
+        "REQUIRED": "This field is required",
         "OK":"Ok",
         "CLOSE":"Close"
     }
