@@ -5,6 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 // Service
 import { LoginServiceApp } from './login.serviceApp';
+import { ForgotpasswordServiceApp } from './forgotpassword.serviceApp';
 // Route
 import { LoginRouterModule } from './login.route';
 
@@ -12,6 +13,7 @@ import { LoginRouterModule } from './login.route';
 import { LoginComponent } from '../login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from '../../shared/shared.module';
+import { ForgotpasswordComponent } from '../forgotpassword.component';
 
 
 @NgModule({
@@ -23,9 +25,9 @@ import { SharedModule } from '../../shared/shared.module';
   exports: [
   ],
   declarations: [
-    LoginComponent
+    LoginComponent,ForgotpasswordComponent
   ],
-  providers: [LoginServiceApp],
+  providers: [LoginServiceApp, ForgotpasswordServiceApp],
 })
 
 export class LoginModule {

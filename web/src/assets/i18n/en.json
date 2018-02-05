@@ -52,7 +52,8 @@
         "LOGIN":"Login",
         "SAVE":"Save",
         "UPDATE":"Update",
-        "DELETE":"Delete"
+        "DELETE":"Delete",
+        "FORGOTPASSWORD":"Forgot password?"
     },
     "OPENING":{
         "LIST": "List of Openings",
@@ -68,5 +69,12 @@
     },
     "COMMON":{
         "SOMEERROROCURRED":"Some errror has been occured"
+    },
+    "FORGOTPASSWORD" :{
+        "TITLE": "Forgot password",
+        "ENTERMAILID" : "please enter valid email Id:",
+        "REQUEIED ":"*mailID requeied",
+        "OK":"Ok",
+        "CLOSE":"Close"
     }
 }
