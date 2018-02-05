@@ -21,7 +21,7 @@ import { ErrorModule } from './error/error.module';
 import { OpeningModule } from './opening/shared/opening.module';
 import { DashboardModule } from './dashboard/shared/dashboard.module';
 import { ApiModule } from './webapi/api.module';
-import { DetailModule } from './detail/shared/detail.module'
+
 
 // constants
 import { AppConstants } from './shared/constant/constant.variable';
@@ -52,7 +52,7 @@ import { DisplayMessageService } from './shared/toastr/display.message.service';
     AppRouterModule, ErrorModule, BrowserModule, FormsModule,
     MomentModule, HttpClientModule, ApiModule, LoginModule,
     AdminModule, SharedModule, OpeningModule, DashboardModule,
-    ToasterModule, BrowserAnimationsModule,DetailModule,
+    ToasterModule, BrowserAnimationsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { isNullOrUndefined } from 'util';
 import { Router } from '@angular/router';
-import { ForgotpasswordComponent } from '../detail/forgotpassword.component';
 
 // Models
 import { UserLoginModel } from '../webapi/models';
@@ -38,12 +37,6 @@ export class LoginComponent implements OnInit {
     if (!isNullOrUndefined(token)) {
       this.router.navigate(['Dashboard']);
     }
-  }
-  showPopup() {
-    this.show = true;
-    console.log("click new component" + this.show);
-    //  this.commonServiceApp.callMethodOfSecondComponent();
-     this.onShow(true);
   }
 
   onSubmit(loginForm) {
