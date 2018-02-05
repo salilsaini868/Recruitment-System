@@ -31,7 +31,8 @@ export class HeaderComponent implements OnInit {
         } 
     }
     navigate() {
-        this.router.navigate(["detail"]);
+        console.log("Inside chagepassword");
+        this.router.navigate(['changepassword']);
     }
     
 }

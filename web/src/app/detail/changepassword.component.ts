@@ -1,17 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
+import { HeaderComponent } from './../shared/header/header.component';
+
 
 @Component({
-    selector: 'app-page1',
-    templateUrl: './page1.component.html',
-    styleUrls: ['./page1.component.css']
+    selector: 'app-changepassword',
+    templateUrl: 'changepassword.component.html'
 })
-export class ChangepasswordComponent {
+export class ChangepasswordComponent implements OnInit{
 
-    constructor(private router: Router) { }
+    constructor(private router: Router) { 
+        
+    }
 
+ngOnInit(){
+}
     goBack() {
-       // this.router.back();
+        this.router.navigate(['Dashboard']);
     }
 
 }

@@ -12,7 +12,6 @@ import { Status } from '../app.enum';
 // service
 import { DisplayMessageService } from '../shared/toastr/display.message.service';
 import { LoginServiceApp } from './shared/login.serviceApp';
-//import { CommonService } from '../shared/commonService/commonService.service';
 
 
 @Component({
