@@ -2,16 +2,15 @@ import { Routes, RouterModule } from '@angular/router';
 
 // Component
 import { ChangepasswordComponent } from './../../detail/changepassword.component';
-import { HeaderComponent } from './../../shared/header/header.component';
+import { RoleGuardService } from '../../shared/index.shared';
+
 
 const DETAIL_ROUTES: Routes = [
     {
-        path: '',
-        component: ChangepasswordComponent
-    },
-    {
-        path: 'header',
-        component: HeaderComponent
+        path: 'changepassword',
+        component: ChangepasswordComponent,
+        canActivate: [RoleGuardService],
+        data: { expectedRole: 'Admin' }
     }
 ];
 

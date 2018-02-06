@@ -3,17 +3,15 @@ import { Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { LoginService, RoleService } from '../../webapi/services';
-
-
+import { UserService, RoleService } from '../../webapi/services';
 
 @Injectable()
-export class LoginServiceApp {
+export class ChangepasswordServiceApp {
 
-    constructor(private http: HttpClient, private apiLoginService: LoginService, private apiRoleService: RoleService) { }
+    constructor(private http: HttpClient, private apiChangepasswordService: UserService, private apiRoleService: RoleService) { }
 
-    userLogin(userLoginModel): Observable<any> {
-        return this.apiLoginService.ApiLoginLoginUserPost(userLoginModel).map(x => (x));
+    userChangepassword(UserLoginModel): Observable<any> {
+        return this.apiChangepasswordService.ApiChangepasswordChangepasswordUserPost(UserLoginModel).map(x => (x));
     }
 
     getUser(): Observable<any> {
