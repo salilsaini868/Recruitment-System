@@ -14,5 +14,8 @@ namespace RS.Entity.Models
 
         public ApprovalEvents ApprovalEvent { get; set; }
         public Roles Role { get; set; }
+
+        public Guid UserId { get; set; }
+        public Users User { get; set; }
     }
 }

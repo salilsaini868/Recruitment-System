@@ -2,16 +2,16 @@ import { Component, OnInit } from '@angular/core';
 
 
 @Component({
-    selector: 'left-sideBar',
+    selector: 'app-leftsidebar',
     templateUrl: './leftSideBar.component.html',
     styleUrls: ['leftSideBar.scss']
 })
 
 export class LeftSideBarComponent implements OnInit {
-    isToggle : boolean = true;
+    isToggle: boolean = true;
     constructor() {}
     ngOnInit(): void {
     }
 
-} 
+}
 

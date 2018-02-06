@@ -19,7 +19,7 @@ export class StripComponent implements OnInit {
   }
 
   getAllApprovalEvents() {
-    this.approvalServiceApp.getAllApprovalEvents(1).subscribe((data) => {
+    this.approvalServiceApp.getApprovalEventsById(1).subscribe((data) => {
       this.approvalEvents = data.body;
       console.log(this.approvalEvents);
     });

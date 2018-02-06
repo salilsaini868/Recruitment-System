@@ -24,4 +24,8 @@ export class UserServiceApp {
         return this.apiUserService.ApiUserGetUserByIdGet(userId).map(x => (x));
     }
 
+    getUsersByRole(roleId): Observable<any> {
+        return this.apiUserService.ApiUserGetUsersByRoleGet(roleId).map(x => (x));
+    }
+
 }

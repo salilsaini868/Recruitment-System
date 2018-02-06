@@ -91,6 +91,17 @@
         "UPDATE": "Update",
         "DELETE": "Delete"
     },
+    "EVENTROLE": {
+        "APPROVALEVENT": "Approval Event",
+        "ROLE":"Role",
+        "USERNAME":"Name",
+        "USERS":"Users",
+        "LIST":"List of EventRoles",
+        "SAVE": "Save",
+        "UPDATE": "Update",
+        "DELETE": "Delete",
+        "MANDATORY":"User is Mandatory"
+    },
     "COMMON": {
         "SOMEERROROCURRED": "Some errror has been occured",
         "SELECTDEFAULT":"--select--"

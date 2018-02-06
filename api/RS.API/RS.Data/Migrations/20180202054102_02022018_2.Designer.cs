@@ -12,9 +12,10 @@ using System;
 namespace RS.Data.Migrations
 {
     [DbContext(typeof(RSContext))]
-    partial class RSContextModelSnapshot : ModelSnapshot
+    [Migration("20180202054102_02022018_2")]
+    partial class _02022018_2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,15 +65,11 @@ namespace RS.Data.Migrations
 
                     b.Property<int>("RoleId");
 
-                    b.Property<Guid>("UserId");
-
                     b.HasKey("ApprovalEventRoleId");
 
                     b.HasIndex("ApprovalEventId");
 
                     b.HasIndex("RoleId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("ApprovalEventRoles");
                 });
@@ -591,11 +588,6 @@ namespace RS.Data.Migrations
                     b.HasOne("RS.Entity.Models.Roles", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("RS.Entity.Models.Users", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

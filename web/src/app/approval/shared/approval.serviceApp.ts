@@ -9,8 +9,12 @@ export class ApprovalServiceApp {
   constructor(private apiApprovalService: ApprovalService) { }
 
 
-  getAllApprovalEvents(approvalId): Observable<any> {
-    return this.apiApprovalService.ApiApprovalGetAllApprovalEventsGet(approvalId).map(x => (x));
+  getApprovalEventsById(approvalId): Observable<any> {
+    return this.apiApprovalService.ApiApprovalGetApprovalEventsGet(approvalId).map(x => (x));
+  }
+
+  getAllApprovalEvents(): Observable<any> {
+    return this.apiApprovalService.ApiApprovalGetAllApprovalEventsGet().map(x => (x));
   }
 
 }

@@ -9,4 +9,5 @@ export class UserModel {
     fullName?: string;
     role?: string;
     roleId?: number;
+    isChecked?: boolean;
 }
