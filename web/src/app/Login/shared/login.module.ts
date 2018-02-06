@@ -5,7 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 // Service
 import { LoginServiceApp } from './login.serviceApp';
-import { ForgotpasswordServiceApp } from './forgotpassword.serviceApp';
+//import { ForgotpasswordServiceApp } from './forgotpassword.serviceApp';
 // Route
 import { LoginRouterModule } from './login.route';
 
@@ -27,7 +27,7 @@ import { ForgotpasswordComponent } from '../forgotpassword.component';
   declarations: [
     LoginComponent,ForgotpasswordComponent
   ],
-  providers: [LoginServiceApp, ForgotpasswordServiceApp],
+  providers: [LoginServiceApp],
 })
 
 export class LoginModule {

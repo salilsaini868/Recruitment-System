@@ -1,11 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { ForgotpasswordServiceApp } from './shared/forgotpassword.serviceApp';
+import { LoginServiceApp } from './shared/login.serviceApp';
 import { isNullOrUndefined } from 'util';
 import { UserViewModel } from '../webapi/models';
 import { LoginComponent } from './login.component';
 import { Status } from '../app.enum';
-import { Location } from "@angular/common";
 
 @Component({
     selector: 'app-forgotpassword',
@@ -15,14 +14,14 @@ export class ForgotpasswordComponent implements OnInit {
 
     ForgotpasswordModel: UserViewModel = {} as UserViewModel;
     constructor(
-        private forgotpasswordServiceApp: ForgotpasswordServiceApp, private location: Location,
+        private loginServiceApp: LoginServiceApp,
         private router: Router) {
     }
     ngOnInit() {
     }
     onSubmit(forgotpasswordform) {
         if (forgotpasswordform.valid) {
-            this.forgotpasswordServiceApp.userForgotpassword(this.ForgotpasswordModel).subscribe(
+            this.loginServiceApp.userForgotpassword(this.ForgotpasswordModel).subscribe(
                 (data) => {
                     if (!isNullOrUndefined(data) && data.status === Status.Success) {
                         this.router.navigate(['Login']);

@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['Dashboard']);
     }
   }
-  navigate() {
+  forgotpassword() {
     this.router.navigate(['forgotpassword'])
   }
   onSubmit(loginForm) {
