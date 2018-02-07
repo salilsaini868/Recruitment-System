@@ -1,10 +1,41 @@
 <div class="content-wrapper">
- <div class="panel panel-primary">
-        <div id="updatePanel" class="panel-heading">
+ <div class="panel no-radius">
+        <div id="updatePanel" class="panel-heading no-radius">
             {{(isCreateOrUpdate ? 'SKILLS.CREATE_SKILLS' : 'SKILLS.UPDATE_SKILLS') | translate }}
         </div>
         <div class="panel-body">
-            <form (ngSubmit)="onSubmit(skillsForm)" #skillsForm="ngForm" class="form-horizontal">
+                <form (ngSubmit)="onSubmit(skillsForm)" #skillsForm="ngForm" class="form-horizontal">
+            <div class="row">
+               <div class="col-md-10 col-sm-10 col-xs-12">
+                   <div class="row">
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 col-xs-12"><label for="name"> {{ 'SKILLS.NAME' | translate }}</label></div>
+                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <input type="hidden" name="skillId" [(ngModel)]="skillsModel.skillId">
+                                            <input type="text"  class="full-input" id="skills" id="name" name="name" [(ngModel)]="skillsModel.name" required minlength="3"
+                                                maxlength="20" element-validation>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <div class="row">
+                                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                                    <label for="description">{{ 'SKILLS.DESCRIPTION' | translate }} </label>
+                                            </div>
+                                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                                    <input type="text" class="full-input"  id="description" name="description" [(ngModel)]="skillsModel.description">
+                                            </div>
+                                        </div>
+                            </div>
+                   </div>
+               </div>
+               <div class="col-md-2 col-sm-2 col-xs-12">
+                    <button type="submit" id="btnSave" class="btn btn-primary blue-btn no-radius full-width">{{ 'SKILLS.SAVE' | translate }}</button>
+               </div>
+            </div>
+            </form>
+            <!-- <form (ngSubmit)="onSubmit(skillsForm)" #skillsForm="ngForm" class="form-horizontal">
                 <label class="col-sm-2" for="name"> {{ 'SKILLS.NAME' | translate }}</label>
                 <div class="col-col-3">
                     <input type="hidden" name="skillId" [(ngModel)]="skillsModel.skillId">
@@ -15,33 +46,39 @@
                 <div class="form-group">
                     <input type="text" class="col-col-6" id="description" name="description" [(ngModel)]="skillsModel.description">
                 </div>
-                <button type="submit" id="btnSave" class="btn btn-primary">{{ 'SKILLS.SAVE' | translate }}</button>
-            </form>
+                <button type="submit" id="btnSave" class="btn btn-primary blue-btn no-radius">{{ 'SKILLS.SAVE' | translate }}</button>
+            </form> -->
         </div>
     </div>
     
     <h3>{{ 'SKILL_DETAILS.SKILL_DETAILS' | translate }}</h3>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th width=400> {{ 'SKILL_DETAILS.SKILLS' | translate }}</th>
-                <th width=400> {{ 'SKILL_DETAILS.DESCRIPTION' | translate }}</th>
-                <th width=400> {{ 'SKILL_DETAILS.ACTION' | translate }}</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let skill of skills">
-                <td>{{skill.name}}</td>
-                <td>{{skill.description}}</td>
-                <td>
-                    <a class="btn btn-success" (click)="editSkills(skill)">
-                        <p> <span class="glyphicon glyphicon-edit"></span></p>
-                    </a>
-                    <a class="btn btn-danger" data-toggle="modal" data-target="#delete">
-                        <p> <span class="glyphicon glyphicon-remove"></span></p>
-                    </a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="table-responsive-top">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th width=400> {{ 'SKILL_DETAILS.SKILLS' | translate }}</th>
+                        <th width=400> {{ 'SKILL_DETAILS.DESCRIPTION' | translate }}</th>
+                        <th width=400> {{ 'SKILL_DETAILS.ACTION' | translate }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let skill of skills">
+                        <td>{{skill.name}}</td>
+                        <td>{{skill.description}}</td>
+                        <td>
+                            <a class="btn btn-success no-radius" (click)="editSkills(skill)">
+                                <span class="glyphicon glyphicon-edit"></span>
+                            </a>
+                            <a class="btn btn-danger no-radius" data-toggle="modal" data-target="#delete">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="table-slide"><p>Slide to view table</p></div>
+
     </div>

@@ -22,6 +22,7 @@ import {
 import { SharedModule } from '../../shared/shared.module';
 import { LoginServiceApp } from '../../Login/shared/login.serviceApp';
 import { ApprovalModule } from '../../approval/shared/approval.module';
+import { RoleServiceApp } from '../users/shared/role.serviceApp';
 
 @NgModule({
   imports: [
@@ -37,7 +38,7 @@ import { ApprovalModule } from '../../approval/shared/approval.module';
   ],
   bootstrap: [],
   providers: [LoginServiceApp, SkillsServiceApp, UserServiceApp,
-    QualificationsServiceApp, RoleServiceApp, UserEventRoleServiceApp],
+    QualificationsServiceApp, RoleServiceApp, UserEventRoleServiceApp]
 })
 
 export class AdminModule {
