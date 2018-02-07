@@ -29,6 +29,11 @@ namespace RS.Data.Logic
             return _context.Users.Include(t => t.UserRoles).ThenInclude(r => r.Role).FirstOrDefault(x => (x.IsActive && !x.IsDeleted) && (x.UserId == userId));
         }
 
+        public List<Users> GetUsersByRole(int roleId)
+        {
+            return _context.UserRoles.Where(x => x.RoleId == roleId && (x.IsActive && !x.IsDeleted)).Select(x => x.user).ToList();
+        }
+
         public Users LoginUser(string username, string password)
         {
             return _context.Users.Include(t => t.UserRoles).ThenInclude(r => r.Role).FirstOrDefault(x => (x.IsActive && !x.IsDeleted) && (x.UserName == username.ToLower() && x.Password == password.ToLower()));

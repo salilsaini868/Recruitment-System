@@ -19,6 +19,6 @@ export class LoginServiceApp {
         return this.apiRoleService.ApiRoleGetAllRoleGet().map(x => (x));
     }
     userForgotpassword(userForgotpasswordModel): Observable<any> {
-        return this.apiForgotpasswordService.ApiForgotpasswordLoginUserPost(userForgotpasswordModel).map(x => (x));
+        return ;
     }
 }

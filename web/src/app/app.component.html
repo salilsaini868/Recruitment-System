@@ -7,8 +7,8 @@
         </div>
     </header>
 
-<left-sideBar *ngIf="isTokenExist()"></left-sideBar>    
-<div class="content-wrapper"><router-outlet></router-outlet></div>
+<app-leftsidebar *ngIf="isTokenExist()"></app-leftsidebar>    
+<router-outlet></router-outlet>
 
 <app-footer *ngIf="isTokenExist()"></app-footer>
 

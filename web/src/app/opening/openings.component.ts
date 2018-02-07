@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { OpeningServiceApp } from './shared/opening.serviceApp';
 import { OpeningViewModel } from '../webapi/models/opening-view-model';
 import { Router } from '@angular/router';
+import { Status } from '../app.enum';
+import { DisplayMessageService } from '../shared/toastr/display.message.service';
 
 @Component({
     selector: 'app-openings',
@@ -11,7 +13,8 @@ import { Router } from '@angular/router';
 export class OpeningsComponent implements OnInit {
     openings: OpeningViewModel[] = [] as OpeningViewModel[];
 
-    constructor(private openingServiceApp: OpeningServiceApp, private router: Router) {
+    constructor(private openingServiceApp: OpeningServiceApp, private router: Router,
+        private msgService: DisplayMessageService) {
     }
 
     ngOnInit() {
@@ -21,7 +24,11 @@ export class OpeningsComponent implements OnInit {
     getAllOpenings() {
         this.openingServiceApp.getAllOpenings().subscribe(
             (data) => {
-                this.openings = data.body;
+                if (data.status === Status.Success) {
+                    this.openings = data.body;
+                } else {
+                    this.msgService.showError('Error');
+                }
             }
         );
     }
@@ -32,5 +39,9 @@ export class OpeningsComponent implements OnInit {
 
     updateOpening(openingId) {
         this.router.navigate(['opening', openingId]);
+    }
+
+    addCandidate(openingId) {
+        this.router.navigate(['opening/Candidate', openingId]);
     }
 }

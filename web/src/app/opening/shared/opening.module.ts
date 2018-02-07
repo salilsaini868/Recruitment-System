@@ -2,9 +2,14 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+
+// Modules
 import { OpeningRouterModule } from './opening.route';
-import { OpeningComponent } from '../opening.component';
-import { OpeningsComponent } from '../openings.component';
+
+// Components
+import { OpeningComponent, OpeningsComponent} from '../index.opening';
+
+// Services
 import { OpeningServiceApp } from './opening.serviceApp';
 
 @NgModule({

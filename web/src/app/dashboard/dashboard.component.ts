@@ -9,7 +9,6 @@ import decode from 'jwt-decode';
 })
 
 export class DashboardComponent implements OnInit {
-  debugger;
   loggedRole = null;
   constructor(private router: Router) {
   }

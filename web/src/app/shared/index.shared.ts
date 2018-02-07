@@ -12,5 +12,6 @@ export { AuthService } from './guards/auth.service';
 export { HeaderComponent } from './header/header.component';
 export { LeftSideBarComponent } from './leftSideBar/leftSideBar.component';
 export { FooterComponent } from './footer/footer.component';
+export { UtilityService } from './utility/utility.service';
 
 

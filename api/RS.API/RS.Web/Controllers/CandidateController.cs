@@ -7,27 +7,51 @@ using System;
 using System.Net;
 using System.Net.Http;
 using Microsoft.AspNetCore.Authorization;
+using RS.ViewModel.Candidate;
 
 namespace RS.Web.Controllers
 {
     [Produces("application/json")]
     [Route("api/Candidate/[Action]")]
-    [ValidateModel]
     [Authorize]
     public class CandidateController : Controller
     {
-        private readonly ICandidateManagerService _candidateManager;
+        private readonly ICandidateManagerService _candidateManagerService;
 
         public CandidateController(ICandidateManagerService candidateManager)
         {
-            _candidateManager = candidateManager;
+            _candidateManagerService = candidateManager;
 
         }
 
-        [HttpGet]
-        public dynamic GetAllCandidates()
+        [ValidateModel]
+        [HttpPost]
+        public IResult AddCandidate([FromBody]CandidateViewModel candidateView)
         {
-            return null;
+            var addedCandidate = _candidateManagerService.AddCandidate(candidateView);
+            return addedCandidate;
+        }
+
+        [ValidateModel]
+        [HttpPut]
+        public IResult UpdateCandidate([FromBody]CandidateViewModel candidateView)
+        {
+            var updatedCandidate = _candidateManagerService.UpdateCandidate(candidateView);
+            return updatedCandidate;
+        }
+
+        [HttpGet]
+        public IResult GetAllCandidate()
+        {
+            var allCandidates = _candidateManagerService.GetAllCandidate();
+            return allCandidates;
+        }
+
+        [HttpGet]
+        public IResult GetCandidateById(Guid id)
+        {
+            var candidateRecord = _candidateManagerService.GetCandidateById(id);
+            return candidateRecord;
         }
     }
 }

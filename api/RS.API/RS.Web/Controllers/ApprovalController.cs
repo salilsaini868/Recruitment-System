@@ -7,13 +7,12 @@ using System;
 using System.Net;
 using System.Net.Http;
 using Microsoft.AspNetCore.Authorization;
-
+using RS.ViewModel.Approval;
 
 namespace RS.Web.Controllers
 {
     [Produces("application/json")]
     [Route("api/Approval/[Action]")]
-    [ValidateModel]
     [Authorize]
     public class ApprovalController : Controller
     {
@@ -31,9 +30,29 @@ namespace RS.Web.Controllers
         /// <param name="approvalId"></param>
         /// <returns></returns>
         [HttpGet]
-        public IResult GetAllApprovalEvents(int approvalId)
+        public IResult GetApprovalEvents(int approvalId)
         {
             return _approvalManager.GetApprovalEvents(approvalId);
+        }
+
+        [HttpGet]
+        public IResult GetApprovals()
+        {
+            return _approvalManager.GetAllApprovals();
+        }
+
+        [HttpGet]
+        public IResult GetAllApprovalEventRoles()
+        {
+            return _approvalManager.GetAllApprovalEventRoles();
+        }
+
+        [ValidateModel]
+        [HttpPost]
+        public IResult createEventRole([FromBody]ApprovalEventRoleViewModel approvalEventRoleViewModel)
+        {
+            var createdEventRole = _approvalManager.ManageApprovalEventRole(approvalEventRoleViewModel);
+            return createdEventRole;
         }
     }
 }
