@@ -9,6 +9,8 @@ namespace RS.Service.Interfaces
     {
         IResult LoginUser(string userName, string password);
 
+        IResult ForgotPassword(String userName);
+
         IResult CreateUser(UserViewModel user);
 
         IResult UpdateUser(UserViewModel user);

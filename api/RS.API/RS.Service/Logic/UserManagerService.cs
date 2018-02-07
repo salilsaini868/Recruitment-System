@@ -76,6 +76,26 @@ namespace RS.Service.Logic
 
         }
 
+        public IResult ForgotPassword(string userName)
+        {
+            var result = new Result
+            {
+                Operation = Operation.Read,
+                Status = Status.Success
+            };
+            try
+            {
+                //var emailId = _userRepository.GetEmailIdByUserName(userName);
+                //result.Body = 
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Error;
+            }
+            return result;
+        }
+
         public IResult GetAllUser()
         {
             var result = new Result
