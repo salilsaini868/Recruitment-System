@@ -10,9 +10,10 @@ import { LoginServiceApp } from './login.serviceApp';
 // Route
 import { LoginRouterModule } from './login.route';
 
-// Component
-import { LoginComponent } from '../login.component';
-import { ForgotpasswordComponent } from '../forgotpassword.component';
+// Components
+import {
+  LoginComponent, ForgotpasswordComponent
+} from '../index.login';
 
 
 @NgModule({
@@ -24,7 +25,7 @@ import { ForgotpasswordComponent } from '../forgotpassword.component';
   exports: [
   ],
   declarations: [
-    LoginComponent,ForgotpasswordComponent
+    LoginComponent, ForgotpasswordComponent
   ],
   providers: [LoginServiceApp],
 })
