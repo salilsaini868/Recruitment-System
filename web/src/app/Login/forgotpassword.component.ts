@@ -11,6 +11,7 @@ import { Status } from '../app.enum';
     templateUrl: 'forgotpassword.component.html',
 })
 export class ForgotpasswordComponent implements OnInit {
+    userName: string;
 
     ForgotpasswordModel: UserViewModel = {} as UserViewModel;
     constructor(
@@ -21,7 +22,7 @@ export class ForgotpasswordComponent implements OnInit {
     }
     onSubmit(forgotpasswordform) {
         if (forgotpasswordform.valid) {
-            this.loginServiceApp.userForgotpassword(this.ForgotpasswordModel).subscribe(
+            this.loginServiceApp.userForgotpassword(this.userName).subscribe(
                 (data) => {
                     if (!isNullOrUndefined(data) && data.status === Status.Success) {
                         this.router.navigate(['Login']);
