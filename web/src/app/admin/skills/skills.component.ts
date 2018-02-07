@@ -4,7 +4,8 @@ import { SkillViewModel } from '../../webapi/models/skill-view-model';
 
 @Component({
   selector: 'app-skills',
-  templateUrl: 'skills.component.html'
+  templateUrl: 'skills.component.html',
+  styleUrls: ['shared/skills.scss']
 })
 
 export class SkillsComponent implements OnInit {
