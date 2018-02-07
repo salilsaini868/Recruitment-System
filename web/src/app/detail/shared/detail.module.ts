@@ -11,8 +11,7 @@ import { DetailRouterModule } from './detail.route';
     imports: [
         BrowserModule,
         FormsModule,
-        DetailRouterModule
-        
+        DetailRouterModule,
     ],
     providers: []
 })

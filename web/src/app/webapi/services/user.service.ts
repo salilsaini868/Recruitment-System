@@ -227,6 +227,9 @@ export class UserService extends BaseService {
       })
     );
   }
+  ApiChangepasswordChangepasswordUserPost(id: string): Observable<IResult> {
+  return
+  }
 }
 
 export module UserService {
