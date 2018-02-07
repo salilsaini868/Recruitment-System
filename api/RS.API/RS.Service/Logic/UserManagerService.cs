@@ -132,6 +132,37 @@ namespace RS.Service.Logic
             }
             return result;
         }
+
+        public IResult GetUsersByRole(int roleId)
+        {
+            var result = new Result
+            {
+                Operation = Operation.Read,
+                Status = Status.Success
+            };
+            try
+            {
+                var users = _userRepository.GetUsersByRole(roleId).ToList();
+                result.Body = users.Select(user =>
+                {
+                    var getUserRole = user.UserRoles.FirstOrDefault(x => (x.IsActive && !x.IsDeleted));
+                    var userViewModel = new UserViewModel();
+                    userViewModel.FullName = user.FirstName + " " + user.LastName;
+                    if (getUserRole != null)
+                    {
+                        userViewModel.RoleId = getUserRole.RoleId;
+                        userViewModel.Role = getUserRole.Role.Name;
+                    }
+                    return userViewModel.MapFromModel(user);
+                }).ToList();
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Error;
+            }
+            return result;
+        }
         #region private members
 
         #endregion private members

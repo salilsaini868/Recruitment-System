@@ -8,4 +8,7 @@ export { SkillsComponent } from './skills/skills.component';
 export { UserComponent } from './users/user.component';
 export { UsersComponent } from './users/users.component';
 
+// UserEventRoleComponent
+export { UserEventRoleComponent } from './usereventroles/usereventrole.component';
+
 

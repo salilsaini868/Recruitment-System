@@ -68,5 +68,12 @@ namespace RS.Web.Controllers
             return userRecord;
         }
 
+        [HttpGet]
+        public IResult GetUsersByRole(int id)
+        {
+            var userRecord = _userService.GetUsersByRole(id);
+            return userRecord;
+        }
+
     }
 }

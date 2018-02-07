@@ -17,5 +17,7 @@ namespace RS.Data.Interfaces
         new List<Users> GetAll();
 
         Users GetByID(Guid userId);
+
+        List<Users> GetUsersByRole(int roleId);
     }
 }

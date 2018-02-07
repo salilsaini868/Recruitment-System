@@ -37,7 +37,7 @@ export class CandidateComponent implements OnInit {
         this.months = this.utilityService.fillArray(12);
     }
 
-    ngOnInit(): void {
+    ngOnInit() {
         this.setDefaultValues();
         this.initializeMethods();
         this.setDefaultOption();
@@ -84,7 +84,6 @@ export class CandidateComponent implements OnInit {
                     (data) => {
                         if (data.status === Status.Success) {
                             this.candidateModel = data.body;
-                            console.log(this.candidateModel);
                         } else {
                             this.msgService.showError('Error');
                         }
