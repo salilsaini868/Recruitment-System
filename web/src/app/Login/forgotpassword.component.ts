@@ -36,6 +36,4 @@ export class ForgotpasswordComponent implements OnInit {
     goBack() {
         this.router.navigate(['login']);
     }
-    userEmail() {
-    }
 }
