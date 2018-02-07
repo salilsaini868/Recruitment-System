@@ -24,13 +24,7 @@ namespace RS.Data.Logic
                 .OrderBy(t => t.ApprovalEventOrder).ToList();
         }
 
-        public List<ApprovalEvents> GetAllApprovalEvents()
-        {
-            return _context.ApprovalEvents.Include(t => t.ApprovalActions)
-                .OrderBy(t => t.ApprovalEventOrder).ToList();
-        }
-
-        public void ManageApprovalEventRole(ApprovalEventRoles approvalEventRole)
+        public void AddApprovalEventRole(ApprovalEventRoles approvalEventRole)
         {
             _context.ApprovalEventRoles.Add(approvalEventRole);
         }
@@ -41,11 +35,9 @@ namespace RS.Data.Logic
                 .Where(x => x.IsActive && !x.IsDeleted).ToList();
         }
 
-        public void UpdateUserEventRole(List<ApprovalEventRoles> approvalEventRoles)
+        public List<Approvals> GetAllApprovals()
         {
-            approvalEventRoles.ForEach(x =>
-                _context.Entry(x).State = EntityState.Modified
-            );
+            return _context.Approvals.ToList();
         }
     }
 }

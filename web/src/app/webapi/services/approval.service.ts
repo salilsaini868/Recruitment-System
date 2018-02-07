@@ -61,13 +61,13 @@ export class ApprovalService extends BaseService {
   }
   /**
    */
-  ApiApprovalGetAllApprovalEventsGetResponse(): Observable<HttpResponse<IResult>> {
+  ApiApprovalGetApprovalsGetResponse(): Observable<HttpResponse<IResult>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
     let req = new HttpRequest<any>(
       "GET",
-      this.rootUrl + `/api/Approval/GetAllApprovalEvents`,
+      this.rootUrl + `/api/Approval/GetApprovals`,
       __body,
       {
         headers: __headers,
@@ -88,20 +88,20 @@ export class ApprovalService extends BaseService {
 
   /**
    */
-  ApiApprovalGetAllApprovalEventsGet(): Observable<IResult> {
-    return this.ApiApprovalGetAllApprovalEventsGetResponse().pipe(
+  ApiApprovalGetApprovalsGet(): Observable<IResult> {
+    return this.ApiApprovalGetApprovalsGetResponse().pipe(
       map(_r => _r.body)
     );
   }
   /**
    */
-  ApiApprovalGetAllApprovalEventRolesApprovalEventRolesGetResponse(): Observable<HttpResponse<IResult>> {
+  ApiApprovalGetAllApprovalEventRolesGetResponse(): Observable<HttpResponse<IResult>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
     let req = new HttpRequest<any>(
       "GET",
-      this.rootUrl + `/api/Approval/GetAllApprovalEventRoles/ApprovalEventRoles`,
+      this.rootUrl + `/api/Approval/GetAllApprovalEventRoles`,
       __body,
       {
         headers: __headers,
@@ -122,8 +122,8 @@ export class ApprovalService extends BaseService {
 
   /**
    */
-  ApiApprovalGetAllApprovalEventRolesApprovalEventRolesGet(): Observable<IResult> {
-    return this.ApiApprovalGetAllApprovalEventRolesApprovalEventRolesGetResponse().pipe(
+  ApiApprovalGetAllApprovalEventRolesGet(): Observable<IResult> {
+    return this.ApiApprovalGetAllApprovalEventRolesGetResponse().pipe(
       map(_r => _r.body)
     );
   }

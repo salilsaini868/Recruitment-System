@@ -20,7 +20,7 @@ namespace RS.Service.Interfaces
         /// 
         /// </summary>
         /// <returns></returns>
-        IResult GetAllApprovalEvents();
+        IResult GetAllApprovals();
 
         /// <summary>
         /// 

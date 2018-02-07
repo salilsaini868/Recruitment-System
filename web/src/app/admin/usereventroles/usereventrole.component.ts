@@ -16,6 +16,7 @@ import { ApprovalEventModel } from '../../shared/customModels/approval-event-mod
 import { TranslateService } from '@ngx-translate/core';
 import { UserEventRoleServiceApp } from './shared/usereventrole.serviceApp';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
+import { ApprovalModel } from '../../shared/customModels/approval-model';
 
 @Component({
     'selector': 'app-usereventrole',
@@ -29,6 +30,8 @@ export class UserEventRoleComponent implements OnInit {
     roles: RoleViewModel[] = [] as RoleViewModel[];
     approvalEventRoleModels: ApprovalEventRoleViewModel[] = [] as ApprovalEventRoleViewModel[];
     users: UserModel[] = [];
+    approvals: ApprovalModel[] = [];
+    approvalId: number;
     defaultOption: any;
 
     constructor(private approvalServiceApp: ApprovalServiceApp, private msgService: DisplayMessageService,
@@ -38,16 +41,31 @@ export class UserEventRoleComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.initializeMethods();
         this.setDefaultOption();
+        this.initializeMethods();
         this.getAllEventRoleModels();
+        this.getApprovalEvents();
+        this.getUsers();
     }
 
     initializeMethods() {
         this.approvalEventRoleModel.users = [];
-        this.getAllApprovalEvents();
+        this.getAllApprovals();
         this.getRoles();
-        this.getUsers();
+    }
+
+    getAllApprovals() {
+        this.approvalServiceApp.getApprovals().subscribe(
+            (data) => {
+                if (data.status === Status.Success) {
+                    this.approvals = data.body;
+                    const approval = this.defaultOption;
+                    this.approvals.splice(0, 0, { approvalId: 0, approvalName: approval });
+                } else {
+                    this.msgService.showError('Error');
+                }
+            }
+        );
     }
 
     getAllEventRoleModels() {
@@ -66,8 +84,15 @@ export class UserEventRoleComponent implements OnInit {
         this.translateService.get('COMMON.SELECTDEFAULT').subscribe(
             (data) => {
                 this.defaultOption = data;
+                this.setDefaultApprovalEvents();
             }
         );
+    }
+
+    setDefaultApprovalEvents() {
+        this.approvalEvents = [];
+        const approvalEvent = this.defaultOption;
+        this.approvalEvents.splice(0, 0, { approvalEventId: 0, approvalEventName: approvalEvent });
     }
 
     onChangeUsers(user: UserModel, isChecked: boolean) {
@@ -79,18 +104,24 @@ export class UserEventRoleComponent implements OnInit {
         }
     }
 
-    getAllApprovalEvents() {
-        this.approvalServiceApp.getAllApprovalEvents().subscribe(
-            (data) => {
-                if (data.status === Status.Success) {
-                    this.approvalEvents = data.body;
-                    const approvalEvent = this.defaultOption;
-                    this.approvalEvents.splice(0, 0, { approvalEventId: 0, approvalEventName: approvalEvent });
-                } else {
-                    this.msgService.showError('Error');
+    getApprovalEvents() {
+        debugger;
+        if (!isNullOrUndefined(this.approvalId) && (String(this.approvalId) !== '0')) {
+            this.approvalServiceApp.getApprovalEventsById(this.approvalId).subscribe(
+                (data) => {
+                    if (data.status === Status.Success) {
+                        this.approvalEvents = data.body;
+                        const approvalEvent = this.defaultOption;
+                        this.approvalEvents.splice(0, 0, { approvalEventId: 0, approvalEventName: approvalEvent });
+
+                    } else {
+                        this.msgService.showError('Error');
+                    }
                 }
-            }
-        );
+            );
+        } else {
+            this.setDefaultApprovalEvents();
+        }
     }
 
     getRoles() {
@@ -108,7 +139,6 @@ export class UserEventRoleComponent implements OnInit {
     }
 
     getUsers() {
-        debugger;
         if (!isNullOrUndefined(this.approvalEventRoleModel.roleId)) {
             this.userServiceApp.getUsersByRole(this.approvalEventRoleModel.roleId).subscribe(
                 (data) => {
@@ -123,7 +153,6 @@ export class UserEventRoleComponent implements OnInit {
     }
 
     onSubmit(eventRoleForm) {
-        debugger;
         if (eventRoleForm.valid) {
             if (this.approvalEventRoleModel.users.length > 0) {
                 this.userEvetRoleServiceApp.CreateUserEventRole(this.approvalEventRoleModel).subscribe(
@@ -143,11 +172,9 @@ export class UserEventRoleComponent implements OnInit {
     }
 
     reset() {
-        debugger;
         this.users = [];
-        this.approvalEventRoleModel.users = [];
-        this.getAllApprovalEvents();
-        this.getRoles();
+        this.approvalEvents = [];
+        this.initializeMethods();
     }
 
 }

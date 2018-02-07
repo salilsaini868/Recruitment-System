@@ -61,40 +61,6 @@ namespace RS.Service.Logic
             return result;
         }
 
-        public IResult GetAllApprovalEvents()
-        {
-            var result = new Result
-            {
-                Operation = Operation.Read,
-                Status = Status.Success
-            };
-            try
-            {
-                var data = _approvalRepository.GetAllApprovalEvents();
-                if (data.Any())
-                {
-                    result.Body = data.Select(t =>
-                    {
-                        var eventViewModel = new ApprovalEventViewModel();
-                        eventViewModel.MapFromModel(t);
-                        if (t.ApprovalActions.Any())
-                        {
-                            var actionViewModel = new List<ApprovalActionViewModel>();
-                            eventViewModel.ApprovalActions = actionViewModel
-                                    .MapFromModel<ApprovalActions, ApprovalActionViewModel>(t.ApprovalActions.ToList());
-                        }
-                        return eventViewModel;
-                    }).ToList();
-                }
-            }
-            catch (Exception e)
-            {
-                result.Message = e.Message;
-                result.Status = Status.Error;
-            }
-            return result;
-        }
-
         public IResult ManageApprovalEventRole(ApprovalEventRoleViewModel approvalEventRoleViewModel)
         {
             var result = new Result
@@ -118,7 +84,7 @@ namespace RS.Service.Logic
                         var approvalEventRoleModel = new ApprovalEventRoles();
                         approvalEventRoleModel.MapFromViewModel(approvalEventRoleViewModel, (ClaimsIdentity)_principal.Identity);
                         approvalEventRoleModel.UserId = user.UserId;
-                        _approvalRepository.ManageApprovalEventRole(approvalEventRoleModel);
+                        _approvalRepository.AddApprovalEventRole(approvalEventRoleModel);
                     }
                     result.Body = approvalEventRoleViewModel.ApprovalEventId;
                 }
@@ -126,6 +92,7 @@ namespace RS.Service.Logic
                 {
                     if (existingRole.RoleId == approvalEventRoleViewModel.RoleId)
                     {
+                        result.Operation = Operation.Update;
                         UpdateApprovalEventRole(approvalEventRoleViewModel);
                         result.Body = approvalEventRoleViewModel.ApprovalEventId;
                     }
@@ -175,7 +142,7 @@ namespace RS.Service.Logic
                     var approvalEventRoleModel = new ApprovalEventRoles();
                     approvalEventRoleModel.MapFromViewModel(approvalEventRoleViewModel, (ClaimsIdentity)_principal.Identity);
                     approvalEventRoleModel.UserId = user;
-                    _approvalRepository.ManageApprovalEventRole(approvalEventRoleModel);
+                    _approvalRepository.AddApprovalEventRole(approvalEventRoleModel);
                 }
             }
         }
@@ -202,6 +169,25 @@ namespace RS.Service.Logic
                         return eventRoleViewModel;
                     }).ToList();
                 }
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Error;
+            }
+            return result;
+        }
+
+        public IResult GetAllApprovals()
+        {
+            var result = new Result
+            {
+                Operation = Operation.Read,
+                Status = Status.Success
+            };
+            try
+            {
+                result.Body = _approvalRepository.GetAllApprovals();
             }
             catch (Exception e)
             {

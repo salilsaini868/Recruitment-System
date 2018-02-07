@@ -36,12 +36,11 @@ namespace RS.Web.Controllers
         }
 
         [HttpGet]
-        public IResult GetAllApprovalEvents()
+        public IResult GetApprovals()
         {
-            return _approvalManager.GetAllApprovalEvents();
+            return _approvalManager.GetAllApprovals();
         }
 
-        [Route("ApprovalEventRoles")]
         [HttpGet]
         public IResult GetAllApprovalEventRoles()
         {

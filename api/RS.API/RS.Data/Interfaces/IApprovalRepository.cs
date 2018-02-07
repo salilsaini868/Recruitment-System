@@ -7,9 +7,8 @@ namespace RS.Data.Interfaces
     public interface IApprovalRepository : IRepository<Approvals>
     {
         List<ApprovalEvents> GetApprovalEvents(int approvalId);
-        List<ApprovalEvents> GetAllApprovalEvents();
-        void ManageApprovalEventRole(ApprovalEventRoles approvalEventRole);
-        void UpdateUserEventRole(List<ApprovalEventRoles> approvalEventRoles);
+        List<Approvals> GetAllApprovals();
+        void AddApprovalEventRole(ApprovalEventRoles approvalEventRole);
         List<ApprovalEventRoles> GetAllApprovalEventRole();
     }
 }

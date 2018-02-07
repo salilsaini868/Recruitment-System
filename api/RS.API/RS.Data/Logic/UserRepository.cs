@@ -31,7 +31,7 @@ namespace RS.Data.Logic
 
         public List<Users> GetUsersByRole(int roleId)
         {
-            return _context.UserRoles.Where(x => x.RoleId == roleId).Select(x => x.user).ToList();
+            return _context.UserRoles.Where(x => x.RoleId == roleId && (x.IsActive && !x.IsDeleted)).Select(x => x.user).ToList();
         }
 
         public Users LoginUser(string username, string password)

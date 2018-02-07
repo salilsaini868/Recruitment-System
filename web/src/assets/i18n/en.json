@@ -93,6 +93,7 @@
     },
     "EVENTROLE": {
         "APPROVALEVENT": "Approval Event",
+        "APPROVAL": "Approval",
         "ROLE":"Role",
         "USERNAME":"Name",
         "USERS":"Users",
