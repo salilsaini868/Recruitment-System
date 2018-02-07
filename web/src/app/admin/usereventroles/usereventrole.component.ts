@@ -105,7 +105,6 @@ export class UserEventRoleComponent implements OnInit {
     }
 
     getApprovalEvents() {
-        debugger;
         if (!isNullOrUndefined(this.approvalId) && (String(this.approvalId) !== '0')) {
             this.approvalServiceApp.getApprovalEventsById(this.approvalId).subscribe(
                 (data) => {
