@@ -33,7 +33,6 @@ export class HeaderComponent implements OnInit {
         }
     }
     navigate() {
-        console.log("Inside chagepassword");
         this.router.navigate(['changepassword']);
     }
 }

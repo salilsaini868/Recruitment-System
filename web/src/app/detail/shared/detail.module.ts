@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ChangepasswordComponent } from './../changepassword.component';
 import { DetailRouterModule } from './detail.route';
+import { ChangepasswordServiceApp }from './changepassword.serviceApp';
 
 @NgModule({
     declarations: [
@@ -13,6 +14,6 @@ import { DetailRouterModule } from './detail.route';
         FormsModule,
         DetailRouterModule,
     ],
-    providers: []
+    providers: [ChangepasswordServiceApp]
 })
 export class DetailModule { }
