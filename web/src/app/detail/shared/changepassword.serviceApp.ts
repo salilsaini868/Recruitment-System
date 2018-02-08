@@ -10,8 +10,8 @@ export class ChangepasswordServiceApp {
 
     constructor(private http: HttpClient, private apiChangepasswordService: UserService) { }
 
-    userChangepassword(UserLoginModel): Observable<any> {
-        return this.apiChangepasswordService.ApiChangepasswordChangepasswordUserPost(UserLoginModel).map(x => (x));
+    userChangepassword(changepasswordModel): Observable<any> {
+        return ;
     }
 
 }
