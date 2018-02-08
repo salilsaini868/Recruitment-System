@@ -279,7 +279,6 @@ namespace RS.Service.Logic
             try
             {
                 var duplicateUserName = _userRepository.GetFirstOrDefault(x => (x.IsActive && !x.IsDeleted) && (x.UserName == user.UserName) && (x.UserId != user.UserId));
-                var duplicateEmail = _userRepository.GetFirstOrDefault(x => (x.IsActive && !x.IsDeleted) && (x.Email == user.Email) && (x.UserId != user.UserId));
                 if (duplicateUserName != null)
                 {
                     result.Status = Status.Fail;
@@ -287,33 +286,34 @@ namespace RS.Service.Logic
                     result.Body = null;
                     return result;
                 }
-                else if (duplicateEmail != null)
+
+                var duplicateEmail = _userRepository.GetFirstOrDefault(x => (x.IsActive && !x.IsDeleted) && (x.Email == user.Email) && (x.UserId != user.UserId));
+                if (duplicateEmail != null)
                 {
                     result.Status = Status.Fail;
                     result.Message = UserStatusNotification.DuplicateEmail;
                     result.Body = null;
                     return result;
                 }
-                else
-                {
-                    var userModel = new Users();
-                    userModel.MapFromViewModel(user, (ClaimsIdentity)_principal.Identity);
-                    var userDetail = _userRepository.GetByID(user.UserId);
-                    var userRoleModel = userDetail.UserRoles.Where(x => (x.IsActive && !x.IsDeleted) && x.RoleId != user.RoleId).ToList();
 
-                    if (userRoleModel != null)
-                    {
-                        userRoleModel.ForEach(x => x.MapDeleteColumns((ClaimsIdentity)_principal.Identity));
-                        var userRole = new UserRoles();
-                        userRole.RoleId = user.RoleId;
-                        userRole.Role = _roleRepository.GetByID(user.RoleId);
-                        userRole.MapAuditColumns((ClaimsIdentity)_principal.Identity);
-                        _userRepository.UpdateUserRole(userRole);
-                    }
-                    _userRepository.Update(userModel);
-                    _userRepository.SaveChanges();
-                    result.Body = userModel;
+                var userModel = new Users();
+                userModel.MapFromViewModel(user, (ClaimsIdentity)_principal.Identity);
+                var userDetail = _userRepository.GetByID(user.UserId);
+                var userRoleModel = userDetail.UserRoles.Where(x => (x.IsActive && !x.IsDeleted) && x.RoleId != user.RoleId).ToList();
+
+                if (userRoleModel != null)
+                {
+                    userRoleModel.ForEach(x => x.MapDeleteColumns((ClaimsIdentity)_principal.Identity));
+                    var userRole = new UserRoles();
+                    userRole.RoleId = user.RoleId;
+                    userRole.Role = _roleRepository.GetByID(user.RoleId);
+                    userRole.MapAuditColumns((ClaimsIdentity)_principal.Identity);
+                    _userRepository.UpdateUserRole(userRole);
                 }
+                _userRepository.Update(userModel);
+                _userRepository.SaveChanges();
+                result.Body = userModel;
+
 
             }
             catch (Exception e)
@@ -335,7 +335,6 @@ namespace RS.Service.Logic
             {
                 var userId = GenericHelper.GetUserClaimDetails((ClaimsIdentity)_principal.Identity).UserId;
                 var duplicateUserName = _userRepository.GetFirstOrDefault(x => (x.IsActive && !x.IsDeleted) && (x.UserName == user.UserName) && (x.UserId != userId));
-                var duplicateEmail = _userRepository.GetFirstOrDefault(x => (x.IsActive && !x.IsDeleted) && (x.Email == user.Email) && (x.UserId != userId));
                 if (duplicateUserName != null)
                 {
                     result.Status = Status.Fail;
@@ -343,26 +342,28 @@ namespace RS.Service.Logic
                     result.Body = null;
                     return result;
                 }
-                else if (duplicateEmail != null)
+
+                var duplicateEmail = _userRepository.GetFirstOrDefault(x => (x.IsActive && !x.IsDeleted) && (x.Email == user.Email) && (x.UserId != userId));
+                if (duplicateEmail != null)
                 {
                     result.Status = Status.Fail;
                     result.Message = UserStatusNotification.DuplicateEmail;
                     result.Body = null;
                     return result;
                 }
-                else
-                {
-                    var userModel = _userRepository.GetByID(userId);
-                    userModel.UserId = userId;
-                    userModel.MapFromViewModel((ClaimsIdentity)_principal.Identity);
-                    userModel.FirstName = user.FirstName;
-                    userModel.LastName = user.LastName;
-                    userModel.Email = user.Email;
-                    userModel.UserName = user.UserName;
-                    _userRepository.Update(userModel);
-                    _userRepository.SaveChanges();
-                    result.Body = userModel;
-                }
+
+
+                var userModel = _userRepository.GetByID(userId);
+                userModel.UserId = userId;
+                userModel.MapFromViewModel((ClaimsIdentity)_principal.Identity);
+                userModel.FirstName = user.FirstName;
+                userModel.LastName = user.LastName;
+                userModel.Email = user.Email;
+                userModel.UserName = user.UserName;
+                _userRepository.Update(userModel);
+                _userRepository.SaveChanges();
+                result.Body = userModel;
+
 
             }
             catch (Exception e)
