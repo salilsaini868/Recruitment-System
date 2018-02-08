@@ -44,7 +44,6 @@ export class UserEventRoleComponent implements OnInit {
         this.setDefaultOption();
         this.initializeMethods();
         this.getAllEventRoleModels();
-        this.getApprovalEvents();
         this.getUsers();
     }
 
@@ -84,15 +83,9 @@ export class UserEventRoleComponent implements OnInit {
         this.translateService.get('COMMON.SELECTDEFAULT').subscribe(
             (data) => {
                 this.defaultOption = data;
-                this.setDefaultApprovalEvents();
+                this.getApprovalEvents();
             }
         );
-    }
-
-    setDefaultApprovalEvents() {
-        this.approvalEvents = [];
-        const approvalEvent = this.defaultOption;
-        this.approvalEvents.splice(0, 0, { approvalEventId: 0, approvalEventName: approvalEvent });
     }
 
     onChangeUsers(user: UserModel, isChecked: boolean) {
@@ -112,14 +105,15 @@ export class UserEventRoleComponent implements OnInit {
                         this.approvalEvents = data.body;
                         const approvalEvent = this.defaultOption;
                         this.approvalEvents.splice(0, 0, { approvalEventId: 0, approvalEventName: approvalEvent });
-
                     } else {
                         this.msgService.showError('Error');
                     }
                 }
             );
         } else {
-            this.setDefaultApprovalEvents();
+            this.approvalEvents = [];
+            const approvalEvent = this.defaultOption;
+            this.approvalEvents.splice(0, 0, { approvalEventId: 0, approvalEventName: approvalEvent });
         }
     }
 
