@@ -72,7 +72,7 @@ namespace RS.Service.Logic
             try
             {
                 var skills = new List<SkillViewModel>();
-                var allSkills = _skillRepository.GetAll().ToList();
+                var allSkills = _skillRepository.GetAll().OrderByDescending(x => x.ModifiedDate).ToList();
                 result.Body = skills.MapFromModel<Skills, SkillViewModel>(allSkills);
             }
             catch (Exception e)

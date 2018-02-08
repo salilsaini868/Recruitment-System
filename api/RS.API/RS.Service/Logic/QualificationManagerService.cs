@@ -71,7 +71,7 @@ namespace RS.Service.Logic
             try
             {
                 var qualifications = new List<QualificationViewModel>();
-                var allQualifications = _qualificationRepository.GetAll().ToList();
+                var allQualifications = _qualificationRepository.GetAll().OrderByDescending(x => x.ModifiedDate).ToList();
                 result.Body = qualifications.MapFromModel<Qualifications, QualificationViewModel>(allQualifications);
             }
             catch (Exception e)

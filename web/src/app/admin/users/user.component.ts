@@ -6,11 +6,12 @@ import { isNullOrUndefined, error } from 'util';
 import { UserModel } from '../../shared/customModels/user-model';
 import { RoleServiceApp } from './shared/role.serviceApp';
 import { DisplayMessageService } from '../../shared/toastr/display.message.service';
+import { Status } from '../../app.enum';
 
 @Component({
     selector: 'app-user',
     templateUrl: 'user.component.html',
-    styleUrls:['shared/user.scss']
+    styleUrls: ['shared/user.scss']
 })
 
 export class UserComponent implements OnInit {
@@ -49,7 +50,7 @@ export class UserComponent implements OnInit {
             if (!isNullOrUndefined(userId)) {
                 this.userServiceApp.getUserById(userId).subscribe(
                     (data) => {
-                        if (data.status === 1) {
+                        if (data.status === Status.Success) {
                             this.userModel = data.body;
                             this.userModel.confirmPassword = this.userModel.password;
                         }
@@ -65,13 +66,17 @@ export class UserComponent implements OnInit {
                 if (isNullOrUndefined(this.userModel.userId)) {
                     this.userServiceApp.createUser(this.userModel).subscribe(
                         (data) => {
-                            this.showUsersList();
+                            if (data.status === Status.Success) {
+                                this.showUsersList();
+                            }
                         }
                     );
                 } else {
                     this.userServiceApp.updateUser(this.userModel).subscribe(
                         (data) => {
-                            this.showUsersList();
+                            if (data.status === Status.Success) {
+                                this.showUsersList();
+                            }
                         }
                     );
                 }

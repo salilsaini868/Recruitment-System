@@ -3,7 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-// Route
+// Module
+import { SharedModule } from '../../shared/shared.module';
 import { ApprovalRouterModule } from './approval.route';
 
 // Service
@@ -11,10 +12,6 @@ import { ApprovalServiceApp } from './approval.serviceApp';
 
 // Components
 import { StripComponent } from '../strip.component';
-
-// Module
-import { SharedModule } from '../../shared/shared.module';
-
 
 @NgModule({
   imports: [

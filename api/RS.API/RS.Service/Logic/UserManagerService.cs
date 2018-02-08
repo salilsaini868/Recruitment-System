@@ -97,7 +97,7 @@ namespace RS.Service.Logic
                     userRole.Role = _roleRepository.GetByID(user.RoleId);
                     userRole.MapAuditColumns((ClaimsIdentity)_principal.Identity);
                     _userRepository.CreateUser(userModel, userRole);
-                    result.Body = userModel;
+                    result.Body = userModel.UserId;
                 }
             }
             catch (Exception e)
@@ -301,7 +301,7 @@ namespace RS.Service.Logic
                 var userDetail = _userRepository.GetByID(user.UserId);
                 var userRoleModel = userDetail.UserRoles.Where(x => (x.IsActive && !x.IsDeleted) && x.RoleId != user.RoleId).ToList();
 
-                if (userRoleModel != null)
+                if (userRoleModel.Any())
                 {
                     userRoleModel.ForEach(x => x.MapDeleteColumns((ClaimsIdentity)_principal.Identity));
                     var userRole = new UserRoles();
@@ -312,7 +312,7 @@ namespace RS.Service.Logic
                 }
                 _userRepository.Update(userModel);
                 _userRepository.SaveChanges();
-                result.Body = userModel;
+                result.Body = userModel.UserId;
 
 
             }
@@ -362,7 +362,7 @@ namespace RS.Service.Logic
                 userModel.UserName = user.UserName;
                 _userRepository.Update(userModel);
                 _userRepository.SaveChanges();
-                result.Body = userModel;
+                result.Body = userModel.UserId;
 
 
             }

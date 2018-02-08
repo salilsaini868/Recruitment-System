@@ -12,12 +12,13 @@ export class SkillsComponent implements OnInit {
 
   skillsModel: SkillViewModel = {} as SkillViewModel;
   skills: SkillViewModel[] = [] as SkillViewModel[];
-  isCreateOrUpdate: boolean = true;
+  isCreateOrUpdate: boolean;
 
   constructor(private skillsServiceApp: SkillsServiceApp) {
   }
   ngOnInit() {
     this.listSkill();
+    this.isCreateOrUpdate = true;
   }
   onSubmit(skillsform) {
     if (skillsform.valid) {
