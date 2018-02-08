@@ -49,10 +49,11 @@
         "EMAILPATTERN": "joe@abc.com",
         "PASSWORDPATTERN": "Password must contain minimum 8 characters",
         "PASSWORDMISMATCH": "Password doesnot match",
-        "LOGIN": "Login",
-        "SAVE": "Save",
-        "UPDATE": "Update",
-        "DELETE": "Delete"
+        "LOGIN":"Login",
+        "SAVE":"Save",
+        "UPDATE":"Update",
+        "DELETE":"Delete",
+        "FORGOTPASSWORD":"Forgot password?"
     },
     "OPENING": {
         "LIST": "List of Openings",
@@ -68,6 +69,14 @@
         "DELETE": "Delete",
         "ADD" : "Add"
     },
+    "FORGOTPASSWORD" :{
+        "TITLE": "Forgot password",
+        "ENTERMAILID" : "please enter valid email Id:",
+        "REQUIRED": "This field is required",
+        "OK":"Ok",
+        "CLOSE":"Close"
+    },
+    
     "CANDIDATE": {
         "NAME": "Name",
         "FIRSTNAME": "First Name",

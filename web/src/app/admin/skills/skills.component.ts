@@ -56,6 +56,8 @@ export class SkillsComponent implements OnInit {
   }
   editSkills(skills) {
     this.skillsModel.skillId = skills.skillId;
+    this.skillsModel.name = skills.name;
+    this.skillsModel.description = skills.description;
     this.isCreateOrUpdate = false;
   }
 }
