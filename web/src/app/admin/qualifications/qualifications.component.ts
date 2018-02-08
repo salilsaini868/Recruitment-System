@@ -61,6 +61,8 @@ export class QualificationsComponent implements OnInit {
 
   editQualifications(qualifications) {
     this.qualificationsModel.qualificationId = qualifications.qualificationId;
+    this.qualificationsModel.name = qualifications.name;
+    this.qualificationsModel.description = qualifications.description;
     this.isCreateOrUpdate = false;
   }
 
