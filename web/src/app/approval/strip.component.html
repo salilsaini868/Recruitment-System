@@ -1,3 +1,4 @@
+<!-- Strip secction -->
 <ul *ngIf="approvalEvents.length > 0">
   <li *ngFor="let approvalEvent of approvalEvents">
     <a (click)="onApprovalEventClick(approvalEvent)"> {{ approvalEvent.approvalEventName }}</a>

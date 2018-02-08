@@ -21,7 +21,6 @@ import {
 // Module
 import { SharedModule } from '../../shared/shared.module';
 import { LoginServiceApp } from '../../Login/shared/login.serviceApp';
-import { ApprovalModule } from '../../approval/shared/approval.module';
 
 @NgModule({
   imports: [
@@ -29,7 +28,7 @@ import { ApprovalModule } from '../../approval/shared/approval.module';
     TranslateModule,
     BrowserModule,
     SharedModule,
-    AdminRouterModule, ApprovalModule
+    AdminRouterModule
   ],
   exports: [],
   declarations: [

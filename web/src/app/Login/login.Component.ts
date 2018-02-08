@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { isNullOrUndefined } from 'util';
 import { Router } from '@angular/router';
+import { ForgotpasswordComponent } from './forgotpassword.component'
 
 // Models
 import { UserLoginModel } from '../webapi/models';
@@ -18,24 +19,23 @@ import { LoginServiceApp } from './shared/login.serviceApp';
   templateUrl: 'login.component.html',
   styleUrls: ['shared/login.scss']
 })
-
 export class LoginComponent implements OnInit {
   loginModel: UserLoginModel = {} as UserLoginModel;
 
   constructor(private loginServiceApp: LoginServiceApp, private router: Router, private msgService: DisplayMessageService) {
   }
-
   ngOnInit() {
     this.isAuthenticated();
   }
-
   isAuthenticated() {
     const token = localStorage.getItem(AppConstants.AuthToken);
     if (!isNullOrUndefined(token)) {
       this.router.navigate(['Dashboard']);
     }
   }
-
+  forgotpassword() {
+    this.router.navigate(['forgotpassword'])
+  }
   onSubmit(loginForm) {
     if (loginForm.valid) {
       this.loginServiceApp.userLogin(this.loginModel).subscribe(
@@ -51,5 +51,6 @@ export class LoginComponent implements OnInit {
         });
     }
   }
-
 }
+
+

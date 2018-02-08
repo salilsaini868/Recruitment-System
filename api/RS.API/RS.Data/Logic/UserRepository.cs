@@ -29,6 +29,11 @@ namespace RS.Data.Logic
             return _context.Users.Include(t => t.UserRoles).ThenInclude(r => r.Role).FirstOrDefault(x => (x.IsActive && !x.IsDeleted) && (x.UserId == userId));
         }
 
+        public Users GetEmailIdByUserName(string userName)
+        {
+            return _context.Users.FirstOrDefault(x => x.UserName == userName && (x.IsActive && !x.IsDeleted));
+        }
+
         public List<Users> GetUsersByRole(int roleId)
         {
             return _context.UserRoles.Where(x => x.RoleId == roleId && (x.IsActive && !x.IsDeleted)).Select(x => x.user).ToList();
@@ -37,6 +42,11 @@ namespace RS.Data.Logic
         public Users LoginUser(string username, string password)
         {
             return _context.Users.Include(t => t.UserRoles).ThenInclude(r => r.Role).FirstOrDefault(x => (x.IsActive && !x.IsDeleted) && (x.UserName == username.ToLower() && x.Password == password.ToLower()));
+        }
+
+        public Users GetUser(Guid userId, string password)
+        {
+            return _context.Users.Include(t => t.UserRoles).ThenInclude(r => r.Role).FirstOrDefault(x => (x.IsActive && !x.IsDeleted) && (x.UserId == userId && x.Password == password.ToLower()));
         }
 
         public void UpdateUserRole(UserRoles userRole)

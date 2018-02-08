@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-admindashboard',
   templateUrl: './admin.dashboard.component.html',
-  styleUrls:['admin.dashboard.scss']
+  styleUrls: ['admin.dashboard.scss']
 })
 
 export class AdminDashboardComponent implements OnInit {
