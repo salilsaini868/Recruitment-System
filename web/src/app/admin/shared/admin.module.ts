@@ -21,11 +21,7 @@ import {
 // Module
 import { SharedModule } from '../../shared/shared.module';
 import { LoginServiceApp } from '../../Login/shared/login.serviceApp';
-<<<<<<< .mine
-import { ApprovalModule } from '../../approval/shared/approval.module';
-=======
 
->>>>>>> .theirs
 
 @NgModule({
   imports: [
