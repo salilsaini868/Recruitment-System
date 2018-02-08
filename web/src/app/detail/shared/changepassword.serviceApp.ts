@@ -11,6 +11,7 @@ export class ChangepasswordServiceApp {
     constructor(private http: HttpClient, private apiChangepasswordService: UserService) { }
 
     userChangepassword(changepasswordModel): Observable<any> {
+        console.log("inside");
         return ;
     }
 
