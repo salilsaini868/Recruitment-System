@@ -5,7 +5,7 @@ import { DetailModule } from './shared/detail.module';
 import { ChangepasswordServiceApp }from './shared/changepassword.serviceApp'
 import { isNullOrUndefined } from 'util';
 import { Status } from '../app.enum';
-import { UserLoginModel } from '../webapi/models';
+import { UserViewModel } from '../webapi/models';
 import 'rxjs/add/observable/of';
 
 
@@ -14,10 +14,10 @@ import 'rxjs/add/observable/of';
     templateUrl: 'changepassword.component.html'
 })
 export class ChangepasswordComponent implements OnInit {
-    ChangepasswordModel:  UserLoginModel = {} as UserLoginModel;
+    ChangepasswordModel:  UserViewModel = {} as UserViewModel;
     passwordMismatchError: String;
-    changepassword:string;   
-    newchangepassword:string;
+    changepassword:string;
+    newPassword:string;
     confirm:string;
    
     constructor(private router: Router, private changepasswordServiceApp: ChangepasswordServiceApp ) {
@@ -30,20 +30,21 @@ export class ChangepasswordComponent implements OnInit {
     }
     onSubmit(changepasswordform) {
         if (changepasswordform.valid) {
-            if (this.ChangepasswordModel.password === this.ChangepasswordModel.changepassword){
-            this.changepasswordServiceApp.userChangepassword(this.changepassword).subscribe(
+          debugger;
+            if (this.ChangepasswordModel.newPassword === this.confirm ){
+            this.changepasswordServiceApp.userChangepassword(this.newPassword).subscribe(
                 (data) => {
                     if (!isNullOrUndefined(data) && data.status === Status.Success) {
                         this.router.navigate(['Dashboard']);
                     } else {
                         (data) => {
                         }
-                        // if (newchangepassword === confirm )
                     }
                 }
             );
         }
-    }
+        this.ChangepasswordModel.newPassword = this.ChangepasswordModel.password ;
+      }
     }
     ngOnInit() {
     }
