@@ -12,6 +12,8 @@ namespace RS.Data.Interfaces
 
         void CreateUser(Users userModel, UserRoles userRole);
 
+        Users GetUser(Guid userId, string password);
+
         void UpdateUserRole(UserRoles userRole);
 
         new List<Users> GetAll();
@@ -20,6 +22,6 @@ namespace RS.Data.Interfaces
 
         List<Users> GetUsersByRole(int roleId);
 
-        
+        Users GetEmailIdByUserName(String userName);
     }
 }

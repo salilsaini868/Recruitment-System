@@ -7,6 +7,8 @@ namespace RS.Service.Interfaces
 {
     public interface IUserManagerService
     {
+        IResult ChangePassword(string oldPassword, string newPassword);
+
         IResult LoginUser(string userName, string password);
 
         IResult ForgotPassword(String userName);
@@ -15,10 +17,13 @@ namespace RS.Service.Interfaces
 
         IResult UpdateUser(UserViewModel user);
 
+        IResult UpdateUserProfile(UserViewModel user);
+
         IResult GetAllUser();
 
         IResult GetUserById(Guid id);
 
         IResult GetUsersByRole(int roleId);
+
     }
 }
