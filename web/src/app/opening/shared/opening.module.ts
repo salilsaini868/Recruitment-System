@@ -5,19 +5,21 @@ import { TranslateModule } from '@ngx-translate/core';
 
 // Modules
 import { OpeningRouterModule } from './opening.route';
+import { ApprovalModule } from '../../approval/shared/approval.module';
 
 // Components
-import { OpeningComponent, OpeningsComponent} from '../index.opening';
+import { OpeningComponent, OpeningsComponent } from '../index.opening';
 
 // Services
 import { OpeningServiceApp } from './opening.serviceApp';
+
 
 @NgModule({
     imports: [
         BrowserModule,
         FormsModule,
         TranslateModule,
-        OpeningRouterModule
+        OpeningRouterModule, ApprovalModule
     ],
     exports: [],
     declarations: [
