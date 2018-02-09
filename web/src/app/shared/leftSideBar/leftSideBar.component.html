@@ -1,13 +1,12 @@
 <div class="side-bar-main">
-<aside class="side-bar">    
-    <ul>
-        <li [routerLinkActive] ="['active']"><a href="javascript:void(0)" [routerLink]="['Dashboard']"> <i class="fa fa-tachometer"></i><span> Dashboard</span></a></li>
-        <li [routerLinkActive] ="['active']"><a href="javascript:void(0)" [routerLink]= "['Users']"> <i class="fa fa-users"></i><span> Users</span></a></li>
-        <li [routerLinkActive] ="['active']"><a href="javascript:void(0)" [routerLink]="['Skills']"><i class="fa fa-asterisk"></i><span> Skill</span></a></li>
-        <li [routerLinkActive] ="['active']"><a href="javascript:void(0)" [routerLink]="['UserEventRole']"><i class="fa fa-folder-open"></i><span>UserEventRole</span></a></li>
-        <li [routerLinkActive] ="['active']"><a href="javascript:void(0)" [routerLink]="['Qualifications']"><i class="fa fa-graduation-cap"></i><span>Qualification</span></a></li>
-        <li [routerLinkActive] ="['active']"><a href="javascript:void(0)" [routerLink]="['openings']"><i class="fa fa-folder-open"></i><span>Job Opening</span></a></li>
-        <li [routerLinkActive] ="['active']"><a href="javascript:void(0)" [routerLink]="['Candidates']"><i class="fa fa-folder-open"></i><span>Candidates</span></a></li>
-    </ul>   
-</aside> 
+    <aside class="side-bar">
+        <ul>
+            <li [routerLinkActive]="['active']" *ngFor="let route of listOfBar | sort ">
+                <a href="javascript:void(0)" [routerLink]="[route.name]">
+                    <i class="fa fa-tachometer"></i>
+                    <span> {{route.name}}</span>
+                </a>
+            </li>
+        </ul>
+    </aside>
 </div>

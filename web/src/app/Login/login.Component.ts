@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { isNullOrUndefined } from 'util';
 import { Router } from '@angular/router';
-import { ForgotpasswordComponent } from './forgotpassword.component'
+import { ForgotpasswordComponent } from './forgotpassword.component';
 
 // Models
 import { UserLoginModel } from '../webapi/models';
@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
     }
   }
   forgotpassword() {
-    this.router.navigate(['forgotpassword'])
+    this.router.navigate(['forgotpassword']);
   }
   onSubmit(loginForm) {
     if (loginForm.valid) {

@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { ApprovalServiceApp } from './shared/approval.serviceApp';
+import { ApprovalServiceApp } from './shared/approval.serviceApp';;
 
 @Component({
   selector: 'app-approvalstrip',
@@ -11,6 +11,8 @@ import { ApprovalServiceApp } from './shared/approval.serviceApp';
 export class StripComponent implements OnInit {
   approvalEvents = [];
   currentEventClicked = null;
+  @Input() approvalType: number;
+
   constructor(private router: Router, private approvalServiceApp: ApprovalServiceApp) {
   }
 
@@ -19,7 +21,8 @@ export class StripComponent implements OnInit {
   }
 
   getAllApprovalEvents() {
-    this.approvalServiceApp.getApprovalEventsById(1).subscribe((data) => {
+    debugger;
+    this.approvalServiceApp.getApprovalEventsById(this.approvalType).subscribe((data) => {
       this.approvalEvents = data.body;
       console.log(this.approvalEvents);
     });

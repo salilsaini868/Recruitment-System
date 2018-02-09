@@ -10,7 +10,7 @@ import { DisplayMessageService } from '../../shared/toastr/display.message.servi
 @Component({
     selector: 'app-user',
     templateUrl: 'user.component.html',
-    styleUrls:['shared/user.scss']
+    styleUrls: ['shared/user.scss']
 })
 
 export class UserComponent implements OnInit {
