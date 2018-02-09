@@ -49,6 +49,31 @@ namespace RS.Web.Controllers
             return userResult;
         }
 
+        [HttpPut]
+        [AllowAnonymous]
+        public IResult ChangePassword([FromBody]ChangePassword changePassword)
+        {
+            var user = _userService.ChangePassword(changePassword.OldPassword, changePassword.NewPassword);
+            return user;
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public IResult ForgotPassword([FromBody]string userName)
+        {
+            var userEmail = _userService.ForgotPassword(userName);
+            return userEmail;
+        }
+
+        [HttpPut]
+        [AllowAnonymous]
+        public IResult UpdateUserProfile([FromBody]UserViewModel userProfile)
+        {
+            var user = _userService.UpdateUserProfile(userProfile);
+            return user;
+        }
+
+
         #region Private methods
 
         private string GenerateToken(UserViewModel user)

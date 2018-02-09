@@ -10,16 +10,17 @@ import { AdminRouterModule } from './admin.route';
 import { UserServiceApp } from '../users/shared/user.serviceApp';
 import { QualificationsServiceApp } from '../qualifications/shared/qualifications.serviceApp';
 import { SkillsServiceApp } from '../skills/shared/skills.serviceApp';
+import { RoleServiceApp } from '../users/shared/role.serviceApp';
+import { UserEventRoleServiceApp } from '../usereventroles/shared/usereventrole.serviceApp';
 
 // Components
 import {
-  QualificationsComponent, SkillsComponent, UserComponent, UsersComponent
+  QualificationsComponent, SkillsComponent, UserComponent, UsersComponent, UserEventRoleComponent
 } from '../index.admin';
 
 // Module
 import { SharedModule } from '../../shared/shared.module';
 import { LoginServiceApp } from '../../Login/shared/login.serviceApp';
-import { ApprovalModule } from '../../approval/shared/approval.module';
 
 @NgModule({
   imports: [
@@ -27,14 +28,15 @@ import { ApprovalModule } from '../../approval/shared/approval.module';
     TranslateModule,
     BrowserModule,
     SharedModule,
-    AdminRouterModule, ApprovalModule
+    AdminRouterModule
   ],
   exports: [],
   declarations: [
-    QualificationsComponent, SkillsComponent, UserComponent, UsersComponent
+    QualificationsComponent, SkillsComponent, UserComponent, UsersComponent, UserEventRoleComponent
   ],
   bootstrap: [],
-  providers: [LoginServiceApp, SkillsServiceApp, UserServiceApp, QualificationsServiceApp],
+  providers: [LoginServiceApp, SkillsServiceApp, UserServiceApp,
+    QualificationsServiceApp, RoleServiceApp, UserEventRoleServiceApp]
 })
 
 export class AdminModule {

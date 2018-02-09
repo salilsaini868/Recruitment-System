@@ -77,5 +77,6 @@
     {
         public const string UnknownError = "Sorry, we have encountered an error.";
         public const string BadRequest = "Invalid Request";
+        public const string UserNotFound = "Invalid UserName";
     }
 }

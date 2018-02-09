@@ -5,14 +5,14 @@
     "SKILLS": {
         "NAME": "Skill name",
         "DESCRIPTION": "Description",
-        "SAVE":"Save",
-        "UPDATE":"Update",
-        "CREATE_SKILLS":"Create Skills",
-        "UPDATE_SKILLS":"Update Skills",
-        "MESSAGE":"Skill with the same name Already Exists!."
+        "SAVE": "Save",
+        "UPDATE": "Update",
+        "CREATE_SKILLS": "Create Skills",
+        "UPDATE_SKILLS": "Update Skills",
+        "MESSAGE": "Skill with the same name Already Exists!."
     },
     "SKILL_DETAILS": {
-        "SKILL_DETAILS":"Skill Details",
+        "SKILL_DETAILS": "Skill Details",
         "SKILLS": "skills",
         "DESCRIPTION": "Description",
         "ACTION": "action"
@@ -20,21 +20,21 @@
     "QUALIFICATIONS": {
         "NAME": "Qualification name",
         "DESCRIPTION": "Description",
-        "SAVE":"Save",
-        "UPDATE":"Update",
-        "CREATE_QUALIFICATIONS":"Create Qualification",
-        "UPDATE_QUALIFICATIONS":"Update Qualification",
-        "MESSAGE":"This Qualification with same already exists. Please choose another one..!"
+        "SAVE": "Save",
+        "UPDATE": "Update",
+        "CREATE_QUALIFICATIONS": "Create Qualification",
+        "UPDATE_QUALIFICATIONS": "Update Qualification",
+        "MESSAGE": "This Qualification with same already exists. Please choose another one..!"
     },
     "QUALIFICATION_DETAILS": {
-        "QUALIFICATION_DETAILS":"Qualification Details",
+        "QUALIFICATION_DETAILS": "Qualification Details",
         "QUALIFICATIONS": "Qualifications",
         "DESCRIPTION": "Description",
         "ACTION": "action"
     },
-    "USER":{
+    "USER": {
         "LIST": "List of Users",
-        "DUPLICATEUSER":"UserName or Email Already Exists!",
+        "DUPLICATEUSER": "UserName or Email Already Exists!",
         "FIRSTNAME": "First Name",
         "LASTNAME": "Last Name",
         "USERNAME": "User Name",
@@ -43,30 +43,77 @@
         "CONFIRM": "Confirm Password",
         "ROLE": "Role",
         "REQUIRED": "This field is required",
-        "USERNAMEFORMAT":"UserName format must be",
-        "EMAILFORMAT":"Email format must be",
-        "USERNAMEPATTERN":"joe@rhpm.com",
-        "EMAILPATTERN":"joe@abc.com",
+        "USERNAMEFORMAT": "UserName format must be",
+        "EMAILFORMAT": "Email format must be",
+        "USERNAMEPATTERN": "joe@rhpm.com",
+        "EMAILPATTERN": "joe@abc.com",
         "PASSWORDPATTERN": "Password must contain minimum 8 characters",
         "PASSWORDMISMATCH": "Password doesnot match",
         "LOGIN":"Login",
         "SAVE":"Save",
         "UPDATE":"Update",
-        "DELETE":"Delete"
+        "DELETE":"Delete",
+        "FORGOTPASSWORD":"Forgot password?"
     },
-    "OPENING":{
+    "OPENING": {
         "LIST": "List of Openings",
         "TITLE": "Job Title",
         "DESCRIPTION": "Job Description",
         "PRIMARYSKILLS": "Primary Skills",
         "SECONDARYSKILLS": "Secondary Skills",
         "SAMESKILLS": "Skills are same in both primary and secondary",
-        "REQUIRED":"Required",
-        "SAVE":"Save",
-        "UPDATE":"Update",
-        "DELETE":"Delete"
+        "REQUIRED": "Required",
+        "PRIMARYSKILLMANDATORY":"Primary Skill is Mandatory",
+        "SAVE": "Save   ",
+        "UPDATE": "Update",
+        "DELETE": "Delete",
+        "ADD" : "Add"
     },
-    "COMMON":{
-        "SOMEERROROCURRED":"Some errror has been occured"
+    "FORGOTPASSWORD" :{
+        "TITLE": "Forgot password",
+        "ENTERMAILID" : "please enter valid email Id:",
+        "REQUIRED": "This field is required",
+        "OK":"Ok",
+        "CLOSE":"Close"
+    },
+    
+    "CANDIDATE": {
+        "NAME": "Name",
+        "FIRSTNAME": "First Name",
+        "LASTNAME": "Last Name",
+        "REQUIRED": "Required",
+        "DESCRIPTION": "Description",
+        "GENDER": "Gender",
+        "OPENING": "Opening",
+        "OPENINGFOR": "Opening For",
+        "QUALIFICATION": "Qualification",
+        "EXPERIENCE": "Experience",
+        "EXPERIENCEYEAR": "Year of Experience",
+        "EXPERIENCEMONTH": "Month of Experience",
+        "YEAR": "Yr",
+        "MONTH": "Mn",
+        "MALE": "Male",
+        "FEMALE": "Female",
+        "ORGANIZATION": "Previous Organization",
+        "LIST":"List of Candidates",
+        "SAVE": "Save",
+        "UPDATE": "Update",
+        "DELETE": "Delete"
+    },
+    "EVENTROLE": {
+        "APPROVALEVENT": "Approval Event",
+        "APPROVAL": "Approval",
+        "ROLE":"Role",
+        "USERNAME":"Name",
+        "USERS":"Users",
+        "LIST":"List of EventRoles",
+        "SAVE": "Save",
+        "UPDATE": "Update",
+        "DELETE": "Delete",
+        "MANDATORY":"User is Mandatory"
+    },
+    "COMMON": {
+        "SOMEERROROCURRED": "Some errror has been occured",
+        "SELECTDEFAULT":"--select--"
     }
 }

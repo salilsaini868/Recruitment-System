@@ -1,17 +1,15 @@
-import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SkillsServiceApp } from './shared/skills.serviceApp';
 import { SkillViewModel } from '../../webapi/models/skill-view-model';
 
 @Component({
   selector: 'app-skills',
-  templateUrl: 'skills.component.html'
+  templateUrl: 'skills.component.html',
+  styleUrls: ['shared/skills.scss']
 })
 
 export class SkillsComponent implements OnInit {
 
-  @Output() deleteFun = new EventEmitter();
-  @Input() pk: any;
-  @Input() lg: boolean = false;
   skillsModel: SkillViewModel = {} as SkillViewModel;
   skills: SkillViewModel[] = [] as SkillViewModel[];
   isCreateOrUpdate: boolean = true;
@@ -47,19 +45,19 @@ export class SkillsComponent implements OnInit {
         if (data) {
           this.skills = data.body;
         }
-      })
+      });
   }
   deleteSkills(i) {
     this.skills.splice(i, 1);
-    this.deleteFun.emit('emit');
-    let indexx = this.skills.indexOf(i);
     this.skillsServiceApp.deleteSkill().subscribe((data) => {
       if (data) {
       }
-    })
+    });
   }
   editSkills(skills) {
     this.skillsModel.skillId = skills.skillId;
+    this.skillsModel.name = skills.name;
+    this.skillsModel.description = skills.description;
     this.isCreateOrUpdate = false;
   }
 }

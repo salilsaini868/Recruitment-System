@@ -3,10 +3,12 @@ import { Router } from '@angular/router';
 import { UserViewModel } from '../../webapi/models/user-view-model';
 import { UserServiceApp } from './shared/user.serviceApp';
 import { debuglog } from 'util';
+import { Status } from '../../app.enum';
 
 @Component({
     selector: 'app-users',
-    templateUrl: 'users.component.html'
+    templateUrl: 'users.component.html',
+    styleUrls: ['shared/user.scss']
 })
 
 export class UsersComponent implements OnInit {
@@ -23,7 +25,9 @@ export class UsersComponent implements OnInit {
     getAllUsers() {
         this.userService.getAllUsers().subscribe(
             (data) => {
-                this.users = data.body;
+                if (data.status === Status.Success) {
+                    this.users = data.body;
+                }
             }
         );
     }

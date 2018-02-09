@@ -3,8 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 // Component
 
 import { RoleGuardService } from '../../shared/index.shared';
-import { OpeningComponent } from '../opening.component';
-import { OpeningsComponent } from '../openings.component';
+import { OpeningComponent, OpeningsComponent } from '../index.opening';
 
 const OPENING_ROUTES: Routes = [
     {

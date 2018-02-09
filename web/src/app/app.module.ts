@@ -20,6 +20,8 @@ import { SharedModule } from './shared/shared.module';
 import { ErrorModule } from './error/error.module';
 import { OpeningModule } from './opening/shared/opening.module';
 import { DashboardModule } from './dashboard/shared/dashboard.module';
+import { CandidateModule } from './candidate/shared/candidate.module';
+
 import { ApiModule } from './webapi/api.module';
 import { DetailModule } from './detail/shared/detail.module';
 
@@ -28,7 +30,7 @@ import { AppConstants } from './shared/constant/constant.variable';
 
 import {
   AuthService, RoleGuardService, SpinnerDirective, SpinnerService,
-  AuthInterceptor
+  AuthInterceptor, UtilityService
 } from './shared/index.shared';
 
 
@@ -73,6 +75,7 @@ import { NgModel } from '@angular/forms/src/directives/ng_model';
     RoleGuardService,
     JwtHelperService,
     SpinnerService,
+    UtilityService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

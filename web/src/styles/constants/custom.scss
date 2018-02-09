@@ -1,27 +1,25 @@
-.login-inner-bg{
-    width:100%;
-    float:left;
-    background-image:url(../assets/images/login-bg.jpg);
-    background-repeat: no-repeat;
-    background-position: top center;
-    background-size: cover;
-    -moz-background-size: cover;
-    -webkit-background-size: cover;
-    background-attachment: fixed;
-}
-
 
 .content-wrapper{
     // width:100%;
     // float: left;
+    @media screen and (max-width:$mobile-screen) {
+        margin-left:60px;
+        padding-left:4px;
+        padding-right: 12px;
+    }
     padding:20px;
     margin-left:240px;
     transition: all 0.5s ease-in-out;
 }
 
 .wrap-left{
+    @media screen and (max-width:$mobile-screen) {
+        margin-left:60px;
+    }
     margin-left: 50px;
 }
+
+
 
 
 /*========= HEADER CSS STARTS HERE =========*/
@@ -30,6 +28,8 @@
     .logo{
         margin:20px 0 14px;
         float: left;
+        position: relative;
+        z-index: 999;
     }
     .top-nav{
         ul{
@@ -38,6 +38,9 @@
                     &:hover{
                         color:darken($light-blue, 20%);
 
+                    }
+                    @media screen and(max-width:$xsmall-screen) {
+                        font-size: 12px;
                     }
                     color:$light-blue;
                     font-size: 14px;
@@ -138,7 +141,13 @@
     }
 
 .search-box{
-    width:450px;
+    @media screen and (max-width:$small-screen) {
+        width:240px;
+    }
+    @media screen and (max-width:$mobile-screen) {
+        width:250px;
+    }
+    width:320px;
 }
 
 
@@ -182,6 +191,9 @@
     .fa{
         color:$white-color;
     }
+    @media screen and (max-width:$mobile-screen){
+        display: none;
+    }
     margin: 20px 0 0 16px;
     cursor: pointer;
     background: $blue-bg;
@@ -208,6 +220,9 @@
             @media screen and(max-width:$small-screen) {
                 display:block;
                 margin: 10px 0;
+            }
+            @media screen and(max-width:$mobile-screen) {
+                display: block;
             }
             margin: 10px 20px 10px 0;
             display: inline-block;
@@ -270,12 +285,17 @@
         @media screen and(max-width:$small-screen){
            text-align: center;
         }
+        @media screen and(max-width:$mobile-screen){
+            float: left;
+            margin-top:10px;
+         }
         margin: 0;
         padding: 0;
         float: right;
     }
     @media screen and(max-width:$mobile-screen){
         position: relative;
+        z-index: 999;
      }
     width:100%;
     float: left;
@@ -291,3 +311,120 @@
 /*========= FOOTER CSS END HERE =========*/
 
 
+/*========= DASHBOARD INNER PAGES COMMON CSS STARTS HERE =========*/
+
+.table-responsive-top{
+    .table>thead>tr>th{
+        border-bottom:0px;
+    }
+     @media screen and (max-width:$mobile-screen) {
+            margin-top:10px;
+     }
+    margin-top:30px;
+    float:left;
+    width:100%;
+    border:1px solid $border-color;
+    height:290px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.blue-btn{
+    &:hover{
+        background:lighten($blue-bg, 10%) !important;
+        border-color:lighten($blue-bg, 10%) !important;
+    }
+    background: $blue-bg !important;
+    border-radius: 0px !important;
+    padding:6px 24px !important;
+    color:$white-color !important;
+    transition: all 0.5s ease !important;
+}
+
+.no-radius{
+    border-radius:0px !important;
+}
+
+.btn-pad{
+    padding:6px 24px !important;
+}  
+
+.full-width{
+    width:100%;
+}
+
+.panel{
+    .full-input{
+        width:100%;
+        height:34px;
+        border:1px solid $border-color !important;
+        padding: 5px 10px;
+        margin-bottom: 10px;
+        text-transform: capitalize;
+    }
+    .full-tarea{
+        width:100%;
+        height:80px;
+        border:1px solid $border-color !important;
+        padding: 5px 10px;
+        margin-bottom: 10px;
+        text-transform: capitalize;
+    }
+    label{
+        margin-top: 6px;
+    }
+    .panel-heading{
+        font-size:20px;
+        background: $blue-bg !important;
+        border-color:$blue-bg !important;
+        color: $white-color !important;
+    }
+    border-color:$blue-bg !important; 
+}
+
+.btn-gap{
+    margin-top:14px;
+}
+
+.validation-error{
+    color:$red-color;
+    margin:0 0 10px 2px;
+}
+
+.table-responsive-top{
+    .table {
+        thead{
+            tr{
+                th{
+                    text-transform: capitalize;
+                }
+            }
+        }
+    }
+}
+
+.panel-body{
+    label{
+        @media screen and(max-width:$ipad-screen) {
+            font-size:12px;
+        }
+    }
+}
+
+.table-slide{
+    p{
+        font-size:16px;
+        color:$black-color;
+        margin-top:10px;
+        float: left;
+        text-align: center;
+        width: 100%;
+    }
+    @media screen and(max-width:$mobile-screen) {
+        display: block;
+    }
+    display: none;
+}
+
+
+/*========= DASHBOARD INNER PAGES COMMON CSS END HERE =========*/

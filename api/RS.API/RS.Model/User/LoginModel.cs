@@ -49,5 +49,12 @@ namespace RS.ViewModel.User
             public string UserEmail { get; set; }
             public string UserPassword { get; set; }
         }
+
+        public class ChangePassword
+        {
+            public string OldPassword { get; set; }
+            public string NewPassword { get; set; }
+        }
+
     }
 }

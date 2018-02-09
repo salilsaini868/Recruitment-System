@@ -202,14 +202,17 @@ export class UserService extends BaseService {
       map(_r => _r.body)
     );
   }
-  ApiForgotpasswordLoginUserPost(userView?: UserViewModel): Observable<HttpResponse<IResult>> {
+  /**
+   * @param id - undefined
+   */
+  ApiUserGetUsersByRoleGetResponse(id: number): Observable<HttpResponse<IResult>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
-    __body = userView;
+    if (id != null) __params = __params.set("id", id.toString());
     let req = new HttpRequest<any>(
-      "POST",
-      this.rootUrl + `/api/User/ForgotpasswordUser`,
+      "GET",
+      this.rootUrl + `/api/User/GetUsersByRole`,
       __body,
       {
         headers: __headers,
@@ -223,14 +226,18 @@ export class UserService extends BaseService {
         let _resp = _r as HttpResponse<any>;
         let _body: IResult = null;
         _body = _resp.body as IResult
-        return _resp.clone({ body: _body }) as HttpResponse<IResult>;
+        return _resp.clone({body: _body}) as HttpResponse<IResult>;
       })
     );
   }
-  ApiChangepasswordChangepasswordUserPost(id: string): Observable<IResult> {
-  return
-  }
-}
 
+  /**
+   * @param id - undefined
+   */
+  ApiUserGetUsersByRoleGet(id: number): Observable<IResult> {
+    return this.ApiUserGetUsersByRoleGetResponse(id).pipe(
+      map(_r => _r.body)
+    );
+  }}
 export module UserService {
 }

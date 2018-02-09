@@ -1,3 +1,4 @@
+<div class="login-inner-bg">
 <div class="login-main">
     <div class="container">
         <div class="row">
@@ -21,7 +22,7 @@
                                     </div>
                                 </div>
                                 <div class="pull-right forgot">
-                                    <a href="javascript:void(0)">Forgot password</a>
+                                    <a data-toggle="modal" (click)="forgotpassword()">{{ 'USER.FORGOTPASSWORD' | translate }} </a>
                                 </div>
                                 <div class="clearfix"></div>
                                 <div class="text-center">
@@ -35,4 +36,5 @@
             </div>
         </div>
     </div>
+</div>
 </div>

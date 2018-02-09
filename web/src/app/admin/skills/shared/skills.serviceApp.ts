@@ -21,8 +21,3 @@ export class SkillsServiceApp {
         return this.apiSkillsService.ApiSkillUpdateSkillPut(SkillsModel).map(x => (x));
     }
 }
-
-
-
-
- 

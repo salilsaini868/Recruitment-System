@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using RS.Data;
 using RS.Data.Interfaces;
 using RS.Entity.Models;
+using RS.ViewModel.User;
 
 namespace RS.Data.Logic
 {
@@ -21,6 +22,22 @@ namespace RS.Data.Logic
             return _context.ApprovalEvents.Include(t => t.ApprovalActions)
                 .Where(t => t.Approval.ApprovalId == approvalId)
                 .OrderBy(t => t.ApprovalEventOrder).ToList();
+        }
+
+        public void AddApprovalEventRole(ApprovalEventRoles approvalEventRole)
+        {
+            _context.ApprovalEventRoles.Add(approvalEventRole);
+        }
+
+        public List<ApprovalEventRoles> GetAllApprovalEventRole()
+        {
+            return _context.ApprovalEventRoles.Include(t => t.ApprovalEvent).Include(s => s.Role).Include(r => r.User)
+                .Where(x => x.IsActive && !x.IsDeleted).ToList();
+        }
+
+        public List<Approvals> GetAllApprovals()
+        {
+            return _context.Approvals.ToList();
         }
     }
 }
