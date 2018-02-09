@@ -13,37 +13,37 @@ const ADMIN_ROUTES: Routes = [
     path: 'Qualifications',
     component: QualificationsComponent,
     canActivate: [RoleGuardService],
-    data: { expectedRole: 'Admin' }
+    data: { expectedRole: ['Admin'] }
   },
   {
     path: 'Skills',
     component: SkillsComponent,
     canActivate: [RoleGuardService],
-    data: { expectedRole: 'Admin' }
+    data: { expectedRole: ['Admin'] }
   },
   {
     path: 'User',
     component: UserComponent,
     canActivate: [RoleGuardService],
-    data: { expectedRole: 'Admin' }
+    data: { expectedRole: ['Admin'] }
   },
   {
     path: 'User/:userId',
     component: UserComponent,
     canActivate: [RoleGuardService],
-    data: { expectedRole: 'Admin' }
+    data: { expectedRole: ['Admin'] }
   },
   {
     path: 'Users',
     component: UsersComponent,
     canActivate: [RoleGuardService],
-    data: { expectedRole: 'Admin' }
+    data: { expectedRole: ['Admin'] }
   },
   {
     path: 'UserEventRole',
     component: UserEventRoleComponent,
     canActivate: [RoleGuardService],
-    data: { expectedRole: 'Admin' }
+    data: { expectedRole: ['Admin'] }
   }
 ];
 

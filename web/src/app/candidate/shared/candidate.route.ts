@@ -11,25 +11,25 @@ const CANDIDATE_ROUTES: Routes = [
         path: 'Candidate',
         component: CandidateComponent,
         canActivate: [RoleGuardService],
-        data: { expectedRole: 'Admin' }
+        data: { expectedRole: ['Sr.HR', 'Manager'] }
     },
     {
         path: 'Candidate/:candidateId',
         component: CandidateComponent,
         canActivate: [RoleGuardService],
-        data: { expectedRole: 'Admin' }
+        data: { expectedRole: ['Sr.HR', 'Manager'] }
     },
     {
         path: 'opening/Candidate/:openingId',
         component: CandidateComponent,
         canActivate: [RoleGuardService],
-        data: { expectedRole: 'Admin' }
+        data: { expectedRole: ['Sr.HR', 'Manager'] }
     },
     {
         path: 'Candidates',
         component: CandidatesComponent,
         canActivate: [RoleGuardService],
-        data: { expectedRole: 'Admin' }
+        data: { expectedRole: ['Sr.HR', 'Manager'] }
     }
 ];
 

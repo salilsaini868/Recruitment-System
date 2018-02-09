@@ -8,6 +8,7 @@ import { SkillModel } from '../shared/customModels/skill-model';
 import { OpeningSkillType, Status } from '../app.enum';
 import { isNullOrUndefined } from 'util';
 import { DisplayMessageService } from '../shared/toastr/display.message.service';
+import { AppConstants } from '../shared/constant/constant.variable';
 
 @Component({
     selector: 'app-opening',
@@ -21,12 +22,14 @@ export class OpeningComponent implements OnInit {
     skillModels: SkillModel[] = [] as SkillViewModel[];
     primarySkillModels: SkillModel[] = [] as SkillModel[];
     secondarySkillModels: SkillModel[] = [] as SkillModel[];
+    approval: number;
 
     constructor(private openingServiceApp: OpeningServiceApp, private route: ActivatedRoute,
         private router: Router, private msgService: DisplayMessageService) {
     }
 
     ngOnInit() {
+        this.approval = AppConstants.Opening;
         this.getAllSkill();
         this.getOpeningById();
         this.initilaizeArray();

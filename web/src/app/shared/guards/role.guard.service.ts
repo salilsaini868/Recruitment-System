@@ -6,7 +6,6 @@ import { AuthService } from './auth.service';
 
 // constants
 import { AppConstants } from '../constant/constant.variable';
-import { debounce } from 'rxjs/operators/debounce';
 import { isNullOrUndefined } from 'util';
 
 
@@ -19,15 +18,20 @@ export class RoleGuardService implements CanActivate {
     // this will be passed from the route config
     // on the data property
     let tokenPayload = '';
-    const expectedRole = route.data.expectedRole;
+    let expectedRole: any[] = [];
+    expectedRole = route.data.expectedRole;
     const token = localStorage.getItem(AppConstants.AuthToken);
     // decode the token to get its payload
     if (!isNullOrUndefined(token)) { tokenPayload = decode(token); }
-    if (!this.auth.isAuthenticated() || tokenPayload[AppConstants.RoleClaim] !== expectedRole) {
-      this.router.navigate(['login']);
-      return false;
+    if (this.auth.isAuthenticated()) {
+      for (const role in expectedRole) {
+        if (tokenPayload[AppConstants.RoleClaim] === expectedRole[role]) {
+          return true;
+        }
+      }
     }
-    return true;
+    this.router.navigate(['login']);
+    return false;
   }
 }
 
