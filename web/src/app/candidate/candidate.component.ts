@@ -15,6 +15,7 @@ import { CandidateViewModel } from '../webapi/models';
 import { QualificationViewModel } from '../webapi/models/qualification-view-model';
 import { Status } from '../app.enum';
 import { DisplayMessageService } from '../shared/toastr/display.message.service';
+import { AppConstants } from '../shared/constant/constant.variable';
 
 @Component({
     selector: 'app-candidate',
@@ -28,6 +29,7 @@ export class CandidateComponent implements OnInit {
     years: number[] = [];
     months: number[] = [];
     defaultOption: any;
+    approval: number;
 
     constructor(private openingServiceApp: OpeningServiceApp, private candidateServiceApp: CandidateServiceApp,
         private qualificationServiceApp: QualificationsServiceApp, private route: ActivatedRoute,
@@ -38,6 +40,7 @@ export class CandidateComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.approval = AppConstants.Candidate;
         this.setDefaultValues();
         this.initializeMethods();
         this.setDefaultOption();

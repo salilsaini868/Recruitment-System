@@ -11,13 +11,15 @@ import { CandidateComponent, CandidatesComponent } from '../index.candidate';
 
 // Services
 import { CandidateServiceApp } from './candidate.serviceApp';
+import { ApprovalModule } from '../../approval/shared/approval.module';
 
 @NgModule({
     imports: [
         BrowserModule,
         FormsModule,
         TranslateModule,
-        CandidateRouterModule
+        CandidateRouterModule,
+        ApprovalModule
     ],
     exports: [],
     declarations: [CandidateComponent, CandidatesComponent],
