@@ -7,3 +7,6 @@ export enum Status {
     Fail = 1, Success = 2, Error = 3
 }
 
+export enum ApprovalType {
+    Opening = 1, Candidate = 2
+}

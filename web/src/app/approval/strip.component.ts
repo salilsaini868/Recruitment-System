@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { ApprovalServiceApp } from './shared/approval.serviceApp';;
+import { ApprovalServiceApp } from './shared/approval.serviceApp';
 
 @Component({
   selector: 'app-approvalstrip',
@@ -21,7 +21,6 @@ export class StripComponent implements OnInit {
   }
 
   getAllApprovalEvents() {
-    debugger;
     this.approvalServiceApp.getApprovalEventsById(this.approvalType).subscribe((data) => {
       this.approvalEvents = data.body;
       console.log(this.approvalEvents);
