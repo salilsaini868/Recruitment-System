@@ -20,12 +20,15 @@ namespace RS.Service.Logic
         private readonly ClaimsPrincipal _principal;
         private readonly IUserRepository _userRepository;
         private readonly IRoleRepository _roleRepository;
+        private readonly IApprovalRepository _approvalRepository;
 
         #endregion
-        public UserManagerService(IPrincipal principal, IUserRepository userRepository, IRoleRepository roleRepository)
+        public UserManagerService(IPrincipal principal, IUserRepository userRepository, IRoleRepository roleRepository,
+            IApprovalRepository approvalRepository)
         {
             this._userRepository = userRepository;
             this._roleRepository = roleRepository;
+            this._approvalRepository = approvalRepository;
             this._principal = principal as ClaimsPrincipal;
         }
 
@@ -248,7 +251,7 @@ namespace RS.Service.Logic
                     userView.FullName = user.FirstName + " " + user.LastName;
                     var firstOrDefault = user.UserRoles.FirstOrDefault();
                     if (firstOrDefault != null) userView.Role = firstOrDefault.Role.Name;
-
+                    userView.approvalDetail = _approvalRepository.GetApprovalEventsOfUser(user.UserId);
                     result.Body = userView;
                 }
                 else

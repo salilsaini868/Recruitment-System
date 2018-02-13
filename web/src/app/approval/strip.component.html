@@ -1,7 +1,7 @@
 <!-- Strip secction -->
 <ul *ngIf="approvalEvents.length > 0">
   <li *ngFor="let approvalEvent of approvalEvents">
-    <a (click)="onApprovalEventClick(approvalEvent)"> {{ approvalEvent.approvalEventName }}</a>
+    <a (click)="onApprovalEventClick(approvalEvent)" [class.disabled]="isDisabled(approvalEvent.approvalEventId)"> {{ approvalEvent.approvalEventName }}</a>
   </li>
 </ul>
 
@@ -10,7 +10,7 @@
   <table  *ngIf="currentEventClicked.approvalActions.length > 0">
     <tr>
       <td *ngFor="let approvalActions of currentEventClicked.approvalActions">
-        <a (click)="onApprovalActionClick(approvalActions)" >{{approvalActions.approvalActionName }}
+        <a (click)="onApprovalActionClick(approvalActions)" >{{approvalActions.approvalActionName}}
         </a>
       </td>
     </tr>
