@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using RS.Entity.Models;
 using RS.ViewModel.User;
+using System;
 
 namespace RS.Data.Interfaces
 {
@@ -10,5 +11,6 @@ namespace RS.Data.Interfaces
         List<Approvals> GetAllApprovals();
         void AddApprovalEventRole(ApprovalEventRoles approvalEventRole);
         List<ApprovalEventRoles> GetAllApprovalEventRole();
+        Dictionary<string, string> GetApprovalEventsOfUser(Guid UserId);
     }
 }
