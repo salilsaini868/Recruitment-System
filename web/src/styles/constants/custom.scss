@@ -331,6 +331,7 @@
 
 .blue-btn{
     &:hover{
+        text-decoration: none;
         background:lighten($blue-bg, 10%) !important;
         border-color:lighten($blue-bg, 10%) !important;
     }
@@ -339,6 +340,8 @@
     padding:6px 24px !important;
     color:$white-color !important;
     transition: all 0.5s ease !important;
+    display: inline-block;
+    cursor: pointer;
 }
 
 .no-radius{
@@ -426,5 +429,16 @@
     display: none;
 }
 
+.skill-main{
+    height:200px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
 
 /*========= DASHBOARD INNER PAGES COMMON CSS END HERE =========*/
+
+
+
+
+
+  
