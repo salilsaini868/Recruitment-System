@@ -13,7 +13,7 @@ import { ApprovalEventViewModel } from '../shared/customModels/approval-event-vi
 @Component({
   selector: 'app-approvalstrip',
   templateUrl: 'strip.component.html',
-  styleUrls: ['strip.component.css']
+  styleUrls: ['shared/strip.scss'],
 })
 
 export class StripComponent implements OnInit {
@@ -35,6 +35,7 @@ export class StripComponent implements OnInit {
   }
 
   getAllApprovalEvents() {
+    debugger;
     this.approvalServiceApp.getApprovalEventsById(this.approvalType).subscribe((data) => {
       this.approvalEvents = data.body;
       console.log(this.approvalEvents);
