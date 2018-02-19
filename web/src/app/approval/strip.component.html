@@ -1,8 +1,8 @@
 <!-- Strip secction -->
 <div class="row">
 <div class="col-xs-12">
-<ul *ngIf="approvalEvents.length > 0" class="nav nav-wizard" [routerLinkActive]="['current']"> 
-  <li *ngFor="let approvalEvent of approvalEvents" >
+<ul *ngIf="approvalEvents.length > 0" class="nav nav-wizard"> 
+  <li *ngFor="let approvalEvent of approvalEvents"  [routerLinkActive]="['current']">
     <a (click)="onApprovalEventClick(approvalEvent)"> {{ approvalEvent.approvalEventName }}</a>
   </li>
 </ul>
@@ -10,7 +10,7 @@
 <!-- pop up section -->
 <div class="top-info" id="pointer">
   <div class="arrow-top">
-    <textarea cols="5" rows="5" class="col-xs-12"></textarea>
+    <textarea cols="5" rows="5" class="full-width tarea-inner"></textarea>
   <div *ngIf="currentEventClicked != null">
     <div  *ngIf="currentEventClicked.approvalActions.length > 0" class="two-side">
         <div *ngFor="let approvalActions of currentEventClicked.approvalActions">
@@ -20,7 +20,7 @@
     </div>
   </div>
 </div>
-</div>
+</div>  
 </div>
 </div>
 <div class="clearfix"></div>

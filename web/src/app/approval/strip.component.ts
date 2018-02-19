@@ -5,7 +5,8 @@ import { ApprovalServiceApp } from './shared/approval.serviceApp';;
 
 @Component({
   selector: 'app-approvalstrip',
-  templateUrl: 'strip.component.html'
+  templateUrl: 'strip.component.html',
+  styleUrls: ['shared/strip.scss'],
 })
 
 export class StripComponent implements OnInit {

@@ -28,6 +28,7 @@
                 display:block;
                 cursor: pointer;
                 color:darken($white-color, 20%);
+                 text-transform: capitalize;
             }
             list-style:none;
             padding: 0; margin:0;
