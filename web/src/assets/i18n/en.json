@@ -67,6 +67,7 @@
         "SAVE": "Save   ",
         "UPDATE": "Update",
         "DELETE": "Delete",
+        "CONFIRM":"Confirm",
         "ADD" : "Add"
     },
     "FORGOTPASSWORD" :{

@@ -15,4 +15,13 @@ export class ApprovalServiceApp {
   getApprovals(): Observable<any> {
     return this.apiApprovalService.ApiApprovalGetApprovalsGet().map((x) => x);
   }
+
+  getApprovalTransactionByEntity(entityId): Observable<any> {
+    return this.apiApprovalService.ApiApprovalGetApprovalTransactionByEntityGet(entityId).map(x => (x));
+  }
+
+  updateApprovalTransaction(approvalTransaction): Observable<any> {
+    return this.apiApprovalService.ApiApprovalUpdateApprovalTransactionPut(approvalTransaction).map(x => (x));
+  }
+
 }

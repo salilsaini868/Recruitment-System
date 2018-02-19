@@ -12,6 +12,7 @@ export class LoginServiceApp {
     constructor(private http: HttpClient, private apiLoginService: LoginService) { }
 
     userLogin(userLoginModel): Observable<any> {
+        debugger;
         return this.apiLoginService.ApiLoginLoginUserPost(userLoginModel).map(x => (x));
     }
     userForgotpassword(userForgotpasswordModel): Observable<any> {

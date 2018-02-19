@@ -1,4 +1,5 @@
 ﻿using RS.Common.CommonData;
+using RS.ViewModel.Approval;
 using RS.ViewModel.Opening;
 using System;
 using System.Collections.Generic;
@@ -13,14 +14,14 @@ namespace RS.Service.Interfaces
         /// </summary>
         /// <param name="opening"></param>
         /// <returns></returns>
-        IResult CreateOpening(OpeningViewModel opening);
+        IResult CreateOpening(OpeningViewModel opening, ApprovalTransactionViewModel approvalTransactionViewModel);
 
         /// <summary>
         /// Update a Opening
         /// </summary>
         /// <param name="opening"></param>
         /// <returns></returns>
-        IResult UpdateOpening(OpeningViewModel opening);
+        IResult UpdateOpening(OpeningViewModel opening, ApprovalTransactionViewModel approvalTransactionViewModel);
 
         /// <summary>
         /// Delete a Opening

@@ -13,6 +13,7 @@ using RS.Common.Extensions;
 using System.Collections.Generic;
 using System.Linq;
 using RS.ViewModel.Skill;
+using RS.ViewModel.Approval;
 
 namespace RS.Service.Logic
 {
@@ -20,15 +21,19 @@ namespace RS.Service.Logic
     {
         #region Global Variables
         private readonly IOpeningRepository _openingRepository;
+        private readonly IApprovalRepository _approvalRepository;
+        private readonly IApprovalManagerService _approvalManagerService;
         private readonly ClaimsPrincipal _principal;
         #endregion
-        public OpeningManagerService(IPrincipal principal, IOpeningRepository openingRepository)
+        public OpeningManagerService(IPrincipal principal, IApprovalManagerService approvalManagerService, IOpeningRepository openingRepository, IApprovalRepository approvalRepository)
         {
             _openingRepository = openingRepository;
+            _approvalRepository = approvalRepository;
+            _approvalManagerService = approvalManagerService;
             _principal = principal as ClaimsPrincipal;
         }
 
-        public IResult CreateOpening(OpeningViewModel openingViewModel)
+        public IResult CreateOpening(OpeningViewModel openingViewModel, ApprovalTransactionViewModel approvalTransactionViewModel)
         {
             var result = new Result
             {
@@ -53,6 +58,24 @@ namespace RS.Service.Logic
                     openingSkillList.Add(openingSkill);
                 }
                 _openingRepository.CreateOpening(openingModel, openingSkillList);
+
+                var approvalTransaction = new ApprovalTransactions();
+                approvalTransaction.MapAuditColumns((ClaimsIdentity)_principal.Identity);
+
+                approvalTransaction.ApprovalId = approvalTransactionViewModel.ApprovalId;
+                approvalTransaction.ApprovalActionId = approvalTransactionViewModel.ApprovalActions[0].ApprovalActionId;
+                approvalTransaction.EntityId = openingModel.OpeningId;
+                approvalTransaction.EntityType = 0;
+                approvalTransaction.EventOrderNumber = approvalTransactionViewModel.ApprovalEventOrder;
+                approvalTransaction.NextEventOrderNumber = approvalTransaction.EventOrderNumber + 1;
+
+                var approvalTransactionDetails = new ApprovalTransactionDetails();
+                approvalTransactionDetails.MapAuditColumns((ClaimsIdentity)_principal.Identity);
+                approvalTransactionDetails.ApprovalActionId = approvalTransaction.ApprovalActionId;
+                approvalTransactionDetails.EventOrderNumber = approvalTransaction.EventOrderNumber;
+                approvalTransaction.ApprovalTransactionDetails.Add(approvalTransactionDetails);
+                _approvalRepository.CreateApprovalTransaction(approvalTransaction);
+
                 result.Body = openingModel.OpeningId;
             }
             catch (Exception e)
@@ -115,7 +138,7 @@ namespace RS.Service.Logic
             return result;
         }
 
-        public IResult UpdateOpening(OpeningViewModel openingViewModel)
+        public IResult UpdateOpening(OpeningViewModel openingViewModel, ApprovalTransactionViewModel approvalTransactionViewModel)
         {
             var result = new Result
             {
@@ -168,6 +191,8 @@ namespace RS.Service.Logic
                     _openingRepository.UpdateOpeningSkills(openingSkillList);  
                 }
                 _openingRepository.Update(openingModel);
+                approvalTransactionViewModel.NextEventOrderNumber += 1;
+                _approvalManagerService.UpdateApprovalTransaction(approvalTransactionViewModel);
                 _openingRepository.SaveChanges();
                 result.Body = openingModel.OpeningId;
             }
@@ -206,6 +231,5 @@ namespace RS.Service.Logic
                 }
             }
         }
-
     }
 }

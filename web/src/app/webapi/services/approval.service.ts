@@ -11,6 +11,7 @@ import { filter } from 'rxjs/operators/filter';
 
 import { IResult } from '../models/iresult';
 import { ApprovalEventRoleViewModel } from '../models/approval-event-role-view-model';
+import { ApprovalTransactionViewModel } from '../models/approval-transaction-view-model';
 
 
 @Injectable()
@@ -128,6 +129,43 @@ export class ApprovalService extends BaseService {
     );
   }
   /**
+   * @param openingId - undefined
+   */
+  ApiApprovalGetApprovalTransactionByEntityGetResponse(openingId: string): Observable<HttpResponse<IResult>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    if (openingId != null) __params = __params.set("openingId", openingId.toString());
+    let req = new HttpRequest<any>(
+      "GET",
+      this.rootUrl + `/api/Approval/GetApprovalTransactionByEntity`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      filter(_r => _r instanceof HttpResponse),
+      map(_r => {
+        let _resp = _r as HttpResponse<any>;
+        let _body: IResult = null;
+        _body = _resp.body as IResult
+        return _resp.clone({body: _body}) as HttpResponse<IResult>;
+      })
+    );
+  }
+
+  /**
+   * @param openingId - undefined
+   */
+  ApiApprovalGetApprovalTransactionByEntityGet(openingId: string): Observable<IResult> {
+    return this.ApiApprovalGetApprovalTransactionByEntityGetResponse(openingId).pipe(
+      map(_r => _r.body)
+    );
+  }
+  /**
    * @param approvalEventRoleViewModel - undefined
    */
   ApiApprovalCreateEventRolePostResponse(approvalEventRoleViewModel?: ApprovalEventRoleViewModel): Observable<HttpResponse<IResult>> {
@@ -161,6 +199,43 @@ export class ApprovalService extends BaseService {
    */
   ApiApprovalCreateEventRolePost(approvalEventRoleViewModel?: ApprovalEventRoleViewModel): Observable<IResult> {
     return this.ApiApprovalCreateEventRolePostResponse(approvalEventRoleViewModel).pipe(
+      map(_r => _r.body)
+    );
+  }
+  /**
+   * @param approvalTransactionViewModel - undefined
+   */
+  ApiApprovalUpdateApprovalTransactionPutResponse(approvalTransactionViewModel?: ApprovalTransactionViewModel): Observable<HttpResponse<IResult>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    __body = approvalTransactionViewModel;
+    let req = new HttpRequest<any>(
+      "PUT",
+      this.rootUrl + `/api/Approval/updateApprovalTransaction`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      filter(_r => _r instanceof HttpResponse),
+      map(_r => {
+        let _resp = _r as HttpResponse<any>;
+        let _body: IResult = null;
+        _body = _resp.body as IResult
+        return _resp.clone({body: _body}) as HttpResponse<IResult>;
+      })
+    );
+  }
+
+  /**
+   * @param approvalTransactionViewModel - undefined
+   */
+  ApiApprovalUpdateApprovalTransactionPut(approvalTransactionViewModel?: ApprovalTransactionViewModel): Observable<IResult> {
+    return this.ApiApprovalUpdateApprovalTransactionPutResponse(approvalTransactionViewModel).pipe(
       map(_r => _r.body)
     );
   }}

@@ -10,19 +10,19 @@ const OPENING_ROUTES: Routes = [
         path: 'opening',
         component: OpeningComponent,
         canActivate: [RoleGuardService],
-        data: { expectedRole: ['Sr.HR', 'Manager'] }
+        data: { expectedRole: ['Sr.HR', 'Manager', 'VP'] }
     },
     {
         path: 'opening/:openingId',
         component: OpeningComponent,
         canActivate: [RoleGuardService],
-        data: { expectedRole: ['Sr.HR', 'Manager'] }
+        data: { expectedRole: ['Sr.HR', 'Manager', 'VP'] }
     },
     {
         path: 'openings',
         component: OpeningsComponent,
         canActivate: [RoleGuardService],
-        data: { expectedRole: ['Sr.HR', 'Manager'] }
+        data: { expectedRole: ['Sr.HR', 'Manager', 'VP'] }
     }
 ];
 

@@ -12,11 +12,11 @@ import { RoleServiceApp } from '../users/shared/role.serviceApp';
 import { UserServiceApp } from '../users/shared/user.serviceApp';
 import { DisplayMessageService } from '../../shared/toastr/display.message.service';
 import { ApprovalServiceApp } from '../../approval/shared/approval.serviceApp';
-import { ApprovalEventModel } from '../../shared/customModels/approval-event-model';
 import { TranslateService } from '@ngx-translate/core';
 import { UserEventRoleServiceApp } from './shared/usereventrole.serviceApp';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
 import { ApprovalModel } from '../../shared/customModels/approval-model';
+import { ApprovalEventViewModel } from '../../shared/customModels/approval-event-view-model';
 
 @Component({
     'selector': 'app-usereventrole',
@@ -25,7 +25,7 @@ import { ApprovalModel } from '../../shared/customModels/approval-model';
 
 export class UserEventRoleComponent implements OnInit {
 
-    approvalEvents: ApprovalEventModel[] = [] as ApprovalEventModel[];
+    approvalEvents: ApprovalEventViewModel[] = [] as ApprovalEventViewModel[];
     approvalEventRoleModel: ApprovalEventRoleViewModel = {} as ApprovalEventRoleViewModel;
     roles: RoleViewModel[] = [] as RoleViewModel[];
     approvalEventRoleModels: ApprovalEventRoleViewModel[] = [] as ApprovalEventRoleViewModel[];

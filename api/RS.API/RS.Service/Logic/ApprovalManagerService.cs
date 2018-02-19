@@ -196,5 +196,56 @@ namespace RS.Service.Logic
             }
             return result;
         }
+
+        public IResult GetApprovalTransactionByEntity(Guid openingId)
+        {
+            var result = new Result
+            {
+                Operation = Operation.Read,
+                Status = Status.Success
+            };
+            try
+            {
+                var approvalTransactionViewModel = new ApprovalTransactionViewModel();
+                var approvalTransactionModel = _approvalRepository.GetApprovalTransactionByEntity(openingId);
+                result.Body = approvalTransactionViewModel.MapFromModel(approvalTransactionModel);
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Error;
+            }
+            return result;
+        }
+
+        public IResult UpdateApprovalTransaction(ApprovalTransactionViewModel approvalTransactionViewModel)
+        {
+            var result = new Result
+            {
+                Operation = Operation.Read,
+                Status = Status.Success
+            };
+            try
+            {
+                var approvalTransactionModel = new ApprovalTransactions();
+                approvalTransactionModel.MapFromViewModel(approvalTransactionViewModel, (ClaimsIdentity)_principal.Identity);
+
+                var approvalTransactionDetails = new ApprovalTransactionDetails();
+                approvalTransactionDetails.MapAuditColumns((ClaimsIdentity)_principal.Identity);
+                approvalTransactionDetails.ApprovalTransactionId = approvalTransactionViewModel.ApprovalTransactionId;
+                approvalTransactionDetails.ApprovalActionId = approvalTransactionViewModel.ApprovalActionId;
+                approvalTransactionDetails.EventOrderNumber = approvalTransactionViewModel.EventOrderNumber;
+                _approvalRepository.UpdateApprovalTransaction(approvalTransactionModel, approvalTransactionDetails);
+               
+                result.Body = approvalTransactionViewModel.ApprovalTransactionId;
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Error;
+            }
+            return result;
+        }
+
     }
 }

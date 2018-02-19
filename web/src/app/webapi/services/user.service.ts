@@ -1,9 +1,8 @@
 /* tslint:disable */
 import { Injectable } from '@angular/core';
 import {
-  HttpClient, HttpRequest, HttpResponse,
-  HttpHeaders, HttpParams
-} from '@angular/common/http';
+  HttpClient, HttpRequest, HttpResponse, 
+  HttpHeaders, HttpParams } from '@angular/common/http';
 import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { Observable } from 'rxjs/Observable';
@@ -44,8 +43,8 @@ export class UserService extends BaseService {
       map(_r => {
         let _resp = _r as HttpResponse<any>;
         let _body: void = null;
-
-        return _resp.clone({ body: _body }) as HttpResponse<void>;
+        
+        return _resp.clone({body: _body}) as HttpResponse<void>;
       })
     );
   }
@@ -81,7 +80,7 @@ export class UserService extends BaseService {
         let _resp = _r as HttpResponse<any>;
         let _body: IResult = null;
         _body = _resp.body as IResult
-        return _resp.clone({ body: _body }) as HttpResponse<IResult>;
+        return _resp.clone({body: _body}) as HttpResponse<IResult>;
       })
     );
   }
@@ -118,7 +117,7 @@ export class UserService extends BaseService {
         let _resp = _r as HttpResponse<any>;
         let _body: IResult = null;
         _body = _resp.body as IResult
-        return _resp.clone({ body: _body }) as HttpResponse<IResult>;
+        return _resp.clone({body: _body}) as HttpResponse<IResult>;
       })
     );
   }
@@ -153,7 +152,7 @@ export class UserService extends BaseService {
         let _resp = _r as HttpResponse<any>;
         let _body: IResult = null;
         _body = _resp.body as IResult
-        return _resp.clone({ body: _body }) as HttpResponse<IResult>;
+        return _resp.clone({body: _body}) as HttpResponse<IResult>;
       })
     );
   }
@@ -189,7 +188,7 @@ export class UserService extends BaseService {
         let _resp = _r as HttpResponse<any>;
         let _body: IResult = null;
         _body = _resp.body as IResult
-        return _resp.clone({ body: _body }) as HttpResponse<IResult>;
+        return _resp.clone({body: _body}) as HttpResponse<IResult>;
       })
     );
   }
@@ -239,5 +238,6 @@ export class UserService extends BaseService {
       map(_r => _r.body)
     );
   }}
+
 export module UserService {
 }

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using RS.Data;
 using RS.Data.Interfaces;
 using RS.Entity.Models;
+using RS.ViewModel.Approval;
 using RS.ViewModel.User;
 
 namespace RS.Data.Logic
@@ -54,6 +55,35 @@ namespace RS.Data.Logic
                 dictionary.Add(approvalName, eventIds);
             });
             return dictionary;
+        }
+
+        public int GetApprovalEventOrderNumber(ApprovalEventViewModel approvalEventViewModel)
+        {
+            return _context.ApprovalEvents.FirstOrDefault(x => (x.ApprovalEventName == approvalEventViewModel.ApprovalEventName) && (x.ApprovalId == approvalEventViewModel.ApprovalId)).ApprovalEventOrder;
+        }
+
+        public void CreateApprovalTransaction(ApprovalTransactions approvalTransaction)
+        {
+            _context.ApprovalTransactions.Add(approvalTransaction);
+            _context.SaveChanges();
+        }
+
+        public ApprovalTransactions GetApprovalTransactionByEntity(Guid entityId)
+        {
+            return _context.ApprovalTransactions.FirstOrDefault(x => x.EntityId == entityId && x.IsActive && !x.IsDeleted);
+        }
+
+        public void UpdateApprovalTransaction(ApprovalTransactions approvalTransaction, ApprovalTransactionDetails approvalTransactionDetail)
+        {
+            _context.ApprovalTransactionDetails.Add(approvalTransactionDetail);
+            _context.Entry(approvalTransaction).State = EntityState.Modified;
+            _context.SaveChanges();
+        }
+
+        public void AddApprovalTransactionDetails(ApprovalTransactionDetails approvalTransactionDetail)
+        {
+            _context.ApprovalTransactionDetails.Add(approvalTransactionDetail);
+            _context.SaveChanges();
         }
     }
 }

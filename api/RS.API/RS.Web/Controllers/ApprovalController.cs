@@ -47,11 +47,25 @@ namespace RS.Web.Controllers
             return _approvalManager.GetAllApprovalEventRoles();
         }
 
+        [HttpGet]
+        public IResult GetApprovalTransactionByEntity(Guid openingId)
+        {
+            return _approvalManager.GetApprovalTransactionByEntity(openingId);
+        }
+
         [ValidateModel]
         [HttpPost]
         public IResult createEventRole([FromBody]ApprovalEventRoleViewModel approvalEventRoleViewModel)
         {
             var createdEventRole = _approvalManager.ManageApprovalEventRole(approvalEventRoleViewModel);
+            return createdEventRole;
+        }
+
+        [ValidateModel]
+        [HttpPut]
+        public IResult updateApprovalTransaction([FromBody]ApprovalTransactionViewModel approvalTransactionViewModel)
+        {
+            var createdEventRole = _approvalManager.UpdateApprovalTransaction(approvalTransactionViewModel);
             return createdEventRole;
         }
     }
