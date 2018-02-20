@@ -18,6 +18,7 @@ import {
 // Constant
 import { AppConstants } from './constant/constant.variable';
 import { HttpInterceptorHandler } from '@angular/common/http/src/interceptor';
+import { SideBarPipe } from './pipes/sideBar.pipe';
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -35,8 +36,8 @@ export function HttpLoaderFactory(http: HttpClient) {
             }
         }),
     ],
-    declarations: [ HeaderComponent, FooterComponent, LeftSideBarComponent],
-    exports: [ HeaderComponent, FooterComponent, LeftSideBarComponent],
+    declarations: [ HeaderComponent, FooterComponent, LeftSideBarComponent, SideBarPipe],
+    exports: [ HeaderComponent, FooterComponent, LeftSideBarComponent, SideBarPipe],
     providers: []
 })
 

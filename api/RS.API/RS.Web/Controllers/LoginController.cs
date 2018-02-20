@@ -13,6 +13,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 
 namespace RS.Web.Controllers
 {
@@ -78,14 +79,16 @@ namespace RS.Web.Controllers
 
         private string GenerateToken(UserViewModel user)
         {
+            var approval = JsonConvert.SerializeObject(user.approvalDetail);
             var claims = new Claim[]
             {
                 new Claim(ClaimTypes.Name, user.FullName),
                 new Claim(ClaimTypes.Email,user.Email),
                 new Claim(ClaimTypes.Role,user.Role),
                 new Claim(ClaimTypes.Sid,user.UserId.ToString()),
+                new Claim(ClaimTypes.Actor, approval),
                 new Claim(JwtRegisteredClaimNames.Nbf, new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString()),
-                new Claim(JwtRegisteredClaimNames.Exp, new DateTimeOffset(DateTime.Now.AddDays(1)).ToUnixTimeSeconds().ToString()),
+                new Claim(JwtRegisteredClaimNames.Exp, new DateTimeOffset(DateTime.Now.AddDays(1)).ToUnixTimeSeconds().ToString())
             };
 
             var token = new JwtSecurityToken(

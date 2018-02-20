@@ -5,7 +5,7 @@ import { OpeningService } from '../webapi/services/opening.service';
 import { OpeningServiceApp } from './shared/opening.serviceApp';
 import { SkillViewModel } from '../webapi/models/skill-view-model';
 import { SkillModel } from '../shared/customModels/skill-model';
-import { OpeningSkillType, Status } from '../app.enum';
+import { OpeningSkillType, Status, ApprovalType } from '../app.enum';
 import { isNullOrUndefined } from 'util';
 import { DisplayMessageService } from '../shared/toastr/display.message.service';
 
@@ -21,12 +21,14 @@ export class OpeningComponent implements OnInit {
     skillModels: SkillModel[] = [] as SkillViewModel[];
     primarySkillModels: SkillModel[] = [] as SkillModel[];
     secondarySkillModels: SkillModel[] = [] as SkillModel[];
+    approval: any;
 
     constructor(private openingServiceApp: OpeningServiceApp, private route: ActivatedRoute,
         private router: Router, private msgService: DisplayMessageService) {
     }
 
     ngOnInit() {
+        this.approval = ApprovalType.Opening;
         this.getAllSkill();
         this.getOpeningById();
         this.initilaizeArray();

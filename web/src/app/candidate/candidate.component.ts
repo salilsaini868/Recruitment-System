@@ -13,7 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { OpeningViewModel } from '../webapi/models/opening-view-model';
 import { CandidateViewModel } from '../webapi/models';
 import { QualificationViewModel } from '../webapi/models/qualification-view-model';
-import { Status } from '../app.enum';
+import { Status, ApprovalType } from '../app.enum';
 import { DisplayMessageService } from '../shared/toastr/display.message.service';
 
 @Component({
@@ -28,6 +28,7 @@ export class CandidateComponent implements OnInit {
     years: number[] = [];
     months: number[] = [];
     defaultOption: any;
+    approval: any;
 
     constructor(private openingServiceApp: OpeningServiceApp, private candidateServiceApp: CandidateServiceApp,
         private qualificationServiceApp: QualificationsServiceApp, private route: ActivatedRoute,
@@ -38,6 +39,7 @@ export class CandidateComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.approval = ApprovalType.Candidate;
         this.setDefaultValues();
         this.initializeMethods();
         this.setDefaultOption();

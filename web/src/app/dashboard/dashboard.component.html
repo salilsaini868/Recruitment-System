@@ -1,4 +1,4 @@
 <div *ngIf="loggedRole != null">
   <app-admindashboard *ngIf="loggedRole == 'Admin'"></app-admindashboard>
-  <app-hr *ngIf="loggedRole == 'hr'"></app-hr>
+  <app-hr *ngIf="loggedRole == 'Sr.HR' || loggedRole =='Manager'"></app-hr>
 </div>

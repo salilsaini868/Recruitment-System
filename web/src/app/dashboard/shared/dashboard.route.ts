@@ -2,8 +2,9 @@ import { Routes, RouterModule } from '@angular/router';
 
 // Components
 import {
-  DashboardComponent
+  DashboardComponent, HrDashboardComponent
 } from '../index.dashboard';
+import { RoleGuardService } from '../../shared/guards/role.guard.service';
 
 const Dashboard_ROUTES: Routes = [
   {

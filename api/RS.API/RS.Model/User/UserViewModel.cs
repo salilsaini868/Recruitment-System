@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace RS.ViewModel.User
@@ -14,5 +15,6 @@ namespace RS.ViewModel.User
         public string FullName { get; set; }
         public string Role { get; set; }
         public int RoleId { get; set; }
+        public Dictionary<String , String> approvalDetail { get; set; }
     }
 }
