@@ -5,44 +5,38 @@ import { DetailModule } from './shared/detail.module';
 import { ChangepasswordServiceApp } from './shared/changepassword.serviceApp'
 import { isNullOrUndefined } from 'util';
 import { Status } from '../app.enum';
-import { UserViewModel } from '../webapi/models';
+import { ChangePassword, UserViewModel } from '../webapi/models';
 import 'rxjs/add/observable/of';
-import { DisplayMessageService } from '../shared/toastr/display.message.service';
-
 
 @Component({
     selector: 'app-changepassword',
     templateUrl: 'changepassword.component.html'
 })
 export class ChangepasswordComponent implements OnInit {
-    ChangepasswordModel: UserViewModel = {} as UserViewModel;
-    password: string;
+    changepasswordform: any;
+    ChangepasswordModel: ChangePassword = {} as ChangePassword;
+    //Changepassword: UserViewModel = {} as UserViewModel;
     newPassword: string;
     confirm: string;
+    msg: string;
 
-    constructor(private router: Router, private changepasswordServiceApp: ChangepasswordServiceApp, private displayMessage: DisplayMessageService) {
-
+    constructor(private router: Router, private changepasswordServiceApp: ChangepasswordServiceApp) {
+        this.msg = null;
     }
     onSubmit(changepasswordform) {
         if (changepasswordform.valid) {
             if (this.ChangepasswordModel.newPassword === this.confirm) {
-                console.log("this.ChangepasswordModel",this.ChangepasswordModel);
-                this.changepasswordServiceApp.userChangepassword(this.newPassword).subscribe(
+                this.changepasswordServiceApp.userChangepassword(this.ChangepasswordModel).subscribe(
                     (data) => {
-                        if (!isNullOrUndefined(data) && data.status === Status.Success) {
-                            this.router.navigate(['Dashboard']);
-                        } else {
-                            (data) => {
-                            }
-                        }
-                    }
-                );
+                    });
+                    this.msg = "PASSWORD CHANGED SUCCESSFULLY";
             }
             else {
-                this.displayMessage.showWarning('USER.PASSWORDMISMATCH');
+                this.msg = "Password mismatch";
             }
-            this.ChangepasswordModel.newPassword = this.ChangepasswordModel.password;
+            console.log("this.ChangepasswordModel", this.ChangepasswordModel.oldPassword);
         }
+        changepasswordform.reset();
     }
     ngOnInit() {
     }

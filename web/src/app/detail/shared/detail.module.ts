@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ChangepasswordComponent } from './../changepassword.component';
 import { DetailRouterModule } from './detail.route';
 import { ChangepasswordServiceApp }from './changepassword.serviceApp';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
     declarations: [
@@ -13,6 +14,7 @@ import { ChangepasswordServiceApp }from './changepassword.serviceApp';
         BrowserModule,
         FormsModule,
         DetailRouterModule,
+        TranslateModule
     ],
     providers: [ChangepasswordServiceApp]
 })

@@ -3,16 +3,14 @@ import { Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { UserService } from '../../webapi/services';
+import { LoginService } from '../../webapi/services/login.service';
 
 @Injectable()
 export class ChangepasswordServiceApp {
 
-    constructor(private http: HttpClient, private apiChangepasswordService: UserService) { }
-
+    constructor(private http: HttpClient, private apiChangepasswordService: LoginService) { }
+    
     userChangepassword(changepasswordModel): Observable<any> {
-        console.log("inside");
-        return ;
+        return this.apiChangepasswordService.ApiLoginChangePasswordPut(changepasswordModel).map(x => (x));
     }
-
 }

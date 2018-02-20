@@ -76,6 +76,18 @@
         "OK":"Ok",
         "CLOSE":"Close"
     },
+    "CHANGEPASSWORD" :{
+        "TITLE": "Change password",
+        "OLDPASSWORD": "Old password",
+        "NEWPASSWORD": "New password",
+        "CONFIRMPASSWORD": "Confirm password",
+        "OLDREQURIED": "Old Password Required",
+        "NEWREQURIED": "New Password Required",
+        "CONFIRMREQURIED": "Confirm Password Required",
+        "MINIMUM": "Minimum 4 character requried",
+        "SUBMIT": "Submit",
+        "CLOSE": "Close"
+    },
     
     "CANDIDATE": {
         "NAME": "Name",
