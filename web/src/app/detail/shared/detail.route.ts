@@ -10,7 +10,7 @@ const DETAIL_ROUTES: Routes = [
         path: 'changepassword',
         component: ChangepasswordComponent,
         canActivate: [RoleGuardService],
-        data: { expectedRole: 'Admin' }
+        data: { expectedRole: ['Admin','Sr.HR', 'Manager','VP'] }
     }
 ];
 

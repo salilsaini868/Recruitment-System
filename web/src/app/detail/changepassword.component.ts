@@ -5,7 +5,8 @@ import { DetailModule } from './shared/detail.module';
 import { ChangepasswordServiceApp } from './shared/changepassword.serviceApp'
 import { isNullOrUndefined } from 'util';
 import { Status } from '../app.enum';
-import { ChangePassword, UserViewModel } from '../webapi/models';
+import { ChangePassword } from '../webapi/models';
+import { DisplayMessageService } from '../shared/toastr/display.message.service';
 import 'rxjs/add/observable/of';
 
 @Component({
@@ -13,15 +14,11 @@ import 'rxjs/add/observable/of';
     templateUrl: 'changepassword.component.html'
 })
 export class ChangepasswordComponent implements OnInit {
-    changepasswordform: any;
     ChangepasswordModel: ChangePassword = {} as ChangePassword;
-    //Changepassword: UserViewModel = {} as UserViewModel;
-    newPassword: string;
+    changepasswordform: any;
     confirm: string;
-    msg: string;
 
-    constructor(private router: Router, private changepasswordServiceApp: ChangepasswordServiceApp) {
-        this.msg = null;
+    constructor(private router: Router, private changepasswordServiceApp: ChangepasswordServiceApp, private displayMessage: DisplayMessageService) {
     }
     onSubmit(changepasswordform) {
         if (changepasswordform.valid) {
@@ -29,12 +26,10 @@ export class ChangepasswordComponent implements OnInit {
                 this.changepasswordServiceApp.userChangepassword(this.ChangepasswordModel).subscribe(
                     (data) => {
                     });
-                    this.msg = "PASSWORD CHANGED SUCCESSFULLY";
             }
             else {
-                this.msg = "Password mismatch";
+                this.displayMessage.showWarning('USER.PASSWORDMISMATCH');
             }
-            console.log("this.ChangepasswordModel", this.ChangepasswordModel.oldPassword);
         }
         changepasswordform.reset();
     }
@@ -43,5 +38,4 @@ export class ChangepasswordComponent implements OnInit {
     goBack() {
         this.router.navigate(['Dashboard']);
     }
-
 }
