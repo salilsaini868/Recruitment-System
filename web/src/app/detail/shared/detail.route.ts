@@ -3,14 +3,14 @@ import { Routes, RouterModule } from '@angular/router';
 // Component
 import { ChangepasswordComponent } from './../../detail/changepassword.component';
 import { RoleGuardService } from '../../shared/index.shared';
+import { AuthService } from '../../shared/guards/auth.service';
 
 
 const DETAIL_ROUTES: Routes = [
     {
         path: 'changepassword',
         component: ChangepasswordComponent,
-        canActivate: [RoleGuardService],
-        data: { expectedRole: ['Admin','Sr.HR', 'Manager','VP'] }
+        canActivate: [RoleGuardService]
     }
 ];
 

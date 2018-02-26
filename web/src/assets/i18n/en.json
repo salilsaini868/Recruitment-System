@@ -85,6 +85,7 @@
         "NEWREQURIED": "New Password Required",
         "CONFIRMREQURIED": "Confirm Password Required",
         "MINIMUM": "Minimum 4 character requried",
+        "CHANGEPASSWORDSUCCESS":"Password changed successfully",
         "SUBMIT": "Submit",
         "CLOSE": "Close"
     },

@@ -25,6 +25,7 @@ export class ChangepasswordComponent implements OnInit {
             if (this.ChangepasswordModel.newPassword === this.confirm) {
                 this.changepasswordServiceApp.userChangepassword(this.ChangepasswordModel).subscribe(
                     (data) => {
+                        this.displayMessage.showSuccess('CHANGEPASSWORD.CHANGEPASSWORDSUCCESS');
                     });
             }
             else {

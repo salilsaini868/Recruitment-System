@@ -32,7 +32,4 @@ export class HeaderComponent implements OnInit {
             $('div.content-wrapper').toggleClass("wrap-left", 'slow');
         }
     }
-    changePassword() {   
-        this.router.navigate(['changepassword']);
-    }
 }
