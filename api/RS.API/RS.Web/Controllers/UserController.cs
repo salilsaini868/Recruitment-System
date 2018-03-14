@@ -33,11 +33,10 @@ namespace RS.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetUserDetails()
+        public IResult GetUserDetails()
         {
-            var identity = (ClaimsIdentity)User.Identity;
-            var details = GenericHelper.GetUserClaimDetails(identity);
-            return new ObjectResult(details);
+            var userDetails = _userService.GetUserDetail();
+            return userDetails;
         }
 
         [HttpPost]

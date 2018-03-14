@@ -198,6 +198,26 @@ namespace RS.Service.Logic
             return result;
         }
 
+        public IResult GetUserDetail()
+        {
+            var result = new Result
+            {
+                Operation = Operation.Read,
+                Status = Status.Success
+            };
+            try
+            {
+                var identity = (ClaimsIdentity)_principal.Identity;
+                result.Body = GenericHelper.GetUserClaimDetails(identity);
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Error;
+            }
+            return result;
+        }
+
         public IResult GetUsersByRole(int roleId)
         {
             var result = new Result

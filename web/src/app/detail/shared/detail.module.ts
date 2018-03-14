@@ -5,10 +5,13 @@ import { ChangepasswordComponent } from './../changepassword.component';
 import { DetailRouterModule } from './detail.route';
 import { ChangepasswordServiceApp }from './changepassword.serviceApp';
 import { TranslateModule } from '@ngx-translate/core';
+import { EditprofileComponent } from '../editprofile.component';
+
 
 @NgModule({
     declarations: [
-        ChangepasswordComponent
+        ChangepasswordComponent,
+        EditprofileComponent
     ],
     imports: [
         BrowserModule,
