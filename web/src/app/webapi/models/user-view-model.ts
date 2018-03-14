@@ -12,4 +12,5 @@ export class UserViewModel {
     fullName?: string;
     role?: string;
     roleId?: number;
+    approvalDetail?: {[key: string]: string};
 }

@@ -83,6 +83,9 @@ namespace RS.Web.Controllers
             var claims = new Claim[]
             {
                 new Claim(ClaimTypes.Name, user.FullName),
+                new Claim(ClaimTypes.GivenName, user.FirstName),
+                new Claim(ClaimTypes.NameIdentifier, user.LastName),
+                new Claim(ClaimTypes.Surname, user.UserName),
                 new Claim(ClaimTypes.Email,user.Email),
                 new Claim(ClaimTypes.Role,user.Role),
                 new Claim(ClaimTypes.Sid,user.UserId.ToString()),

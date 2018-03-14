@@ -89,6 +89,11 @@
         "SUBMIT": "Submit",
         "CLOSE": "Close"
     },
+    "EDITPROFILE": {
+        "UPDATEPROFILESUCCESS": "Profile updated successfully",
+        "TITLE":"Edit profile",
+        "DUPLICATEUSER": "UserName or Email Already Exists!"
+    },
     
     "CANDIDATE": {
         "NAME": "Name",

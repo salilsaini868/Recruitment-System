@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 import { AppConstants } from '../constant/constant.variable';
 import * as $ from 'jquery/dist/jquery.min.js';
-import { ChangepasswordComponent } from './../../detail/changepassword.component';
-import { DetailModule } from './../../detail/shared/detail.module';
-
 
 @Component({
     selector: 'app-header',
