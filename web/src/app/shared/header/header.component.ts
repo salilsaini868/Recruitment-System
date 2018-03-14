@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AppConstants } from '../constant/constant.variable';
 import * as $ from 'jquery/dist/jquery.min.js';
+import { ChangepasswordComponent } from './../../detail/changepassword.component';
+import { DetailModule } from './../../detail/shared/detail.module';
+
 
 @Component({
     selector: 'app-header',
@@ -21,11 +24,12 @@ export class HeaderComponent implements OnInit {
     }
 
     toggleLeft() {
-        if (!$('.side-bar-main').hasClass('side-bar')) {
-            $('.side-bar-main').toggleClass('side-left');
+        if (!$('.side-bar-main').hasClass("side-bar")) {
+            $('.side-bar-main').toggleClass("side-left", 'slow');
         }
-        if (!$('div').hasClass('.content-wrapper')) {
-            $('div.content-wrapper').toggleClass('wrap-left');
+
+        if (!$('div').hasClass(".content-wrapper")) {
+            $('div.content-wrapper').toggleClass("wrap-left", 'slow');
         }
     }
 }

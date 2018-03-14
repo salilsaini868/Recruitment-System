@@ -23,6 +23,7 @@ import { DashboardModule } from './dashboard/shared/dashboard.module';
 import { CandidateModule } from './candidate/shared/candidate.module';
 
 import { ApiModule } from './webapi/api.module';
+import { DetailModule } from './detail/shared/detail.module';
 
 // constants
 import { AppConstants } from './shared/constant/constant.variable';
@@ -43,7 +44,7 @@ export function GetToken() {
 
 import { ToasterModule, ToasterContainerComponent } from 'angular5-toaster';
 import { DisplayMessageService } from './shared/toastr/display.message.service';
-
+import { NgModel } from '@angular/forms/src/directives/ng_model';
 
 @NgModule({
   declarations: [
@@ -53,8 +54,7 @@ import { DisplayMessageService } from './shared/toastr/display.message.service';
     AppRouterModule, ErrorModule, BrowserModule, FormsModule,
     MomentModule, HttpClientModule, ApiModule, LoginModule,
     AdminModule, SharedModule, OpeningModule, DashboardModule,
-    CandidateModule,
-    ToasterModule, BrowserAnimationsModule,
+    ToasterModule, BrowserAnimationsModule, DetailModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

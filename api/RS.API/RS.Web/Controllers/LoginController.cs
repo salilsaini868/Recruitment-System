@@ -19,7 +19,6 @@ namespace RS.Web.Controllers
 {
     [Produces("application/json")]
     [Route("api/Login/[Action]")]
-    [ValidateModel]
     [AllowAnonymous]
     public class LoginController : Controller
     {
@@ -34,6 +33,7 @@ namespace RS.Web.Controllers
 
 
         [HttpPost]
+        [ValidateModel]
         [AllowAnonymous]
         public IResult LoginUser([FromBody]UserLoginModel loginModel)
         {
