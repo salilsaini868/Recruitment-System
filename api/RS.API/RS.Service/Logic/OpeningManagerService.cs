@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using RS.ViewModel.Skill;
 using RS.ViewModel.Approval;
+using Newtonsoft.Json;
 
 namespace RS.Service.Logic
 {
@@ -33,7 +34,9 @@ namespace RS.Service.Logic
             _principal = principal as ClaimsPrincipal;
         }
 
-        public IResult CreateOpening(OpeningViewModel openingViewModel, ApprovalTransactionViewModel approvalTransactionViewModel)
+
+        // TODO : Implement Transaction
+        public IResult InsertOrUpdateOpening(EntityAndApprovalViewModel entityAndApprovalViewModel)
         {
             var result = new Result
             {
@@ -42,41 +45,34 @@ namespace RS.Service.Logic
             };
             try
             {
-                var openingModel = new Openings();
-                openingModel.MapFromViewModel(openingViewModel, (ClaimsIdentity)_principal.Identity);
-                var openingSkillList = new List<OpeningSkills>();
-                var openingSkills = openingViewModel.PrimarySkillTypes.Union(openingViewModel.SecondarySkillTypes).ToList();
-
-                foreach (var item in openingSkills)
+                var openingViewModel = entityAndApprovalViewModel.openingViewModel;
+                if (openingViewModel.OpeningId != Guid.Empty)
                 {
-                    var openingSkill = new OpeningSkills
-                    {
-                        SkillId = item.SkillId,
-                        SkillType = item.OpeningSkillType
-                    };
-                    openingSkill.MapAuditColumns((ClaimsIdentity)_principal.Identity);
-                    openingSkillList.Add(openingSkill);
+                    result.Body = UpdateOpening(entityAndApprovalViewModel);
                 }
-                _openingRepository.CreateOpening(openingModel, openingSkillList);
+                else
+                {
+                    var openingModel = new Openings();
+                    openingModel.MapFromViewModel(openingViewModel, (ClaimsIdentity)_principal.Identity);
+                    var openingSkillList = new List<OpeningSkills>();
+                    var openingSkills = openingViewModel.PrimarySkillTypes.Union(openingViewModel.SecondarySkillTypes).ToList();
 
-                var approvalTransaction = new ApprovalTransactions();
-                approvalTransaction.MapAuditColumns((ClaimsIdentity)_principal.Identity);
+                    foreach (var item in openingSkills)
+                    {
+                        var openingSkill = new OpeningSkills
+                        {
+                            SkillId = item.SkillId,
+                            SkillType = item.OpeningSkillType
+                        };
+                        openingSkill.MapAuditColumns((ClaimsIdentity)_principal.Identity);
+                        openingSkillList.Add(openingSkill);
+                    }
+                    _openingRepository.CreateOpening(openingModel, openingSkillList);
 
-                approvalTransaction.ApprovalId = approvalTransactionViewModel.ApprovalId;
-                approvalTransaction.ApprovalActionId = approvalTransactionViewModel.ApprovalActions[0].ApprovalActionId;
-                approvalTransaction.EntityId = openingModel.OpeningId;
-                approvalTransaction.EntityType = 0;
-                approvalTransaction.EventOrderNumber = approvalTransactionViewModel.ApprovalEventOrder;
-                approvalTransaction.NextEventOrderNumber = approvalTransaction.EventOrderNumber + 1;
-
-                var approvalTransactionDetails = new ApprovalTransactionDetails();
-                approvalTransactionDetails.MapAuditColumns((ClaimsIdentity)_principal.Identity);
-                approvalTransactionDetails.ApprovalActionId = approvalTransaction.ApprovalActionId;
-                approvalTransactionDetails.EventOrderNumber = approvalTransaction.EventOrderNumber;
-                approvalTransaction.ApprovalTransactionDetails.Add(approvalTransactionDetails);
-                _approvalRepository.CreateApprovalTransaction(approvalTransaction);
-
-                result.Body = openingModel.OpeningId;
+                    entityAndApprovalViewModel.openingViewModel.OpeningId = openingModel.OpeningId;
+                    var approvalTransactionViewModel =_approvalManagerService.AddApprovalTransaction(entityAndApprovalViewModel);
+                    result.Body = approvalTransactionViewModel;
+                }
             }
             catch (Exception e)
             {
@@ -101,10 +97,55 @@ namespace RS.Service.Logic
             try
             {
                 var allOpenings = _openingRepository.GetAll();
+                var openingIds = allOpenings.Select(x => x.OpeningId).Distinct().ToList();
+                var approvalTransactions = _approvalRepository.GetAllApprovalTransactions(openingIds).ToList();
                 result.Body = allOpenings.Select(opening =>
                 {
+                    var approvalTransaction = approvalTransactions.FirstOrDefault(x => x.EntityId == opening.OpeningId);
+            
                     var openingViewModel = new OpeningViewModel();
                     MapPrimaryandSecondarySkills(openingViewModel, opening);
+                    openingViewModel.CreatedDate = opening.CreatedDate.ToString("MM/dd/yyyy");
+                    openingViewModel.IsApproved = approvalTransaction.IsApproved;
+                    if (approvalTransaction != null)
+                    {
+                        openingViewModel.Status = approvalTransaction.ApprovalAction.ApprovalActionName;
+                    }
+                    return openingViewModel.MapFromModel(opening);
+                }).ToList();
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Fail;
+            }
+            return result;
+        }
+
+        public IResult GetOpeningsCorrespondingToLoggedUser(Guid userId)
+        {
+            var result = new Result
+            {
+                Operation = Operation.Read,
+                Status = Status.Success
+            };
+            try
+            {
+                var allOpenings = _openingRepository.GetOpeningsCorrespondingToLoggedUser(userId);
+                var openingIds = allOpenings.Select(x => x.OpeningId).Distinct().ToList();
+                var approvalTransactions = _approvalRepository.GetAllApprovalTransactions(openingIds).ToList();
+                result.Body = allOpenings.Select(opening =>
+                {
+                    var approvalTransaction = approvalTransactions.FirstOrDefault(x => x.EntityId == opening.OpeningId);
+
+                    var openingViewModel = new OpeningViewModel();
+                    MapPrimaryandSecondarySkills(openingViewModel, opening);
+                    openingViewModel.CreatedDate = opening.CreatedDate.ToString("MM/dd/yyyy");
+                    openingViewModel.IsApproved = approvalTransaction.IsApproved;
+                    if (approvalTransaction != null)
+                    {
+                        openingViewModel.Status = approvalTransaction.ApprovalAction.ApprovalActionName;
+                    }
                     return openingViewModel.MapFromModel(opening);
                 }).ToList();
             }
@@ -138,21 +179,15 @@ namespace RS.Service.Logic
             return result;
         }
 
-        public IResult UpdateOpening(OpeningViewModel openingViewModel, ApprovalTransactionViewModel approvalTransactionViewModel)
+        public ApprovalTransactionViewModel UpdateOpening(EntityAndApprovalViewModel entityAndApprovalViewModel)
         {
-            var result = new Result
-            {
-                Operation = Operation.Update,
-                Status = Status.Success
-            };
-            try
-            {
-                var openingModel = new Openings();
+            var openingViewModel = entityAndApprovalViewModel.openingViewModel;
+            var openingModel = new Openings();
                 openingModel.MapFromViewModel(openingViewModel, (ClaimsIdentity)_principal.Identity);
                 var openingDetail = _openingRepository.GetByID(openingViewModel.OpeningId);
                 var skillViewModelList = openingViewModel.PrimarySkillTypes.Union(openingViewModel.SecondarySkillTypes).ToList();
                 var skillModelList = openingDetail.OpeningSkills.Where(x => (x.IsActive && !x.IsDeleted)).Select(x => x.Skill).ToList();
-    
+
                 var existingSkills = skillViewModelList.Select(x => x.SkillId).Intersect(skillModelList.Select(x => x.SkillId)).ToList();
                 var addingSkills = skillViewModelList.Select(x => x.SkillId).Except(existingSkills).ToList();
                 var removingSkills = skillModelList.Select(x => x.SkillId).Except(existingSkills).ToList();
@@ -188,20 +223,13 @@ namespace RS.Service.Logic
 
                 if (openingSkillList.Any())
                 {
-                    _openingRepository.UpdateOpeningSkills(openingSkillList);  
+                    _openingRepository.UpdateOpeningSkills(openingSkillList);
                 }
                 _openingRepository.Update(openingModel);
-                approvalTransactionViewModel.NextEventOrderNumber += 1;
-                _approvalManagerService.UpdateApprovalTransaction(approvalTransactionViewModel);
+                entityAndApprovalViewModel.approvalTransactionViewModel.NextEventOrderNumber += 1;
+                _approvalManagerService.ManageApprovalTransaction(entityAndApprovalViewModel);
                 _openingRepository.SaveChanges();
-                result.Body = openingModel.OpeningId;
-            }
-            catch (Exception e)
-            {
-                result.Message = e.Message;
-                result.Status = Status.Fail;
-            }
-            return result;
+                return entityAndApprovalViewModel.approvalTransactionViewModel;
         }
 
         public void MapPrimaryandSecondarySkills(OpeningViewModel openingViewModel, Openings opening)
@@ -210,6 +238,8 @@ namespace RS.Service.Logic
             var secondarySkillList = opening.OpeningSkills.Where(x => x.SkillType == OpeningSkillType.Secondary && (x.IsActive && !x.IsDeleted)).Select(x => x.Skill).ToList();
             openingViewModel.PrimarySkillTypes = new List<SkillViewModel>();
             openingViewModel.SecondarySkillTypes = new List<SkillViewModel>();
+            openingViewModel.PrimarySkills = string.Join(",", primarySkillList.Select(x => x.Name).ToList());
+            openingViewModel.SecondarySkills = string.Join(",", secondarySkillList.Select(x => x.Name).ToList());
             if (primarySkillList.Any())
             {
                 foreach (var skill in primarySkillList)

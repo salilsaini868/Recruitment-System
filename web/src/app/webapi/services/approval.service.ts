@@ -11,7 +11,7 @@ import { filter } from 'rxjs/operators/filter';
 
 import { IResult } from '../models/iresult';
 import { ApprovalEventRoleViewModel } from '../models/approval-event-role-view-model';
-import { ApprovalTransactionViewModel } from '../models/approval-transaction-view-model';
+import { EntityAndApprovalViewModel } from '../models/entity-and-approval-view-model';
 
 
 @Injectable()
@@ -24,13 +24,15 @@ export class ApprovalService extends BaseService {
   }
 
   /**
+   * @param entityId - undefined
    * @param approvalId - undefined
    */
-  ApiApprovalGetApprovalEventsGetResponse(approvalId: number): Observable<HttpResponse<IResult>> {
+  ApiApprovalGetApprovalEventsGetResponse(params: ApprovalService.ApiApprovalGetApprovalEventsGetParams): Observable<HttpResponse<IResult>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
-    if (approvalId != null) __params = __params.set("approvalId", approvalId.toString());
+    if (params.entityId != null) __params = __params.set("entityId", params.entityId.toString());
+    if (params.approvalId != null) __params = __params.set("approvalId", params.approvalId.toString());
     let req = new HttpRequest<any>(
       "GET",
       this.rootUrl + `/api/Approval/GetApprovalEvents`,
@@ -53,10 +55,11 @@ export class ApprovalService extends BaseService {
   }
 
   /**
+   * @param entityId - undefined
    * @param approvalId - undefined
    */
-  ApiApprovalGetApprovalEventsGet(approvalId: number): Observable<IResult> {
-    return this.ApiApprovalGetApprovalEventsGetResponse(approvalId).pipe(
+  ApiApprovalGetApprovalEventsGet(params: ApprovalService.ApiApprovalGetApprovalEventsGetParams): Observable<IResult> {
+    return this.ApiApprovalGetApprovalEventsGetResponse(params).pipe(
       map(_r => _r.body)
     );
   }
@@ -166,6 +169,46 @@ export class ApprovalService extends BaseService {
     );
   }
   /**
+   * @param roleId - undefined
+   * @param approvalEventId - undefined
+   */
+  ApiApprovalGetApprovedUsersByRoleGetResponse(params: ApprovalService.ApiApprovalGetApprovedUsersByRoleGetParams): Observable<HttpResponse<IResult>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    if (params.roleId != null) __params = __params.set("roleId", params.roleId.toString());
+    if (params.approvalEventId != null) __params = __params.set("approvalEventId", params.approvalEventId.toString());
+    let req = new HttpRequest<any>(
+      "GET",
+      this.rootUrl + `/api/Approval/GetApprovedUsersByRole`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      filter(_r => _r instanceof HttpResponse),
+      map(_r => {
+        let _resp = _r as HttpResponse<any>;
+        let _body: IResult = null;
+        _body = _resp.body as IResult
+        return _resp.clone({body: _body}) as HttpResponse<IResult>;
+      })
+    );
+  }
+
+  /**
+   * @param roleId - undefined
+   * @param approvalEventId - undefined
+   */
+  ApiApprovalGetApprovedUsersByRoleGet(params: ApprovalService.ApiApprovalGetApprovedUsersByRoleGetParams): Observable<IResult> {
+    return this.ApiApprovalGetApprovedUsersByRoleGetResponse(params).pipe(
+      map(_r => _r.body)
+    );
+  }
+  /**
    * @param approvalEventRoleViewModel - undefined
    */
   ApiApprovalCreateEventRolePostResponse(approvalEventRoleViewModel?: ApprovalEventRoleViewModel): Observable<HttpResponse<IResult>> {
@@ -175,7 +218,7 @@ export class ApprovalService extends BaseService {
     __body = approvalEventRoleViewModel;
     let req = new HttpRequest<any>(
       "POST",
-      this.rootUrl + `/api/Approval/createEventRole`,
+      this.rootUrl + `/api/Approval/CreateEventRole`,
       __body,
       {
         headers: __headers,
@@ -203,16 +246,16 @@ export class ApprovalService extends BaseService {
     );
   }
   /**
-   * @param approvalTransactionViewModel - undefined
+   * @param entityAndApprovalViewModel - undefined
    */
-  ApiApprovalUpdateApprovalTransactionPutResponse(approvalTransactionViewModel?: ApprovalTransactionViewModel): Observable<HttpResponse<IResult>> {
+  ApiApprovalManageApprovalTransactionPutResponse(entityAndApprovalViewModel?: EntityAndApprovalViewModel): Observable<HttpResponse<IResult>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
-    __body = approvalTransactionViewModel;
+    __body = entityAndApprovalViewModel;
     let req = new HttpRequest<any>(
       "PUT",
-      this.rootUrl + `/api/Approval/updateApprovalTransaction`,
+      this.rootUrl + `/api/Approval/ManageApprovalTransaction`,
       __body,
       {
         headers: __headers,
@@ -232,13 +275,21 @@ export class ApprovalService extends BaseService {
   }
 
   /**
-   * @param approvalTransactionViewModel - undefined
+   * @param entityAndApprovalViewModel - undefined
    */
-  ApiApprovalUpdateApprovalTransactionPut(approvalTransactionViewModel?: ApprovalTransactionViewModel): Observable<IResult> {
-    return this.ApiApprovalUpdateApprovalTransactionPutResponse(approvalTransactionViewModel).pipe(
+  ApiApprovalManageApprovalTransactionPut(entityAndApprovalViewModel?: EntityAndApprovalViewModel): Observable<IResult> {
+    return this.ApiApprovalManageApprovalTransactionPutResponse(entityAndApprovalViewModel).pipe(
       map(_r => _r.body)
     );
   }}
 
 export module ApprovalService {
+  export interface ApiApprovalGetApprovalEventsGetParams {
+    entityId: string;
+    approvalId: number;
+  }
+  export interface ApiApprovalGetApprovedUsersByRoleGetParams {
+    roleId: number;
+    approvalEventId: number;
+  }
 }

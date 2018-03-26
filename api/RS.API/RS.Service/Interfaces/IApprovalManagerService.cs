@@ -5,6 +5,7 @@ using RS.Common.CommonData;
 using RS.ViewModel.Approval;
 using RS.ViewModel.User;
 using RS.Entity.Models;
+using RS.ViewModel.Opening;
 
 namespace RS.Service.Interfaces
 {
@@ -15,7 +16,7 @@ namespace RS.Service.Interfaces
         /// </summary>
         /// <param name="approvalId"></param>
         /// <returns></returns>
-        IResult GetApprovalEvents(int approvalId);
+        IResult GetApprovalEvents(int approvalId, Guid entityId);
 
         /// <summary>
         /// 
@@ -32,6 +33,12 @@ namespace RS.Service.Interfaces
         /// <summary>
         /// 
         /// </summary>
+        /// <returns></returns>
+        IResult GetApprovedUsersByRole(int roleId, int approvalEventId);
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="approvalEventRoleViewModel"></param>
         /// <returns></returns>
         IResult ManageApprovalEventRole(ApprovalEventRoleViewModel approvalEventRoleViewModel);
@@ -44,11 +51,19 @@ namespace RS.Service.Interfaces
         IResult GetApprovalTransactionByEntity(Guid openingId);
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="entityId"></param>
+        /// <param name="approvalTransactionViewModel"></param>
+        /// <returns></returns>
+        ApprovalTransactionViewModel AddApprovalTransaction(EntityAndApprovalViewModel entityAndApprovalViewModel);
+
+        /// <summary>
         /// Update Approval Transaction
         /// </summary>
         /// <param name="approvalTransaction"></param>
         /// <returns></returns>
-        IResult UpdateApprovalTransaction(ApprovalTransactionViewModel approvalTransaction);
+        IResult ManageApprovalTransaction(EntityAndApprovalViewModel entityAndApprovalViewModel);
 
     }
 }

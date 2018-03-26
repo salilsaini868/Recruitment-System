@@ -41,5 +41,27 @@ namespace RS.Service.Interfaces
         /// <param name="id"></param>
         /// <returns></returns>
         IResult GetCandidateById(Guid id);
+
+        /// <summary>
+        /// Add User Assigned For Candidate
+        /// </summary>
+        /// <param name="candidateAssignedUserList"></param>
+        /// <returns></returns>
+        IResult AddUserForCandidate(List<CandidateAssignedUserModel> candidateAssignedUserList);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="candidateId"></param>
+        /// <returns></returns>
+        IResult GetAssignedUsersById(Guid candidateId);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        IResult GetCandidatesCorrespondingToLoggedUser(Guid userId);
+
     }
 }

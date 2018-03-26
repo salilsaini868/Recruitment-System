@@ -10,9 +10,8 @@ export class OpeningServiceApp {
 
     constructor(private http: HttpClient, private apiOpeningService: OpeningService, private apiSkillService: SkillService) { }
 
-    CreateOpening(openingAndApprovalEventModel): Observable<any> {
-        debugger;
-        return this.apiOpeningService.ApiOpeningCreateOpeningPost(openingAndApprovalEventModel).map(x => (x));
+    CreateOrUpdateOpening(entityAndApprovalEventModel): Observable<any> {
+        return this.apiOpeningService.ApiOpeningInsertOrUpdateOpeningPost(entityAndApprovalEventModel).map(x => (x));
     }
 
     getAllSkills(): Observable<any> {
@@ -23,11 +22,11 @@ export class OpeningServiceApp {
         return this.apiOpeningService.ApiOpeningGetAllOpeningGet().map(x => (x));
     }
 
-    getOpeningById(openingId): Observable<any> {
-        return this.apiOpeningService.ApiOpeningGetOpeningByIdGet(openingId).map(x => (x));
+    getOpeningsCorrespondingToLoggedUser(userId): Observable<any> {
+        return this.apiOpeningService.ApiOpeningGetOpeningsCorrespondingToLoggedUserGet(userId).map(x => (x));
     }
 
-    UpdateOpening(openingAndApprovalEventModel): Observable<any> {
-        return this.apiOpeningService.ApiOpeningUpdateOpeningPut(openingAndApprovalEventModel).map(x => (x));
+    getOpeningById(openingId): Observable<any> {
+        return this.apiOpeningService.ApiOpeningGetOpeningByIdGet(openingId).map(x => (x));
     }
 }

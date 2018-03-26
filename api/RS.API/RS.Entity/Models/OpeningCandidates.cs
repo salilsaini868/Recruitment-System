@@ -17,6 +17,6 @@ namespace RS.Entity.Models
 
         public Openings Opening { get; set; }
 
-        public Candidates candidate { get; set; }
+        public Candidates Candidate { get; set; }
     }
 }

@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Http;
 using Microsoft.AspNetCore.Authorization;
 using RS.ViewModel.Approval;
+using RS.ViewModel.Opening;
 
 namespace RS.Web.Controllers
 {
@@ -30,9 +31,9 @@ namespace RS.Web.Controllers
         /// <param name="approvalId"></param>
         /// <returns></returns>
         [HttpGet]
-        public IResult GetApprovalEvents(int approvalId)
+        public IResult GetApprovalEvents(int approvalId, Guid entityId)
         {
-            return _approvalManager.GetApprovalEvents(approvalId);
+            return _approvalManager.GetApprovalEvents(approvalId, entityId);
         }
 
         [HttpGet]
@@ -53,9 +54,15 @@ namespace RS.Web.Controllers
             return _approvalManager.GetApprovalTransactionByEntity(openingId);
         }
 
+        [HttpGet]
+        public IResult GetApprovedUsersByRole(int roleId, int approvalEventId)
+        {
+            return _approvalManager.GetApprovedUsersByRole(roleId, approvalEventId);
+        }
+
         [ValidateModel]
         [HttpPost]
-        public IResult createEventRole([FromBody]ApprovalEventRoleViewModel approvalEventRoleViewModel)
+        public IResult CreateEventRole([FromBody]ApprovalEventRoleViewModel approvalEventRoleViewModel)
         {
             var createdEventRole = _approvalManager.ManageApprovalEventRole(approvalEventRoleViewModel);
             return createdEventRole;
@@ -63,10 +70,11 @@ namespace RS.Web.Controllers
 
         [ValidateModel]
         [HttpPut]
-        public IResult updateApprovalTransaction([FromBody]ApprovalTransactionViewModel approvalTransactionViewModel)
+        public IResult ManageApprovalTransaction([FromBody]EntityAndApprovalViewModel entityAndApprovalViewModel)
         {
-            var createdEventRole = _approvalManager.UpdateApprovalTransaction(approvalTransactionViewModel);
+            var createdEventRole = _approvalManager.ManageApprovalTransaction(entityAndApprovalViewModel);
             return createdEventRole;
         }
+
     }
 }

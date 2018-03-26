@@ -1,29 +1,36 @@
 <div class="content-wrapper">
     <h2>{{ 'CANDIDATE.LIST' | translate }}</h2>
-    <button  title="Add" class="btn btn-primary no-radius blue-btn pull-right" (click)="addCandidate()">Add</button>
+    <button *ngIf="loggedRole == 'Sr.HR'" title="Add" class="btn btn-primary no-radius blue-btn pull-right" (click)="addCandidate()">Add</button>
     <div class="table-responsive-top">
-       <div class="table-responsive">
+        <div class="table-responsive">
             <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>{{ 'CANDIDATE.NAME' | translate }}</th>
-                            <th>{{ 'CANDIDATE.EXPERIENCE' | translate }}</th>
-                            <th>{{ 'CANDIDATE.OPENINGFOR' | translate }}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let candidate of candidates">
-                            <td>{{candidate.firstName}} {{candidate.lastName}}</td>
-                            <td>{{candidate.experienceYear}}{{ 'CANDIDATE.YEAR' | translate }} {{candidate.experienceMonth}}{{ 'CANDIDATE.MONTH' | translate }}</td>
-                            <td>{{candidate.opening}}</td>
-                            <td>
-                                <button title="Delete" class="btn btn-danger no-radius" (click)="deleteCandidate(candidate.candidateId)">{{ 'CANDIDATE.DELETE' | translate }}</button>
-                                <button title="Edit" class="btn btn-primary blue-btn no-radius" (click)="updateCandidate(candidate.candidateId)">{{ 'CANDIDATE.UPDATE' | translate }}</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <thead>
+                    <tr>
+                        <th>{{ 'CANDIDATE.NAME' | translate }}</th>
+                        <th>{{ 'CANDIDATE.EXPERIENCE' | translate }}</th>
+                        <th>{{ 'CANDIDATE.OPENINGFOR' | translate }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let candidate of candidates">
+                        <td>{{candidate.firstName}} {{candidate.lastName}}</td>
+                        <td>{{candidate.experienceYear}}{{ 'CANDIDATE.YEAR' | translate }} {{candidate.experienceMonth}}{{ 'CANDIDATE.MONTH'
+                            | translate }}</td>
+                        <td>{{candidate.opening}}</td>
+                        <td *ngIf="loggedRole == 'Sr.HR'">
+                            <button title="Delete" class="btn btn-danger no-radius" (click)="deleteCandidate(candidate.candidateId)">{{ 'CANDIDATE.DELETE' | translate }}</button>
+                            <button title="Edit" class="btn btn-primary blue-btn no-radius" (click)="updateCandidate(candidate.candidateId)">{{ 'CANDIDATE.UPDATE' | translate }}</button>
+                            <button title="AssignUser" class="btn btn-primary blue-btn no-radius" (click)="assignUser(candidate.candidateId)">{{ 'CANDIDATE.ASSIGNUSER' | translate }}</button>
+                        </td>
+                        <td *ngIf="loggedRole != 'Sr.HR'">
+                            <button title="TakeInterview" class="btn btn-primary blue-btn no-radius" (click)="getCandidateDetail(candidate.candidateId)">{{ 'CANDIDATE.TAKEINTERVIEW' | translate }}</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-     </div>
-     <div class="table-slide"><p>Slide to view table</p></div>
+    </div>
+    <div class="table-slide">
+        <p>Slide to view table</p>
+    </div>
 </div>

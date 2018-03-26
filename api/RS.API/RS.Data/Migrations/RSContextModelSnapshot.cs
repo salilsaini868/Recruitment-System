@@ -176,7 +176,11 @@ namespace RS.Data.Migrations
 
                     b.Property<bool>("IsActive");
 
+                    b.Property<bool>("IsApproved");
+
                     b.Property<bool>("IsDeleted");
+
+                    b.Property<bool>("IsFurtherActionRequired");
 
                     b.Property<Guid?>("ModifiedBy");
 
@@ -189,6 +193,44 @@ namespace RS.Data.Migrations
                     b.HasIndex("ApprovalActionId");
 
                     b.ToTable("ApprovalTransactions");
+                });
+
+            modelBuilder.Entity("RS.Entity.Models.CandidateAssignedUser", b =>
+                {
+                    b.Property<int>("CandidateAssignedUserId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ApprovalEventId");
+
+                    b.Property<Guid>("CandidateId");
+
+                    b.Property<Guid>("CreatedBy");
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<Guid?>("DeletedBy");
+
+                    b.Property<DateTime?>("DeletedDate");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<Guid?>("ModifiedBy");
+
+                    b.Property<DateTime?>("ModifiedDate");
+
+                    b.Property<Guid>("UserId");
+
+                    b.HasKey("CandidateAssignedUserId");
+
+                    b.HasIndex("ApprovalEventId");
+
+                    b.HasIndex("CandidateId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CandidateAssignedUser");
                 });
 
             modelBuilder.Entity("RS.Entity.Models.CandidateDocuments", b =>
@@ -256,6 +298,8 @@ namespace RS.Data.Migrations
                     b.Property<int>("Gender");
 
                     b.Property<bool>("IsActive");
+
+                    b.Property<bool>("IsApproved");
 
                     b.Property<bool>("IsDeleted");
 
@@ -620,6 +664,24 @@ namespace RS.Data.Migrations
                     b.HasOne("RS.Entity.Models.ApprovalActions", "ApprovalAction")
                         .WithMany()
                         .HasForeignKey("ApprovalActionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("RS.Entity.Models.CandidateAssignedUser", b =>
+                {
+                    b.HasOne("RS.Entity.Models.ApprovalEvents", "ApprovalEvent")
+                        .WithMany()
+                        .HasForeignKey("ApprovalEventId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("RS.Entity.Models.Candidates", "Candidate")
+                        .WithMany()
+                        .HasForeignKey("CandidateId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("RS.Entity.Models.Users", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

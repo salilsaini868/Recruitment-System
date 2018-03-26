@@ -7,7 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CandidateRouterModule } from './candidate.route';
 
 // Component
-import { CandidateComponent, CandidatesComponent } from '../index.candidate';
+import { CandidateComponent, CandidatesComponent, AssignedUserComponent, CandidateDetailsComponent } from '../index.candidate';
 
 // Services
 import { CandidateServiceApp } from './candidate.serviceApp';
@@ -22,7 +22,7 @@ import { ApprovalModule } from '../../approval/shared/approval.module';
         ApprovalModule
     ],
     exports: [],
-    declarations: [CandidateComponent, CandidatesComponent],
+    declarations: [CandidateComponent, CandidatesComponent, AssignedUserComponent, CandidateDetailsComponent],
     providers: [CandidateServiceApp],
 })
 

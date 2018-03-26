@@ -14,9 +14,13 @@ namespace RS.Data.Interfaces
         List<ApprovalEventRoles> GetAllApprovalEventRole();
         Dictionary<string, string> GetApprovalEventsOfUser(Guid UserId);
         int GetApprovalEventOrderNumber(ApprovalEventViewModel approvalEventViewModel);
+        List<Users> GetApprovedUsersByRole(int roleId, int approvalEventId);
+        List<Users> GetApprovedUsers(int approvalEventId);
         void CreateApprovalTransaction(ApprovalTransactions approvalTransaction);
         ApprovalTransactions GetApprovalTransactionByEntity(Guid entityId);
         void UpdateApprovalTransaction(ApprovalTransactions approvalTransaction, ApprovalTransactionDetails approvalTransactionDetail);
         void AddApprovalTransactionDetails(ApprovalTransactionDetails approvalTransactionDetails);
+        List<ApprovalTransactions> GetAllApprovalTransactions(List<Guid> openingIds);
+        int GetApprovalEventOfUser(Guid entityId, Guid userId, int approvalId);
     }
 }

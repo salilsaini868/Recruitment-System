@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/Rx';
 import { ApprovalService } from '../../webapi/services/approval.service';
+import 'rxjs/Rx';
 
 @Injectable()
 export class ApprovalServiceApp {
 
   constructor(private apiApprovalService: ApprovalService) { }
 
-  getApprovalEventsById(approvalId): Observable<any> {
-    return this.apiApprovalService.ApiApprovalGetApprovalEventsGet(approvalId).map(x => (x));
+  getApprovalEventsById(approvalEventandTransaction): Observable<any> {
+    return this.apiApprovalService.ApiApprovalGetApprovalEventsGet(approvalEventandTransaction).map(x => (x));
   }
 
   getApprovals(): Observable<any> {
@@ -20,8 +20,8 @@ export class ApprovalServiceApp {
     return this.apiApprovalService.ApiApprovalGetApprovalTransactionByEntityGet(entityId).map(x => (x));
   }
 
-  updateApprovalTransaction(approvalTransaction): Observable<any> {
-    return this.apiApprovalService.ApiApprovalUpdateApprovalTransactionPut(approvalTransaction).map(x => (x));
+  manageApprovalTransaction(entityAndApprovalModel): Observable<any> {
+    return this.apiApprovalService.ApiApprovalManageApprovalTransactionPut(entityAndApprovalModel).map(x => (x));
   }
 
 }

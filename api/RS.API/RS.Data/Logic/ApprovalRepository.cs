@@ -7,6 +7,7 @@ using RS.Data.Interfaces;
 using RS.Entity.Models;
 using RS.ViewModel.Approval;
 using RS.ViewModel.User;
+using RS.Common.Enums;
 
 namespace RS.Data.Logic
 {
@@ -84,6 +85,37 @@ namespace RS.Data.Logic
         {
             _context.ApprovalTransactionDetails.Add(approvalTransactionDetail);
             _context.SaveChanges();
+        }
+
+        public List<Users> GetApprovedUsersByRole(int roleId, int approvalEventId)
+        {
+            return _context.ApprovalEventRoles.Include(t => t.User).Where(x => x.ApprovalEventId == approvalEventId
+             && x.RoleId == roleId && x.IsActive && !x.IsDeleted).Select(x => x.User).ToList();
+        }
+
+        public List<Users> GetApprovedUsers(int approvalEventId)
+        {
+            return _context.ApprovalEventRoles.Where(x => x.ApprovalEventId == approvalEventId
+             && x.IsActive && !x.IsDeleted).Select(x => x.User).ToList();
+        }
+
+        public List<ApprovalTransactions> GetAllApprovalTransactions(List<Guid> openingIds)
+        {
+            return _context.ApprovalTransactions.Include(t => t.ApprovalAction).Where(x => openingIds.Contains(x.EntityId) && (x.IsActive && !x.IsDeleted)).ToList();
+        }
+
+        public int GetApprovalEventOfUser(Guid entityId, Guid userId, int approvalId)
+        {
+            if (approvalId == (int)Approval.Opening)
+            {
+                var assignedUser = _context.ApprovalEventRoles.Include(x => x.ApprovalEvent).FirstOrDefault(x => x.UserId == userId && x.IsActive && !x.IsDeleted);
+                return assignedUser.ApprovalEvent.ApprovalEventOrder;
+            }
+            else
+            {
+                var assignedUser = _context.CandidateAssignedUser.Include(x => x.ApprovalEvent).FirstOrDefault(x => x.UserId == userId && x.CandidateId == entityId && x.IsActive && !x.IsDeleted);
+                return assignedUser.ApprovalEvent.ApprovalEventOrder;
+            }    
         }
     }
 }

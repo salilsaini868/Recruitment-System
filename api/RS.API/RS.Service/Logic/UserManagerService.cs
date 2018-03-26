@@ -270,8 +270,6 @@ namespace RS.Service.Logic
             return result;
         }
 
-
-
         public IResult UpdateUser(UserViewModel user)
         {
             var result = new Result

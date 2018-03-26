@@ -81,5 +81,22 @@ namespace RS.Data.Logic
         {
             return _context.Organizations.FirstOrDefault(x => x.Name == organization && (x.IsActive && !x.IsDeleted));
         }
+
+        public void AddUserForCandidate(CandidateAssignedUser candidateAssignedUser)
+        {
+            _context.CandidateAssignedUser.Add(candidateAssignedUser);
+            _context.SaveChanges();
+        }
+
+        public List<CandidateAssignedUser> GetAssignedUsersByID(Guid candidateId)
+        {
+           return _context.CandidateAssignedUser.Where(x => x.CandidateId == candidateId && (x.IsActive && !x.IsDeleted)).ToList();
+        }
+
+        public List<Candidates> GetCandidatesCorrespondingToLoggedUser(Guid userId)
+        {
+            List<Guid> candidateList = _context.CandidateAssignedUser.Where(x => x.UserId == userId && (x.IsActive && !x.IsDeleted)).Select(x => x.CandidateId).ToList();
+            return _context.Candidates.Where(x => candidateList.Contains(x.CandidateId) && (x.IsActive && !x.IsDeleted)).ToList();
+        }
     }
 }

@@ -9,22 +9,27 @@
                 <thead>
                     <tr>
                         <th>{{ 'OPENING.TITLE' | translate }}</th>
-                        <th>{{ 'OPENING.DESCRIPTION' | translate }}</th>
                         <th>{{ 'OPENING.PRIMARYSKILLS' | translate }}</th>
                         <th>{{ 'OPENING.SECONDARYSKILLS' | translate }}</th>
+                        <th>{{ 'OPENING.STATUS' | translate }}</th>
+                        <th>{{ 'OPENING.CREATED ON' | translate }}</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let opening of openings">
+                    <tr title="{{ opening.description }}" *ngFor="let opening of openings">
                         <td>{{opening.title}}</td>
-                        <td>{{opening.description}}</td>
-                        <td *ngFor="let skill of opening.primarySkillTypes">{{skill.name}}</td>
-                        <td *ngFor="let skill of opening.secondarySkillTypes">{{skill.name}}</td>
+                        <td>{{opening.primarySkills}}</td>
+                        <td *ngIf="opening.secondarySkillTypes.length > 0; else elseBlock">{{opening.secondarySkills}}</td>
+                        <ng-template #elseBlock>
+                            <td> -- </td>
+                        </ng-template>
+                        <td>{{opening.status}}</td>
+                        <td>{{opening.createdDate}}</td>
                         <td>
                             <button *ngIf="loggedRole == 'Sr.HR'" title="Delete" class="btn btn-danger no-radius" (click)="deleteOpening(opening.openingId)">{{ 'OPENING.DELETE' | translate }}</button>
-                            <button *ngIf="loggedRole == 'Sr.HR'" title="Edit" class="btn btn-primary no-radius blue-btn" (click)="updateOpening(opening.openingId)">{{ 'OPENING.UPDATE' | translate }}</button>
-                            <button *ngIf="loggedRole != 'Sr.HR'" title="Confirm" class="btn btn-primary no-radius blue-btn" (click)="updateOpening(opening.openingId)">{{ 'OPENING.CONFIRM' | translate }}</button>
-                            <button *ngIf="loggedRole == 'Sr.HR'" title="AddCandidate" class="btn btn-primary no-radius blue-btn" (click)="addCandidate(opening.openingId)">{{ 'OPENING.ADD' | translate }}</button>
+                            <button *ngIf="loggedRole == 'Sr.HR' && opening.status == 'Re-Edit'" title="Edit" class="btn btn-primary no-radius blue-btn" (click)="updateOpening(opening.openingId)">{{ 'OPENING.UPDATE' | translate }}</button>
+                            <button *ngIf="loggedRole != 'Sr.HR'" title="View" class="btn btn-primary no-radius blue-btn" (click)="updateOpening(opening.openingId)">{{ 'OPENING.VIEW' | translate }}</button>
+                            <button *ngIf="loggedRole == 'Sr.HR' && opening.isApproved" title="AddCandidate" class="btn btn-primary no-radius blue-btn" (click)="addCandidate(opening.openingId)">{{ 'OPENING.ADD' | translate }}</button>
                         </td>
                     </tr>
                 </tbody>
@@ -34,5 +39,4 @@
     <div class="table-slide">
         <p>Slide to view table</p>
     </div>
-
 </div>

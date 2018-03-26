@@ -18,5 +18,11 @@ namespace RS.Data.Interfaces
         Candidates GetByID(Guid candidateId);
 
         Organizations GetOrganization(String organization);
+
+        void AddUserForCandidate(CandidateAssignedUser candidateAssignedUser);
+
+        List<CandidateAssignedUser> GetAssignedUsersByID(Guid candidateId);
+
+        List<Candidates> GetCandidatesCorrespondingToLoggedUser(Guid userId);
     }
 }

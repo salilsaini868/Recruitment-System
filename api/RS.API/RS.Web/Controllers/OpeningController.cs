@@ -27,18 +27,17 @@ namespace RS.Web.Controllers
 
         [ValidateModel]
         [HttpPost]
-        public IResult CreateOpening([FromBody]OpeningAndApprovalViewModel openingAndApprovalViewModel)
+        public IResult InsertOrUpdateOpening([FromBody]EntityAndApprovalViewModel entityAndApprovalViewModel)
         {
-            var createdOpening = _openingManagerService.CreateOpening(openingAndApprovalViewModel.openingViewModel, openingAndApprovalViewModel.approvalTransactionViewModel);
+            var createdOpening = _openingManagerService.InsertOrUpdateOpening(entityAndApprovalViewModel);
             return createdOpening;
         }
 
-        [ValidateModel]
-        [HttpPut]
-        public IResult UpdateOpening([FromBody]OpeningAndApprovalViewModel openingAndApprovalViewModel)
+        [HttpGet]
+        public IResult GetOpeningsCorrespondingToLoggedUser(Guid userId)
         {
-            var updatedOpening = _openingManagerService.UpdateOpening(openingAndApprovalViewModel.openingViewModel, openingAndApprovalViewModel.approvalTransactionViewModel);
-            return updatedOpening;
+            var openingList = _openingManagerService.GetOpeningsCorrespondingToLoggedUser(userId);
+            return openingList;
         }
 
         [HttpGet]

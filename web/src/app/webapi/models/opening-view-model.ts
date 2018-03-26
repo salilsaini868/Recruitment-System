@@ -7,6 +7,11 @@ export class OpeningViewModel {
     openingId?: string;
     title?: string;
     description?: string;
+    isApproved?: boolean;
     primarySkillTypes?: SkillViewModel[];
     secondarySkillTypes?: SkillViewModel[];
+    primarySkills?: string;
+    secondarySkills?: string;
+    createdDate?: string;
+    status?: string;
 }

@@ -8,13 +8,12 @@ import { OpeningService } from '../webapi/services/opening.service';
 import { OpeningServiceApp } from './shared/opening.serviceApp';
 
 // Models
-import { OpeningViewModel } from '../webapi/models/opening-view-model';
 import { SkillViewModel } from '../webapi/models/skill-view-model';
 import { SkillModel } from '../shared/customModels/skill-model';
 
 import { OpeningSkillType, Status, ApprovalType } from '../app.enum';
 import { ApprovalServiceApp } from '../approval/shared/approval.serviceApp';
-import { ApprovalTransactionViewModel } from '../webapi/models';
+import { ApprovalTransactionViewModel, OpeningViewModel } from '../webapi/models';
 
 @Component({
     selector: 'app-opening',
@@ -31,6 +30,7 @@ export class OpeningComponent implements OnInit {
     approvalTransaction: ApprovalTransactionViewModel = {} as ApprovalTransactionViewModel;
     approval: any;
     opening: any;
+    isDataAvailable = false;
 
     constructor(private openingServiceApp: OpeningServiceApp, private route: ActivatedRoute,
         private router: Router, private msgService: DisplayMessageService,
@@ -38,14 +38,14 @@ export class OpeningComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.initializeArray();
         this.opening = this.openingModel;
         this.approval = ApprovalType.Opening;
         this.getAllSkill();
         this.getOpeningById();
-        this.initilaizeArray();
     }
 
-    initilaizeArray() {
+    initializeArray() {
         this.openingModel.primarySkillTypes = [];
         this.openingModel.secondarySkillTypes = [];
     }
@@ -93,43 +93,27 @@ export class OpeningComponent implements OnInit {
     }
 
     getOpeningById() {
-        debugger;
         this.route.params.subscribe((params: Params) => {
             const openingId = params['openingId'];
-            debugger;
             if (!isNullOrUndefined(openingId)) {
                 this.openingServiceApp.getOpeningById(openingId).subscribe(
                     (data) => {
                         if (data.status === Status.Success) {
-                            debugger;
                             this.openingModel = data.body;
                             this.opening = this.openingModel;
-                            this.getApprovalTransactonById(this.opening.openingId);
                             this.checkedPrimarySkills(this.openingModel.primarySkillTypes);
                             this.checkedSecondarySkills(this.openingModel.secondarySkillTypes);
                         } else {
                             this.msgService.showError('Error');
                         }
                         this.opening = this.openingModel;
+                        this.isDataAvailable = true;
                     }
                 );
+            } else {
+                this.isDataAvailable = true;
             }
         });
-    }
-
-    getApprovalTransactonById(openingId: string) {
-        debugger;
-        if (!isNullOrUndefined(openingId)) {
-            this.approvalServiceApp.getApprovalTransactionByEntity(openingId).subscribe(
-                (data) => {
-                    debugger;
-                    if (data.status === Status.Success) {
-                        this.approvalTransaction = data.body;
-                    } else {
-
-                    }
-                });
-        }
     }
 
     checkedPrimarySkills(skillList: SkillViewModel[]): void {
@@ -149,37 +133,4 @@ export class OpeningComponent implements OnInit {
     showOpeningList() {
         this.router.navigate(['openings']);
     }
-
-    // saveOpening(openingModel: OpeningViewModel) {
-    //     if (openingModel.primarySkillTypes.length > 0) {
-    //         if (!this.SameSkillinBothSkillType()) {
-    //             if (isNullOrUndefined(openingModel.openingId)) {
-    //                 this.openingServiceApp.CreateOpening(openingModel).subscribe(
-    //                     (data) => {
-    //                         if (data.status === Status.Success) {
-    //                             this.showOpeningList();
-    //                         } else {
-    //                             this.msgService.showError('Error');
-    //                         }
-    //                     }
-    //                 );
-    //             } else {
-    //                 this.openingServiceApp.UpdateOpening(openingModel).subscribe(
-    //                     (data) => {
-    //                         if (data.status === Status.Success) {
-    //                             this.showOpeningList();
-    //                         } else {
-    //                             this.msgService.showError('Error');
-    //                         }
-    //                     }
-    //                 );
-    //             }
-    //         } else {
-    //             this.msgService.showWarning('OPENING.SAMESKILLS');
-    //         }
-    //     } else {
-    //         this.msgService.showWarning('OPENING.PRIMARYSKILLMANDATORY');
-    //     }
-    // }
-
 }

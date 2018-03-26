@@ -23,4 +23,8 @@ export class QualificationsServiceApp {
     updateQualification(QualificationsModel): Observable<any> {
         return this.apiQualificationsService.ApiQualificatonUpdateQualificationPut(QualificationsModel).map(x => (x));
     }
+
+    getQualificationById(qualificatonId): Observable<any> {
+        return this.apiQualificationsService.ApiQualificatonGetQualificationlByIdGet(qualificatonId).map(x => (x));
+    }
 }

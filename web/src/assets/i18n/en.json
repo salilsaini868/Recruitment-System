@@ -57,8 +57,8 @@
     },
     "OPENING": {
         "LIST": "List of Openings",
-        "TITLE": "Job Title",
-        "DESCRIPTION": "Job Description",
+        "TITLE": "Title",
+        "DESCRIPTION": "Description",
         "PRIMARYSKILLS": "Primary Skills",
         "SECONDARYSKILLS": "Secondary Skills",
         "SAMESKILLS": "Skills are same in both primary and secondary",
@@ -67,7 +67,9 @@
         "SAVE": "Save   ",
         "UPDATE": "Update",
         "DELETE": "Delete",
-        "CONFIRM":"Confirm",
+        "VIEW":"View",
+        "CREATED ON":"Created On",
+        "STATUS":"Status",
         "ADD" : "Add"
     },
     "FORGOTPASSWORD" :{
@@ -98,8 +100,13 @@
         "ORGANIZATION": "Previous Organization",
         "LIST":"List of Candidates",
         "SAVE": "Save",
+        "ASSIGNUSER": "Assign User",
         "UPDATE": "Update",
-        "DELETE": "Delete"
+        "DELETE": "Delete",
+        "SUBMIT": "Submit",
+        "BACK": "Back",
+        "CANCEL": "Cancel",
+        "TAKEINTERVIEW": "Take Interview"
     },
     "EVENTROLE": {
         "APPROVALEVENT": "Approval Event",
@@ -115,6 +122,7 @@
     },
     "COMMON": {
         "SOMEERROROCURRED": "Some errror has been occured",
+        "INFO":"Successfully Submitted",
         "SELECTDEFAULT":"--select--"
     }
 }

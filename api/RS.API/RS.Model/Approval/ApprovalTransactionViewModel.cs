@@ -11,10 +11,11 @@ namespace RS.ViewModel.Approval
         public int ApprovalEventOrder { get; set; }
         public int EventOrderNumber { get; set; }
         public int NextEventOrderNumber { get; set; }
+        public int PermissibleEvent { get; set; }
         public int ApprovalActionId { get; set; }
         public Guid EntityId { get; set; }
         public int EntityType { get; set; }
-        public string Comment { get; set; }
+        public string Comments { get; set; }
         public List<ApprovalActionViewModel> ApprovalActions { get; set; }
     }
 }

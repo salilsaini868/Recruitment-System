@@ -14,14 +14,7 @@ namespace RS.Service.Interfaces
         /// </summary>
         /// <param name="opening"></param>
         /// <returns></returns>
-        IResult CreateOpening(OpeningViewModel opening, ApprovalTransactionViewModel approvalTransactionViewModel);
-
-        /// <summary>
-        /// Update a Opening
-        /// </summary>
-        /// <param name="opening"></param>
-        /// <returns></returns>
-        IResult UpdateOpening(OpeningViewModel opening, ApprovalTransactionViewModel approvalTransactionViewModel);
+        IResult InsertOrUpdateOpening(EntityAndApprovalViewModel entityAndApprovalViewModel);
 
         /// <summary>
         /// Delete a Opening
@@ -42,5 +35,12 @@ namespace RS.Service.Interfaces
         /// <param name="id"></param>
         /// <returns></returns>
         IResult GetOpeningById(Guid id);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        IResult GetOpeningsCorrespondingToLoggedUser(Guid userId);
     }
 }

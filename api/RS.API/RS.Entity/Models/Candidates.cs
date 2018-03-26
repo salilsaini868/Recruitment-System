@@ -42,6 +42,8 @@ namespace RS.Entity.Models
         [MaxLength(500)]
         public string Description { get; set; }
 
+        public bool IsApproved { get; set; }
+
         public Qualifications Qualification { get; set; }
 
         public ICollection<CandidateDocuments> CandidateDocuments { get; set; }
