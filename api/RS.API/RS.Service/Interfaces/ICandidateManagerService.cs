@@ -1,8 +1,10 @@
-﻿using RS.Common.CommonData;
+﻿using Microsoft.AspNetCore.Http;
+using RS.Common.CommonData;
 using RS.ViewModel.Candidate;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace RS.Service.Interfaces
 {
@@ -41,5 +43,12 @@ namespace RS.Service.Interfaces
         /// <param name="id"></param>
         /// <returns></returns>
         IResult GetCandidateById(Guid id);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        Task<IResult> UploadDocumentAsync(IFormFile file);
     }
 }

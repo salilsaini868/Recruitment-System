@@ -142,6 +142,9 @@
                             </div>
                         </div>
                     </div>
+                    <div>
+                        <input type="file" (change)="fileChange($event)" placeholder="Upload file" accept=".pdf,.doc,.docx">
+                    </div>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <button id="bttn" type="submit" class="btn btn-primary blue-btn pull-right btn-gap">{{ 'CANDIDATE.SAVE' | translate }}</button>
                     </div>

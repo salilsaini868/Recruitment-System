@@ -15,6 +15,7 @@ import { CandidateViewModel } from '../webapi/models';
 import { QualificationViewModel } from '../webapi/models/qualification-view-model';
 import { Status, ApprovalType } from '../app.enum';
 import { DisplayMessageService } from '../shared/toastr/display.message.service';
+import { AppConstants } from '../shared/constant/constant.variable';
 
 @Component({
     selector: 'app-candidate',
@@ -29,6 +30,7 @@ export class CandidateComponent implements OnInit {
     months: number[] = [];
     defaultOption: any;
     approval: any;
+    uploadedFile: any;
 
     constructor(private openingServiceApp: OpeningServiceApp, private candidateServiceApp: CandidateServiceApp,
         private qualificationServiceApp: QualificationsServiceApp, private route: ActivatedRoute,
@@ -136,7 +138,15 @@ export class CandidateComponent implements OnInit {
                 this.candidateServiceApp.addCandidate(this.candidateModel).subscribe(
                     (data) => {
                         if (data.status === Status.Success) {
-                            this.showCandidateList();
+                            this.candidateServiceApp.uploadDocument(AppConstants.uri, data, this.uploadedFile).subscribe(
+                                (res) => {
+                                    if (res.status === Status.Success) {
+                                        this.showCandidateList();
+                                    } else {
+                                        this.msgService.showError('Error');
+                                    }
+                                }
+                            );
                         } else {
                             this.msgService.showError('Error');
                         }
@@ -153,6 +163,14 @@ export class CandidateComponent implements OnInit {
                     }
                 );
             }
+        }
+    }
+
+    fileChange(event) {
+        const fileList: FileList = event.target.files;
+        if (fileList.length > 0) {
+            const file: File = fileList[0];
+            this.uploadedFile = file;
         }
     }
 }

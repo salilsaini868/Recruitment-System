@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Http;
 using Microsoft.AspNetCore.Authorization;
 using RS.ViewModel.Candidate;
+using System.Threading.Tasks;
 
 namespace RS.Web.Controllers
 {
@@ -51,6 +52,14 @@ namespace RS.Web.Controllers
         public IResult GetCandidateById(Guid id)
         {
             var candidateRecord = _candidateManagerService.GetCandidateById(id);
+            return candidateRecord;
+        }
+
+        [HttpPost]
+        public Task<IResult> UploadResume()
+        {
+            var file = Request.Form.Files["uploadFile"];
+            var candidateRecord = _candidateManagerService.UploadDocumentAsync(file);
             return candidateRecord;
         }
     }

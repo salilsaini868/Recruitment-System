@@ -3,6 +3,7 @@ using RS.Common.Enums;
 using RS.Entity;
 using RS.ViewModel.User;
 using System;
+using System.Threading.Tasks;
 using RS.Data.Interfaces;
 using RS.Common.CommonData;
 using RS.ViewModel.Candidate;
@@ -12,6 +13,9 @@ using System.Security.Principal;
 using RS.Common.Extensions;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace RS.Service.Logic
 {
@@ -22,13 +26,15 @@ namespace RS.Service.Logic
         private readonly ICandidateRepository _candidateRepository;
         private readonly IOpeningRepository _openingRepository;
         private readonly IQualificationRepository _qualificationRepository;
+        private readonly IHostingEnvironment _hostingEnvironment;
         #endregion
-        public CandidateManagerService(IPrincipal principal, ICandidateRepository candidateRepository, IOpeningRepository openingRepository, IQualificationRepository qualificationRepository)
+        public CandidateManagerService(IHostingEnvironment hostingEnvironment,IPrincipal principal, ICandidateRepository candidateRepository, IOpeningRepository openingRepository, IQualificationRepository qualificationRepository)
         {
             _principal = principal as ClaimsPrincipal;
             _candidateRepository = candidateRepository;
             _openingRepository = openingRepository;
             _qualificationRepository = qualificationRepository;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         public IResult AddCandidate(CandidateViewModel candidate)
@@ -161,6 +167,45 @@ namespace RS.Service.Logic
                 _candidateRepository.UpdateCandidate(candidateModel, updatedOpeningCandidate, organization);
                 result.Body = candidate.CandidateId;
 
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Error;
+            }
+            return result;
+        }
+
+        public async Task<IResult> UploadDocumentAsync(IFormFile file)
+        {
+            var result = new Result
+            {
+                Operation = Operation.Read,
+                Status = Status.Success
+            };
+            try
+            {
+                if(file.Length > 0)
+                {
+                    string path = Path.Combine(_hostingEnvironment.WebRootPath, "~/uploadFiles");
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+
+                    var candidateDocument = new CandidateDocuments();
+                    candidateDocument.MapAuditColumns((ClaimsIdentity)_principal.Identity);
+                    var ext = new List<string> { ".pdf", ".doc", ".docx" };
+                    var extension = Path.GetExtension(file.FileName);
+                    if (ext.Contains(extension))
+                    {
+                        var filePath = Path.Combine(path, file.FileName);
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await file.CopyToAsync(fileStream);
+                        }
+                    }
+                }
             }
             catch (Exception e)
             {

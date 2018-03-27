@@ -6,10 +6,11 @@ import 'rxjs/Rx';
 
 // Service
 import { CandidateService } from '../../webapi/services/candidate.service';
+import { UtilityService } from '../../shared/utility/utility.service';
 
 @Injectable()
 export class CandidateServiceApp {
-    constructor(private apiCandidateSevice: CandidateService) {
+    constructor(private apiCandidateSevice: CandidateService, private utilityService: UtilityService) {
     }
 
     addCandidate(candidateModel): Observable<any> {
@@ -26,5 +27,9 @@ export class CandidateServiceApp {
 
     getCandidateById(candidateId): Observable<any> {
         return this.apiCandidateSevice.ApiCandidateGetCandidateByIdGet(candidateId).map(x => (x));
+    }
+
+    uploadDocument(uri, candidateId, file): Observable<any> {
+        return this.utilityService.uploadDocument(uri, candidateId, file).map(x => (x));
     }
 }
