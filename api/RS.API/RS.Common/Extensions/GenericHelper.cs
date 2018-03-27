@@ -18,6 +18,9 @@ namespace RS.Common.Extensions
                 userClaim = new UserClaim
                 {
                     Name = identity.FindFirst(ClaimTypes.Name).Value,
+                    FirstName = identity.FindFirst(ClaimTypes.GivenName).Value,
+                    LastName = identity.FindFirst(ClaimTypes.NameIdentifier).Value,
+                    UserName = identity.FindFirst(ClaimTypes.Surname).Value,
                     Email = identity.FindFirst(ClaimTypes.Email).Value,
                     Role = identity.FindFirst(ClaimTypes.Role).Value,
                     UserId = new Guid(identity.FindFirst(ClaimTypes.Sid).Value)

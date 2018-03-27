@@ -25,5 +25,7 @@ namespace RS.Service.Interfaces
 
         IResult GetUsersByRole(int roleId);
 
+        IResult GetUserDetail();
+
     }
 }
