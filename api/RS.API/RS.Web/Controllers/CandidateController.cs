@@ -9,6 +9,7 @@ using System.Net.Http;
 using Microsoft.AspNetCore.Authorization;
 using RS.ViewModel.Candidate;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace RS.Web.Controllers
 {
@@ -30,6 +31,13 @@ namespace RS.Web.Controllers
         public IResult AddCandidate([FromBody]CandidateViewModel candidateView)
         {
             var addedCandidate = _candidateManagerService.AddCandidate(candidateView);
+            return addedCandidate;
+        }
+
+        [HttpPost]
+        public IResult AddUserForCandidate([FromBody]List<CandidateAssignedUserModel> candidateAssignedUserList)
+        {
+            var addedCandidate = _candidateManagerService.AssignUserForCandidate(candidateAssignedUserList);
             return addedCandidate;
         }
 
@@ -61,6 +69,27 @@ namespace RS.Web.Controllers
             var file = Request.Form.Files["uploadFile"];
             var candidateRecord = _candidateManagerService.UploadDocumentAsync(file);
             return candidateRecord;
+        }
+
+        [HttpGet]
+        public IResult GetAssignedUsersById(Guid candidateId)
+        {
+            var assignedUsers = _candidateManagerService.GetAssignedUsersById(candidateId);
+            return assignedUsers;
+        }
+
+        [HttpGet]
+        public IResult GetCandidatesCorrespondingToLoggedUser(Guid userId)
+        {
+            var assignedUsers = _candidateManagerService.GetCandidatesCorrespondingToLoggedUser(userId);
+            return assignedUsers;
+        }
+
+        [HttpPut]
+        public IResult ApprovedForInterview(Guid candidateId)
+        {
+            var approvedCandidate = _candidateManagerService.ApprovedForInterview(candidateId);
+            return approvedCandidate;
         }
     }
 }

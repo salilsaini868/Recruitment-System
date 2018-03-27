@@ -18,4 +18,8 @@ export class UserEventRoleServiceApp {
         return this.apiApprovalService.ApiApprovalGetAllApprovalEventRolesGet().map(x => (x));
     }
 
+    getApprovedUsers(approvalRole): Observable<any> {
+        return this.apiApprovalService.ApiApprovalGetApprovedUsersByRoleGet(approvalRole).map(x => (x));
+    }
+
 }

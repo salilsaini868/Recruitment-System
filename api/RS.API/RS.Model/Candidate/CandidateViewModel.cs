@@ -15,6 +15,9 @@ namespace RS.ViewModel.Candidate
         public string Description { get; set; }
         public string Organization { get; set; }
         public int Qualification { get; set; }
+        public string QualificationName { get; set; }
         public Guid Opening { get; set; }
+        public string OpeningTitle { get; set; }
+        public bool IsReadyForInterview { get; set; }
     }
 }

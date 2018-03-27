@@ -32,4 +32,20 @@ export class CandidateServiceApp {
     uploadDocument(uri, candidateId, file): Observable<any> {
         return this.utilityService.uploadDocument(uri, candidateId, file).map(x => (x));
     }
+    addUserForCandidate(candidateAssignedUsers): Observable<any> {
+        return this.apiCandidateSevice.ApiCandidateAddUserForCandidatePost(candidateAssignedUsers).map(x => (x));
+    }
+
+    getAssignedUsersById(candidateId): Observable<any> {
+        return this.apiCandidateSevice.ApiCandidateGetAssignedUsersByIdGet(candidateId).map(x => (x));
+    }
+
+    getCandidatesCorrespondingToLoggedUser(userId): Observable<any> {
+        return this.apiCandidateSevice.ApiCandidateGetCandidatesCorrespondingToLoggedUserGet(userId).map(x => (x));
+    }
+
+    approvedForInterview(candidateId): Observable<any> {
+        return this.apiCandidateSevice.ApiCandidateApprovedForInterviewPut(candidateId).map(x => (x));
+    }
+
 }

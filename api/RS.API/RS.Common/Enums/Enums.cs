@@ -16,4 +16,10 @@
         Delete = 4
     }
 
+    public enum Approval
+    {
+        Opening = 1,
+        Candidate = 2
+    }
+
 }

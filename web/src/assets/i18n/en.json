@@ -57,17 +57,24 @@
     },
     "OPENING": {
         "LIST": "List of Openings",
-        "TITLE": "Job Title",
-        "DESCRIPTION": "Job Description",
+        "TITLE": "Title",
+        "DESCRIPTION": "Description",
         "PRIMARYSKILLS": "Primary Skills",
         "SECONDARYSKILLS": "Secondary Skills",
         "SAMESKILLS": "Skills are same in both primary and secondary",
         "REQUIRED": "Required",
         "PRIMARYSKILLMANDATORY":"Primary Skill is Mandatory",
-        "SAVE": "Save   ",
+        "SAVE": "Save",
         "UPDATE": "Update",
         "DELETE": "Delete",
-        "ADD" : "Add"
+        "VIEW":"View",
+        "CREATEOPENING":"Create Opening",
+        "DETAILS":"Opening Details",
+        "CREATEDON":"Created On",
+        "UPDATEDON":"Updated On",
+        "STATUS":"Status",
+        "ADD" : "Add Candidate",
+        "EDIT":"Edit"
     },
     "FORGOTPASSWORD" :{
         "TITLE": "Forgot password",
@@ -106,17 +113,30 @@
         "OPENINGFOR": "Opening For",
         "QUALIFICATION": "Qualification",
         "EXPERIENCE": "Experience",
-        "EXPERIENCEYEAR": "Year of Experience",
-        "EXPERIENCEMONTH": "Month of Experience",
-        "YEAR": "Yr",
-        "MONTH": "Mn",
+        "EXPERIENCEYEAR": "yy",
+        "EXPERIENCEMONTH": "mm",
+        "YEAR": "yr",
+        "MONTH": "mn",
         "MALE": "Male",
         "FEMALE": "Female",
         "ORGANIZATION": "Previous Organization",
         "LIST":"List of Candidates",
         "SAVE": "Save",
-        "UPDATE": "Update",
-        "DELETE": "Delete"
+        "ADDCANDIDATE":"Add Candidate",
+        "DETAILS":"Candidate Details",
+        "ASSIGNUSER": "Assign User",
+        "EDIT": "Edit",
+        "DELETE": "Delete",
+        "SUBMIT": "Submit",
+        "BACK": "Back",
+        "STATUS":"Status",
+        "CANCEL": "Cancel",
+        "TAKEINTERVIEW": "Take Interview",
+        "STARTINTERVIEW": "Start Interview",
+        "VIEW": "View",
+        "NOUSERSASSIGNED": "Please assign the Users",
+        "NODOCUMENTS": "Please Upload Necessary Documents",
+        "PROMPTMSG": "Do you want to start the Interview?"
     },
     "EVENTROLE": {
         "APPROVALEVENT": "Approval Event",
@@ -132,6 +152,7 @@
     },
     "COMMON": {
         "SOMEERROROCURRED": "Some errror has been occured",
+        "INFO":"Successfully Submitted",
         "SELECTDEFAULT":"--select--"
     }
 }

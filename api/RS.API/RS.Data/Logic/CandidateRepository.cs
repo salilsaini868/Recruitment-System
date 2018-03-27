@@ -74,12 +74,35 @@ namespace RS.Data.Logic
 
         List<Candidates> ICandidateRepository.GetAll()
         {
-            return _context.Candidates.Include(t => t.Organisation).Where(x => (x.IsActive && !x.IsDeleted)).ToList();
+            return _context.Candidates.Include(t => t.Organisation).Include(s => s.CandidateDocuments).Where(x => (x.IsActive && !x.IsDeleted)).ToList();
         }
 
         public Organizations GetOrganization(string organization)
         {
             return _context.Organizations.FirstOrDefault(x => x.Name == organization && (x.IsActive && !x.IsDeleted));
+        }
+
+        public void AssignUserForCandidate(CandidateAssignedUser candidateAssignedUser)
+        {
+            _context.CandidateAssignedUser.Add(candidateAssignedUser);
+            _context.SaveChanges();
+        }
+
+        public List<CandidateAssignedUser> GetAssignedUsersByID(Guid candidateId)
+        {
+           return _context.CandidateAssignedUser.Where(x => x.CandidateId == candidateId && (x.IsActive && !x.IsDeleted)).ToList();
+        }
+
+        public List<Candidates> GetCandidatesCorrespondingToLoggedUser(Guid userId)
+        {
+            List<Guid> candidateList = _context.CandidateAssignedUser.Where(x => x.UserId == userId && (x.IsActive && !x.IsDeleted)).Select(x => x.CandidateId).ToList();
+            return _context.Candidates.Where(x => candidateList.Contains(x.CandidateId) && x.IsReadyForInterview && (x.IsActive && !x.IsDeleted)).ToList();
+        }
+
+        public void ApprovedForInterview(Candidates candidate)
+        {
+            _context.Entry(candidate).State = EntityState.Modified;
+            _context.SaveChanges();
         }
     }
 }

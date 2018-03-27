@@ -50,5 +50,34 @@ namespace RS.Service.Interfaces
         /// <param name="file"></param>
         /// <returns></returns>
         Task<IResult> UploadDocumentAsync(IFormFile file);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="candidateAssignedUserList"></param>
+        /// <returns></returns>
+        IResult AssignUserForCandidate(List<CandidateAssignedUserModel> candidateAssignedUserList);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="candidateId"></param>
+        /// <returns></returns>
+        IResult GetAssignedUsersById(Guid candidateId);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        IResult GetCandidatesCorrespondingToLoggedUser(Guid userId);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="candidateId"></param>
+        /// <returns></returns>
+        IResult ApprovedForInterview(Guid candidateId);
+
     }
 }

@@ -1,9 +1,10 @@
 <div class="content-wrapper">
-    <app-approvalstrip [approvalType]="approval"></app-approvalstrip>
+    <app-approvalstrip *ngIf="isDataAvailable" [entityModel]="opening" [approvalType]="approval"></app-approvalstrip>
     <div class="panel panel-default no-radius">
-        <div class="panelheader panel-heading no-radius">Create Opening</div>
+        <div *ngIf="openingModel.openingId == null" class="panelheader panel-heading no-radius">Create Opening</div>
+        <div *ngIf="openingModel.openingId != null" class="panelheader panel-heading no-radius">Job Details</div>
         <div class="panel-body">
-            <form (ngSubmit)="onSubmit(openingForm)" #openingForm="ngForm">
+            <form #openingForm="ngForm">
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="row">
@@ -34,12 +35,10 @@
                         </div>
                     </div>
                 </div>
-
-
-
                 <div class="form-group skill-main">
                     <div class="row">
                         <label class="col-xs-12">{{ 'OPENING.PRIMARYSKILLS' | translate }}*</label>
+                        <ng-container *ngIf="primarySkillModels.length > 0">     
                         <div *ngFor="let skill of primarySkillModels">
                             <div class="col-md-3 col-sm-6 col-xs-12">
                                 <label>
@@ -49,9 +48,11 @@
                                 </label>
                             </div>
                         </div>
+                        </ng-container>
                     </div>
                     <div class="row">
                         <label class="col-xs-12">{{ 'OPENING.SECONDARYSKILLS' | translate }}</label>
+                        <ng-container *ngIf="primarySkillModels.length > 0"> 
                         <div *ngFor="let skill of secondarySkillModels">
                             <div class="col-md-3 col-sm-6 col-xs-12">
                                 <label>
@@ -61,12 +62,8 @@
                                 </label>
                             </div>
                         </div>
+                        </ng-container>
                     </div>
-                    <!-- <div class="row">
-                        <div class="col-xs-12">
-                            <button id="bttn" type="submit" class="btn btn-primary blue-btn no-radius pull-right btn-gap">{{ 'OPENING.SAVE' | translate }}</button>
-                        </div>
-                    </div> -->
                 </div>
             </form>
         </div>
