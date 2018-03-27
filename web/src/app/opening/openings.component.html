@@ -12,7 +12,8 @@
                         <th>{{ 'OPENING.PRIMARYSKILLS' | translate }}</th>
                         <th>{{ 'OPENING.SECONDARYSKILLS' | translate }}</th>
                         <th>{{ 'OPENING.STATUS' | translate }}</th>
-                        <th>{{ 'OPENING.CREATED ON' | translate }}</th>
+                        <th>{{ 'OPENING.CREATEDON' | translate }}</th>
+                        <th>{{ 'OPENING.UPDATEDON' | translate }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -25,11 +26,13 @@
                         </ng-template>
                         <td>{{opening.status}}</td>
                         <td>{{opening.createdDate}}</td>
+                        <td>{{opening.modifiedDate}}</td>
                         <td>
                             <button *ngIf="loggedRole == 'Sr.HR'" title="Delete" class="btn btn-danger no-radius" (click)="deleteOpening(opening.openingId)">{{ 'OPENING.DELETE' | translate }}</button>
                             <button *ngIf="loggedRole == 'Sr.HR' && opening.status == 'Re-Edit'" title="Edit" class="btn btn-primary no-radius blue-btn" (click)="updateOpening(opening.openingId)">{{ 'OPENING.UPDATE' | translate }}</button>
-                            <button *ngIf="loggedRole != 'Sr.HR'" title="View" class="btn btn-primary no-radius blue-btn" (click)="updateOpening(opening.openingId)">{{ 'OPENING.VIEW' | translate }}</button>
+                            <button *ngIf="loggedRole != 'Sr.HR' && !opening.isApproved" title="Edit Opening" class="btn btn-primary no-radius blue-btn" (click)="updateOpening(opening.openingId)">{{ 'OPENING.EDIT' | translate }}</button>
                             <button *ngIf="loggedRole == 'Sr.HR' && opening.isApproved" title="AddCandidate" class="btn btn-primary no-radius blue-btn" (click)="addCandidate(opening.openingId)">{{ 'OPENING.ADD' | translate }}</button>
+                            <button *ngIf="opening.isApproved" title="ViewOpening" class="btn btn-primary no-radius blue-btn" (click)="openingDetails(opening.openingId)">{{ 'OPENING.VIEW' | translate }}</button>
                         </td>
                     </tr>
                 </tbody>

@@ -7,6 +7,8 @@ import { CandidateListModel } from '../shared/customModels/candidate-list-model'
 import { DisplayMessageService } from '../shared/toastr/display.message.service';
 import { Status } from '../app.enum';
 import { AppConstants } from '../shared/constant/constant.variable';
+import { CandidateViewModel } from '../webapi/models/candidate-view-model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-candidates',
@@ -15,16 +17,19 @@ import { AppConstants } from '../shared/constant/constant.variable';
 
 export class CandidatesComponent implements OnInit {
     candidates: CandidateListModel[] = [] as CandidateListModel[];
+    candidate: CandidateViewModel = {} as CandidateViewModel;
     loggedRole: string;
     userId: any;
+    promptMsg: any;
 
     constructor(private candidateServiceApp: CandidateServiceApp, private router: Router,
-        private msgService: DisplayMessageService) {
+        private msgService: DisplayMessageService, private translateService: TranslateService) {
     }
 
     ngOnInit() {
         this.getLoggedRole();
         this.getAllCandidates();
+        this.setPromptMsg();
     }
 
     getLoggedRole() {
@@ -62,6 +67,36 @@ export class CandidatesComponent implements OnInit {
         }
     }
 
+    setPromptMsg() {
+        this.translateService.get('CANDIDATE.PROMPTMSG').subscribe(
+            (data) => {
+                this.promptMsg = data;
+            }
+        );
+    }
+
+    startInterview(candidate) {
+        if (window.confirm(this.promptMsg)) {
+            if (candidate.assignedUsers > 0) {
+                if (candidate.documents > 0) {
+                    this.candidateServiceApp.approvedForInterview(candidate.candidateId).subscribe(
+                        (data) => {
+                            if (data.status === Status.Success) {
+                                this.getAllCandidates();
+                            } else {
+                                this.msgService.showError('Error');
+                            }
+                        }
+                    );
+                } else {
+                    this.msgService.showError('CANDIDATE.NODOCUMENTS');
+                }
+            } else {
+                this.msgService.showError('CANDIDATE.NOUSERSASSIGNED');
+            }
+        }
+    }
+
     addCandidate() {
         this.router.navigate(['Candidate']);
     }
@@ -70,11 +105,8 @@ export class CandidatesComponent implements OnInit {
         this.router.navigate(['Candidate', candidateId]);
     }
 
-    assignUser(candidateId) {
-        this.router.navigate(['AssignedUser', candidateId]);
-    }
-
     getCandidateDetail(candidateId) {
         this.router.navigate(['CandidateDetails', candidateId]);
     }
+
 }

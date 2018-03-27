@@ -1,7 +1,7 @@
 <div class="content-wrapper">
-    <app-approvalstrip *ngIf="isDataAvailable" [entityModel]="candidate" [approvalType]="approval"></app-approvalstrip>
+    <app-approvalstrip *ngIf="isDataAvailable && loggedRole != 'Sr.HR'" [entityModel]="candidate" [approvalType]="approval"></app-approvalstrip>
     <div class="panel panel-default no-radius">
-        <div class="panelheader panel-heading no-radius">Candidate Details</div>
+        <div class="panelheader panel-heading no-radius">{{ 'CANDIDATE.DETAILS' | translate }}</div>
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-6 col-sm-6 col-xs-12">

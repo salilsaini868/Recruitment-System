@@ -15,4 +15,5 @@ export class CandidateViewModel {
     qualificationName?: string;
     opening?: string;
     openingTitle?: string;
+    isReadyForInterview?: boolean;
 }

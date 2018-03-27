@@ -10,6 +10,8 @@ import { OpeningServiceApp } from '../opening/shared/opening.serviceApp';
 import { Approvals } from '../webapi/models/approvals';
 import { ApprovalServiceApp } from '../approval/shared/approval.serviceApp';
 import { TranslateService } from '@ngx-translate/core';
+import { AppConstants } from '../shared/constant/constant.variable';
+import decode from 'jwt-decode';
 
 @Component({
     selector: 'app-candidatedetails',
@@ -26,6 +28,7 @@ export class CandidateDetailsComponent implements OnInit {
     qualification: any;
     isDataAvailable = false;
     gender: any;
+    loggedRole: any;
 
     constructor(private route: ActivatedRoute, private candidateServiceApp: CandidateServiceApp,
         private msgService: DisplayMessageService, private qualificationsServiceApp: QualificationsServiceApp,
@@ -36,6 +39,17 @@ export class CandidateDetailsComponent implements OnInit {
         this.candidate = this.candidateModel;
         this.approval = ApprovalType.Candidate;
         this.getCandidateById();
+        this.getLoggedRole();
+    }
+
+    getLoggedRole() {
+        let tokenPayload = '';
+        const token = localStorage.getItem(AppConstants.AuthToken);
+        // decode the token to get its payload
+        if (token !== null) {
+            tokenPayload = decode(token);
+            this.loggedRole = tokenPayload[AppConstants.RoleClaim];
+        }
     }
 
     getCandidateById() {

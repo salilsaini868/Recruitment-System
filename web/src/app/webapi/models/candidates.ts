@@ -6,7 +6,7 @@ import { CandidateDocuments } from './candidate-documents';
 /**
  */
 export class Candidates {
-    isApproved?: boolean;
+    isReadyForInterview?: boolean;
     candidateId?: string;
     firstName: string;
     lastName?: string;
@@ -16,6 +16,7 @@ export class Candidates {
     organizationId: number;
     organisation?: Organizations;
     description?: string;
+    isApproved?: boolean;
     gender: number;
     qualification?: Qualifications;
     candidateDocuments?: CandidateDocuments[];

@@ -117,5 +117,6 @@ namespace RS.Data.Logic
                 return assignedUser.ApprovalEvent.ApprovalEventOrder;
             }    
         }
+
     }
 }

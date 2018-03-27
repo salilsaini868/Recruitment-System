@@ -82,7 +82,6 @@ export class CandidateComponent implements OnInit {
             if (!isNullOrUndefined(candidateId)) {
                 this.candidateServiceApp.getCandidateById(candidateId).subscribe(
                     (data) => {
-                        debugger;
                         if (data.status === Status.Success) {
                             this.candidateModel = data.body;
                         } else {
@@ -160,4 +159,9 @@ export class CandidateComponent implements OnInit {
             this.router.navigate(['AssignedUser', this.candidateModel.candidateId]);
         }
     }
+
+    goBack() {
+        this.router.navigate(['Candidates']);
+    }
+
 }

@@ -40,4 +40,8 @@ export class CandidateServiceApp {
         return this.apiCandidateSevice.ApiCandidateGetCandidatesCorrespondingToLoggedUserGet(userId).map(x => (x));
     }
 
+    approvedForInterview(candidateId): Observable<any> {
+        return this.apiCandidateSevice.ApiCandidateApprovedForInterviewPut(candidateId).map(x => (x));
+    }
+
 }

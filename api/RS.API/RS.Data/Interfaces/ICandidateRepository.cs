@@ -24,5 +24,7 @@ namespace RS.Data.Interfaces
         List<CandidateAssignedUser> GetAssignedUsersByID(Guid candidateId);
 
         List<Candidates> GetCandidatesCorrespondingToLoggedUser(Guid userId);
+
+        void ApprovedForInterview(Candidates candidate);
     }
 }

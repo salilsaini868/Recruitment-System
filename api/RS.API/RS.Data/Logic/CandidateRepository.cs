@@ -74,7 +74,7 @@ namespace RS.Data.Logic
 
         List<Candidates> ICandidateRepository.GetAll()
         {
-            return _context.Candidates.Include(t => t.Organisation).Where(x => (x.IsActive && !x.IsDeleted)).ToList();
+            return _context.Candidates.Include(t => t.Organisation).Include(s => s.CandidateDocuments).Where(x => (x.IsActive && !x.IsDeleted)).ToList();
         }
 
         public Organizations GetOrganization(string organization)
@@ -96,7 +96,13 @@ namespace RS.Data.Logic
         public List<Candidates> GetCandidatesCorrespondingToLoggedUser(Guid userId)
         {
             List<Guid> candidateList = _context.CandidateAssignedUser.Where(x => x.UserId == userId && (x.IsActive && !x.IsDeleted)).Select(x => x.CandidateId).ToList();
-            return _context.Candidates.Where(x => candidateList.Contains(x.CandidateId) && (x.IsActive && !x.IsDeleted)).ToList();
+            return _context.Candidates.Where(x => candidateList.Contains(x.CandidateId) && x.IsReadyForInterview && (x.IsActive && !x.IsDeleted)).ToList();
+        }
+
+        public void ApprovedForInterview(Candidates candidate)
+        {
+            _context.Entry(candidate).State = EntityState.Modified;
+            _context.SaveChanges();
         }
     }
 }

@@ -8,7 +8,7 @@ import { OpeningRouterModule } from './opening.route';
 import { ApprovalModule } from '../../approval/shared/approval.module';
 
 // Components
-import { OpeningComponent, OpeningsComponent } from '../index.opening';
+import { OpeningComponent, OpeningsComponent, OpeningDetailsComponent } from '../index.opening';
 
 // Services
 import { OpeningServiceApp } from './opening.serviceApp';
@@ -24,7 +24,8 @@ import { OpeningServiceApp } from './opening.serviceApp';
     exports: [],
     declarations: [
         OpeningsComponent,
-        OpeningComponent
+        OpeningComponent,
+        OpeningDetailsComponent
     ],
     providers: [OpeningServiceApp],
 })

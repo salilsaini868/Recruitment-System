@@ -1,6 +1,7 @@
 <div class="content-wrapper">
     <div class="panel panel-default no-radius">
-        <div class="panelheader panel-heading no-radius">Add Candidate</div>
+        <div *ngIf="candidateModel.candidateId == null" class="panelheader panel-heading no-radius">{{ 'CANDIDATE.ADDCANDIDATE' | translate }}</div>
+        <div *ngIf="candidateModel.candidateId != null" class="panelheader panel-heading no-radius">{{ 'CANDIDATE.DETAILS' | translate }}</div>
         <div class="panel-body">
             <form (ngSubmit)="onSubmit(candidateForm)" #candidateForm="ngForm">
                 <div class="row">
@@ -16,7 +17,7 @@
                                 </select>
                             </div>
                         </div>
-                    </div>  
+                    </div>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="row">
                             <div class="col-md-3 col-sm-3 col-xs-12">
@@ -82,72 +83,68 @@
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="row">
                             <div class="col-md-3 col-sm-3 col-xs-12">
-                                <label>{{ 'CANDIDATE.EXPERIENCEYEAR' | translate }}</label>
+                                <label>{{ 'CANDIDATE.EXPERIENCE' | translate }}</label>
                             </div>
                             <div class="col-md-9 col-sm-9 col-xs-12">
                                 <select [(ngModel)]="candidateModel.experienceYear" [ngModelOptions]="{standalone: true}" required class="full-input">
                                     <option disabled selected [attr.value]="-1">{{ 'COMMON.SELECTDEFAULT' | translate }}</option>
                                     <option *ngFor="let year of years" [attr.value]="year">{{year}}</option>
                                 </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <div class="row">
-                            <div class="col-md-3 col-sm-3 col-xs-12">
-                                <label>{{ 'CANDIDATE.EXPERIENCEMONTH' | translate }}</label>
+                                <label>{{ 'CANDIDATE.EXPERIENCEYEAR' | translate }}</label>
                             </div>
                             <div class="col-md-9 col-sm-9 col-xs-12">
                                 <select class="full-input" [(ngModel)]="candidateModel.experienceMonth" [ngModelOptions]="{standalone: true}" required>
                                     <option disabled selected [attr.value]="-1">{{ 'COMMON.SELECTDEFAULT' | translate }}</option>
                                     <option *ngFor="let month of months" [attr.value]="month">{{month}}</option>
                                 </select>
+                                <label>{{ 'CANDIDATE.EXPERIENCEMONTH' | translate }}</label>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <div class="row">
-                            <div class="col-md-3 col-sm-3 col-xs-12">
-                                <label>{{ 'CANDIDATE.ORGANIZATION' | translate }}</label>
-                            </div>
-                            <div class="col-md-9 col-sm-9 col-xs-12">
-                                <input class="full-input" type="text" required name="org" [(ngModel)]="candidateModel.organization" #org="ngModel" maxlength="250">
-                                <div *ngIf="lastName.errors && (org.dirty || org.touched)" [hidden]="!org.errors.required" class="validation-error">
-                                    {{ 'CANDIDATE.REQUIRED' | translate }}
-                                </div>
+
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label>{{ 'CANDIDATE.ORGANIZATION' | translate }}</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <input class="full-input" type="text" required name="org" [(ngModel)]="candidateModel.organization" #org="ngModel" maxlength="250">
+                            <div *ngIf="lastName.errors && (org.dirty || org.touched)" [hidden]="!org.errors.required" class="validation-error">
+                                {{ 'CANDIDATE.REQUIRED' | translate }}
                             </div>
                         </div>
                     </div>
                 </div>
-
-
-                <div class="row">
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <div class="row">
-                            <div class="col-md-3 col-sm-3 col-xs-12">
-                                <label>{{ 'CANDIDATE.DESCRIPTION' | translate }}</label>
-                            </div>
-                            <div class="col-md-9 col-sm-9 col-xs-12">
-                                <textarea class="full-tarea" type="text" required name="description" [(ngModel)]="candidateModel.description" #description="ngModel"
-                                    maxlength="250">
-                                </textarea>
-                                <div *ngIf="description.errors && (description.dirty || description.touched)" [hidden]="!description.errors.required" class="validation-error">
-                                    {{ 'CANDIDATE.REQUIRED' | translate }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <button id="bttn" type="submit" class="btn btn-primary blue-btn pull-right btn-gap">{{ 'CANDIDATE.SAVE' | translate }}</button>
-                    </div>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <button id="bttn" type="button" [disabled]="candidateModel.candidateId == null" (click)="assignUser()" class="btn btn-primary blue-btn pull-right btn-gap">{{ 'CANDIDATE.ASSIGNUSER' | translate }}</button>
-                    </div>
-                </div>
-            </form>
         </div>
+
+
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="row">
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                        <label>{{ 'CANDIDATE.DESCRIPTION' | translate }}</label>
+                    </div>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                        <textarea class="full-tarea" type="text" required name="description" [(ngModel)]="candidateModel.description" #description="ngModel"
+                            maxlength="250">
+                                </textarea>
+                        <div *ngIf="description.errors && (description.dirty || description.touched)" [hidden]="!description.errors.required" class="validation-error">
+                            {{ 'CANDIDATE.REQUIRED' | translate }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <button id="bttn" type="submit" class="btn btn-primary blue-btn pull-right btn-gap">{{ 'CANDIDATE.SAVE' | translate }}</button>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <button id="bttn" type="button" *ngIf="candidateModel.candidateId != null" (click)="assignUser()" class="btn btn-primary blue-btn pull-right btn-gap">{{ 'CANDIDATE.ASSIGNUSER' | translate }}</button>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <button id="bttn" type="button" (click)="goBack()" class="btn btn-primary blue-btn pull-right btn-gap">{{ 'CANDIDATE.BACK' | translate }}</button>
+            </div>
+        </div>
+        </form>
     </div>
+</div>
 </div>

@@ -24,7 +24,7 @@ namespace RS.Service.Logic
         private readonly IQualificationRepository _qualificationRepository;
         private readonly IApprovalRepository _approvalRepository;
         #endregion
-        public CandidateManagerService(IPrincipal principal, ICandidateRepository candidateRepository, IOpeningRepository openingRepository, 
+        public CandidateManagerService(IPrincipal principal, ICandidateRepository candidateRepository, IOpeningRepository openingRepository,
             IQualificationRepository qualificationRepository, IApprovalRepository approvalRepository)
         {
             _principal = principal as ClaimsPrincipal;
@@ -108,14 +108,14 @@ namespace RS.Service.Logic
                             {
                                 addingAssignedUsers = candidateAssignedUserList.Where(x => addAssignedUsers.Contains(x.UserId) && x.ApprovalEventId == approvalEvent.ApprovalEventId).ToList();
                             }
-                        } 
-                    }  
+                        }
+                    }
                 }
                 else
                 {
                     addingAssignedUsers = candidateAssignedUserList;
                 }
-                
+
                 if (addingAssignedUsers.Any())
                 {
                     foreach (var assignedUser in addingAssignedUsers)
@@ -125,8 +125,36 @@ namespace RS.Service.Logic
                         _candidateRepository.AddUserForCandidate(assignedUserForCandidate);
                     }
                 }
-                
+
                 result.Body = candidateAssignedUserList;
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Error;
+            }
+            return result;
+        }
+
+        public IResult ApprovedForInterview(Guid candidateId)
+        {
+            var result = new Result
+            {
+                Operation = Operation.Update,
+                Status = Status.Success
+            };
+            try
+            {
+                var candidateModel = _candidateRepository.GetByID(candidateId);
+                if (candidateModel != null)
+                {
+                    candidateModel.IsReadyForInterview = true;
+                    _candidateRepository.ApprovedForInterview(candidateModel);
+                }
+                var candidateViewModel = new CandidateViewModel();
+                candidateViewModel.MapFromModel(candidateModel);
+                result.Body = candidateViewModel.CandidateId;
+
             }
             catch (Exception e)
             {
@@ -160,7 +188,22 @@ namespace RS.Service.Logic
                         candidateListModel.Opening = openingCandidate.Opening.Title;
                         candidateListModel.ModifiedDate = openingCandidate.Opening.ModifiedDate;
                     }
+                    
+                    var assignedUsers = _candidateRepository.GetAssignedUsersByID(candidate.CandidateId);
+                    candidateListModel.AssignedUsers = assignedUsers.Count;
+                    candidateListModel.Documents = candidate.CandidateDocuments.Count;
+                    var approvalTransaction = _approvalRepository.GetApprovalTransactionByEntity(candidate.CandidateId);
+                    if (!candidate.IsReadyForInterview)
+                    {
+                        candidateListModel.Status = "Created";
+                    }
+                    else
+                    {
+                        candidateListModel.Status = approvalTransaction == null ? "Ready For Interview" : approvalTransaction.ApprovalAction.ApprovalActionName;
+                    }
+
                     return candidateListModel.MapFromModel(candidate);
+
                 }).ToList();
                 List<CandidateListModel> candidateListViewModel = candidateList.Cast<CandidateListModel>().ToList();
                 result.Body = candidateListViewModel.OrderByDescending(x => x.ModifiedDate);
@@ -239,6 +282,16 @@ namespace RS.Service.Logic
                     {
                         candidateListModel.Opening = openingCandidate.Opening.Title;
                         candidateListModel.ModifiedDate = openingCandidate.Opening.ModifiedDate;
+                    }
+
+                    var approvalTransaction = _approvalRepository.GetApprovalTransactionByEntity(candidate.CandidateId);
+                    if (!candidate.IsReadyForInterview)
+                    {
+                        candidateListModel.Status = "Created";
+                    }
+                    else
+                    {
+                        candidateListModel.Status = approvalTransaction == null ? "Ready For Interview" : approvalTransaction.ApprovalAction.ApprovalActionName;
                     }
                     return candidateListModel.MapFromModel(candidate);
                 }).ToList();

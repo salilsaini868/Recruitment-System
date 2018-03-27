@@ -18,6 +18,7 @@ namespace RS.ViewModel.Opening
         public string PrimarySkills { get; set; }
         public string SecondarySkills { get; set; }
         public string CreatedDate {get;set;}
+        public string ModifiedDate { get; set; }
         public string Status { get; set; }
     }
 

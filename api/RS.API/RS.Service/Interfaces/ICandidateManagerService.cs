@@ -63,5 +63,12 @@ namespace RS.Service.Interfaces
         /// <returns></returns>
         IResult GetCandidatesCorrespondingToLoggedUser(Guid userId);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="candidateId"></param>
+        /// <returns></returns>
+        IResult ApprovedForInterview(Guid candidateId);
+
     }
 }

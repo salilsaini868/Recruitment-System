@@ -278,6 +278,43 @@ export class CandidateService extends BaseService {
     return this.ApiCandidateGetCandidatesCorrespondingToLoggedUserGetResponse(userId).pipe(
       map(_r => _r.body)
     );
+  }
+  /**
+   * @param candidateId - undefined
+   */
+  ApiCandidateApprovedForInterviewPutResponse(candidateId: string): Observable<HttpResponse<IResult>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    if (candidateId != null) __params = __params.set("candidateId", candidateId.toString());
+    let req = new HttpRequest<any>(
+      "PUT",
+      this.rootUrl + `/api/Candidate/ApprovedForInterview`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      filter(_r => _r instanceof HttpResponse),
+      map(_r => {
+        let _resp = _r as HttpResponse<any>;
+        let _body: IResult = null;
+        _body = _resp.body as IResult
+        return _resp.clone({body: _body}) as HttpResponse<IResult>;
+      })
+    );
+  }
+
+  /**
+   * @param candidateId - undefined
+   */
+  ApiCandidateApprovedForInterviewPut(candidateId: string): Observable<IResult> {
+    return this.ApiCandidateApprovedForInterviewPutResponse(candidateId).pipe(
+      map(_r => _r.body)
+    );
   }}
 
 export module CandidateService {

@@ -75,5 +75,12 @@ namespace RS.Web.Controllers
             var assignedUsers = _candidateManagerService.GetCandidatesCorrespondingToLoggedUser(userId);
             return assignedUsers;
         }
+
+        [HttpPut]
+        public IResult ApprovedForInterview(Guid candidateId)
+        {
+            var approvedCandidate = _candidateManagerService.ApprovedForInterview(candidateId);
+            return approvedCandidate;
+        }
     }
 }
