@@ -12,6 +12,10 @@ export class UserServiceApp {
         return this.apiUserService.ApiUserCreateUserPost(userModel).map(x => (x));
     }
 
+    GetUserDetails(): Observable<any> {
+        return this.apiUserService.ApiUserGetUserDetailsGet().map(x => (x));
+    }
+
     updateUser(userModel): Observable<any> {
         return this.apiUserService.ApiUserUpdateUserPut(userModel).map(x => (x));
     }
@@ -27,5 +31,4 @@ export class UserServiceApp {
     getUsersByRole(roleId): Observable<any> {
         return this.apiUserService.ApiUserGetUsersByRoleGet(roleId).map(x => (x));
     }
-
 }

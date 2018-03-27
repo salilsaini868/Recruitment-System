@@ -13,7 +13,6 @@ import { isNullOrUndefined } from 'util';
 export class RoleGuardService implements CanActivate {
 
   constructor(public auth: AuthService, public router: Router) { }
-
   canActivate(route: ActivatedRouteSnapshot): boolean {
     // this will be passed from the route config
     // on the data property
@@ -24,10 +23,14 @@ export class RoleGuardService implements CanActivate {
     // decode the token to get its payload
     if (!isNullOrUndefined(token)) { tokenPayload = decode(token); }
     if (this.auth.isAuthenticated()) {
-      for (const role in expectedRole) {
-        if (tokenPayload[AppConstants.RoleClaim] === expectedRole[role]) {
-          return true;
+      if (expectedRole != null) {
+        for (const role in expectedRole) {
+          if (tokenPayload[AppConstants.RoleClaim] === expectedRole[role]) {
+            return true;
+          }
         }
+      } else {
+        return true;
       }
     }
     this.router.navigate(['login']);
