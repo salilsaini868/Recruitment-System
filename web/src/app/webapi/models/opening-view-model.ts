@@ -4,9 +4,15 @@ import { SkillViewModel } from './skill-view-model';
 /**
  */
 export class OpeningViewModel {
-    openingId?: string;
-    title?: string;
-    description?: string;
-    primarySkillTypes?: SkillViewModel[];
     secondarySkillTypes?: SkillViewModel[];
+    openingId?: string;
+    description?: string;
+    isApproved?: boolean;
+    primarySkillTypes?: SkillViewModel[];
+    title?: string;
+    primarySkills?: string;
+    secondarySkills?: string;
+    createdDate?: string;
+    modifiedDate?: string;
+    status?: string;
 }

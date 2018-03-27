@@ -3,14 +3,17 @@
 /**
  */
 export class CandidateViewModel {
+    description?: string;
     candidateId?: string;
-    gender?: number;
     firstName?: string;
     lastName?: string;
     experienceYear?: number;
     experienceMonth?: number;
-    description?: string;
+    gender?: number;
     organization?: string;
     qualification?: number;
+    qualificationName?: string;
     opening?: string;
+    openingTitle?: string;
+    isReadyForInterview?: boolean;
 }

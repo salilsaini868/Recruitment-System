@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Http;
 using Microsoft.AspNetCore.Authorization;
 using RS.ViewModel.Opening;
+using RS.ViewModel.Approval;
 
 namespace RS.Web.Controllers
 {
@@ -26,18 +27,17 @@ namespace RS.Web.Controllers
 
         [ValidateModel]
         [HttpPost]
-        public IResult CreateOpening([FromBody]OpeningViewModel openingViewModel)
+        public IResult InsertOrUpdateOpening([FromBody]EntityAndApprovalViewModel entityAndApprovalViewModel)
         {
-            var createdOpening = _openingManagerService.CreateOpening(openingViewModel);
+            var createdOpening = _openingManagerService.InsertOrUpdateOpening(entityAndApprovalViewModel);
             return createdOpening;
         }
 
-        [ValidateModel]
-        [HttpPut]
-        public IResult UpdateOpening([FromBody]OpeningViewModel openingViewModel)
+        [HttpGet]
+        public IResult GetOpeningsCorrespondingToLoggedUser(Guid userId)
         {
-            var updatedOpening = _openingManagerService.UpdateOpening(openingViewModel);
-            return updatedOpening;
+            var openingList = _openingManagerService.GetOpeningsCorrespondingToLoggedUser(userId);
+            return openingList;
         }
 
         [HttpGet]

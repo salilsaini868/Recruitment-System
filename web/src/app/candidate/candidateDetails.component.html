@@ -1,0 +1,90 @@
+<div class="content-wrapper">
+    <app-approvalstrip *ngIf="isDataAvailable && loggedRole != 'Sr.HR'" [entityModel]="candidate" [approvalType]="approval"></app-approvalstrip>
+    <div class="panel panel-default no-radius">
+        <div class="panelheader panel-heading no-radius">{{ 'CANDIDATE.DETAILS' | translate }}</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label>{{ 'CANDIDATE.OPENING' | translate }}</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <output name="opening">{{ candidateModel.openingTitle }}</output>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label>{{ 'CANDIDATE.FIRSTNAME' | translate }}</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <output name="firstName">{{ candidateModel.firstName }}</output>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label>{{ 'CANDIDATE.LASTNAME' | translate }}</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <output name="lastName">{{ candidateModel.lastName }}</output>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label>{{ 'CANDIDATE.GENDER' | translate }}</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <output name="gender">{{ gender }}</output>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label>{{ 'CANDIDATE.QUALIFICATION' | translate }}</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <output name="qualification">{{ candidateModel.qualificationName }}</output>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label>{{ 'CANDIDATE.EXPERIENCEYEAR' | translate }}</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <output name="experienceYear">{{ candidateModel.experienceYear }}</output>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label>{{ 'CANDIDATE.EXPERIENCEMONTH' | translate }}</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <output name="experienceMonth"> {{ candidateModel.experienceMonth }}</output>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label>{{ 'CANDIDATE.ORGANIZATION' | translate }}</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <output name="organization">{{ candidateModel.organization }}</output>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

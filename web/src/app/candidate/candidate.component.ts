@@ -10,9 +10,7 @@ import { UtilityService } from '../shared/utility/utility.service';
 import { TranslateService } from '@ngx-translate/core';
 
 // Models
-import { OpeningViewModel } from '../webapi/models/opening-view-model';
-import { CandidateViewModel } from '../webapi/models';
-import { QualificationViewModel } from '../webapi/models/qualification-view-model';
+import { CandidateViewModel, QualificationViewModel, OpeningViewModel } from '../webapi/models';
 import { Status, ApprovalType } from '../app.enum';
 import { DisplayMessageService } from '../shared/toastr/display.message.service';
 
@@ -136,7 +134,7 @@ export class CandidateComponent implements OnInit {
                 this.candidateServiceApp.addCandidate(this.candidateModel).subscribe(
                     (data) => {
                         if (data.status === Status.Success) {
-                            this.showCandidateList();
+                            this.candidateModel.candidateId = data.body;
                         } else {
                             this.msgService.showError('Error');
                         }
@@ -146,7 +144,7 @@ export class CandidateComponent implements OnInit {
                 this.candidateServiceApp.updateCandidate(this.candidateModel).subscribe(
                     (data) => {
                         if (data.status === Status.Success) {
-                            this.showCandidateList();
+                            this.candidateModel.candidateId = data.body;
                         } else {
                             this.msgService.showError('Error');
                         }
@@ -155,4 +153,15 @@ export class CandidateComponent implements OnInit {
             }
         }
     }
+
+    assignUser() {
+        if (!isNullOrUndefined(this.candidateModel.candidateId)) {
+            this.router.navigate(['AssignedUser', this.candidateModel.candidateId]);
+        }
+    }
+
+    goBack() {
+        this.router.navigate(['Candidates']);
+    }
+
 }
