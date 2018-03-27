@@ -82,7 +82,7 @@ namespace RS.Data.Logic
             return _context.Organizations.FirstOrDefault(x => x.Name == organization && (x.IsActive && !x.IsDeleted));
         }
 
-        public void AddUserForCandidate(CandidateAssignedUser candidateAssignedUser)
+        public void AssignUserForCandidate(CandidateAssignedUser candidateAssignedUser)
         {
             _context.CandidateAssignedUser.Add(candidateAssignedUser);
             _context.SaveChanges();

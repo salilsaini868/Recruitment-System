@@ -70,14 +70,13 @@ namespace RS.Service.Logic
                     {
                         approvalEventAndTransactionDetail.approvalTransactionViewModel = (ApprovalTransactionViewModel)approvalTransactionViewModel.MapFromModel(approvalTransactionModel);
                     }
-                    permissibleEvent = _approvalRepository.GetApprovalEventOfUser(entityId, userId, approvalId);
+                    permissibleEvent = _approvalRepository.GetApprovalEventOrderOfUser(entityId, userId, approvalId);
                 }
 
                 if (permissibleEvent > 0 && approvalEventAndTransactionDetail.approvalTransactionViewModel != null )
                 {
                     approvalEventAndTransactionDetail.approvalTransactionViewModel.PermissibleEvent = permissibleEvent;
                 }
-
 
                 result.Body = approvalEventAndTransactionDetail;
             }

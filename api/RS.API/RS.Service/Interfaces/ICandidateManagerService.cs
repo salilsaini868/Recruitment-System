@@ -47,7 +47,7 @@ namespace RS.Service.Interfaces
         /// </summary>
         /// <param name="candidateAssignedUserList"></param>
         /// <returns></returns>
-        IResult AddUserForCandidate(List<CandidateAssignedUserModel> candidateAssignedUserList);
+        IResult AssignUserForCandidate(List<CandidateAssignedUserModel> candidateAssignedUserList);
 
         /// <summary>
         /// 

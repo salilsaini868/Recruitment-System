@@ -19,7 +19,7 @@ namespace RS.Data.Interfaces
 
         Organizations GetOrganization(String organization);
 
-        void AddUserForCandidate(CandidateAssignedUser candidateAssignedUser);
+        void AssignUserForCandidate(CandidateAssignedUser candidateAssignedUser);
 
         List<CandidateAssignedUser> GetAssignedUsersByID(Guid candidateId);
 

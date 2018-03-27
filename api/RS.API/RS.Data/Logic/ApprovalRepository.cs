@@ -104,7 +104,7 @@ namespace RS.Data.Logic
             return _context.ApprovalTransactions.Include(t => t.ApprovalAction).Where(x => openingIds.Contains(x.EntityId) && (x.IsActive && !x.IsDeleted)).ToList();
         }
 
-        public int GetApprovalEventOfUser(Guid entityId, Guid userId, int approvalId)
+        public int GetApprovalEventOrderOfUser(Guid entityId, Guid userId, int approvalId)
         {
             if (approvalId == (int)Approval.Opening)
             {

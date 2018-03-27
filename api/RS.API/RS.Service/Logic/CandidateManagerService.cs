@@ -67,7 +67,7 @@ namespace RS.Service.Logic
             return result;
         }
 
-        public IResult AddUserForCandidate(List<CandidateAssignedUserModel> candidateAssignedUserList)
+        public IResult AssignUserForCandidate(List<CandidateAssignedUserModel> candidateAssignedUserList)
         {
             var result = new Result
             {
@@ -122,7 +122,7 @@ namespace RS.Service.Logic
                     {
                         var assignedUserForCandidate = new CandidateAssignedUser();
                         assignedUserForCandidate.MapFromViewModel(assignedUser, (ClaimsIdentity)_principal.Identity);
-                        _candidateRepository.AddUserForCandidate(assignedUserForCandidate);
+                        _candidateRepository.AssignUserForCandidate(assignedUserForCandidate);
                     }
                 }
 

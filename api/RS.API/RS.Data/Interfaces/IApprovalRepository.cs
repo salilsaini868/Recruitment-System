@@ -21,7 +21,7 @@ namespace RS.Data.Interfaces
         void UpdateApprovalTransaction(ApprovalTransactions approvalTransaction, ApprovalTransactionDetails approvalTransactionDetail);
         void AddApprovalTransactionDetails(ApprovalTransactionDetails approvalTransactionDetails);
         List<ApprovalTransactions> GetAllApprovalTransactions(List<Guid> openingIds);
-        int GetApprovalEventOfUser(Guid entityId, Guid userId, int approvalId);
+        int GetApprovalEventOrderOfUser(Guid entityId, Guid userId, int approvalId);
 
     }
 }

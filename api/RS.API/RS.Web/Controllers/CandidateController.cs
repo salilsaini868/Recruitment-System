@@ -36,7 +36,7 @@ namespace RS.Web.Controllers
         [HttpPost]
         public IResult AddUserForCandidate([FromBody]List<CandidateAssignedUserModel> candidateAssignedUserList)
         {
-            var addedCandidate = _candidateManagerService.AddUserForCandidate(candidateAssignedUserList);
+            var addedCandidate = _candidateManagerService.AssignUserForCandidate(candidateAssignedUserList);
             return addedCandidate;
         }
 
