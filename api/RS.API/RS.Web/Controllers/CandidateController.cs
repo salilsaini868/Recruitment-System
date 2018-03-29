@@ -10,6 +10,10 @@ using Microsoft.AspNetCore.Authorization;
 using RS.ViewModel.Candidate;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace RS.Web.Controllers
 {
@@ -19,18 +23,27 @@ namespace RS.Web.Controllers
     public class CandidateController : Controller
     {
         private readonly ICandidateManagerService _candidateManagerService;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public CandidateController(ICandidateManagerService candidateManager)
+        public CandidateController(IHostingEnvironment hostingEnvironment, ICandidateManagerService candidateManager)
         {
             _candidateManagerService = candidateManager;
-
+            _hostingEnvironment = hostingEnvironment;
         }
 
-        [ValidateModel]
         [HttpPost]
-        public IResult AddCandidate([FromBody]CandidateViewModel candidateView)
+        public IResult AddCandidate(String candidate)
         {
-            var addedCandidate = _candidateManagerService.AddCandidate(candidateView);
+            var candidateViewModel = JsonConvert.DeserializeObject<CandidateViewModel>(candidate);
+            var file = Request.Form.Files["uploadFile"];
+            var candidateDocumentViewModel = new CandidateDocumentViewModel();
+            GetCandidateDocumentDetails(candidateDocumentViewModel, file);
+            var addedCandidate = _candidateManagerService.AddCandidate(candidateViewModel, candidateDocumentViewModel);
+
+            if (addedCandidate.Body != null)
+            {
+                SaveFile(file);
+            }
             return addedCandidate;
         }
 
@@ -41,11 +54,17 @@ namespace RS.Web.Controllers
             return addedCandidate;
         }
 
-        [ValidateModel]
         [HttpPut]
-        public IResult UpdateCandidate([FromBody]CandidateViewModel candidateView)
+        public IResult UpdateCandidate(string candidate)
         {
-            var updatedCandidate = _candidateManagerService.UpdateCandidate(candidateView);
+            var candidateViewModel = JsonConvert.DeserializeObject<CandidateViewModel>(candidate);
+            var file = Request.Form.Files["uploadFile"];
+            var candidateDocumentViewModel = candidateViewModel.CandidateDocument;
+            if (file != null)
+            {
+                GetCandidateDocumentDetails(candidateDocumentViewModel, file);
+            }
+            var updatedCandidate = _candidateManagerService.UpdateCandidate(candidateViewModel, candidateDocumentViewModel);
             return updatedCandidate;
         }
 
@@ -60,14 +79,6 @@ namespace RS.Web.Controllers
         public IResult GetCandidateById(Guid id)
         {
             var candidateRecord = _candidateManagerService.GetCandidateById(id);
-            return candidateRecord;
-        }
-
-        [HttpPost]
-        public Task<IResult> UploadResume()
-        {
-            var file = Request.Form.Files["uploadFile"];
-            var candidateRecord = _candidateManagerService.UploadDocumentAsync(file);
             return candidateRecord;
         }
 
@@ -90,6 +101,48 @@ namespace RS.Web.Controllers
         {
             var approvedCandidate = _candidateManagerService.ApprovedForInterview(candidateId);
             return approvedCandidate;
+        }
+
+        private string GetExtension(IFormFile file)
+        {
+            string result = null;
+            if (file.Length > 0)
+            {
+                var ext = new List<string> { ".pdf", ".doc", ".docx" };
+                var extension = Path.GetExtension(file.FileName);
+                if (ext.Contains(extension))
+                {
+                    result = extension;
+                }
+            }
+            return result;
+        }
+
+        private void SaveFile(IFormFile file)
+        {
+            string path = Path.Combine(_hostingEnvironment.ContentRootPath, "uploadFiles");
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            var ext = new List<string> { ".pdf", ".doc", ".docx" };
+            var extension = Path.GetExtension(file.FileName);
+            if (ext.Contains(extension))
+            {
+                var filePath = Path.Combine(path, file.FileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    file.CopyToAsync(fileStream);
+                }
+            }
+        }
+
+        private void GetCandidateDocumentDetails(CandidateDocumentViewModel candidateDocumentViewModel, IFormFile file)
+        {
+            candidateDocumentViewModel.DocumentName = file.FileName;
+            var extension = GetExtension(file);
+            candidateDocumentViewModel.UploadedDocument = Guid.NewGuid().ToString() + extension;
+
         }
     }
 }

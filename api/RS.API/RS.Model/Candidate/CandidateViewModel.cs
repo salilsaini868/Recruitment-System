@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -13,11 +14,13 @@ namespace RS.ViewModel.Candidate
         public int ExperienceYear { get; set; }
         public int ExperienceMonth { get; set; }
         public string Description { get; set; }
-        public string Organization { get; set; }
+        public int OrganizationId { get; set; }
+        public string OrganizationName { get; set; }
         public int Qualification { get; set; }
         public string QualificationName { get; set; }
-        public Guid Opening { get; set; }
+        public Guid OpeningId { get; set; }
         public string OpeningTitle { get; set; }
         public bool IsReadyForInterview { get; set; }
+        public CandidateDocumentViewModel CandidateDocument { get; set; }
     }
 }

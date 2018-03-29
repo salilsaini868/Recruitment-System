@@ -15,14 +15,14 @@ namespace RS.Service.Interfaces
         /// </summary>
         /// <param name="candidate"></param>
         /// <returns></returns>
-        IResult AddCandidate(CandidateViewModel candidate);
+        IResult AddCandidate(CandidateViewModel candidate, CandidateDocumentViewModel candidateDocumentViewModel);
 
         /// <summary>
         /// Update a Candidate Details
         /// </summary>
         /// <param name="candidate"></param>
         /// <returns></returns>
-        IResult UpdateCandidate(CandidateViewModel candidate);
+        IResult UpdateCandidate(CandidateViewModel candidate, CandidateDocumentViewModel candidateDocumentViewModel);
 
         /// <summary>
         /// Delete a Candidate
@@ -43,13 +43,6 @@ namespace RS.Service.Interfaces
         /// <param name="id"></param>
         /// <returns></returns>
         IResult GetCandidateById(Guid id);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="file"></param>
-        /// <returns></returns>
-        Task<IResult> UploadDocumentAsync(IFormFile file);
 
         /// <summary>
         /// 

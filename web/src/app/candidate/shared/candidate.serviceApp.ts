@@ -13,12 +13,12 @@ export class CandidateServiceApp {
     constructor(private apiCandidateSevice: CandidateService, private utilityService: UtilityService) {
     }
 
-    addCandidate(candidateModel): Observable<any> {
-        return this.apiCandidateSevice.ApiCandidateAddCandidatePost(candidateModel).map(x => (x));
+    addCandidate(uri, candidate, file): Observable<any> {
+        return this.utilityService.addCandidate(uri, candidate, file).map(x => (x));
     }
 
-    updateCandidate(candidateModel): Observable<any> {
-        return this.apiCandidateSevice.ApiCandidateUpdateCandidatePut(candidateModel).map(x => (x));
+    updateCandidate(uri, candidate, file): Observable<any> {
+        return this.utilityService.updateCandidate(uri, candidate, file).map(x => (x));
     }
 
     getAllCandidates(): Observable<any> {
@@ -29,9 +29,6 @@ export class CandidateServiceApp {
         return this.apiCandidateSevice.ApiCandidateGetCandidateByIdGet(candidateId).map(x => (x));
     }
 
-    uploadDocument(uri, candidateId, file): Observable<any> {
-        return this.utilityService.uploadDocument(uri, candidateId, file).map(x => (x));
-    }
     addUserForCandidate(candidateAssignedUsers): Observable<any> {
         return this.apiCandidateSevice.ApiCandidateAddUserForCandidatePost(candidateAssignedUsers).map(x => (x));
     }

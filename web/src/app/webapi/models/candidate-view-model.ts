@@ -1,19 +1,22 @@
 /* tslint:disable */
+import { CandidateDocumentViewModel } from './candidate-document-view-model';
 
 /**
  */
 export class CandidateViewModel {
-    description?: string;
+    organizationId?: number;
     candidateId?: string;
     firstName?: string;
     lastName?: string;
     experienceYear?: number;
     experienceMonth?: number;
+    description?: string;
     gender?: number;
-    organization?: string;
+    organizationName?: string;
     qualification?: number;
     qualificationName?: string;
-    opening?: string;
+    openingId?: string;
     openingTitle?: string;
     isReadyForInterview?: boolean;
+    candidateDocument?: CandidateDocumentViewModel;
 }

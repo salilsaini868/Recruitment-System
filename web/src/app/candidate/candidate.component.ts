@@ -102,7 +102,7 @@ export class CandidateComponent implements OnInit {
                 this.openingServiceApp.getOpeningById(openingId).subscribe(
                     (data) => {
                         if (data.status === Status.Success) {
-                            this.candidateModel.opening = data.body.openingId;
+                            this.candidateModel.openingId = data.body.openingId;
                             this.openings.push(data.body);
                         } else {
                             this.msgService.showError('Error');
@@ -133,33 +133,24 @@ export class CandidateComponent implements OnInit {
     onSubmit(candidateForm) {
         if (candidateForm.valid) {
             if (isNullOrUndefined(this.candidateModel.candidateId)) {
-                this.candidateServiceApp.addCandidate(this.candidateModel).subscribe(
+                this.candidateServiceApp.addCandidate(AppConstants.uriForAdd, this.candidateModel, this.uploadedFile).
+                    subscribe(
                     (data) => {
-                        if (data.status === Status.Success) {
-                            this.candidateServiceApp.uploadDocument(AppConstants.uri, data, this.uploadedFile).subscribe(
-                                (res) => {
-                                    if (res.status === Status.Success) {
-                                        this.showCandidateList();
-                                    } else {
-                                        this.msgService.showError('Error');
-                                    }
-                                }
-                            );
+                        if (data.body.status === Status.Success) {
+                            this.showCandidateList();
                         } else {
                             this.msgService.showError('Error');
                         }
-                    }
-                );
+                    });
             } else {
-                this.candidateServiceApp.updateCandidate(this.candidateModel).subscribe(
+                this.candidateServiceApp.updateCandidate(AppConstants.uriForUpdate, this.candidateModel, this.uploadedFile).subscribe(
                     (data) => {
-                        if (data.status === Status.Success) {
-                            this.candidateModel.candidateId = data.body;
+                        if (data.body.status === Status.Success) {
+                            this.showCandidateList();
                         } else {
                             this.msgService.showError('Error');
                         }
-                    }
-                );
+                    });
             }
         }
     }
