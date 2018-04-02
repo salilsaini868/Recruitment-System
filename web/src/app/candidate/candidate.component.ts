@@ -154,6 +154,10 @@ export class CandidateComponent implements OnInit {
         }
     }
 
+    downoadFile(url) {
+        window.open(url);
+    }
+
     assignUser() {
         if (!isNullOrUndefined(this.candidateModel.candidateId)) {
             this.router.navigate(['AssignedUser', this.candidateModel.candidateId]);
