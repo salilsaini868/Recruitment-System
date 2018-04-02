@@ -4,5 +4,4 @@ export { CandidatesComponent } from './candidates.component';
 export { AssignedUserComponent } from './assignedUser.component';
 export { CandidateDetailsComponent } from './candidateDetails.component';
 
-// Services
 

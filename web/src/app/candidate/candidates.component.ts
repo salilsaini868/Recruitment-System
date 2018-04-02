@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import decode from 'jwt-decode';
-
 import { CandidateServiceApp } from './shared/candidate.serviceApp';
 import { CandidateListModel } from '../shared/customModels/candidate-list-model';
 import { DisplayMessageService } from '../shared/toastr/display.message.service';
@@ -9,6 +7,7 @@ import { Status } from '../app.enum';
 import { AppConstants } from '../shared/constant/constant.variable';
 import { CandidateViewModel } from '../webapi/models/candidate-view-model';
 import { TranslateService } from '@ngx-translate/core';
+import decode from 'jwt-decode';
 
 @Component({
     selector: 'app-candidates',

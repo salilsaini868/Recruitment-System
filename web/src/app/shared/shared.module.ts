@@ -12,7 +12,7 @@ import { BrowserModule } from '@angular/platform-browser';
 // Services
 import {
     SpinnerService, RoleGuardService, AuthService,
-    HeaderComponent, FooterComponent, LeftSideBarComponent
+    HeaderComponent, FooterComponent, LeftSideBarComponent, HiringTrendChartComponent
 } from './index.shared';
 
 // Constant
@@ -36,8 +36,8 @@ export function HttpLoaderFactory(http: HttpClient) {
             }
         }),
     ],
-    declarations: [ HeaderComponent, FooterComponent, LeftSideBarComponent, SideBarPipe],
-    exports: [ HeaderComponent, FooterComponent, LeftSideBarComponent, SideBarPipe],
+    declarations: [ HeaderComponent, FooterComponent, LeftSideBarComponent, SideBarPipe, HiringTrendChartComponent],
+    exports: [ HeaderComponent, FooterComponent, LeftSideBarComponent, SideBarPipe, HiringTrendChartComponent],
     providers: []
 })
 

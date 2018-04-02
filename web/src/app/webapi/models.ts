@@ -5,6 +5,7 @@ export { EntityAndApprovalViewModel } from './models/entity-and-approval-view-mo
 export { CandidateViewModel } from './models/candidate-view-model';
 export { OpeningViewModel } from './models/opening-view-model';
 export { ApprovalTransactionViewModel } from './models/approval-transaction-view-model';
+export { CandidateDocumentViewModel } from './models/candidate-document-view-model';
 export { SkillViewModel } from './models/skill-view-model';
 export { ApprovalActionViewModel } from './models/approval-action-view-model';
 export { CandidateAssignedUserModel } from './models/candidate-assigned-user-model';
