@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Hosting;
 
 namespace RS.Web.Controllers
 {
@@ -30,7 +31,6 @@ namespace RS.Web.Controllers
             _userService = userService;
             _configuration = configuration;
         }
-
 
         [HttpPost]
         [ValidateModel]

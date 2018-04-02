@@ -20,41 +20,24 @@ namespace RS.Data.Logic
             this._context = context;
         }
 
-        public void AddCandidate(Candidates candidate, OpeningCandidates openingCandidate, Organizations organization)
+        public void AddCandidate(Candidates candidate, OpeningCandidates openingCandidate)
         {
-
-            var organizationModel = _context.Organizations.FirstOrDefault(x => (x.Name.ToLower() == organization.Name.ToLower()) && (x.IsActive && !x.IsDeleted));
-            if (organizationModel == null)
-            {
-                candidate.Organisation = organization;
-            }
-            else
-            {
-                candidate.OrganizationId = organizationModel.OrganizationId;
-            }
             _context.Candidates.Add(candidate);
             _context.OpeningCandidates.Add(openingCandidate);
             _context.SaveChanges();
         }
 
-        public void UpdateCandidate(Candidates candidate, OpeningCandidates openingCandidate, Organizations organization)
+        public void UpdateCandidate(Candidates candidate, OpeningCandidates openingCandidate)
         {
-            if (!organization.Name.Equals(candidate.Organisation.Name))
-            {
-                var organizationModel = _context.Organizations.FirstOrDefault(x => (x.Name.ToLower() == organization.Name.ToLower()) && (x.IsActive && !x.IsDeleted));
-                if (organizationModel == null)
-                {
-                    candidate.Organisation = organization;
-                }
-                else
-                {
-                    candidate.OrganizationId = organizationModel.OrganizationId;
-                }
-            }
-
             if (openingCandidate.Opening != null)
             {
-                _context.OpeningCandidates.Add(openingCandidate);
+                _context.Entry(openingCandidate).State = EntityState.Modified;
+            }
+
+            var candidateDocument = candidate.CandidateDocuments.FirstOrDefault();
+            if (candidateDocument.CandidateDocumentId != Guid.Empty)
+            {
+                _context.Entry(candidateDocument).State = EntityState.Modified;
             }
 
             _context.Entry(candidate).State = EntityState.Modified;
@@ -64,7 +47,7 @@ namespace RS.Data.Logic
 
         public Candidates GetByID(Guid candidateId)
         {
-            return _context.Candidates.Include(t => t.Organisation).Include(r => r.Qualification).FirstOrDefault(x => (x.IsActive && !x.IsDeleted) && (x.CandidateId == candidateId));
+            return _context.Candidates.Include(s => s.CandidateDocuments).Include(t => t.Organisation).Include(r => r.Qualification).FirstOrDefault(x => (x.IsActive && !x.IsDeleted) && (x.CandidateId == candidateId));
         }
 
         public OpeningCandidates GetOpeningCandidate(Guid candidateId)
@@ -90,7 +73,7 @@ namespace RS.Data.Logic
 
         public List<CandidateAssignedUser> GetAssignedUsersByID(Guid candidateId)
         {
-           return _context.CandidateAssignedUser.Where(x => x.CandidateId == candidateId && (x.IsActive && !x.IsDeleted)).ToList();
+            return _context.CandidateAssignedUser.Where(x => x.CandidateId == candidateId && (x.IsActive && !x.IsDeleted)).ToList();
         }
 
         public List<Candidates> GetCandidatesCorrespondingToLoggedUser(Guid userId)

@@ -53,8 +53,8 @@ import { NgModel } from '@angular/forms/src/directives/ng_model';
   imports: [
     AppRouterModule, ErrorModule, BrowserModule, FormsModule,
     MomentModule, HttpClientModule, ApiModule, LoginModule,
-    AdminModule, SharedModule, OpeningModule, DashboardModule,
-    ToasterModule, BrowserAnimationsModule, DetailModule,
+    AdminModule, SharedModule, OpeningModule, CandidateModule,
+    DashboardModule, ToasterModule, BrowserAnimationsModule, DetailModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

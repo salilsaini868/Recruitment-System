@@ -10,7 +10,6 @@ import { map } from 'rxjs/operators/map';
 import { filter } from 'rxjs/operators/filter';
 
 import { IResult } from '../models/iresult';
-import { CandidateViewModel } from '../models/candidate-view-model';
 import { CandidateAssignedUserModel } from '../models/candidate-assigned-user-model';
 
 
@@ -24,13 +23,13 @@ export class CandidateService extends BaseService {
   }
 
   /**
-   * @param candidateView - undefined
+   * @param candidate - undefined
    */
-  ApiCandidateAddCandidatePostResponse(candidateView?: CandidateViewModel): Observable<HttpResponse<IResult>> {
+  ApiCandidateAddCandidatePostResponse(candidate?: string): Observable<HttpResponse<IResult>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
-    __body = candidateView;
+    if (candidate != null) __params = __params.set("candidate", candidate.toString());
     let req = new HttpRequest<any>(
       "POST",
       this.rootUrl + `/api/Candidate/AddCandidate`,
@@ -53,10 +52,10 @@ export class CandidateService extends BaseService {
   }
 
   /**
-   * @param candidateView - undefined
+   * @param candidate - undefined
    */
-  ApiCandidateAddCandidatePost(candidateView?: CandidateViewModel): Observable<IResult> {
-    return this.ApiCandidateAddCandidatePostResponse(candidateView).pipe(
+  ApiCandidateAddCandidatePost(candidate?: string): Observable<IResult> {
+    return this.ApiCandidateAddCandidatePostResponse(candidate).pipe(
       map(_r => _r.body)
     );
   }
@@ -98,13 +97,13 @@ export class CandidateService extends BaseService {
     );
   }
   /**
-   * @param candidateView - undefined
+   * @param candidate - undefined
    */
-  ApiCandidateUpdateCandidatePutResponse(candidateView?: CandidateViewModel): Observable<HttpResponse<IResult>> {
+  ApiCandidateUpdateCandidatePutResponse(candidate?: string): Observable<HttpResponse<IResult>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
-    __body = candidateView;
+    if (candidate != null) __params = __params.set("candidate", candidate.toString());
     let req = new HttpRequest<any>(
       "PUT",
       this.rootUrl + `/api/Candidate/UpdateCandidate`,
@@ -127,10 +126,10 @@ export class CandidateService extends BaseService {
   }
 
   /**
-   * @param candidateView - undefined
+   * @param candidate - undefined
    */
-  ApiCandidateUpdateCandidatePut(candidateView?: CandidateViewModel): Observable<IResult> {
-    return this.ApiCandidateUpdateCandidatePutResponse(candidateView).pipe(
+  ApiCandidateUpdateCandidatePut(candidate?: string): Observable<IResult> {
+    return this.ApiCandidateUpdateCandidatePutResponse(candidate).pipe(
       map(_r => _r.body)
     );
   }

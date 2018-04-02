@@ -13,6 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { CandidateViewModel, QualificationViewModel, OpeningViewModel } from '../webapi/models';
 import { Status, ApprovalType } from '../app.enum';
 import { DisplayMessageService } from '../shared/toastr/display.message.service';
+import { AppConstants } from '../shared/constant/constant.variable';
 
 @Component({
     selector: 'app-candidate',
@@ -27,6 +28,7 @@ export class CandidateComponent implements OnInit {
     months: number[] = [];
     defaultOption: any;
     approval: any;
+    uploadedFile: any;
 
     constructor(private openingServiceApp: OpeningServiceApp, private candidateServiceApp: CandidateServiceApp,
         private qualificationServiceApp: QualificationsServiceApp, private route: ActivatedRoute,
@@ -100,7 +102,7 @@ export class CandidateComponent implements OnInit {
                 this.openingServiceApp.getOpeningById(openingId).subscribe(
                     (data) => {
                         if (data.status === Status.Success) {
-                            this.candidateModel.opening = data.body.openingId;
+                            this.candidateModel.openingId = data.body.openingId;
                             this.openings.push(data.body);
                         } else {
                             this.msgService.showError('Error');
@@ -131,29 +133,36 @@ export class CandidateComponent implements OnInit {
     onSubmit(candidateForm) {
         if (candidateForm.valid) {
             if (isNullOrUndefined(this.candidateModel.candidateId)) {
-                this.candidateServiceApp.addCandidate(this.candidateModel).subscribe(
+                this.candidateServiceApp.addCandidate(AppConstants.uriForAdd, this.candidateModel, this.uploadedFile).
+                    subscribe(
                     (data) => {
-                        if (data.status === Status.Success) {
-                            this.candidateModel.candidateId = data.body;
+                        if (data.body.status === Status.Success) {
+                            this.showCandidateList();
                         } else {
                             this.msgService.showError('Error');
                         }
-                    }
-                );
+                    });
             } else {
-                this.candidateServiceApp.updateCandidate(this.candidateModel).subscribe(
+                debugger;
+                this.candidateServiceApp.updateCandidate(AppConstants.uriForUpdate, this.candidateModel, this.uploadedFile).subscribe(
                     (data) => {
-                        if (data.status === Status.Success) {
-                            this.candidateModel.candidateId = data.body;
+                        if (data.body.status === Status.Success) {
+                            this.showCandidateList();
                         } else {
                             this.msgService.showError('Error');
                         }
-                    }
-                );
+                    });
             }
         }
     }
 
+    fileChange(event) {
+        const fileList: FileList = event.target.files;
+        if (fileList.length > 0) {
+            const file: File = fileList[0];
+            this.uploadedFile = file;
+        }
+    }
     assignUser() {
         if (!isNullOrUndefined(this.candidateModel.candidateId)) {
             this.router.navigate(['AssignedUser', this.candidateModel.candidateId]);

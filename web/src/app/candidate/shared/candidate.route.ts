@@ -8,6 +8,12 @@ import { CandidateComponent, CandidatesComponent, AssignedUserComponent, Candida
 
 const CANDIDATE_ROUTES: Routes = [
     {
+        path: 'Candidates',
+        component: CandidatesComponent,
+        canActivate: [RoleGuardService],
+        data: { expectedRole: ['Sr.HR', 'Manager', 'VP'] }
+    },
+    {
         path: 'Candidate',
         component: CandidateComponent,
         canActivate: [RoleGuardService],
@@ -22,12 +28,6 @@ const CANDIDATE_ROUTES: Routes = [
     {
         path: 'opening/Candidate/:openingId',
         component: CandidateComponent,
-        canActivate: [RoleGuardService],
-        data: { expectedRole: ['Sr.HR', 'Manager', 'VP'] }
-    },
-    {
-        path: 'Candidates',
-        component: CandidatesComponent,
         canActivate: [RoleGuardService],
         data: { expectedRole: ['Sr.HR', 'Manager', 'VP'] }
     },

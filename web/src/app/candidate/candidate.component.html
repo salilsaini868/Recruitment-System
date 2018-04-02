@@ -11,7 +11,7 @@
                                 <label>{{ 'CANDIDATE.OPENING' | translate }}</label>
                             </div>
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                                <select class="full-input" [(ngModel)]="candidateModel.opening" [ngModelOptions]="{standalone: true}" [disabled]="openings.length === 1"
+                                <select class="full-input" [(ngModel)]="candidateModel.openingId" [ngModelOptions]="{standalone: true}" [disabled]="openings.length === 1"
                                     required>
                                     <option *ngFor="let opening of openings" [attr.value]="opening.openingId">{{opening.title}}</option>
                                 </select>
@@ -102,49 +102,55 @@
                         </div>
                     </div>
 
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="row">
-                        <div class="col-md-3 col-sm-3 col-xs-12">
-                            <label>{{ 'CANDIDATE.ORGANIZATION' | translate }}</label>
-                        </div>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
-                            <input class="full-input" type="text" required name="org" [(ngModel)]="candidateModel.organization" #org="ngModel" maxlength="250">
-                            <div *ngIf="lastName.errors && (org.dirty || org.touched)" [hidden]="!org.errors.required" class="validation-error">
-                                {{ 'CANDIDATE.REQUIRED' | translate }}
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="row">
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                <label>{{ 'CANDIDATE.ORGANIZATION' | translate }}</label>
+                            </div>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input class="full-input" type="text" required name="org" [(ngModel)]="candidateModel.organizationName" #org="ngModel" maxlength="250">
+                                <div *ngIf="lastName.errors && (org.dirty || org.touched)" [hidden]="!org.errors.required" class="validation-error">
+                                    {{ 'CANDIDATE.REQUIRED' | translate }}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-        </div>
 
 
-        <div class="row">
-            <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="row">
-                    <div class="col-md-3 col-sm-3 col-xs-12">
-                        <label>{{ 'CANDIDATE.DESCRIPTION' | translate }}</label>
-                    </div>
-                    <div class="col-md-9 col-sm-9 col-xs-12">
-                        <textarea class="full-tarea" type="text" required name="description" [(ngModel)]="candidateModel.description" #description="ngModel"
-                            maxlength="250">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="row">
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                <label>{{ 'CANDIDATE.DESCRIPTION' | translate }}</label>
+                            </div>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <textarea class="full-tarea" type="text" required name="description" [(ngModel)]="candidateModel.description" #description="ngModel"
+                                    maxlength="250">
                                 </textarea>
-                        <div *ngIf="description.errors && (description.dirty || description.touched)" [hidden]="!description.errors.required" class="validation-error">
-                            {{ 'CANDIDATE.REQUIRED' | translate }}
+                                <div *ngIf="description.errors && (description.dirty || description.touched)" [hidden]="!description.errors.required" class="validation-error">
+                                    {{ 'CANDIDATE.REQUIRED' | translate }}
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <div>
+                        <input type="file" (change)="fileChange($event)" placeholder="Upload file" accept=".pdf,.doc,.docx">
+                    </div>
+                    <div  *ngIf="candidateModel.candidateId != null">
+                        <a (click) = "downloadFile()">{{ candidateModel.candidateDocument.documentName}}</a>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <button id="bttn" type="submit" class="btn btn-primary blue-btn pull-right btn-gap">{{ 'CANDIDATE.SAVE' | translate }}</button>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <button id="bttn" type="button" *ngIf="candidateModel.candidateId != null" (click)="assignUser()" class="btn btn-primary blue-btn pull-right btn-gap">{{ 'CANDIDATE.ASSIGNUSER' | translate }}</button>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <button id="bttn" type="button" (click)="goBack()" class="btn btn-primary blue-btn pull-right btn-gap">{{ 'CANDIDATE.BACK' | translate }}</button>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                <button id="bttn" type="submit" class="btn btn-primary blue-btn pull-right btn-gap">{{ 'CANDIDATE.SAVE' | translate }}</button>
-            </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                <button id="bttn" type="button" *ngIf="candidateModel.candidateId != null" (click)="assignUser()" class="btn btn-primary blue-btn pull-right btn-gap">{{ 'CANDIDATE.ASSIGNUSER' | translate }}</button>
-            </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                <button id="bttn" type="button" (click)="goBack()" class="btn btn-primary blue-btn pull-right btn-gap">{{ 'CANDIDATE.BACK' | translate }}</button>
-            </div>
+            </form>
         </div>
-        </form>
     </div>
-</div>
 </div>
