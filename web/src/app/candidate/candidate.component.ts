@@ -143,6 +143,7 @@ export class CandidateComponent implements OnInit {
                         }
                     });
             } else {
+                debugger;
                 this.candidateServiceApp.updateCandidate(AppConstants.uriForUpdate, this.candidateModel, this.uploadedFile).subscribe(
                     (data) => {
                         if (data.body.status === Status.Success) {

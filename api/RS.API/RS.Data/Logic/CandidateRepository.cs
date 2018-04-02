@@ -20,27 +20,24 @@ namespace RS.Data.Logic
             this._context = context;
         }
 
-        public void AddCandidate(Candidates candidate, OpeningCandidates openingCandidate, CandidateDocuments candidateDocument)
+        public void AddCandidate(Candidates candidate, OpeningCandidates openingCandidate)
         {
-            if (candidateDocument != null)
-            {
-                candidate.CandidateDocuments.Add(candidateDocument);
-            }
             _context.Candidates.Add(candidate);
             _context.OpeningCandidates.Add(openingCandidate);
             _context.SaveChanges();
         }
 
-        public void UpdateCandidate(Candidates candidate, OpeningCandidates openingCandidate, CandidateDocuments candidateDocumentModel)
+        public void UpdateCandidate(Candidates candidate, OpeningCandidates openingCandidate)
         {
             if (openingCandidate.Opening != null)
             {
                 _context.Entry(openingCandidate).State = EntityState.Modified;
             }
 
-            if (candidateDocumentModel.CandidateDocumentId != Guid.Empty)
+            var candidateDocument = candidate.CandidateDocuments.FirstOrDefault();
+            if (candidateDocument.CandidateDocumentId != Guid.Empty)
             {
-                _context.Entry(candidateDocumentModel).State = EntityState.Modified;
+                _context.Entry(candidateDocument).State = EntityState.Modified;
             }
 
             _context.Entry(candidate).State = EntityState.Modified;

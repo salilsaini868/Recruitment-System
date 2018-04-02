@@ -1,19 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
 using RS.Common.CommonData;
-using RS.Common.Enums;
-using RS.ViewModel.Roles;
 using RS.Service.Interfaces;
 using System;
-using System.Net;
-using System.Net.Http;
 using Microsoft.AspNetCore.Authorization;
 using RS.ViewModel.Candidate;
-using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System.IO;
+using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
 
 namespace RS.Web.Controllers
 {
@@ -23,26 +21,27 @@ namespace RS.Web.Controllers
     public class CandidateController : Controller
     {
         private readonly ICandidateManagerService _candidateManagerService;
+        private readonly IConfiguration _configuration;
         private readonly IHostingEnvironment _hostingEnvironment;
-
-        public CandidateController(IHostingEnvironment hostingEnvironment, ICandidateManagerService candidateManager)
+        public CandidateController(ICandidateManagerService candidateManager, IConfiguration configuration, IHostingEnvironment hostingEnvironment)
         {
             _candidateManagerService = candidateManager;
             _hostingEnvironment = hostingEnvironment;
+            _configuration = configuration;
         }
 
         [HttpPost]
-        public IResult AddCandidate(String candidate)
+        public IResult AddCandidate(string candidate)
         {
             var candidateViewModel = JsonConvert.DeserializeObject<CandidateViewModel>(candidate);
             var file = Request.Form.Files["uploadFile"];
             var candidateDocumentViewModel = new CandidateDocumentViewModel();
             GetCandidateDocumentDetails(candidateDocumentViewModel, file);
             var addedCandidate = _candidateManagerService.AddCandidate(candidateViewModel, candidateDocumentViewModel);
-
             if (addedCandidate.Body != null)
             {
-                SaveFile(file);
+                var allowedExtensions = _configuration["ResumeExtension"].Split(',');
+                FileHelper.SaveFile(file, candidateDocumentViewModel.UploadedDocument, allowedExtensions, _hostingEnvironment);
             }
             return addedCandidate;
         }
@@ -65,6 +64,11 @@ namespace RS.Web.Controllers
                 GetCandidateDocumentDetails(candidateDocumentViewModel, file);
             }
             var updatedCandidate = _candidateManagerService.UpdateCandidate(candidateViewModel, candidateDocumentViewModel);
+            if (updatedCandidate.Body != null && file != null)
+            {
+                var allowedExtensions = _configuration["ResumeExtension"].Split(',');
+                //FileHelper.SaveFile(file, allowedExtensions, _hostingEnvironment);
+            }
             return updatedCandidate;
         }
 
@@ -103,46 +107,14 @@ namespace RS.Web.Controllers
             return approvedCandidate;
         }
 
-        private string GetExtension(IFormFile file)
-        {
-            string result = null;
-            if (file.Length > 0)
-            {
-                var ext = new List<string> { ".pdf", ".doc", ".docx" };
-                var extension = Path.GetExtension(file.FileName);
-                if (ext.Contains(extension))
-                {
-                    result = extension;
-                }
-            }
-            return result;
-        }
-
-        private void SaveFile(IFormFile file)
-        {
-            string path = Path.Combine(_hostingEnvironment.ContentRootPath, "uploadFiles");
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-            var ext = new List<string> { ".pdf", ".doc", ".docx" };
-            var extension = Path.GetExtension(file.FileName);
-            if (ext.Contains(extension))
-            {
-                var filePath = Path.Combine(path, file.FileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    file.CopyToAsync(fileStream);
-                }
-            }
-        }
-
         private void GetCandidateDocumentDetails(CandidateDocumentViewModel candidateDocumentViewModel, IFormFile file)
         {
             candidateDocumentViewModel.DocumentName = file.FileName;
-            var extension = GetExtension(file);
+            var allowedExtensions = _configuration["ResumeExtension"].Split(',');           
+            var extension = FileHelper.GetExtension(file, allowedExtensions);
             candidateDocumentViewModel.UploadedDocument = Guid.NewGuid().ToString() + extension;
 
         }
+
     }
 }

@@ -7,9 +7,9 @@ namespace RS.Data.Interfaces
 {
     public interface ICandidateRepository : IRepository<Candidates>
     {
-        void AddCandidate(Candidates candidate, OpeningCandidates openingCandidate, CandidateDocuments candidateDocument);
+        void AddCandidate(Candidates candidate, OpeningCandidates openingCandidate);
 
-        void UpdateCandidate(Candidates candidate, OpeningCandidates openingCandidate, CandidateDocuments candidateDocument);
+        void UpdateCandidate(Candidates candidate, OpeningCandidates openingCandidate);
 
         new List<Candidates> GetAll();
 

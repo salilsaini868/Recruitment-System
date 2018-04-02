@@ -33,6 +33,7 @@ export class UtilityService {
     }
 
     addCandidate(uri, candidate,  fileToUpload:  any):  Observable<HttpResponse<any>> {
+        debugger;
         const url = 'http://localhost:50035' +   uri;
         const formdata  =  new  FormData();
         formdata.append('candidate', JSON.stringify(candidate));

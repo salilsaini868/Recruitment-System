@@ -79,10 +79,11 @@ namespace RS.Service.Logic
 
                 #region Insert Candidate Document 
                 var candidateDocumentModel = new CandidateDocuments();
-                candidateDocumentModel.MapFromViewModel(candidateDocumentViewModel, (ClaimsIdentity)_principal.Identity); 
+                candidateDocumentModel.MapFromViewModel(candidateDocumentViewModel, (ClaimsIdentity)_principal.Identity);
+                candidateModel.CandidateDocuments.Add(candidateDocumentModel);
                 #endregion
 
-                _candidateRepository.AddCandidate(candidateModel, openingCandidate, candidateDocumentModel);
+                _candidateRepository.AddCandidate(candidateModel, openingCandidate);
                 result.Body = candidateModel.CandidateId;
             }
             catch (Exception e)
@@ -382,10 +383,11 @@ namespace RS.Service.Logic
                 if (candidateDocumentViewModel != null)
                 {
                     candidateDocumentModel.MapFromViewModel(candidateDocumentViewModel, (ClaimsIdentity)_principal.Identity);
-                } 
+                }
+                candidateModel.CandidateDocuments.Add(candidateDocumentModel);
                 #endregion
 
-                _candidateRepository.UpdateCandidate(candidateModel, openingCandidateModel, candidateDocumentModel);
+                _candidateRepository.UpdateCandidate(candidateModel, openingCandidateModel);
                 result.Body = candidateModel.CandidateId;
 
             }
