@@ -22,8 +22,10 @@
                         <div class="col-md-9 col-sm-9 col-xs-12">
                             <output class="pull-left" name="firstName">{{ candidateModel.firstName }}</output>
                             <div class="pull-right down-arrow" *ngIf="candidateModel.candidateId != null">
-                                <a (click)="downloadFile(candidateModel.candidateDocument.uploadedDocument, candidateModel.candidateDocument.documentName)"
-                                    download="candidateModel.candidateDocument.documentName"><i title="Download Candidate Resume" class="fa fa-download"></i></a>
+                                <a title="{{ 'CANDIDATE.DOWNLOADRESUME' | translate }}" (click)="downloadCandidateResume(candidateModel.candidateDocument.uploadedDocument, candidateModel.candidateDocument.documentName)"
+                                    download="candidateModel.candidateDocument.documentName">
+                                    <i class="fa fa-download"></i>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -78,7 +80,6 @@
                         </div>
                     </div>
                 </div>
-               
             </div>
         </div>
     </div>

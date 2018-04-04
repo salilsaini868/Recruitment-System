@@ -121,13 +121,14 @@ namespace RS.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult DownloadFile(String file)
+        public ActionResult DownloadFile(string file)
         {
             if (file == null)
             {
                 return null;
             }
-            var path = Path.Combine(_hostingEnvironment.ContentRootPath, "uploadFiles\\"+ file);
+            var folder = _configuration["UploadFiles"];
+            var path = Path.Combine(_hostingEnvironment.ContentRootPath, folder + file);
             var memory = new MemoryStream();
             using (var stream = new FileStream(path, FileMode.Open))
             {

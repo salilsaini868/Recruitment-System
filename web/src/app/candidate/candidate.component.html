@@ -138,7 +138,7 @@
                         <input type="file" (change)="fileChange($event)" placeholder="Upload file" accept=".pdf,.doc,.docx">
                     </div>
                     <div *ngIf="candidateModel.candidateId != null">
-                        <a (click)="downloadFile(candidateModel.candidateDocument.uploadedDocument, candidateModel.candidateDocument.documentName)" download="candidateModel.candidateDocument.documentName">{{ candidateModel.candidateDocument.documentName}}</a>
+                        <a (click)="downloadCandidateResume(candidateModel.candidateDocument.uploadedDocument, candidateModel.candidateDocument.documentName)" download="candidateModel.candidateDocument.documentName">{{ candidateModel.candidateDocument.documentName}}</a>
                     </div>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <button id="bttn" type="submit" class="btn btn-primary blue-btn pull-right btn-gap">{{ 'CANDIDATE.SAVE' | translate }}</button>

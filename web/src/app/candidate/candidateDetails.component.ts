@@ -81,7 +81,7 @@ export class CandidateDetailsComponent implements OnInit {
         );
     }
 
-    downloadFile(documentName, fileName) {
+    downloadCandidateResume(documentName, fileName) {
         this.candidateServiceApp.downloadCandiadteResume(AppConstants.uriForFile, documentName).subscribe(
             (data) => {
                 const blobURL = window.URL.createObjectURL(data);
