@@ -5,6 +5,8 @@ import { SideBarModel } from '../customModels/side-bar-model';
 import { Observable } from 'rxjs/Observable';
 import { HttpResponse, HttpClient } from '@angular/common/http';
 import decode from 'jwt-decode';
+import { Response } from '@angular/http/src/static_response';
+import { ResponseContentType } from '@angular/http';
 
 @Injectable()
 export class UtilityService {
@@ -32,21 +34,5 @@ export class UtilityService {
         }
     }
 
-    addCandidate(uri, candidate,  fileToUpload:  any):  Observable<HttpResponse<any>> {
-        debugger;
-        const url = 'http://localhost:50035' +   uri;
-        const formdata  =  new  FormData();
-        formdata.append('candidate', JSON.stringify(candidate));
-        formdata.append('uploadFile',  fileToUpload);
-        return  this.http.post(url, formdata, {  observe:  'response'  });
-    }
 
-    updateCandidate(uri, candidate,  fileToUpload:  any):  Observable<HttpResponse<any>> {
-        const url = 'http://localhost:50035' +   uri;
-        const formdata  =  new  FormData();
-        formdata.append('candidate', JSON.stringify(candidate));
-        formdata.append('uploadFile',  fileToUpload);
-        return  this.http.put(url, formdata, {  observe:  'response'  });
-    }
 }
-

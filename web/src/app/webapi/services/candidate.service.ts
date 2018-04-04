@@ -314,7 +314,71 @@ export class CandidateService extends BaseService {
     return this.ApiCandidateApprovedForInterviewPutResponse(candidateId).pipe(
       map(_r => _r.body)
     );
+  }
+  /**
+   * @param file - undefined
+   * @param WebRootPath - undefined
+   * @param WebRootFileProvider - undefined
+   * @param EnvironmentName - undefined
+   * @param ContentRootPath - undefined
+   * @param ContentRootFileProvider - undefined
+   * @param ApplicationName - undefined
+   */
+  ApiCandidateDownloadFilePostResponse(params: CandidateService.ApiCandidateDownloadFilePostParams): Observable<HttpResponse<string>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    if (params.file != null) __params = __params.set("file", params.file.toString());
+    if (params.WebRootPath != null) __params = __params.set("WebRootPath", params.WebRootPath.toString());
+    if (params.WebRootFileProvider != null) __params = __params.set("WebRootFileProvider", params.WebRootFileProvider.toString());
+    if (params.EnvironmentName != null) __params = __params.set("EnvironmentName", params.EnvironmentName.toString());
+    if (params.ContentRootPath != null) __params = __params.set("ContentRootPath", params.ContentRootPath.toString());
+    if (params.ContentRootFileProvider != null) __params = __params.set("ContentRootFileProvider", params.ContentRootFileProvider.toString());
+    if (params.ApplicationName != null) __params = __params.set("ApplicationName", params.ApplicationName.toString());
+    let req = new HttpRequest<any>(
+      "POST",
+      this.rootUrl + `/api/Candidate/DownloadFile`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'text'
+      });
+
+    return this.http.request<any>(req).pipe(
+      filter(_r => _r instanceof HttpResponse),
+      map(_r => {
+        let _resp = _r as HttpResponse<any>;
+        let _body: string = null;
+        _body = _resp.body as string
+        return _resp.clone({body: _body}) as HttpResponse<string>;
+      })
+    );
+  }
+
+  /**
+   * @param file - undefined
+   * @param WebRootPath - undefined
+   * @param WebRootFileProvider - undefined
+   * @param EnvironmentName - undefined
+   * @param ContentRootPath - undefined
+   * @param ContentRootFileProvider - undefined
+   * @param ApplicationName - undefined
+   */
+  ApiCandidateDownloadFilePost(params: CandidateService.ApiCandidateDownloadFilePostParams): Observable<string> {
+    return this.ApiCandidateDownloadFilePostResponse(params).pipe(
+      map(_r => _r.body)
+    );
   }}
 
 export module CandidateService {
+  export interface ApiCandidateDownloadFilePostParams {
+    file?: string;
+    WebRootPath?: string;
+    WebRootFileProvider?: any;
+    EnvironmentName?: string;
+    ContentRootPath?: string;
+    ContentRootFileProvider?: any;
+    ApplicationName?: string;
+  }
 }

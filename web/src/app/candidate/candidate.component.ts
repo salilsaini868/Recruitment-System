@@ -29,6 +29,7 @@ export class CandidateComponent implements OnInit {
     defaultOption: any;
     approval: any;
     uploadedFile: any;
+    filePath: any;
 
     constructor(private openingServiceApp: OpeningServiceApp, private candidateServiceApp: CandidateServiceApp,
         private qualificationServiceApp: QualificationsServiceApp, private route: ActivatedRoute,
@@ -143,7 +144,6 @@ export class CandidateComponent implements OnInit {
                         }
                     });
             } else {
-                debugger;
                 this.candidateServiceApp.updateCandidate(AppConstants.uriForUpdate, this.candidateModel, this.uploadedFile).subscribe(
                     (data) => {
                         if (data.body.status === Status.Success) {
@@ -154,6 +154,18 @@ export class CandidateComponent implements OnInit {
                     });
             }
         }
+    }
+
+    downloadCandidateResume(documentName, fileName) {
+        this.candidateServiceApp.downloadCandiadteResume(AppConstants.uriForFile, documentName).subscribe(
+            (data) => {
+                const blobURL = window.URL.createObjectURL(data);
+                const anchor = document.createElement('a');
+                anchor.download = fileName;
+                anchor.href = blobURL;
+                anchor.click();
+            }
+        );
     }
 
     fileChange(event) {

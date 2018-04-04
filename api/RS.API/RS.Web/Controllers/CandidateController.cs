@@ -12,6 +12,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net;
 
 namespace RS.Web.Controllers
 {
@@ -23,6 +26,7 @@ namespace RS.Web.Controllers
         private readonly ICandidateManagerService _candidateManagerService;
         private readonly IConfiguration _configuration;
         private readonly IHostingEnvironment _hostingEnvironment;
+        
         public CandidateController(ICandidateManagerService candidateManager, IConfiguration configuration, IHostingEnvironment hostingEnvironment)
         {
             _candidateManagerService = candidateManager;
@@ -116,5 +120,23 @@ namespace RS.Web.Controllers
 
         }
 
+        [HttpPost]
+        public ActionResult DownloadFile(string file)
+        {
+            if (file == null)
+            {
+                return null;
+            }
+            var folder = _configuration["UploadFiles"];
+            var path = Path.Combine(_hostingEnvironment.ContentRootPath, folder + file);
+            var memory = new MemoryStream();
+            using (var stream = new FileStream(path, FileMode.Open))
+            {
+                stream.CopyTo(memory);
+            }
+            memory.Position = 0;
+            return File(memory, FileHelper.GetContentType(path), Path.GetFileName(path));
+
+        }
     }
 }

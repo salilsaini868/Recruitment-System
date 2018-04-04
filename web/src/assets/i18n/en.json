@@ -120,6 +120,7 @@
         "MALE": "Male",
         "FEMALE": "Female",
         "ORGANIZATION": "Previous Organization",
+        "WORKING":"Working with",
         "LIST":"List of Candidates",
         "SAVE": "Save",
         "ADDCANDIDATE":"Add Candidate",
@@ -136,7 +137,8 @@
         "VIEW": "View",
         "NOUSERSASSIGNED": "Please assign the Users",
         "NODOCUMENTS": "Please Upload Necessary Documents",
-        "PROMPTMSG": "Do you want to start the Interview?"
+        "PROMPTMSG": "Do you want to start the Interview?",
+        "DOWNLOADRESUME":"Download Candidate Resume"
     },
     "EVENTROLE": {
         "APPROVALEVENT": "Approval Event",
