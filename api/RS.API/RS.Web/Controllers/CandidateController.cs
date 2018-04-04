@@ -111,15 +111,6 @@ namespace RS.Web.Controllers
             return approvedCandidate;
         }
 
-        private void GetCandidateDocumentDetails(CandidateDocumentViewModel candidateDocumentViewModel, IFormFile file)
-        {
-            candidateDocumentViewModel.DocumentName = file.FileName;
-            var allowedExtensions = _configuration["ResumeExtension"].Split(',');           
-            var extension = FileHelper.GetExtension(file, allowedExtensions);
-            candidateDocumentViewModel.UploadedDocument = Guid.NewGuid().ToString() + extension;
-
-        }
-
         [HttpPost]
         public ActionResult DownloadFile(string file)
         {
@@ -138,5 +129,15 @@ namespace RS.Web.Controllers
             return File(memory, FileHelper.GetContentType(path), Path.GetFileName(path));
 
         }
+
+        private void GetCandidateDocumentDetails(CandidateDocumentViewModel candidateDocumentViewModel, IFormFile file)
+        {
+            candidateDocumentViewModel.DocumentName = file.FileName;
+            var allowedExtensions = _configuration["ResumeExtension"].Split(',');           
+            var extension = FileHelper.GetExtension(file, allowedExtensions);
+            candidateDocumentViewModel.UploadedDocument = Guid.NewGuid().ToString() + extension;
+
+        }
+
     }
 }
