@@ -10,15 +10,15 @@
                                 <div class="col-xs-12">
                                     <div class="login-mid">
                                         <div class="form-group">
-                                            <input class="type-text" type="text" required name="userName" placeholder="{{ 'USER.USERNAME' | translate }}" [(ngModel)]="loginModel.userEmail"
-                                                #userName="ngModel" maxlength="50">
+                                            <input autofocus class="type-text" type="text" name="userName" placeholder="{{ 'USER.USERNAME' | translate }}" [(ngModel)]="loginModel.userEmail"
+                                                #userName="ngModel" maxlength="50" (keyup)="utilityService.onControlFocus(myForm.form,'userName',formErrors)" required>
                                             <div *ngIf="formErrors.userName" class="validation-error">
                                                 {{formErrors.userName}}
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <input class="type-text" type="password" required name="password" placeholder="{{ 'USER.PASSWORD' | translate }}" [(ngModel)]="loginModel.userPassword"
-                                                #password="ngModel" maxlength="25">
+                                            <input class="type-text" type="password" name="password" placeholder="{{ 'USER.PASSWORD' | translate }}" [(ngModel)]="loginModel.userPassword"
+                                                #password="ngModel" maxlength="25" (keyup)="utilityService.onControlFocus(myForm.form,'password',formErrors)" required>
                                             <div *ngIf="formErrors.password" class="validation-error">
                                                 {{formErrors.password}}
                                             </div>
