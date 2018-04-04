@@ -120,6 +120,7 @@
         "MALE": "Male",
         "FEMALE": "Female",
         "ORGANIZATION": "Previous Organization",
+        "WORKING":"Working with",
         "LIST":"List of Candidates",
         "SAVE": "Save",
         "ADDCANDIDATE":"Add Candidate",

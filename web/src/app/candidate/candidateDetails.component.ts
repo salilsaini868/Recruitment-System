@@ -80,4 +80,16 @@ export class CandidateDetailsComponent implements OnInit {
             }
         );
     }
+
+    downloadFile(documentName, fileName) {
+        this.candidateServiceApp.downloadCandiadteResume(AppConstants.uriForFile, documentName).subscribe(
+            (data) => {
+                const blobURL = window.URL.createObjectURL(data);
+                const anchor = document.createElement('a');
+                anchor.download = fileName;
+                anchor.href = blobURL;
+                anchor.click();
+            }
+        );
+    }
 }

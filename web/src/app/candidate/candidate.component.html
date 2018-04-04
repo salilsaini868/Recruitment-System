@@ -108,11 +108,7 @@
                                 <label>{{ 'CANDIDATE.ORGANIZATION' | translate }}</label>
                             </div>
                             <div class="col-md-9 col-sm-9 col-xs-12">
-<<<<<<< HEAD
-                                <input class="full-input" type="text" required name="org" [(ngModel)]="candidateModel.organization" #org="ngModel" maxlength="250">
-=======
                                 <input class="full-input" type="text" required name="org" [(ngModel)]="candidateModel.organizationName" #org="ngModel" maxlength="250">
->>>>>>> develop
                                 <div *ngIf="lastName.errors && (org.dirty || org.touched)" [hidden]="!org.errors.required" class="validation-error">
                                     {{ 'CANDIDATE.REQUIRED' | translate }}
                                 </div>
@@ -141,8 +137,8 @@
                     <div>
                         <input type="file" (change)="fileChange($event)" placeholder="Upload file" accept=".pdf,.doc,.docx">
                     </div>
-                    <div  *ngIf="candidateModel.candidateId != null">
-                        <a (click) = "downloadFile()">{{ candidateModel.candidateDocument.documentName}}</a>
+                    <div *ngIf="candidateModel.candidateId != null">
+                        <a (click)="downloadFile(candidateModel.candidateDocument.uploadedDocument, candidateModel.candidateDocument.documentName)" download="candidateModel.candidateDocument.documentName">{{ candidateModel.candidateDocument.documentName}}</a>
                     </div>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <button id="bttn" type="submit" class="btn btn-primary blue-btn pull-right btn-gap">{{ 'CANDIDATE.SAVE' | translate }}</button>

@@ -7,19 +7,14 @@ import 'rxjs/Rx';
 // Service
 import { CandidateService } from '../../webapi/services/candidate.service';
 import { UtilityService } from '../../shared/utility/utility.service';
+import { ApiConfiguration } from '../../webapi/api-configuration';
 
 @Injectable()
 export class CandidateServiceApp {
-    constructor(private apiCandidateSevice: CandidateService, private utilityService: UtilityService) {
+    constructor(private apiCandidateSevice: CandidateService, private utilityService: UtilityService,
+        private http: HttpClient, private apiConfig: ApiConfiguration) {
     }
 
-    addCandidate(uri, candidate, file): Observable<any> {
-        return this.utilityService.addCandidate(uri, candidate, file).map(x => (x));
-    }
-
-    updateCandidate(uri, candidate, file): Observable<any> {
-        return this.utilityService.updateCandidate(uri, candidate, file).map(x => (x));
-    }
 
     getAllCandidates(): Observable<any> {
         return this.apiCandidateSevice.ApiCandidateGetAllCandidateGet().map(x => (x));
@@ -42,7 +37,29 @@ export class CandidateServiceApp {
     }
 
     approvedForInterview(candidateId): Observable<any> {
-        return this.apiCandidateSevice.ApiCandidateApprovedForInterviewPut(candidateId).map(x => (x));
+        return this.apiCandidateSevice.ApiCandidateApprovedForInterviewPut(candidateId);
     }
 
+    addCandidate(uri, candidate, fileToUpload: any): Observable<any> {
+        const url = this.apiConfig.rootUrl + uri;
+        const formdata = new FormData();
+        formdata.append('candidate', JSON.stringify(candidate));
+        formdata.append('uploadFile', fileToUpload);
+        return this.http.post(url, formdata, { observe: 'response' }).map(x => (x));
+    }
+
+    updateCandidate(uri, candidate, fileToUpload: any): Observable<any> {
+        const url =  this.apiConfig.rootUrl + uri;
+        const formdata = new FormData();
+        formdata.append('candidate', JSON.stringify(candidate));
+        formdata.append('uploadFile', fileToUpload);
+        return this.http.put(url, formdata, { observe: 'response' }).map(x => (x));
+    }
+
+    downloadCandiadteResume(uri, fileName): Observable<any> {
+        const url =  this.apiConfig.rootUrl + uri;
+        const formdata = new FormData();
+        formdata.append('file', fileName);
+        return this.http.post(url, formdata, { responseType: 'blob' }).map(x => (x));
+    }
 }
