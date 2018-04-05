@@ -14,9 +14,11 @@
                                         <label for="name"> {{ 'QUALIFICATIONS.NAME' | translate }}</label>
                                     </div>
                                     <div class="col-md-9 col-sm-9 col-xs-12">
-                                        <input type="hidden" name="qualificationId" [(ngModel)]="qualificationsModel.qualificationId">
-                                        <input type="text" class="full-input" id="qualifications" id="name" name="name" [(ngModel)]="qualificationsModel.name" required
-                                            minlength="3" maxlength="20" element-validation>
+                                        <input autofocus type="text" class="full-input" id="qualifications" id="name" name="qualificationName" [(ngModel)]="qualificationsModel.name" required #qualificationName="ngModel"
+                                            minlength="3" maxlength="20">
+                                        <div *ngIf="qualificationName.errors && (qualificationName.dirty || submitted)" [hidden]="!qualificationName.errors.required" class="validation-error">
+                                            {{ 'USER.REQUIRED' | translate }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -26,7 +28,10 @@
                                         <label for="description">{{ 'QUALIFICATIONS.DESCRIPTION' | translate }} </label>
                                     </div>
                                     <div class="col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" class="full-input" id="description" name="description" [(ngModel)]="qualificationsModel.description">
+                                        <input type="text" class="full-input" id="description" name="description" [(ngModel)]="qualificationsModel.description" required #description="ngModel">
+                                        <div *ngIf="description.errors && (description.dirty || submitted)" [hidden]="!description.errors.required" class="validation-error">
+                                            {{ 'USER.REQUIRED' | translate }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>

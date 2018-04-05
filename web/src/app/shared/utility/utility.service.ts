@@ -34,36 +34,4 @@ export class UtilityService {
             return this.user;
         }
     }
-
-    showTranslatedText(commonMessage) {
-        let message;
-        this.translateService.get(commonMessage).subscribe(
-            data => {
-                message = data;
-            });
-        return message;
-    }
-
-    validateRequiredInputControls(ngForm, formErrors) {
-        debugger;
-        // tslint:disable-next-line:forin
-        for (const field in ngForm.controls) {
-            const control = ngForm.get(field);
-            if (control && !control.valid) {
-                formErrors[field] = this.showTranslatedText('OTHERS.REQUIRED');
-            }
-        }
-    }
-
-    onControlFocus(ngForm, formField, formErrors) {
-        debugger;
-        const control = ngForm.get(formField);
-        const controlvalue = control.value;
-        if (controlvalue !== undefined) {
-            if (controlvalue.trim() === '') {
-                ngForm.controls[formField].setValue('');
-            }
-            formErrors[formField] = '';
-        }
-    }
 }
