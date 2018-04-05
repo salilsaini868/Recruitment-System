@@ -21,15 +21,9 @@ import { NgForm } from '@angular/forms';
   templateUrl: 'login.component.html',
   styleUrls: ['shared/login.scss']
 })
-export class LoginComponent implements OnInit, AfterViewChecked {
+export class LoginComponent implements OnInit {
   loginModel: UserLoginModel = {} as UserLoginModel;
-
-  formErrors = {
-    'userName': '',
-    'password': ''
-  };
-  myForm: NgForm;
-  @ViewChild('loginForm') currentForm: NgForm;
+  submitted = false;
 
   constructor(private loginServiceApp: LoginServiceApp, private router: Router,
     private msgService: DisplayMessageService, private utilityService: UtilityService) {
@@ -37,12 +31,6 @@ export class LoginComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     this.isAuthenticated();
-  }
-
-  ngAfterViewChecked() {
-    if (this.currentForm === this.myForm) { return; }
-    this.myForm = this.currentForm;
-
   }
 
   isAuthenticated() {
@@ -57,7 +45,8 @@ export class LoginComponent implements OnInit, AfterViewChecked {
   }
 
   onSubmit(loginForm) {
-    if (loginForm.valid && this.validateCustomControls()) {
+    this.submitted = true;
+    if (loginForm.valid) {
       this.loginServiceApp.userLogin(this.loginModel).subscribe(
         (data) => {
           if (!isNullOrUndefined(data) && data.status === Status.Success) {
@@ -69,29 +58,7 @@ export class LoginComponent implements OnInit, AfterViewChecked {
         },
         (err) => {
         });
-    } else {
-      this.validateForm();
     }
-  }
-
-  validateForm() {
-    this.utilityService.validateRequiredInputControls(this.myForm.form, this.formErrors);
-    this.validateCustomControls();
-  }
-
-  validateCustomControls() {
-    let isValid = true;
-    let field: string;
-    if (isNullOrUndefined(this.loginModel.userEmail)) {
-      field = 'userName';
-      this.formErrors[field] = this.utilityService.showTranslatedText('OTHERS.REQUIRED');
-      isValid = false;
-    }
-    if (isNullOrUndefined(this.loginModel.userPassword)) {
-      field = 'password';
-      this.formErrors[field] = this.utilityService.showTranslatedText('OTHERS.REQUIRED');
-      isValid = false;
-    }
-    return isValid;
   }
 }
+

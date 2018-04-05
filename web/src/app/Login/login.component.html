@@ -11,17 +11,17 @@
                                     <div class="login-mid">
                                         <div class="form-group">
                                             <input autofocus class="type-text" type="text" name="userName" placeholder="{{ 'USER.USERNAME' | translate }}" [(ngModel)]="loginModel.userEmail"
-                                                #userName="ngModel" maxlength="50" (keyup)="utilityService.onControlFocus(myForm.form,'userName',formErrors)" required>
-                                            <div *ngIf="formErrors.userName" class="validation-error">
-                                                {{formErrors.userName}}
-                                            </div>
+                                                #userName="ngModel" maxlength="50" required>
+                                                <div *ngIf="userName.errors && (userName.dirty || submitted)" [hidden]="!userName.errors.required" class="validation-error">
+                                                    {{ 'USER.REQUIRED' | translate }}
+                                                </div>
                                         </div>
                                         <div class="form-group">
                                             <input class="type-text" type="password" name="password" placeholder="{{ 'USER.PASSWORD' | translate }}" [(ngModel)]="loginModel.userPassword"
-                                                #password="ngModel" maxlength="25" (keyup)="utilityService.onControlFocus(myForm.form,'password',formErrors)" required>
-                                            <div *ngIf="formErrors.password" class="validation-error">
-                                                {{formErrors.password}}
-                                            </div>
+                                                #password="ngModel" maxlength="25" required>
+                                                <div *ngIf="password.errors && (password.dirty || submitted)" [hidden]="!password.errors.required" class="validation-error">
+                                                    {{ 'USER.REQUIRED' | translate }}
+                                                </div>
                                         </div>
                                         <div class="pull-right forgot">
                                             <a data-toggle="modal" (click)="forgotpassword()">{{ 'USER.FORGOTPASSWORD' | translate }} </a>
