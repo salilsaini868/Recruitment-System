@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, ViewChild } from '@angular/core';
 import { isNullOrUndefined } from 'util';
 import { Router } from '@angular/router';
 import { ForgotpasswordComponent } from './forgotpassword.component';
@@ -13,6 +13,8 @@ import { Status } from '../app.enum';
 // service
 import { DisplayMessageService } from '../shared/toastr/display.message.service';
 import { LoginServiceApp } from './shared/login.serviceApp';
+import { UtilityService } from '../shared/utility/utility.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -21,22 +23,29 @@ import { LoginServiceApp } from './shared/login.serviceApp';
 })
 export class LoginComponent implements OnInit {
   loginModel: UserLoginModel = {} as UserLoginModel;
+  submitted = false;
 
-  constructor(private loginServiceApp: LoginServiceApp, private router: Router, private msgService: DisplayMessageService) {
+  constructor(private loginServiceApp: LoginServiceApp, private router: Router,
+    private msgService: DisplayMessageService, private utilityService: UtilityService) {
   }
+
   ngOnInit() {
     this.isAuthenticated();
   }
+
   isAuthenticated() {
     const token = localStorage.getItem(AppConstants.AuthToken);
     if (!isNullOrUndefined(token)) {
       this.router.navigate(['Dashboard']);
     }
   }
+
   forgotpassword() {
     this.router.navigate(['forgotpassword']);
   }
+
   onSubmit(loginForm) {
+    this.submitted = true;
     if (loginForm.valid) {
       this.loginServiceApp.userLogin(this.loginModel).subscribe(
         (data) => {
@@ -52,5 +61,4 @@ export class LoginComponent implements OnInit {
     }
   }
 }
-
 

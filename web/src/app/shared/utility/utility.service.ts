@@ -7,13 +7,14 @@ import { HttpResponse, HttpClient } from '@angular/common/http';
 import decode from 'jwt-decode';
 import { Response } from '@angular/http/src/static_response';
 import { ResponseContentType } from '@angular/http';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class UtilityService {
     admin: SideBarModel[] = [] as SideBarModel[];
     user: SideBarModel[] = [] as SideBarModel[];
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private translateService: TranslateService) {
         this.admin = [{ name: 'Dashboard', order: 1 }, { name: 'Users', order: 4 },
         { name: 'Skills', order: 2 }, { name: 'Qualifications', order: 3 }, { name: 'UserEventRole', order: 5 }];
         this.user = [{ name: 'Dashboard', order: 1 }, { name: 'openings', order: 2 }, { name: 'Candidates', order: 3 }];
@@ -34,5 +35,35 @@ export class UtilityService {
         }
     }
 
+    showTranslatedText(commonMessage) {
+        let message;
+        this.translateService.get(commonMessage).subscribe(
+            data => {
+                message = data;
+            });
+        return message;
+    }
 
+    validateRequiredInputControls(ngForm, formErrors) {
+        debugger;
+        // tslint:disable-next-line:forin
+        for (const field in ngForm.controls) {
+            const control = ngForm.get(field);
+            if (control && !control.valid) {
+                formErrors[field] = this.showTranslatedText('OTHERS.REQUIRED');
+            }
+        }
+    }
+
+    onControlFocus(ngForm, formField, formErrors) {
+        debugger;
+        const control = ngForm.get(formField);
+        const controlvalue = control.value;
+        if (controlvalue !== undefined) {
+            if (controlvalue.trim() === '') {
+                ngForm.controls[formField].setValue('');
+            }
+            formErrors[formField] = '';
+        }
+    }
 }
