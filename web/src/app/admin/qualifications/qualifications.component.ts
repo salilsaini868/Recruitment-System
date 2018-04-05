@@ -10,7 +10,8 @@ import { QualificationViewModel } from '../../webapi/models/qualification-view-m
 export class QualificationsComponent implements OnInit {
   qualificationsModel: QualificationViewModel = {} as QualificationViewModel;
   qualifications: QualificationViewModel[] = [] as QualificationViewModel[];
-  isCreateOrUpdate: boolean = true;
+  isCreateOrUpdate  = true;
+  submitted = false;
 
   constructor(private qualificationsServiceApp: QualificationsServiceApp) {
 
@@ -21,6 +22,7 @@ export class QualificationsComponent implements OnInit {
   }
 
   onSubmit(qualificationsform) {
+    this.submitted = true;
     if (qualificationsform.valid) {
       if (this.qualificationsModel['qualificationId'] === undefined) {
         this.qualificationsServiceApp.addQualification(this.qualificationsModel).subscribe(
