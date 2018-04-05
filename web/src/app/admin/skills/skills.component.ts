@@ -13,14 +13,18 @@ export class SkillsComponent implements OnInit {
   skillsModel: SkillViewModel = {} as SkillViewModel;
   skills: SkillViewModel[] = [] as SkillViewModel[];
   isCreateOrUpdate: boolean;
+  submitted = false;
 
   constructor(private skillsServiceApp: SkillsServiceApp) {
   }
+
   ngOnInit() {
     this.listSkill();
     this.isCreateOrUpdate = true;
   }
+
   onSubmit(skillsform) {
+    this.submitted = true;
     if (skillsform.valid) {
       if (this.skillsModel['skillId'] === undefined) {
         this.skillsServiceApp.addSkill(this.skillsModel).subscribe(
@@ -40,6 +44,7 @@ export class SkillsComponent implements OnInit {
       }
     }
   }
+
   listSkill() {
     this.skillsServiceApp.listSkill()
       .subscribe((data) => {
@@ -48,6 +53,7 @@ export class SkillsComponent implements OnInit {
         }
       });
   }
+
   deleteSkills(i) {
     this.skills.splice(i, 1);
     this.skillsServiceApp.deleteSkill().subscribe((data) => {
@@ -55,6 +61,7 @@ export class SkillsComponent implements OnInit {
       }
     });
   }
+
   editSkills(skills) {
     this.skillsModel.skillId = skills.skillId;
     this.skillsModel.name = skills.name;
