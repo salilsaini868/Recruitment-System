@@ -38,6 +38,7 @@ export class StripComponent implements OnInit {
   currentEventOrder: any;
   styleleft: any;
   permissibleEvent: any;
+  submitted = false;
 
   @ViewChild('source') source;
   @Input() approvalType: number;
@@ -131,7 +132,8 @@ export class StripComponent implements OnInit {
 
   onApprovalActionClick(approvalActions) {
     // TODO : Save the page state/data to database
-    this.clicked = false;
+    this.submitted = true;
+    this.clicked = this.comments === null || this.comments === '' ? true : false;
     this.approvalTransaction.eventOrderNumber = this.approvalTransaction.nextEventOrderNumber;
     this.approvalTransaction.approvalActionId = approvalActions.approvalActionId;
     if (this.currentEventClicked.approvalEventOrder === this.approvalTransaction.nextEventOrderNumber ||
@@ -238,6 +240,7 @@ export class StripComponent implements OnInit {
 
   close() {
     this.clicked = false;
+    this.submitted = false;
   }
 
 }
