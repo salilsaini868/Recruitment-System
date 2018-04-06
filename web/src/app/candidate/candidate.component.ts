@@ -30,6 +30,8 @@ export class CandidateComponent implements OnInit {
     approval: any;
     uploadedFile: any;
     filePath: any;
+    submitted = false;
+    isUploaded = false;
 
     constructor(private openingServiceApp: OpeningServiceApp, private candidateServiceApp: CandidateServiceApp,
         private qualificationServiceApp: QualificationsServiceApp, private route: ActivatedRoute,
@@ -132,6 +134,7 @@ export class CandidateComponent implements OnInit {
     }
 
     onSubmit(candidateForm) {
+        this.submitted = true;
         if (candidateForm.valid) {
             if (isNullOrUndefined(this.candidateModel.candidateId)) {
                 this.candidateServiceApp.addCandidate(AppConstants.uriForAdd, this.candidateModel, this.uploadedFile).
@@ -171,6 +174,7 @@ export class CandidateComponent implements OnInit {
     fileChange(event) {
         const fileList: FileList = event.target.files;
         if (fileList.length > 0) {
+            this.isUploaded = true;
             const file: File = fileList[0];
             this.uploadedFile = file;
         }
