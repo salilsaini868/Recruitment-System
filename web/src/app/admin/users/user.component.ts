@@ -7,6 +7,7 @@ import { UserModel } from '../../shared/customModels/user-model';
 import { RoleServiceApp } from './shared/role.serviceApp';
 import { DisplayMessageService } from '../../shared/toastr/display.message.service';
 import { Status } from '../../app.enum';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-user',
@@ -18,12 +19,16 @@ export class UserComponent implements OnInit {
 
     userModel: UserModel = {} as UserModel;
     roles: RoleViewModel[] = [] as RoleViewModel[];
+    submitted = false;
+    defaultOption: any;
 
     constructor(private userServiceApp: UserServiceApp, private route: ActivatedRoute,
-        private router: Router, private roleServiceApp: RoleServiceApp, private displayMessage: DisplayMessageService) {
+        private router: Router, private roleServiceApp: RoleServiceApp, private displayMessage: DisplayMessageService,
+        private translateService: TranslateService) {
     }
 
     ngOnInit() {
+        this.setDefaultOption();
         this.intializeMethods();
     }
 
@@ -32,10 +37,20 @@ export class UserComponent implements OnInit {
         this.getUserById();
     }
 
+    setDefaultOption() {
+        this.translateService.get('COMMON.SELECTDEFAULT').subscribe(
+            (data) => {
+                this.defaultOption = data;
+            }
+        );
+    }
+
     getAllRole() {
         this.roleServiceApp.getAllRoles().subscribe(
             (data) => {
                 this.roles = data.body;
+                const role = this.defaultOption;
+                this.roles.splice(0, 0, { roleId: 0, name: role });
             }
         );
     }
@@ -61,6 +76,8 @@ export class UserComponent implements OnInit {
     }
 
     onSubmit(userForm) {
+        debugger;
+        this.submitted = true;
         if (userForm.valid) {
             if (this.userModel.password === this.userModel.confirmPassword) {
                 if (isNullOrUndefined(this.userModel.userId)) {

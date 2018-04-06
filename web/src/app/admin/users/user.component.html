@@ -11,7 +11,7 @@
                             </div>
                             <div class="col-md-9 col-sm-9 col-xs-12">
                                 <input class="full-input" type="text" required name="firstName" [(ngModel)]="userModel.firstName" #firstName="ngModel" maxlength="25">
-                                <div *ngIf="firstName.errors && (firstName.dirty || firstName.touched)" [hidden]="!firstName.errors.required" class="validation-error">
+                                <div *ngIf="firstName.errors && (firstName.dirty || submitted)" [hidden]="!firstName.errors.required" class="validation-error">
                                     {{ 'USER.REQUIRED' | translate }}
                                 </div>
                             </div>
@@ -37,15 +37,9 @@
                                 <label>{{ 'USER.USERNAME' | translate }}</label>
                             </div>
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                                <input class="full-input" type="text" required name="userName" pattern="^\w+([\.-]?\w+)*@rhpm.com$" [(ngModel)]="userModel.userName"
-                                    #userName="ngModel" maxlength="25">
-                                <div *ngIf="userName.errors && (userName.dirty || userName.touched)" [hidden]="!userName.errors.required" class="validation-error">
+                                <input class="full-input" type="text" required name="userName" [(ngModel)]="userModel.userName" #userName="ngModel" maxlength="25">
+                                <div *ngIf="userName.errors && (userName.dirty || submitted)" [hidden]="!userName.errors.required" class="validation-error">
                                     {{ 'USER.REQUIRED' | translate }}
-                                </div>
-                                <div [hidden]="!userName.hasError('pattern')">{{ 'USER.USERNAMEFORMAT' | translate }}
-                                    <small>
-                                        <b>{{ 'USER.EMAILPATTERN' | translate }}</b>
-                                    </small>
                                 </div>
                             </div>
                         </div>
@@ -56,18 +50,15 @@
                                 <label>{{ 'USER.PASSWORD' | translate }}</label>
                             </div>
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                                <input class="full-input" type="password" required name="password" pattern="^[a-z0-9_-]{8,}$" [(ngModel)]="userModel.password"
+                                <input class="full-input" type="password" required name="password" pattern="^[a-z0-9_-]{6,}$" [(ngModel)]="userModel.password"
                                     #password="ngModel" maxlength="25">
-                                <div *ngIf="password.errors && (password.dirty || password.touched)" [hidden]="!password.errors.required" class="validation-error">
+                                <div *ngIf="password.errors && (password.dirty || submitted)" [hidden]="!password.errors.required" class="validation-error">
                                     {{ 'USER.REQUIRED' | translate }}
-                                </div>
-                                <div [hidden]="!password.hasError('pattern')">{{ 'USER.PASSWORDPATTERN' | translate }}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
 
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-xs-12">
@@ -78,8 +69,7 @@
                             <div class="col-md-9 col-sm-9 col-xs-12">
                                 <input class="full-input" type="password" required name="confirmPassword" [(ngModel)]="userModel.confirmPassword" #confirmPassword="ngModel"
                                     maxlength="25">
-                                <div *ngIf="confirmPassword.errors && (confirmPassword.dirty || confirmPassword.touched)" [hidden]="!confirmPassword.errors.required"
-                                    class="validation-error">
+                                <div *ngIf="confirmPassword.errors && (confirmPassword.dirty || submitted)" [hidden]="!confirmPassword.errors.required" class="validation-error">
                                     {{ 'USER.REQUIRED' | translate }}
                                 </div>
                             </div>
@@ -93,10 +83,10 @@
                             <div class="col-md-9 col-sm-9 col-xs-12">
                                 <input class="full-input" type="text" required name="email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" [(ngModel)]="userModel.email"
                                     #email="ngModel" maxlength="25">
-                                <div *ngIf="email.errors && (email.dirty || email.touched)" [hidden]="!email.errors.required" class="validation-error">
+                                <div *ngIf="email.errors && (email.dirty || submitted)" [hidden]="!email.errors.required" class="validation-error">
                                     {{ 'USER.REQUIRED' | translate }}
                                 </div>
-                                <div [hidden]="!email.hasError('pattern')">{{ 'USER.EMAILFORMAT' | translate }}
+                                <div class="validation-error" [hidden]="!email.hasError('pattern')">{{ 'USER.EMAILFORMAT' | translate }}
                                     <small>
                                         <b>{{ 'USER.EMAILPATTERN' | translate }}</b>
                                     </small>
@@ -106,7 +96,6 @@
                     </div>
                 </div>
 
-
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="row">
@@ -114,10 +103,12 @@
                                 <label>{{ 'USER.ROLE' | translate }}</label>
                             </div>
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                                <select [(ngModel)]="userModel.roleId" [ngModelOptions]="{standalone: true}" required class="full-input">
-                                    <option disabled selected [ngValue]="null">--select--</option>
-                                    <option *ngFor="let role of roles" [ngValue]="role.roleId">{{role.name}}</option>
+                                <select name="role" [(ngModel)]="userModel.roleId" [ngModelOptions]="{standalone: true}" #role="ngModel" required class="full-input">
+                                    <option *ngFor="let role of roles" [attr.value]="role.roleId">{{role.name}}</option>
                                 </select>
+                                <div *ngIf="role.errors && (role.dirty || submitted)" [hidden]="!role.errors.required" class="validation-error">
+                                    {{ 'USER.REQUIRED' | translate }}
+                                </div>
                             </div>
                         </div>
                     </div>
