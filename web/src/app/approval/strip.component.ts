@@ -218,10 +218,9 @@ export class StripComponent implements OnInit {
   }
 
   isValidate(opening: OpeningViewModel): boolean {
-    if (isNullOrUndefined(opening.title) || isNullOrUndefined(opening.title)) {
+    if (isNullOrUndefined(opening.title) || isNullOrUndefined(opening.description)) {
       return false;
     } else if (opening.primarySkillTypes.length <= 0) {
-      this.msgService.showInfo('OPENING.PRIMARYSKILLMANDATORY');
       return false;
     } else if (this.SameSkillinBothSkillType(opening)) {
       this.msgService.showInfo('OPENING.SAMESKILLS');
