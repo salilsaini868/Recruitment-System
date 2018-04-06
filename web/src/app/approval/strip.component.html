@@ -14,7 +14,11 @@
         <a href="javascript:void()" (click)="close()">
           <i class="fa fa-close pull-right"></i>
         </a>
-        <textarea class="full-input" type="text" cols="5" rows="5" class="full-width tarea-inner" [(ngModel)]="comments" required></textarea>
+        <textarea class="full-input" name="comment" type="text" cols="5" rows="5" class="full-width tarea-inner" [(ngModel)]="comments"
+          #comment="ngModel" required></textarea>
+        <div *ngIf="comment.errors && (comment.dirty || submitted)" [hidden]="!comment.errors.required" class="validation-error">
+          {{ 'CANDIDATE.REQUIRED' | translate }}
+        </div>
         <div *ngIf="currentEventClicked != null">
           <div *ngIf="currentEventClicked.approvalActions.length > 0" class="two-side">
             <div *ngFor="let approvalActions of currentEventClicked.approvalActions">

@@ -38,6 +38,7 @@ export class StripComponent implements OnInit {
   currentEventOrder: any;
   styleleft: any;
   permissibleEvent: any;
+  submitted = false;
 
   @ViewChild('source') source;
   @Input() approvalType: number;
@@ -133,8 +134,9 @@ export class StripComponent implements OnInit {
 
   onApprovalActionClick(approvalActions) {
     // TODO : Save the page state/data to database
+    this.submitted = true;
+    this.clicked = this.comments === null || this.comments === '' ? true : false;
     this.onSubmit.emit(true);
-    this.clicked = false;
     this.approvalTransaction.eventOrderNumber = this.approvalTransaction.nextEventOrderNumber;
     this.approvalTransaction.approvalActionId = approvalActions.approvalActionId;
     if (this.currentEventClicked.approvalEventOrder === this.approvalTransaction.nextEventOrderNumber ||
@@ -216,10 +218,9 @@ export class StripComponent implements OnInit {
   }
 
   isValidate(opening: OpeningViewModel): boolean {
-    if (isNullOrUndefined(opening.title) || isNullOrUndefined(opening.title)) {
+    if (isNullOrUndefined(opening.title) || isNullOrUndefined(opening.description)) {
       return false;
     } else if (opening.primarySkillTypes.length <= 0) {
-      this.msgService.showInfo('OPENING.PRIMARYSKILLMANDATORY');
       return false;
     } else if (this.SameSkillinBothSkillType(opening)) {
       this.msgService.showInfo('OPENING.SAMESKILLS');
@@ -243,6 +244,7 @@ export class StripComponent implements OnInit {
 
   close() {
     this.clicked = false;
+    this.submitted = false;
   }
 
 }
