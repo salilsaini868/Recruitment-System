@@ -8,6 +8,7 @@ import { RoleServiceApp } from './shared/role.serviceApp';
 import { DisplayMessageService } from '../../shared/toastr/display.message.service';
 import { Status } from '../../app.enum';
 import { TranslateService } from '@ngx-translate/core';
+import { UtilityService } from '../../shared/utility/utility.service';
 
 @Component({
     selector: 'app-user',
@@ -24,7 +25,7 @@ export class UserComponent implements OnInit {
 
     constructor(private userServiceApp: UserServiceApp, private route: ActivatedRoute,
         private router: Router, private roleServiceApp: RoleServiceApp, private displayMessage: DisplayMessageService,
-        private translateService: TranslateService) {
+        private translateService: TranslateService, private utilityService: UtilityService) {
     }
 
     ngOnInit() {
@@ -67,6 +68,7 @@ export class UserComponent implements OnInit {
                     (data) => {
                         if (data.status === Status.Success) {
                             this.userModel = data.body;
+                            this.userModel.password = this.utilityService.decrypt(this.userModel.password);
                             this.userModel.confirmPassword = this.userModel.password;
                         }
                     }
@@ -76,11 +78,11 @@ export class UserComponent implements OnInit {
     }
 
     onSubmit(userForm) {
-        debugger;
         this.submitted = true;
         if (userForm.valid) {
             if (this.userModel.password === this.userModel.confirmPassword) {
                 if (isNullOrUndefined(this.userModel.userId)) {
+                    this.userModel.password = this.utilityService.encrypt(this.userModel.password);
                     this.userServiceApp.createUser(this.userModel).subscribe(
                         (data) => {
                             this.showUsersList();

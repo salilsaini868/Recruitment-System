@@ -100,7 +100,7 @@ namespace RS.Service.Logic
                     userRole.Role = _roleRepository.GetByID(user.RoleId);
                     userRole.MapAuditColumns((ClaimsIdentity)_principal.Identity);
                     _userRepository.CreateUser(userModel, userRole);
-                    result.Body = userModel;
+                    result.Body = userModel.UserId;
                 }
             }
             catch (Exception e)
@@ -317,12 +317,11 @@ namespace RS.Service.Logic
                     return result;
                 }
 
-                var userModel = new Users();
+                var userModel = _userRepository.GetByID(user.UserId);
+                var userRoleModel = userModel.UserRoles.Where(x => (x.IsActive && !x.IsDeleted) && x.RoleId != user.RoleId).ToList();
                 userModel.MapFromViewModel(user, (ClaimsIdentity)_principal.Identity);
-                var userDetail = _userRepository.GetByID(user.UserId);
-                var userRoleModel = userDetail.UserRoles.Where(x => (x.IsActive && !x.IsDeleted) && x.RoleId != user.RoleId).ToList();
 
-                if (userRoleModel != null)
+                if (userRoleModel.Any())
                 {
                     userRoleModel.ForEach(x => x.MapDeleteColumns((ClaimsIdentity)_principal.Identity));
                     var userRole = new UserRoles();
@@ -331,11 +330,8 @@ namespace RS.Service.Logic
                     userRole.MapAuditColumns((ClaimsIdentity)_principal.Identity);
                     _userRepository.UpdateUserRole(userRole);
                 }
-                _userRepository.Update(userModel);
-                _userRepository.SaveChanges();
-                result.Body = userModel;
-
-
+                _userRepository.UpdateUser(userModel);
+                result.Body = userModel.UserId;
             }
             catch (Exception e)
             {
