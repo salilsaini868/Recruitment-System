@@ -31,6 +31,7 @@ export class OpeningComponent implements OnInit {
     approval: any;
     opening: any;
     isDataAvailable = false;
+    submitted = false;
 
     constructor(private openingServiceApp: OpeningServiceApp, private route: ActivatedRoute,
         private router: Router, private msgService: DisplayMessageService,
@@ -132,5 +133,9 @@ export class OpeningComponent implements OnInit {
 
     showOpeningList() {
         this.router.navigate(['openings']);
+    }
+
+    onSubmit(submit) {
+        this.submitted = submit;
     }
 }

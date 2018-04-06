@@ -1,5 +1,5 @@
 <div class="content-wrapper">
-    <app-approvalstrip *ngIf="isDataAvailable" [entityModel]="opening" [approvalType]="approval"></app-approvalstrip>
+    <app-approvalstrip *ngIf="isDataAvailable" [entityModel]="opening" [approvalType]="approval" (onSubmit)="onSubmit($event)"></app-approvalstrip>
     <div class="panel panel-default no-radius">
         <div *ngIf="openingModel.openingId == null" class="panelheader panel-heading no-radius">Create Opening</div>
         <div *ngIf="openingModel.openingId != null" class="panelheader panel-heading no-radius">Job Details</div>
@@ -12,8 +12,8 @@
                                 <label>{{ 'OPENING.TITLE' | translate }}</label>
                             </div>
                             <div class="col-md-9 col-sm-6 col-xs-12">
-                                <input class="full-input" type="text" required name="title" [(ngModel)]="openingModel.title" #title="ngModel" maxlength="25">
-                                <div *ngIf="title.errors && (title.dirty || title.touched)" [hidden]="!title.errors.required" class="validation-error">
+                                <input  autofocus class="full-input" type="text" required name="title" [(ngModel)]="openingModel.title" #title="ngModel" maxlength="25">
+                                <div *ngIf="title.errors && (title.dirty || submitted)" [hidden]="!title.errors.required" class="validation-error">
                                     {{ 'OPENING.REQUIRED' | translate }}
                                 </div>
                             </div>
@@ -28,7 +28,7 @@
                                 <textarea class="full-input" type="text" required name="description" [(ngModel)]="openingModel.description" #description="ngModel"
                                     maxlength="250">
                                             </textarea>
-                                <div *ngIf="description.errors && (description.dirty || description.touched)" [hidden]="!description.errors.required" class="validation-error">
+                                <div *ngIf="description.errors && (description.dirty || submitted)" [hidden]="!description.errors.required" class="validation-error">
                                     {{ 'OPENING.REQUIRED' | translate }}
                                 </div>
                             </div>

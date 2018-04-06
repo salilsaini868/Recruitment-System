@@ -43,6 +43,7 @@ export class StripComponent implements OnInit {
   @ViewChild('source') source;
   @Input() approvalType: number;
   @Input() entityModel: any;
+  @Output() onSubmit: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(private router: Router, private approvalServiceApp: ApprovalServiceApp,
     private openingServiceApp: OpeningServiceApp, private msgService: DisplayMessageService,
@@ -53,6 +54,7 @@ export class StripComponent implements OnInit {
   ngOnInit() {
     this.approvalEventandTransaction.entityId = null;
     this.clicked = true;
+    this.onSubmit.emit(false);
     this.showPopup = false;
     this.currentEventClicked = null;
 
@@ -134,6 +136,7 @@ export class StripComponent implements OnInit {
     // TODO : Save the page state/data to database
     this.submitted = true;
     this.clicked = this.comments === null || this.comments === '' ? true : false;
+    this.onSubmit.emit(true);
     this.approvalTransaction.eventOrderNumber = this.approvalTransaction.nextEventOrderNumber;
     this.approvalTransaction.approvalActionId = approvalActions.approvalActionId;
     if (this.currentEventClicked.approvalEventOrder === this.approvalTransaction.nextEventOrderNumber ||
@@ -215,11 +218,13 @@ export class StripComponent implements OnInit {
   }
 
   isValidate(opening: OpeningViewModel): boolean {
-    if (isNullOrUndefined(opening)) {
+    if (isNullOrUndefined(opening.title) || isNullOrUndefined(opening.title)) {
       return false;
     } else if (opening.primarySkillTypes.length <= 0) {
+      this.msgService.showInfo('OPENING.PRIMARYSKILLMANDATORY');
       return false;
     } else if (this.SameSkillinBothSkillType(opening)) {
+      this.msgService.showInfo('OPENING.SAMESKILLS');
       return false;
     }
     return true;
