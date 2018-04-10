@@ -58,5 +58,11 @@ namespace RS.Data.Logic
         {
             return _context.Users.Include(t => t.UserRoles).ThenInclude(r => r.Role).Where(x => (x.IsActive && !x.IsDeleted)).ToList();
         }
+
+        public void UpdateUser(Users user)
+        {
+            _context.Entry(user).State = EntityState.Modified;
+            _context.SaveChanges();
+        }
     }
 }

@@ -23,5 +23,7 @@ namespace RS.Data.Interfaces
         List<Users> GetUsersByRole(int roleId);
 
         Users GetEmailIdByUserName(String userName);
+
+        void UpdateUser(Users user);
     }
 }

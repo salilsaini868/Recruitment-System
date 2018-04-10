@@ -8,16 +8,21 @@ import decode from 'jwt-decode';
 import { Response } from '@angular/http/src/static_response';
 import { ResponseContentType } from '@angular/http';
 import { TranslateService } from '@ngx-translate/core';
+import CryptoJS from 'crypto-js';
 
 @Injectable()
 export class UtilityService {
     admin: SideBarModel[] = [] as SideBarModel[];
     user: SideBarModel[] = [] as SideBarModel[];
+    key: any;
+    iv: any;
 
     constructor(private http: HttpClient, private translateService: TranslateService) {
         this.admin = [{ name: 'Dashboard', order: 1 }, { name: 'Users', order: 4 },
         { name: 'Skills', order: 2 }, { name: 'Qualifications', order: 3 }, { name: 'UserEventRole', order: 5 }];
         this.user = [{ name: 'Dashboard', order: 1 }, { name: 'openings', order: 2 }, { name: 'Candidates', order: 3 }];
+        this.key = CryptoJS.enc.Hex.parse('0123456789abcdef0123456789abcdef');
+        this.iv = CryptoJS.enc.Hex.parse('abcdef9876543210abcdef9876543210');
     }
 
     fillArray(n: number): any[] {
@@ -33,5 +38,36 @@ export class UtilityService {
         } else {
             return this.user;
         }
+    }
+
+    encrypt(plaintext: string): string {
+        const text = this.padOrTruncate(plaintext);
+        const encrypted = CryptoJS.AES.encrypt(text, this.key, {
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.NoPadding
+        });
+        return encrypted.ciphertext.toString(CryptoJS.enc.Base64);
+    }
+
+    decrypt(ciphertext: string): string {
+        const decrypted = CryptoJS.AES.decrypt(ciphertext, this.key, {
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.NoPadding
+        });
+        const decryptedPassword = decrypted.toString(CryptoJS.enc.Utf8);
+        return decryptedPassword.trim();
+    }
+
+    padOrTruncate(str: string): string {
+        let result: string;
+        result = '';
+        if (str.length % 32 === 0) {
+            return str;
+        }
+        result = str + '';
+        while (!(result.length % 32 === 0)) {
+            result = result + ' ';
+        }
+        return result;
     }
 }

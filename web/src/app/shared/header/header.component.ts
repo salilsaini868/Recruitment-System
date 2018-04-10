@@ -21,12 +21,12 @@ export class HeaderComponent implements OnInit {
     }
 
     toggleLeft() {
-        if (!$('.side-bar-main').hasClass("side-bar")) {
-            $('.side-bar-main').toggleClass("side-left", 'slow');
+        if (!$('.side-bar-main').hasClass('side-bar')) {
+            $('.side-bar-main').toggleClass('side-left', 'slow');
         }
 
-        if (!$('div').hasClass(".content-wrapper")) {
-            $('div.content-wrapper').toggleClass("wrap-left", 'slow');
+        if (!$('div').hasClass('.content-wrapper')) {
+            $('div.content-wrapper').toggleClass('wrap-left', 'slow');
         }
     }
 }
