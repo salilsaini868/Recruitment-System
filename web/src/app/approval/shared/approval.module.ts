@@ -10,7 +10,7 @@ import { ApprovalRouterModule } from './approval.route';
 import { ApprovalServiceApp } from './approval.serviceApp';
 
 // Components
-import { StripComponent } from '../strip.component';
+import { StripComponent } from '../index.approval';
 
 // Module
 import { SharedModule } from '../../shared/shared.module';

@@ -153,7 +153,8 @@ export class StripComponent implements OnInit {
           this.approvalTransaction.nextEventOrderNumber = this.approvalType === ApprovalType.Opening ?
             this.approvalTransaction.nextEventOrderNumber - 1 : -1;
         }
-        if (approvalActions.approvalActionId === Math.max.apply(null, approvalActionIds)) {
+        if (approvalActions.approvalActionId === Math.max.apply(null, approvalActionIds) &&
+          !isNullOrUndefined(this.approvalTransaction.nextEventOrderNumber)) {
           this.approvalTransaction.nextEventOrderNumber += 1;
         }
         this.insertApprovalTransaction();
@@ -190,6 +191,7 @@ export class StripComponent implements OnInit {
     if (this.isValidate(this.openingModel)) {
       if (isNullOrUndefined(this.openingModel.openingId)) {
         this.entityAndApprovalEventModel.approvalTransactionViewModel = this.currentEventClicked;
+        this.entityAndApprovalEventModel.approvalTransactionViewModel.approvalActionId = this.approvalTransaction.approvalActionId;
       } else {
         this.entityAndApprovalEventModel.approvalTransactionViewModel = this.approvalTransaction;
       }
@@ -211,7 +213,7 @@ export class StripComponent implements OnInit {
     const approvalEventOrders = this.approvalEvents.map(x => x.approvalEventOrder);
     if (this.currentEventClicked.approvalEventOrder === Math.min.apply(null, approvalEventOrders)) {
       this.entityAndApprovalEventModel.approvalTransactionViewModel = this.currentEventClicked;
-      this.entityAndApprovalEventModel.approvalTransactionViewModel.nextEventOrderNumber = this.approvalTransaction.nextEventOrderNumber;
+      this.entityAndApprovalEventModel.approvalTransactionViewModel.approvalActionId = this.approvalTransaction.approvalActionId;
     } else {
       this.entityAndApprovalEventModel.approvalTransactionViewModel = this.approvalTransaction;
     }

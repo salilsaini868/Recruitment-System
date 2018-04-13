@@ -143,9 +143,9 @@ namespace RS.Service.Logic
                     MapPrimaryandSecondarySkills(openingViewModel, opening);
                     openingViewModel.CreatedDate = opening.CreatedDate.ToString("MM/dd/yyyy");
                     openingViewModel.ModifiedDate = opening.ModifiedDate.HasValue ? opening.ModifiedDate.Value.ToString("MM/dd/yyyy") : string.Empty;
-                    openingViewModel.IsApproved = approvalTransaction.IsApproved;
                     if (approvalTransaction != null)
                     {
+                        openingViewModel.IsApproved = approvalTransaction.IsApproved;
                         openingViewModel.Status = approvalTransaction.ApprovalAction.ApprovalActionName;
                     }
                     return openingViewModel.MapFromModel(opening);
