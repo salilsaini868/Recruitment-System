@@ -196,5 +196,24 @@ namespace RS.Service.Logic
             }
             return result;
         }
+
+        public IResult ApprovalTransactionDetails(Guid entityId)
+        {
+            var result = new Result
+            {
+                Operation = Operation.Read,
+                Status = Status.Success
+            };
+            try
+            {
+                result.Body = _approvalRepository.ApprovalTransactionDetails(entityId);
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                
+            }
+            return result;
+        }
     }
 }

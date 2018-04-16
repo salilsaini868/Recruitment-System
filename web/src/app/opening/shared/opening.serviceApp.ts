@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { OpeningService, SkillService } from '../../webapi/services';
+import { OpeningService, SkillService, ApprovalService } from '../../webapi/services';
 import 'rxjs/Rx';
+import { OpeningViewModel } from '../../webapi/models';
 
 @Injectable()
 export class OpeningServiceApp {
 
-    constructor(private http: HttpClient, private apiOpeningService: OpeningService, private apiSkillService: SkillService) { }
+    constructor(private http: HttpClient,private apiApprovalService: ApprovalService, private apiOpeningService: OpeningService, private apiSkillService: SkillService) { }
 
     CreateOpening(openingModel): Observable<any> {
         return this.apiOpeningService.ApiOpeningCreateOpeningPost(openingModel).map(x => (x));

@@ -35,5 +35,11 @@ namespace RS.Service.Interfaces
         /// <returns></returns>
         IResult ManageApprovalEventRole(ApprovalEventRoleViewModel approvalEventRoleViewModel);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="entityId"></param>
+        /// <returns></returns
+        IResult ApprovalTransactionDetails(Guid entityId);
     }
 }

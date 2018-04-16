@@ -6,6 +6,7 @@ using RS.Data;
 using RS.Data.Interfaces;
 using RS.Entity.Models;
 using RS.ViewModel.User;
+using RS.Entity.DTO;
 
 namespace RS.Data.Logic
 {
@@ -54,6 +55,31 @@ namespace RS.Data.Logic
                 dictionary.Add(approvalName, eventIds);
             });
             return dictionary;
+        }
+        public List<ApprovalTransactionDetails> GetApprovalTransactionDetails()
+        {
+            return _context.ApprovalTransactionDetails.ToList();
+        }
+
+        public List<ApprovalTransactionDetailsDTO> ApprovalTransactionDetails(Guid entityId)
+        {
+            return (from ApprovalTransactionDetail in _context.ApprovalTransactionDetails
+
+                    join ApprovalTran in _context.ApprovalTransactions on ApprovalTransactionDetail.ApprovalTransactionId equals ApprovalTran.ApprovalTransactionId
+                    join ApprovalAction in _context.ApprovalActions on ApprovalTransactionDetail.ApprovalActionId equals ApprovalAction.ApprovalActionId
+                    join users in _context.Users on ApprovalTransactionDetail.CreatedBy equals users.UserId
+
+                    where (ApprovalTran.EntityId == entityId)
+
+                    select new ApprovalTransactionDetailsDTO
+                    {
+                        ApprovalActionName = ApprovalAction.ApprovalActionName,
+                        FirstName = users.FirstName,
+                        LastName = users.LastName,
+                        CreatedDate = ApprovalTransactionDetail.ModifiedDate.Value,
+
+
+                    }).ToList();
         }
     }
 }

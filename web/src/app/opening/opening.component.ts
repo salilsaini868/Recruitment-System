@@ -8,7 +8,7 @@ import { SkillModel } from '../shared/customModels/skill-model';
 import { OpeningSkillType, Status, ApprovalType } from '../app.enum';
 import { isNullOrUndefined } from 'util';
 import { DisplayMessageService } from '../shared/toastr/display.message.service';
-
+import { ApprovalhistoryComponent } from './../approval/approvalhistory.component';
 @Component({
     selector: 'app-opening',
     templateUrl: 'opening.component.html'

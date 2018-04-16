@@ -11,6 +11,8 @@ import { ApprovalServiceApp } from './approval.serviceApp';
 
 // Components
 import { StripComponent } from '../strip.component';
+import { ApprovalhistoryComponent } from '../approvalhistory.component';
+
 
 // Module
 import { SharedModule } from '../../shared/shared.module';
@@ -24,8 +26,8 @@ import { SharedModule } from '../../shared/shared.module';
     SharedModule,
     ApprovalRouterModule
   ],
-  exports: [StripComponent],
-  declarations: [StripComponent],
+  exports: [StripComponent,ApprovalhistoryComponent],
+  declarations: [StripComponent,ApprovalhistoryComponent],
   providers: [ApprovalServiceApp],
 })
 

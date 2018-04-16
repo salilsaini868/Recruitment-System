@@ -41,6 +41,12 @@ namespace RS.Web.Controllers
             return _approvalManager.GetAllApprovals();
         }
 
+        [HttpPost]
+        public IResult GetApprovalDetails(Guid entityId)
+        {
+            return _approvalManager.ApprovalTransactionDetails(entityId);
+        }
+
         [HttpGet]
         public IResult GetAllApprovalEventRoles()
         {
@@ -49,7 +55,7 @@ namespace RS.Web.Controllers
 
         [ValidateModel]
         [HttpPost]
-        public IResult createEventRole([FromBody]ApprovalEventRoleViewModel approvalEventRoleViewModel)
+        public IResult CreateEventRole([FromBody]ApprovalEventRoleViewModel approvalEventRoleViewModel)
         {
             var createdEventRole = _approvalManager.ManageApprovalEventRole(approvalEventRoleViewModel);
             return createdEventRole;

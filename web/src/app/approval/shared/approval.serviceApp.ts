@@ -15,4 +15,8 @@ export class ApprovalServiceApp {
   getApprovals(): Observable<any> {
     return this.apiApprovalService.ApiApprovalGetApprovalsGet().map((x) => x);
   }
+
+  getApprovalDetails(userId):Observable<any>{
+    return this.apiApprovalService.ApiApprovalGetApprovalDetailsPostResponse(userId).map(x => (x));
+}
 }

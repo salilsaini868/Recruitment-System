@@ -6,7 +6,6 @@ import { ApprovalServiceApp } from './shared/approval.serviceApp';
 import { AppConstants } from '../shared/constant/constant.variable';
 import { isNullOrUndefined } from 'util';
 import { ApprovalType } from '../app.enum';
-
 @Component({
   selector: 'app-approvalstrip',
   templateUrl: 'strip.component.html',
@@ -28,10 +27,10 @@ export class StripComponent implements OnInit {
   }
 
   getAllApprovalEvents() {
-    debugger;
+
     this.approvalServiceApp.getApprovalEventsById(this.approvalType).subscribe((data) => {
       this.approvalEvents = data.body;
-      console.log(this.approvalEvents);
+      // console.log(this.approvalEvents);
     });
   }
 

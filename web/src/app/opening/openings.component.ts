@@ -32,7 +32,6 @@ export class OpeningsComponent implements OnInit {
             }
         );
     }
-
     addOpening() {
         this.router.navigate(['opening']);
     }
