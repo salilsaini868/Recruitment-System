@@ -87,5 +87,10 @@ namespace RS.Data.Logic
             _context.Entry(candidate).State = EntityState.Modified;
             _context.SaveChanges();
         }
+
+        public List<string> GetOrganizationsOnInputChanged(string input)
+        {
+            return _context.Organizations.Where(x => x.Name.Substring(0, input.Length).Equals(input) && (x.IsActive && !x.IsDeleted)).Select(x => x.Name).ToList();
+        }
     }
 }

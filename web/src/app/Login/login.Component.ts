@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
   onSubmit(loginForm) {
     this.submitted = true;
     if (loginForm.valid) {
-      this.loginModel.userPassword = this.utilityService.encrypt(this.loginModel.userPassword);
+      // this.loginModel.userPassword = this.utilityService.encrypt(this.loginModel.userPassword);
       this.loginServiceApp.userLogin(this.loginModel).subscribe(
         (data) => {
           if (!isNullOrUndefined(data) && data.status === Status.Success) {

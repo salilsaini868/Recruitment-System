@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { AutocompleteModule } from 'ng2-input-autocomplete';
 
 // Modules
 import { CandidateRouterModule } from './candidate.route';
@@ -19,7 +20,8 @@ import { ApprovalModule } from '../../approval/shared/approval.module';
         FormsModule,
         TranslateModule,
         CandidateRouterModule,
-        ApprovalModule
+        ApprovalModule,
+        AutocompleteModule.forRoot()
     ],
     exports: [],
     declarations: [CandidateComponent, CandidatesComponent, AssignedUserComponent, CandidateDetailsComponent],

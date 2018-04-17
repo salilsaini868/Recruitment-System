@@ -399,5 +399,23 @@ namespace RS.Service.Logic
             return result;
         }
 
+        public IResult GetOrganizationsOnInputChanged(string input)
+        {
+            var result = new Result
+            {
+                Operation = Operation.Read,
+                Status = Status.Success
+            };
+            try
+            {
+                result.Body = _candidateRepository.GetOrganizationsOnInputChanged(input);
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Error;
+            }
+            return result;
+        }
     }
 }

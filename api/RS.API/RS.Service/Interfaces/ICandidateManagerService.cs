@@ -72,5 +72,7 @@ namespace RS.Service.Interfaces
         /// <returns></returns>
         IResult ApprovedForInterview(Guid candidateId);
 
+        IResult GetOrganizationsOnInputChanged(string input);
+
     }
 }

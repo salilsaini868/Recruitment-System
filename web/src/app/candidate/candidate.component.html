@@ -61,7 +61,7 @@
                                     <option [attr.value]="1">{{ 'CANDIDATE.MALE' | translate }}</option>
                                     <option [attr.value]="2">{{ 'CANDIDATE.FEMALE' | translate }}</option>
                                 </select>
-                                <div *ngIf="candidateModel.gender < 0 && submitted"  class="validation-error">
+                                <div *ngIf="candidateModel.gender < 0 && submitted" class="validation-error">
                                     {{ 'CANDIDATE.REQUIRED' | translate }}
                                 </div>
                             </div>
@@ -99,7 +99,7 @@
                                     <option disabled selected [attr.value]="-1">{{ 'COMMON.SELECTDEFAULT' | translate }}</option>
                                     <option *ngFor="let year of years" [attr.value]="year">{{year}}</option>
                                 </select>
-                                <div *ngIf="candidateModel.experienceYear < 0 && submitted"  class="validation-error">
+                                <div *ngIf="candidateModel.experienceYear < 0 && submitted" class="validation-error">
                                     {{ 'CANDIDATE.REQUIRED' | translate }}
                                 </div>
                                 <label>{{ 'CANDIDATE.EXPERIENCEYEAR' | translate }}</label>
@@ -110,7 +110,7 @@
                                     <option disabled selected [attr.value]="-1">{{ 'COMMON.SELECTDEFAULT' | translate }}</option>
                                     <option *ngFor="let month of months" [attr.value]="month">{{month}}</option>
                                 </select>
-                                <div *ngIf="candidateModel.experienceMonth < 0 && submitted"  class="validation-error">
+                                <div *ngIf="candidateModel.experienceMonth < 0 && submitted" class="validation-error">
                                     {{ 'CANDIDATE.REQUIRED' | translate }}
                                 </div>
                                 <label>{{ 'CANDIDATE.EXPERIENCEMONTH' | translate }}</label>
@@ -123,8 +123,10 @@
                             <div class="col-md-3 col-sm-3 col-xs-12">
                                 <label>{{ 'CANDIDATE.ORGANIZATION' | translate }}</label>
                             </div>
-                            <div class="col-md-9 col-sm-9 col-xs-12">
-                                <input class="full-input" type="text" required name="org" [(ngModel)]="candidateModel.organizationName" #org="ngModel" maxlength="250">
+                            <div class="col-md-9 col-sm-9 col-xs-12 auto-display">
+                                <input autocomplete [config]="config2" type="text"  [items]="organizations" (inputChangedEvent)="onInputChangedEvent($event)" required name="org"
+                                    [(ngModel)]="candidateModel.organizationName" #org="ngModel" maxlength="250" class="auto-input">
+
                                 <div *ngIf="org.errors && (org.dirty || submitted)" [hidden]="!org.errors.required" class="validation-error">
                                     {{ 'CANDIDATE.REQUIRED' | translate }}
                                 </div>
@@ -141,8 +143,8 @@
                                 <label>{{ 'CANDIDATE.DESCRIPTION' | translate }}</label>
                             </div>
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                                <textarea class="full-tarea" type="text" name="description" [(ngModel)]="candidateModel.description" #description="ngModel" required
-                                    maxlength="250">
+                                <textarea class="full-tarea" type="text" name="description" [(ngModel)]="candidateModel.description" #description="ngModel"
+                                    required maxlength="250">
                                 </textarea>
                                 <div *ngIf="description.errors && (description.dirty || submitted)" [hidden]="!description.errors.required" class="validation-error">
                                     {{ 'CANDIDATE.REQUIRED' | translate }}
@@ -151,7 +153,7 @@
                         </div>
                     </div>
                     <div>
-                        <input type="file" name="resume" (change)="fileChange($event)" placeholder="Upload file" accept=".pdf,.doc,.docx" >
+                        <input type="file" name="resume" (change)="fileChange($event)" placeholder="Upload file" accept=".pdf,.doc,.docx">
                         <div *ngIf="!isUploaded && submitted" class="validation-error">
                             {{ 'CANDIDATE.REQUIRED' | translate }}
                         </div>

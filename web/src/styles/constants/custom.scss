@@ -445,6 +445,27 @@
 
 /*========= DASHBOARD INNER PAGES COMMON CSS END HERE =========*/
 
+.auto-input{
+    border:1px solid $border-color !important;
+    width:100%;
+    height: 34px;
+}
+
+.auto-display{
+    div{
+        &:focus{
+            display: block !important;  
+        }
+        display: block !important;
+    }
+    .autocomplete{
+        input[type="text"]{
+            width:100%; 
+            height: 34px; 
+        }
+    }
+}
+
 
 
 

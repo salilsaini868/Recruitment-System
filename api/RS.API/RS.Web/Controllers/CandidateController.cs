@@ -130,6 +130,13 @@ namespace RS.Web.Controllers
 
         }
 
+        [HttpGet]
+        public IResult GetOrganizationsOnInputChanged(string input)
+        {
+            var organizations = _candidateManagerService.GetOrganizationsOnInputChanged(input);
+            return organizations;
+        }
+
         private void GetCandidateDocumentDetails(CandidateDocumentViewModel candidateDocumentViewModel, IFormFile file)
         {
             candidateDocumentViewModel.DocumentName = file.FileName;

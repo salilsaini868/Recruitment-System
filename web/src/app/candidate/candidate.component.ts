@@ -32,6 +32,8 @@ export class CandidateComponent implements OnInit {
     filePath: any;
     submitted = false;
     isUploaded = false;
+    organizations: string[] = [];
+    config2: any = {'placeholder': 'Enter Organization'};
 
     constructor(private openingServiceApp: OpeningServiceApp, private candidateServiceApp: CandidateServiceApp,
         private qualificationServiceApp: QualificationsServiceApp, private route: ActivatedRoute,
@@ -57,6 +59,22 @@ export class CandidateComponent implements OnInit {
     initializeMethods() {
         this.getOpenings();
         this.getAllQualifications();
+    }
+
+    onInputChangedEvent(input: string) {
+        if (!isNullOrUndefined(input) && input !== '' && input.replace(/\s/g, '').length) {
+            this.candidateServiceApp.getOrganizationOnInputChangedEvent(input).subscribe(
+                (data) => {
+                    if (data.status === Status.Success) {
+                        this.organizations = data.body;
+                    } else {
+                        this.msgService.showError('Error');
+                    }
+                }
+            );
+        } else {
+            this.organizations = [];
+        }
     }
 
     getAllQualifications(): void {
@@ -134,6 +152,7 @@ export class CandidateComponent implements OnInit {
     }
 
     onSubmit(candidateForm) {
+        debugger;
         this.submitted = true;
         if (candidateForm.valid) {
             if (isNullOrUndefined(this.candidateModel.candidateId)) {
