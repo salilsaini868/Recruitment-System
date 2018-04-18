@@ -22,4 +22,9 @@
         Candidate = 2
     }
 
+    public enum ShowType
+    {
+        All = 1,
+        Gender = 2
+    }
 }

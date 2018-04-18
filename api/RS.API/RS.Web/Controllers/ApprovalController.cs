@@ -76,5 +76,18 @@ namespace RS.Web.Controllers
             return createdEventRole;
         }
 
+        [HttpGet]
+        public IResult GetDashboardDetails()
+        {
+            var DashboardDetails = _approvalManager.GetDashboardDetails();
+            return DashboardDetails;
+        }
+
+        [HttpGet]
+        public IResult GetChartDetails(int showType)
+        {
+            var ChartDetails = _approvalManager.GetChartDetails(showType);
+            return ChartDetails;
+        }
     }
 }
