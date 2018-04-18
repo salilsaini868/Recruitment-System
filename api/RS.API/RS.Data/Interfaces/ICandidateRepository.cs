@@ -26,5 +26,6 @@ namespace RS.Data.Interfaces
         List<Candidates> GetCandidatesCorrespondingToLoggedUser(Guid userId);
 
         void ApprovedForInterview(Candidates candidate);
+
     }
 }

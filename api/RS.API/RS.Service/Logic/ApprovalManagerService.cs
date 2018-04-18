@@ -13,6 +13,8 @@ using RS.ViewModel.Approval;
 using System.Security.Claims;
 using System.Security.Principal;
 using RS.ViewModel.Opening;
+using RS.ViewModel.Dashboard;
+using RS.ViewModel.ChartViewModel;
 
 namespace RS.Service.Logic
 {
@@ -22,12 +24,14 @@ namespace RS.Service.Logic
         private readonly ClaimsPrincipal _principal;
         private readonly IApprovalRepository _approvalRepository;
         private readonly IOpeningRepository _openingRepository;
+        private readonly ICandidateRepository _candidateRepository;
         #endregion
-        public ApprovalManagerService(IPrincipal principal, IApprovalRepository approvalRepository, IOpeningRepository openingRepository)
+        public ApprovalManagerService(IPrincipal principal, IApprovalRepository approvalRepository, IOpeningRepository openingRepository, ICandidateRepository candidateRepository)
         {
             _principal = principal as ClaimsPrincipal;
             _approvalRepository = approvalRepository;
             _openingRepository = openingRepository;
+            _candidateRepository = candidateRepository;
         }
 
         public IResult GetApprovalEvents(int approvalId, Guid entityId)
@@ -73,7 +77,7 @@ namespace RS.Service.Logic
                     permissibleEvent = _approvalRepository.GetApprovalEventOrderOfUser(entityId, userId, approvalId);
                 }
 
-                if (permissibleEvent > 0 && approvalEventAndTransactionDetail.approvalTransactionViewModel != null )
+                if (permissibleEvent > 0 && approvalEventAndTransactionDetail.approvalTransactionViewModel != null)
                 {
                     approvalEventAndTransactionDetail.approvalTransactionViewModel.PermissibleEvent = permissibleEvent;
                 }
@@ -323,7 +327,7 @@ namespace RS.Service.Logic
 
             var approvalTransactionViewModel = entityAndApprovalViewModel.approvalTransactionViewModel;
             approvalTransaction.ApprovalId = approvalTransactionViewModel.ApprovalId;
-            approvalTransaction.ApprovalActionId = approvalTransactionViewModel.ApprovalActions[0].ApprovalActionId;
+            approvalTransaction.ApprovalActionId = approvalTransactionViewModel.ApprovalActionId;
             if (entityAndApprovalViewModel.openingViewModel != null)
             {
                 approvalTransaction.EntityId = entityAndApprovalViewModel.openingViewModel.OpeningId;
@@ -361,5 +365,49 @@ namespace RS.Service.Logic
             return User.UserId;
         }
 
+        public IResult GetDashboardDetails()
+        {
+            var result = new Result
+            {
+                Operation = Operation.Read,
+                Status = Status.Success
+            };
+            try
+            {
+                DashboardViewModel dashboardViewModel = new DashboardViewModel();
+                dashboardViewModel.TotalOpenOpenings = _approvalRepository.GetTotalOpenOpenings();
+                dashboardViewModel.TotalCloseOpenings = _approvalRepository.GetTotalCloseOpenings();
+                dashboardViewModel.TotalCandidateHired = _approvalRepository.GetTotalCandidatesHired();
+                dashboardViewModel.TotalCandidateInterviewed = _approvalRepository.GetTotalCandidatesAttendedInterview(DateTime.Now.Month);
+                result.Body = dashboardViewModel;
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Error;
+            }
+            return result;
+        }
+
+        public IResult GetChartDetails(int showType)
+        {
+            var result = new Result
+            {
+                Operation = Operation.Read,
+                Status = Status.Success
+            };
+            try
+            {
+                ChartViewModel chartViewModel = new ChartViewModel();
+                chartViewModel.Series = _approvalRepository.GetSeriesDetail(showType);
+                result.Body = chartViewModel;
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Error;
+            }
+            return result;
+        }
     }
 }
