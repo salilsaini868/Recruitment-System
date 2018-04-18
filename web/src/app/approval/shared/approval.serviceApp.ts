@@ -24,4 +24,12 @@ export class ApprovalServiceApp {
     return this.apiApprovalService.ApiApprovalManageApprovalTransactionPut(entityAndApprovalModel).map(x => (x));
   }
 
+  getDashboardDetails(): Observable<any> {
+    return this.apiApprovalService.ApiApprovalGetDashboardDetailsGet().map(x => (x));
+  }
+
+  getChartDetails(showType): Observable<any> {
+    return this.apiApprovalService.ApiApprovalGetChartDetailsGet(showType).map(x => (x));
+  }
+
 }

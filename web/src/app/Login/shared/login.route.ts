@@ -12,8 +12,7 @@ const LOGIN_ROUTES: Routes = [
     },
     {
         path: 'forgotpassword',
-        component: ForgotpasswordComponent,
-        canActivate: [RoleGuardService]
+        component: ForgotpasswordComponent
     }
 ];
 

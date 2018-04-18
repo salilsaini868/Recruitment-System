@@ -281,6 +281,77 @@ export class ApprovalService extends BaseService {
     return this.ApiApprovalManageApprovalTransactionPutResponse(entityAndApprovalViewModel).pipe(
       map(_r => _r.body)
     );
+  }
+  /**
+   */
+  ApiApprovalGetDashboardDetailsGetResponse(): Observable<HttpResponse<IResult>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    let req = new HttpRequest<any>(
+      "GET",
+      this.rootUrl + `/api/Approval/GetDashboardDetails`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      filter(_r => _r instanceof HttpResponse),
+      map(_r => {
+        let _resp = _r as HttpResponse<any>;
+        let _body: IResult = null;
+        _body = _resp.body as IResult
+        return _resp.clone({body: _body}) as HttpResponse<IResult>;
+      })
+    );
+  }
+
+  /**
+   */
+  ApiApprovalGetDashboardDetailsGet(): Observable<IResult> {
+    return this.ApiApprovalGetDashboardDetailsGetResponse().pipe(
+      map(_r => _r.body)
+    );
+  }
+  /**
+   * @param showType - undefined
+   */
+  ApiApprovalGetChartDetailsGetResponse(showType: number): Observable<HttpResponse<IResult>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    if (showType != null) __params = __params.set("showType", showType.toString());
+    let req = new HttpRequest<any>(
+      "GET",
+      this.rootUrl + `/api/Approval/GetChartDetails`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      filter(_r => _r instanceof HttpResponse),
+      map(_r => {
+        let _resp = _r as HttpResponse<any>;
+        let _body: IResult = null;
+        _body = _resp.body as IResult
+        return _resp.clone({body: _body}) as HttpResponse<IResult>;
+      })
+    );
+  }
+
+  /**
+   * @param showType - undefined
+   */
+  ApiApprovalGetChartDetailsGet(showType: number): Observable<IResult> {
+    return this.ApiApprovalGetChartDetailsGetResponse(showType).pipe(
+      map(_r => _r.body)
+    );
   }}
 
 export module ApprovalService {
