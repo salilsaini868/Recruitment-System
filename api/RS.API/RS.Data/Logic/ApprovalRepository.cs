@@ -82,7 +82,7 @@ namespace RS.Data.Logic
                         ApprovalActionName = ApprovalAction.ApprovalActionName,
                         FirstName = users.FirstName,
                         LastName = users.LastName,
-                        CreatedDate = ApprovalTransactionDetail.ModifiedDate.Value,
+                        ActionPerformedDate = ApprovalTransactionDetail.ModifiedDate.Value,
 
 
                     }).ToList();

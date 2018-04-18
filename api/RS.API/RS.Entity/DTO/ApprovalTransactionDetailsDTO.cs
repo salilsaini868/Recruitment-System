@@ -9,6 +9,6 @@ namespace RS.Entity.DTO
         public string ApprovalActionName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public DateTime? CreatedDate { get; set; }
+        public DateTime? ActionPerformedDate { get; set; }
     }
 }
