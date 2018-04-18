@@ -1,8 +1,12 @@
-﻿using RS.Common.CommonData;
+﻿using MimeKit;
+using RS.Common.CommonData;
 using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace RS.Common.Extensions
 {
@@ -91,6 +95,29 @@ namespace RS.Common.Extensions
         {
             var pinfo = entity.GetType().GetProperty(columnName);
             if (pinfo != null) { pinfo.SetValue(entity, value, null); }
+        }
+
+        public static void SendMail(string email, string subject, string msg)
+        {
+            try
+            {
+                SmtpClient client = new SmtpClient("smtp.gmail.com");
+                client.UseDefaultCredentials = false;
+                client.EnableSsl = true;
+                client.Credentials = new NetworkCredential("karthikkharvi25@gmail.com","karthik111");
+
+                MailMessage mailMessage = new MailMessage();
+                mailMessage.From = new MailAddress("karthikkharvi25@gmail.com", "EVRY INDIA");
+                mailMessage.To.Add(email);
+                mailMessage.IsBodyHtml = true;
+                mailMessage.Body = msg;
+                mailMessage.Subject = subject;
+                client.Send(mailMessage);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

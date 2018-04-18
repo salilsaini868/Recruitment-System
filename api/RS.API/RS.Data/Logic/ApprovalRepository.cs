@@ -71,7 +71,7 @@ namespace RS.Data.Logic
 
         public ApprovalTransactions GetApprovalTransactionByEntity(Guid entityId)
         {
-            return _context.ApprovalTransactions.FirstOrDefault(x => x.EntityId == entityId && x.IsActive && !x.IsDeleted);
+            return _context.ApprovalTransactions.Include(t => t.ApprovalAction).FirstOrDefault(x => x.EntityId == entityId && x.IsActive && !x.IsDeleted);
         }
 
         public void UpdateApprovalTransaction(ApprovalTransactions approvalTransaction, ApprovalTransactionDetails approvalTransactionDetail)

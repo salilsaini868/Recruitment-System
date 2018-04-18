@@ -11,6 +11,7 @@ using RS.Entity.Models;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Security.Principal;
+using System.Threading.Tasks;
 
 namespace RS.Service.Logic
 {
@@ -100,6 +101,14 @@ namespace RS.Service.Logic
                     userRole.Role = _roleRepository.GetByID(user.RoleId);
                     userRole.MapAuditColumns((ClaimsIdentity)_principal.Identity);
                     _userRepository.CreateUser(userModel, userRole);
+                    if (userModel.UserId != Guid.Empty)
+                    {
+                        string email = userModel.Email;
+                        string subject = "Registration Confirmation";
+                        string msg = "Welcome" + userModel.FirstName + " " + userModel.LastName;
+                        string userName = userModel.FirstName + " " + userModel.LastName;
+                        GenericHelper.SendMail(email, subject, msg);
+                    }
                     result.Body = userModel.UserId;
                 }
             }
@@ -109,7 +118,6 @@ namespace RS.Service.Logic
                 result.Status = Status.Error;
             }
             return result;
-
         }
 
         public IResult ForgotPassword(string userName)
