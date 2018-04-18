@@ -7,9 +7,9 @@ namespace RS.Data.Interfaces
 {
     public interface ICandidateRepository : IRepository<Candidates>
     {
-        void AddCandidate(Candidates candidate, OpeningCandidates openingCandidate, Organizations organization);
+        void AddCandidate(Candidates candidate, OpeningCandidates openingCandidate);
 
-        void UpdateCandidate(Candidates candidate, OpeningCandidates openingCandidate, Organizations organization);
+        void UpdateCandidate(Candidates candidate, OpeningCandidates openingCandidate);
 
         new List<Candidates> GetAll();
 
@@ -18,5 +18,13 @@ namespace RS.Data.Interfaces
         Candidates GetByID(Guid candidateId);
 
         Organizations GetOrganization(String organization);
+
+        void AssignUserForCandidate(CandidateAssignedUser candidateAssignedUser);
+
+        List<CandidateAssignedUser> GetAssignedUsersByID(Guid candidateId);
+
+        List<Candidates> GetCandidatesCorrespondingToLoggedUser(Guid userId);
+
+        void ApprovedForInterview(Candidates candidate);
     }
 }

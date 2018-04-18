@@ -13,5 +13,7 @@ namespace RS.Data.Interfaces
         Openings GetByID(Guid openingId);
 
         new List<Openings> GetAll();
+
+        List<Openings> GetOpeningsCorrespondingToLoggedUser(Guid userId);
     }
 }

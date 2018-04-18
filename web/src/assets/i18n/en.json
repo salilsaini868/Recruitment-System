@@ -1,6 +1,7 @@
 {
-    "LOGIN":{
-        "INVALIDLOGIN":"Invalid username and password"
+    "LOGIN": {
+        "SIGNIN":"SIGN IN",
+        "INVALIDLOGIN": "Invalid username and password"
     },
     "SKILLS": {
         "NAME": "Skill name",
@@ -49,34 +50,41 @@
         "EMAILPATTERN": "joe@abc.com",
         "PASSWORDPATTERN": "Password must contain minimum 8 characters",
         "PASSWORDMISMATCH": "Password doesnot match",
-        "LOGIN":"Login",
-        "SAVE":"Save",
-        "UPDATE":"Update",
-        "DELETE":"Delete",
-        "FORGOTPASSWORD":"Forgot password?"
+        "LOGIN": "Login",
+        "SAVE": "Save",
+        "UPDATE": "Update",
+        "DELETE": "Delete",
+        "FORGOTPASSWORD": "Forgot password?"
     },
     "OPENING": {
         "LIST": "List of Openings",
-        "TITLE": "Job Title",
-        "DESCRIPTION": "Job Description",
+        "TITLE": "Title",
+        "DESCRIPTION": "Description",
         "PRIMARYSKILLS": "Primary Skills",
         "SECONDARYSKILLS": "Secondary Skills",
         "SAMESKILLS": "Skills are same in both primary and secondary",
         "REQUIRED": "Required",
-        "PRIMARYSKILLMANDATORY":"Primary Skill is Mandatory",
-        "SAVE": "Save   ",
+        "PRIMARYSKILLMANDATORY": "Primary Skill is Mandatory",
+        "SAVE": "Save",
         "UPDATE": "Update",
         "DELETE": "Delete",
-        "ADD" : "Add"
+        "VIEW": "View",
+        "CREATEOPENING": "Create Opening",
+        "DETAILS": "Opening Details",
+        "CREATEDON": "Created On",
+        "UPDATEDON": "Updated On",
+        "STATUS": "Status",
+        "ADD": "Add Candidate",
+        "EDIT": "Edit"
     },
-    "FORGOTPASSWORD" :{
+    "FORGOTPASSWORD": {
         "TITLE": "Forgot password",
-        "ENTERMAILID" : "please enter valid email Id:",
+        "ENTERMAILID": "please enter valid email Id:",
         "REQUIRED": "This field is required",
-        "OK":"Ok",
-        "CLOSE":"Close"
+        "OK": "Ok",
+        "CLOSE": "Close"
     },
-    "CHANGEPASSWORD" :{
+    "CHANGEPASSWORD": {
         "TITLE": "Change password",
         "OLDPASSWORD": "Old password",
         "NEWPASSWORD": "New password",
@@ -85,16 +93,15 @@
         "NEWREQURIED": "New Password Required",
         "CONFIRMREQURIED": "Confirm Password Required",
         "MINIMUM": "Minimum 4 character requried",
-        "CHANGEPASSWORDSUCCESS":"Password changed successfully",
+        "CHANGEPASSWORDSUCCESS": "Password changed successfully",
         "SUBMIT": "Submit",
         "CLOSE": "Close"
     },
     "EDITPROFILE": {
         "UPDATEPROFILESUCCESS": "Profile updated successfully",
-        "TITLE":"Edit profile",
+        "TITLE": "Edit profile",
         "DUPLICATEUSER": "UserName or Email Already Exists!"
     },
-    
     "CANDIDATE": {
         "NAME": "Name",
         "FIRSTNAME": "First Name",
@@ -106,32 +113,51 @@
         "OPENINGFOR": "Opening For",
         "QUALIFICATION": "Qualification",
         "EXPERIENCE": "Experience",
-        "EXPERIENCEYEAR": "Year of Experience",
-        "EXPERIENCEMONTH": "Month of Experience",
-        "YEAR": "Yr",
-        "MONTH": "Mn",
+        "EXPERIENCEYEAR": "yy",
+        "EXPERIENCEMONTH": "mm",
+        "YEAR": "yr",
+        "MONTH": "mn",
         "MALE": "Male",
         "FEMALE": "Female",
         "ORGANIZATION": "Previous Organization",
-        "LIST":"List of Candidates",
+        "WORKING": "Working with",
+        "LIST": "List of Candidates",
         "SAVE": "Save",
-        "UPDATE": "Update",
-        "DELETE": "Delete"
+        "ADDCANDIDATE": "Add Candidate",
+        "DETAILS": "Candidate Details",
+        "ASSIGNUSER": "Assign User",
+        "EDIT": "Edit",
+        "DELETE": "Delete",
+        "SUBMIT": "Submit",
+        "BACK": "Back",
+        "STATUS": "Status",
+        "CANCEL": "Cancel",
+        "TAKEINTERVIEW": "Take Interview",
+        "STARTINTERVIEW": "Start Interview",
+        "VIEW": "View",
+        "NOUSERSASSIGNED": "Please assign the Users",
+        "NODOCUMENTS": "Please Upload Necessary Documents",
+        "PROMPTMSG": "Do you want to start the Interview?",
+        "DOWNLOADRESUME": "Download Candidate Resume"
     },
     "EVENTROLE": {
         "APPROVALEVENT": "Approval Event",
         "APPROVAL": "Approval",
-        "ROLE":"Role",
-        "USERNAME":"Name",
-        "USERS":"Users",
-        "LIST":"List of EventRoles",
+        "ROLE": "Role",
+        "USERNAME": "Name",
+        "USERS": "Users",
+        "LIST": "List of EventRoles",
         "SAVE": "Save",
         "UPDATE": "Update",
         "DELETE": "Delete",
-        "MANDATORY":"User is Mandatory"
+        "MANDATORY": "User is Mandatory"
     },
     "COMMON": {
         "SOMEERROROCURRED": "Some errror has been occured",
-        "SELECTDEFAULT":"--select--"
+        "INFO": "Successfully Submitted",
+        "SELECTDEFAULT": "--select--"
+    },
+    "OTHERS": {
+        "REQUIRED": "Required"
     }
 }

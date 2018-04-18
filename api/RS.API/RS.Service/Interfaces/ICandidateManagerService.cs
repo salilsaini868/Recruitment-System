@@ -1,8 +1,10 @@
-﻿using RS.Common.CommonData;
+﻿using Microsoft.AspNetCore.Http;
+using RS.Common.CommonData;
 using RS.ViewModel.Candidate;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace RS.Service.Interfaces
 {
@@ -13,14 +15,14 @@ namespace RS.Service.Interfaces
         /// </summary>
         /// <param name="candidate"></param>
         /// <returns></returns>
-        IResult AddCandidate(CandidateViewModel candidate);
+        IResult AddCandidate(CandidateViewModel candidate, CandidateDocumentViewModel candidateDocumentViewModel);
 
         /// <summary>
         /// Update a Candidate Details
         /// </summary>
         /// <param name="candidate"></param>
         /// <returns></returns>
-        IResult UpdateCandidate(CandidateViewModel candidate);
+        IResult UpdateCandidate(CandidateViewModel candidate, CandidateDocumentViewModel candidateDocumentViewModel);
 
         /// <summary>
         /// Delete a Candidate
@@ -41,5 +43,34 @@ namespace RS.Service.Interfaces
         /// <param name="id"></param>
         /// <returns></returns>
         IResult GetCandidateById(Guid id);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="candidateAssignedUserList"></param>
+        /// <returns></returns>
+        IResult AssignUserForCandidate(List<CandidateAssignedUserModel> candidateAssignedUserList);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="candidateId"></param>
+        /// <returns></returns>
+        IResult GetAssignedUsersById(Guid candidateId);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        IResult GetCandidatesCorrespondingToLoggedUser(Guid userId);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="candidateId"></param>
+        /// <returns></returns>
+        IResult ApprovedForInterview(Guid candidateId);
+
     }
 }

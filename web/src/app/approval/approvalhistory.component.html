@@ -3,8 +3,11 @@
                 <label>Approval History:</label>
                 <ul>
                         <li *ngFor="let approvalResponseModel of approvalResponseModel.body">
-                                <p><span class="box-header"> {{approvalResponseModel.approvalActionName }} by </span> {{approvalResponseModel.firstName}} {{approvalResponseModel.lastName}}
-                                         on <br>{{approvalResponseModel.createdDate | date: 'dd/MM/yyyy hh:mm'}} </p>
+                                <p>
+                                        <span class="box-header"> {{approvalResponseModel.approvalActionName }} by </span> {{approvalResponseModel.firstName}}
+                                        {{approvalResponseModel.lastName}} on
+                                        <br>{{approvalResponseModel.createdDate | date: 'dd/MM/yyyy hh:mm:ss'}}
+                                </p>
                         </li>
                 </ul>
         </div>

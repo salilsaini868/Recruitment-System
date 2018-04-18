@@ -15,7 +15,7 @@
                     <div>
                         <label>{{ 'EVENTROLE.APPROVALEVENT' | translate }}</label>
                         <div>
-                            <select [(ngModel)]="approvalEventRoleModel.approvalEventId" [ngModelOptions]="{standalone: true}" required>
+                            <select [(ngModel)]="approvalEventRoleModel.approvalEventId" [ngModelOptions]="{standalone: true}" (change)="setRoles()" required>
                                 <option *ngFor="let approvalEvent of approvalEvents" [attr.value]="approvalEvent.approvalEventId">{{approvalEvent.approvalEventName}}</option>
                             </select>
                         </div>

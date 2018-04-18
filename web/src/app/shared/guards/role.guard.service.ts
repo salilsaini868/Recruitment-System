@@ -13,6 +13,7 @@ import { isNullOrUndefined } from 'util';
 export class RoleGuardService implements CanActivate {
 
   constructor(public auth: AuthService, public router: Router) { }
+
   canActivate(route: ActivatedRouteSnapshot): boolean {
     // this will be passed from the route config
     // on the data property

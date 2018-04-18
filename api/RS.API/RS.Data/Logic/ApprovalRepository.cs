@@ -5,8 +5,13 @@ using Microsoft.EntityFrameworkCore;
 using RS.Data;
 using RS.Data.Interfaces;
 using RS.Entity.Models;
+using RS.ViewModel.Approval;
 using RS.ViewModel.User;
+
 using RS.Entity.DTO;
+
+using RS.Common.Enums;
+
 
 namespace RS.Data.Logic
 {
@@ -56,6 +61,7 @@ namespace RS.Data.Logic
             });
             return dictionary;
         }
+
         public List<ApprovalTransactionDetails> GetApprovalTransactionDetails()
         {
             return _context.ApprovalTransactionDetails.ToList();
@@ -81,5 +87,67 @@ namespace RS.Data.Logic
 
                     }).ToList();
         }
+
+
+        public int GetApprovalEventOrderNumber(ApprovalEventViewModel approvalEventViewModel)
+        {
+            return _context.ApprovalEvents.FirstOrDefault(x => (x.ApprovalEventName == approvalEventViewModel.ApprovalEventName) && (x.ApprovalId == approvalEventViewModel.ApprovalId)).ApprovalEventOrder;
+        }
+
+        public void CreateApprovalTransaction(ApprovalTransactions approvalTransaction)
+        {
+            _context.ApprovalTransactions.Add(approvalTransaction);
+            _context.SaveChanges();
+        }
+
+        public ApprovalTransactions GetApprovalTransactionByEntity(Guid entityId)
+        {
+            return _context.ApprovalTransactions.Include(t => t.ApprovalAction).FirstOrDefault(x => x.EntityId == entityId && x.IsActive && !x.IsDeleted);
+        }
+
+        public void UpdateApprovalTransaction(ApprovalTransactions approvalTransaction, ApprovalTransactionDetails approvalTransactionDetail)
+        {
+            _context.ApprovalTransactionDetails.Add(approvalTransactionDetail);
+            _context.Entry(approvalTransaction).State = EntityState.Modified;
+            _context.SaveChanges();
+        }
+
+        public void AddApprovalTransactionDetails(ApprovalTransactionDetails approvalTransactionDetail)
+        {
+            _context.ApprovalTransactionDetails.Add(approvalTransactionDetail);
+            _context.SaveChanges();
+        }
+
+        public List<Users> GetApprovedUsersByRole(int roleId, int approvalEventId)
+        {
+            return _context.ApprovalEventRoles.Include(t => t.User).Where(x => x.ApprovalEventId == approvalEventId
+             && x.RoleId == roleId && x.IsActive && !x.IsDeleted).Select(x => x.User).ToList();
+        }
+
+        public List<Users> GetApprovedUsers(int approvalEventId)
+        {
+            return _context.ApprovalEventRoles.Where(x => x.ApprovalEventId == approvalEventId
+             && x.IsActive && !x.IsDeleted).Select(x => x.User).ToList();
+        }
+
+        public List<ApprovalTransactions> GetAllApprovalTransactions(List<Guid> openingIds)
+        {
+            return _context.ApprovalTransactions.Include(t => t.ApprovalAction).Where(x => openingIds.Contains(x.EntityId) && (x.IsActive && !x.IsDeleted)).ToList();
+        }
+
+        public int GetApprovalEventOrderOfUser(Guid entityId, Guid userId, int approvalId)
+        {
+            if (approvalId == (int)Approval.Opening)
+            {
+                var assignedUser = _context.ApprovalEventRoles.Include(x => x.ApprovalEvent).FirstOrDefault(x => x.UserId == userId && x.IsActive && !x.IsDeleted);
+                return assignedUser.ApprovalEvent.ApprovalEventOrder;
+            }
+            else
+            {
+                var assignedUser = _context.CandidateAssignedUser.Include(x => x.ApprovalEvent).FirstOrDefault(x => x.UserId == userId && x.CandidateId == entityId && x.IsActive && !x.IsDeleted);
+                return assignedUser.ApprovalEvent.ApprovalEventOrder;
+            }    
+        }
+
     }
 }

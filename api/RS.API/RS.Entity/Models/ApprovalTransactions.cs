@@ -19,6 +19,8 @@ namespace RS.Entity.Models
         public int ApprovalActionId { get; set; }
         public Guid EntityId { get; set; }
         public int EntityType { get; set; }
+        public bool IsApproved { get; set; }
+        public bool IsFurtherActionRequired { get; set; }
 
         public ApprovalActions ApprovalAction { get; set; }
         public ICollection<ApprovalTransactionDetails> ApprovalTransactionDetails { get; set; }

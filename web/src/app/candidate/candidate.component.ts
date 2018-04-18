@@ -10,11 +10,11 @@ import { UtilityService } from '../shared/utility/utility.service';
 import { TranslateService } from '@ngx-translate/core';
 
 // Models
-import { OpeningViewModel } from '../webapi/models/opening-view-model';
-import { CandidateViewModel } from '../webapi/models';
-import { QualificationViewModel } from '../webapi/models/qualification-view-model';
+import { CandidateViewModel, QualificationViewModel, OpeningViewModel } from '../webapi/models';
 import { Status, ApprovalType } from '../app.enum';
 import { DisplayMessageService } from '../shared/toastr/display.message.service';
+import { AppConstants } from '../shared/constant/constant.variable';
+import { ApprovalResponseModel } from '../shared/customModels/approvel-response.model';
 
 @Component({
     selector: 'app-candidate',
@@ -29,6 +29,10 @@ export class CandidateComponent implements OnInit {
     months: number[] = [];
     defaultOption: any;
     approval: any;
+    uploadedFile: any;
+    filePath: any;
+    submitted = false;
+    isUploaded = false;
 
     constructor(private openingServiceApp: OpeningServiceApp, private candidateServiceApp: CandidateServiceApp,
         private qualificationServiceApp: QualificationsServiceApp, private route: ActivatedRoute,
@@ -102,7 +106,7 @@ export class CandidateComponent implements OnInit {
                 this.openingServiceApp.getOpeningById(openingId).subscribe(
                     (data) => {
                         if (data.status === Status.Success) {
-                            this.candidateModel.opening = data.body.openingId;
+                            this.candidateModel.openingId = data.body.openingId;
                             this.openings.push(data.body);
                         } else {
                             this.msgService.showError('Error');
@@ -131,28 +135,59 @@ export class CandidateComponent implements OnInit {
     }
 
     onSubmit(candidateForm) {
+        this.submitted = true;
         if (candidateForm.valid) {
             if (isNullOrUndefined(this.candidateModel.candidateId)) {
-                this.candidateServiceApp.addCandidate(this.candidateModel).subscribe(
+                this.candidateServiceApp.addCandidate(AppConstants.uriForAdd, this.candidateModel, this.uploadedFile).
+                    subscribe(
                     (data) => {
-                        if (data.status === Status.Success) {
+                        if (data.body.status === Status.Success) {
                             this.showCandidateList();
                         } else {
                             this.msgService.showError('Error');
                         }
-                    }
-                );
+                    });
             } else {
-                this.candidateServiceApp.updateCandidate(this.candidateModel).subscribe(
+                this.candidateServiceApp.updateCandidate(AppConstants.uriForUpdate, this.candidateModel, this.uploadedFile).subscribe(
                     (data) => {
-                        if (data.status === Status.Success) {
+                        if (data.body.status === Status.Success) {
                             this.showCandidateList();
                         } else {
                             this.msgService.showError('Error');
                         }
-                    }
-                );
+                    });
             }
         }
     }
+
+    downloadCandidateResume(documentName, fileName) {
+        this.candidateServiceApp.downloadCandiadteResume(AppConstants.uriForFile, documentName).subscribe(
+            (data) => {
+                const blobURL = window.URL.createObjectURL(data);
+                const anchor = document.createElement('a');
+                anchor.download = fileName;
+                anchor.href = blobURL;
+                anchor.click();
+            }
+        );
+    }
+
+    fileChange(event) {
+        const fileList: FileList = event.target.files;
+        if (fileList.length > 0) {
+            this.isUploaded = true;
+            const file: File = fileList[0];
+            this.uploadedFile = file;
+        }
+    }
+    assignUser() {
+        if (!isNullOrUndefined(this.candidateModel.candidateId)) {
+            this.router.navigate(['AssignedUser', this.candidateModel.candidateId]);
+        }
+    }
+
+    goBack() {
+        this.router.navigate(['Candidates']);
+    }
+
 }

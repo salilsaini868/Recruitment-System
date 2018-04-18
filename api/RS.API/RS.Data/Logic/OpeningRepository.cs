@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RS.Common.Enums;
 using RS.Data;
 using RS.Data.Interfaces;
 using RS.Entity.Models;
@@ -29,6 +30,17 @@ namespace RS.Data.Logic
             return _context.Openings.Include(t => t.OpeningSkills).ThenInclude(r => r.Skill).FirstOrDefault(x => (x.IsActive && !x.IsDeleted) && (x.OpeningId == openingId));
         }
 
+        public List<Openings> GetOpeningsCorrespondingToLoggedUser(Guid userId)
+        {
+            var openings = new List<Openings>();
+            var eventRole = _context.ApprovalEventRoles.Include(x => x.ApprovalEvent).FirstOrDefault(x => x.UserId == userId);
+            if (eventRole != null && eventRole.ApprovalEvent.ApprovalId == (int)Approval.Opening)
+            {
+                openings = _context.Openings.Include(t => t.OpeningSkills).ThenInclude(r => r.Skill).Where(x => (x.IsActive && !x.IsDeleted)).OrderByDescending(x => x.CreatedDate).ThenByDescending(x => x.ModifiedDate).ToList();
+            }
+            return openings;
+        }
+
         public void UpdateOpeningSkills(List<OpeningSkills> openingSkills)
         {
             openingSkills.ForEach(x => _context.OpeningSkills.Add(x));
@@ -36,7 +48,13 @@ namespace RS.Data.Logic
 
         List<Openings> IOpeningRepository.GetAll()
         {
-            return _context.Openings.Include(t => t.OpeningSkills).ThenInclude(r => r.Skill).Where(x => (x.IsActive && !x.IsDeleted)).OrderByDescending(x => x.CreatedDate).ThenByDescending(x => x.ModifiedDate).ToList();
+            var openings = new List<Openings>();
+            var openingIds = _context.ApprovalTransactions.Where(x => x.ApprovalId == (int)Approval.Opening && x.IsApproved && (x.IsActive && !x.IsDeleted)).Select(x => x.EntityId).ToList();
+            if (openingIds.Any())
+            {
+                return _context.Openings.Include(t => t.OpeningSkills).ThenInclude(r => r.Skill).Where(x => openingIds.Contains(x.OpeningId) && (x.IsActive && !x.IsDeleted)).OrderByDescending(x => x.CreatedDate).ThenByDescending(x => x.ModifiedDate).ToList();
+            }
+            return openings;
         }
     }
 }

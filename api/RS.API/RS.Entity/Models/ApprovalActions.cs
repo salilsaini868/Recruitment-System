@@ -17,5 +17,6 @@ namespace RS.Entity.Models
         public int ApprovalEventId { get; set; }
 
         public ApprovalEvents ApprovalEvent { get; set; }
+
     }
 }

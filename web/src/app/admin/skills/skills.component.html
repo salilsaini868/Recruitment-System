@@ -14,9 +14,11 @@
                                         <label for="name"> {{ 'SKILLS.NAME' | translate }}</label>
                                     </div>
                                     <div class="col-md-9 col-sm-9 col-xs-12">
-                                        <input type="hidden" name="skillId" [(ngModel)]="skillsModel.skillId">
-                                        <input type="text" class="full-input" id="skills" id="name" name="name" [(ngModel)]="skillsModel.name" required minlength="3"
-                                            maxlength="20" element-validation>
+                                        <input autofocus type="text" class="full-input" id="skills" id="name" name="skillName" [(ngModel)]="skillsModel.name" #skillName="ngModel" required minlength="3"
+                                            maxlength="20" (blur)="onBlurMethod()">
+                                        <div *ngIf="skillName.errors && (skillName.dirty || submitted)" [hidden]="!skillName.errors.required" class="validation-error">
+                                            {{ 'USER.REQUIRED' | translate }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -26,7 +28,10 @@
                                         <label for="description">{{ 'SKILLS.DESCRIPTION' | translate }} </label>
                                     </div>
                                     <div class="col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" class="full-input" id="description" name="description" [(ngModel)]="skillsModel.description">
+                                        <input type="text" class="full-input" id="description" name="description" [(ngModel)]="skillsModel.description" #description="ngModel" required>
+                                        <div *ngIf="description.errors && (description.dirty || submitted)" [hidden]="!description.errors.required" class="validation-error">
+                                            {{ 'USER.REQUIRED' | translate }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -71,5 +76,4 @@
     <div class="table-slide">
         <p>Slide to view table</p>
     </div>
-
 </div>

@@ -6,4 +6,7 @@ export class AppConstants {
   public static get EmailClaim(): string { return 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'; }
   public static get NameClaim(): string { return 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'; }
   public static get IdClaim(): string { return 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid'; }
+  public static get uriForAdd(): string { return '/api/Candidate/AddCandidate'; }
+  public static get uriForUpdate(): string { return '/api/Candidate/UpdateCandidate'; }
+  public static get uriForFile(): string { return '/api/Candidate/DownloadFile'; }
 }

@@ -12,6 +12,7 @@ using RS.Entity.Models;
 using RS.ViewModel.Approval;
 using System.Security.Claims;
 using System.Security.Principal;
+using RS.ViewModel.Opening;
 
 namespace RS.Service.Logic
 {
@@ -20,14 +21,16 @@ namespace RS.Service.Logic
         #region Global Variables
         private readonly ClaimsPrincipal _principal;
         private readonly IApprovalRepository _approvalRepository;
+        private readonly IOpeningRepository _openingRepository;
         #endregion
-        public ApprovalManagerService(IPrincipal principal,IApprovalRepository approvalRepository)
+        public ApprovalManagerService(IPrincipal principal, IApprovalRepository approvalRepository, IOpeningRepository openingRepository)
         {
             _principal = principal as ClaimsPrincipal;
             _approvalRepository = approvalRepository;
+            _openingRepository = openingRepository;
         }
 
-        public IResult GetApprovalEvents(int approvalId)
+        public IResult GetApprovalEvents(int approvalId, Guid entityId)
         {
             var result = new Result
             {
@@ -36,10 +39,11 @@ namespace RS.Service.Logic
             };
             try
             {
+                var approvalEventAndTransactionDetail = new ApprovalEventAndTransactionDetail();
                 var data = _approvalRepository.GetApprovalEvents(approvalId);
                 if (data.Any())
                 {
-                    result.Body = data.Select(t =>
+                    approvalEventAndTransactionDetail.approvalEventViewModel = data.Select(t =>
                     {
                         var eventViewModel = new ApprovalEventViewModel();
                         eventViewModel.MapFromModel(t);
@@ -48,10 +52,33 @@ namespace RS.Service.Logic
                             var actionViewModel = new List<ApprovalActionViewModel>();
                             eventViewModel.ApprovalActions = actionViewModel
                                     .MapFromModel<ApprovalActions, ApprovalActionViewModel>(t.ApprovalActions.ToList());
+                            var users = _approvalRepository.GetApprovedUsers(t.ApprovalEventId);
+                            var userModels = new List<UserViewModel>();
+                            eventViewModel.Users = userModels.MapFromModel<Users, UserViewModel>(users);
                         }
                         return eventViewModel;
                     }).ToList();
                 }
+
+                var userId = GetUserId();
+                var permissibleEvent = 0;
+                if (entityId != Guid.Empty)
+                {
+                    var approvalTransactionViewModel = new ApprovalTransactionViewModel();
+                    var approvalTransactionModel = _approvalRepository.GetApprovalTransactionByEntity(entityId);
+                    if (approvalTransactionModel != null)
+                    {
+                        approvalEventAndTransactionDetail.approvalTransactionViewModel = (ApprovalTransactionViewModel)approvalTransactionViewModel.MapFromModel(approvalTransactionModel);
+                    }
+                    permissibleEvent = _approvalRepository.GetApprovalEventOrderOfUser(entityId, userId, approvalId);
+                }
+
+                if (permissibleEvent > 0 && approvalEventAndTransactionDetail.approvalTransactionViewModel != null)
+                {
+                    approvalEventAndTransactionDetail.approvalTransactionViewModel.PermissibleEvent = permissibleEvent;
+                }
+
+                result.Body = approvalEventAndTransactionDetail;
             }
             catch (Exception e)
             {
@@ -76,7 +103,7 @@ namespace RS.Service.Logic
                 {
                     existingRole = eventRole.Role;
                 }
-                if(existingRole.RoleId == 0)
+                if (existingRole.RoleId == 0)
                 {
                     var users = approvalEventRoleViewModel.Users;
                     foreach (var user in users)
@@ -129,7 +156,7 @@ namespace RS.Service.Logic
                 eventRoles.ForEach(x => x.MapAuditColumns((ClaimsIdentity)_principal.Identity));
             }
 
-            if(removingUsers.Any())
+            if (removingUsers.Any())
             {
                 var eventRoles = eventRoleList.Where(x => removingUsers.Contains(x.UserId)).ToList();
                 eventRoles.ForEach(x => x.MapDeleteColumns((ClaimsIdentity)_principal.Identity));
@@ -197,6 +224,143 @@ namespace RS.Service.Logic
             return result;
         }
 
+        public IResult GetApprovalTransactionByEntity(Guid openingId)
+        {
+            var result = new Result
+            {
+                Operation = Operation.Read,
+                Status = Status.Success
+            };
+            try
+            {
+                var approvalTransactionViewModel = new ApprovalTransactionViewModel();
+                var approvalTransactionModel = _approvalRepository.GetApprovalTransactionByEntity(openingId);
+                result.Body = approvalTransactionViewModel.MapFromModel(approvalTransactionModel);
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Error;
+            }
+            return result;
+        }
+
+        public IResult ManageApprovalTransaction(EntityAndApprovalViewModel entityAndApprovalViewModel)
+        {
+            var result = new Result
+            {
+                Operation = Operation.Read,
+                Status = Status.Success
+            };
+            try
+            {
+                var approvalTransactionViewModel = entityAndApprovalViewModel.approvalTransactionViewModel;
+                if (approvalTransactionViewModel.ApprovalTransactionId == 0)
+                {
+                    result.Body = AddApprovalTransaction(entityAndApprovalViewModel);
+                }
+                else
+                {
+                    var approvalTransactionModel = _approvalRepository.GetApprovalTransactionByEntity(approvalTransactionViewModel.EntityId);
+
+                    if (approvalTransactionViewModel.NextEventOrderNumber == 0)
+                    {
+                        approvalTransactionModel.IsApproved = true;
+                    }
+
+                    if (approvalTransactionModel.NextEventOrderNumber == approvalTransactionViewModel.NextEventOrderNumber)
+                    {
+                        approvalTransactionModel.IsFurtherActionRequired = true;
+                    }
+                    else
+                    {
+                        approvalTransactionModel.IsFurtherActionRequired = false;
+                    }
+
+                    approvalTransactionModel.MapFromViewModel(approvalTransactionViewModel, (ClaimsIdentity)_principal.Identity);
+                    var approvalTransactionDetail = new ApprovalTransactionDetails();
+                    approvalTransactionDetail.MapAuditColumns((ClaimsIdentity)_principal.Identity);
+                    approvalTransactionDetail.ApprovalTransactionId = approvalTransactionViewModel.ApprovalTransactionId;
+                    approvalTransactionDetail.ApprovalActionId = approvalTransactionViewModel.ApprovalActionId;
+                    approvalTransactionDetail.EventOrderNumber = approvalTransactionViewModel.EventOrderNumber;
+                    approvalTransactionDetail.Comments = approvalTransactionViewModel.Comments;
+                    _approvalRepository.UpdateApprovalTransaction(approvalTransactionModel, approvalTransactionDetail);
+
+                    result.Body = approvalTransactionViewModel;
+                }
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Error;
+            }
+            return result;
+        }
+
+        public IResult GetApprovedUsersByRole(int roleId, int approvalEventId)
+        {
+            var result = new Result
+            {
+                Operation = Operation.Read,
+                Status = Status.Success
+            };
+            try
+            {
+                result.Body = _approvalRepository.GetApprovedUsersByRole(roleId, approvalEventId);
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Error;
+            }
+            return result;
+        }
+
+        public ApprovalTransactionViewModel AddApprovalTransaction(EntityAndApprovalViewModel entityAndApprovalViewModel)
+        {
+            var approvalTransaction = new ApprovalTransactions();
+            approvalTransaction.MapAuditColumns((ClaimsIdentity)_principal.Identity);
+
+            var approvalTransactionViewModel = entityAndApprovalViewModel.approvalTransactionViewModel;
+            approvalTransaction.ApprovalId = approvalTransactionViewModel.ApprovalId;
+            approvalTransaction.ApprovalActionId = approvalTransactionViewModel.ApprovalActions[0].ApprovalActionId;
+            if (entityAndApprovalViewModel.openingViewModel != null)
+            {
+                approvalTransaction.EntityId = entityAndApprovalViewModel.openingViewModel.OpeningId;
+            }
+            else
+            {
+                approvalTransaction.EntityId = entityAndApprovalViewModel.candidateViewModel.CandidateId;
+            }
+            approvalTransaction.EntityType = 0;
+            if (approvalTransactionViewModel.NextEventOrderNumber < 0)
+            {
+                approvalTransaction.NextEventOrderNumber = approvalTransactionViewModel.NextEventOrderNumber;
+            }
+            else
+            {
+                approvalTransaction.EventOrderNumber = approvalTransactionViewModel.ApprovalEventOrder;
+                approvalTransaction.NextEventOrderNumber = approvalTransaction.EventOrderNumber + 1;
+            }
+
+            var approvalTransactionDetail = new ApprovalTransactionDetails();
+            approvalTransactionDetail.MapAuditColumns((ClaimsIdentity)_principal.Identity);
+            approvalTransactionDetail.Comments = approvalTransactionViewModel.Comments;
+            approvalTransactionDetail.ApprovalActionId = approvalTransaction.ApprovalActionId;
+            approvalTransactionDetail.EventOrderNumber = approvalTransaction.EventOrderNumber;
+            approvalTransaction.ApprovalTransactionDetails.Add(approvalTransactionDetail);
+            _approvalRepository.CreateApprovalTransaction(approvalTransaction);
+            approvalTransactionViewModel.MapFromModel(approvalTransaction);
+            return approvalTransactionViewModel;
+        }
+
+        Guid GetUserId()
+        {
+            var identity = (ClaimsIdentity)_principal.Identity;
+            var User = GenericHelper.GetUserClaimDetails(identity);
+            return User.UserId;
+        }
+
         public IResult ApprovalTransactionDetails(Guid entityId)
         {
             var result = new Result
@@ -206,12 +370,12 @@ namespace RS.Service.Logic
             };
             try
             {
-                result.Body = _approvalRepository.ApprovalTransactionDetails(entityId);
+                result.Body = _approvalRepository.ApprovalTransactionDetails(entityId); 
             }
             catch (Exception e)
             {
                 result.Message = e.Message;
-                
+                result.Status = Status.Error;
             }
             return result;
         }

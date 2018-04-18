@@ -1,11 +1,19 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import decode from 'jwt-decode';
 
 import { ApprovalServiceApp } from './shared/approval.serviceApp';
 import { AppConstants } from '../shared/constant/constant.variable';
 import { isNullOrUndefined } from 'util';
-import { ApprovalType } from '../app.enum';
+import { ApprovalType, Status } from '../app.enum';
+import { EntityAndApprovalViewModel, ApprovalTransactionViewModel, CandidateViewModel, OpeningViewModel } from '../webapi/models';
+import { OpeningServiceApp } from '../opening/shared/opening.serviceApp';
+import { ApprovalEventViewModel } from '../shared/customModels/approval-event-view-model';
+import { DisplayMessageService } from '../shared/toastr/display.message.service';
+import { OpeningModule } from '../opening/shared/opening.module';
+import { ApprovalService } from '../webapi/services';
+import { CandidateModule } from '../candidate/shared/candidate.module';
+
 @Component({
   selector: 'app-approvalstrip',
   templateUrl: 'strip.component.html',
@@ -13,24 +21,76 @@ import { ApprovalType } from '../app.enum';
 })
 
 export class StripComponent implements OnInit {
-  approvalEvents = [];
-  currentEventClicked = null;
-  @Input() approvalType: number;
-  approvalUserTypes: any;
 
-  constructor(private router: Router, private approvalServiceApp: ApprovalServiceApp) {
+  approvalEvents: ApprovalEventViewModel[] = [] as ApprovalEventViewModel[];
+  currentEventClicked: ApprovalEventViewModel = {} as ApprovalEventViewModel;
+  entityAndApprovalEventModel: EntityAndApprovalViewModel = {} as EntityAndApprovalViewModel;
+  approvalEventandTransaction: ApprovalService.ApiApprovalGetApprovalEventsGetParams = {} as
+    ApprovalService.ApiApprovalGetApprovalEventsGetParams;
+  approvalUserTypes: any;
+  comments = null;
+  clicked: boolean;
+  showPopup: boolean;
+  openingModel: OpeningViewModel = {} as OpeningViewModel;
+  candidateModel: CandidateViewModel = [] as CandidateViewModel;
+  approvalTransaction: ApprovalTransactionViewModel = {} as ApprovalTransactionViewModel;
+  nextEventOrder: any;
+  currentEventOrder: any;
+  styleleft: any;
+  permissibleEvent: any;
+  submitted = false;
+
+  @ViewChild('source') source;
+  @Input() approvalType: number;
+  @Input() entityModel: any;
+  @Output() onSubmit: EventEmitter<any> = new EventEmitter<any>();
+
+  constructor(private router: Router, private approvalServiceApp: ApprovalServiceApp,
+    private openingServiceApp: OpeningServiceApp, private msgService: DisplayMessageService,
+    private eleRef: ElementRef, private _renderer: Renderer2) {
+
   }
 
   ngOnInit() {
+    this.approvalEventandTransaction.entityId = null;
+    this.clicked = true;
+    this.onSubmit.emit(false);
+    this.showPopup = false;
+    this.currentEventClicked = null;
+
+    if (this.approvalType === ApprovalType.Opening) {
+      if (!isNullOrUndefined(this.entityModel)) {
+        this.openingModel = this.entityModel as OpeningViewModel;
+        this.entityAndApprovalEventModel.openingViewModel = this.openingModel;
+        this.entityAndApprovalEventModel.candidateViewModel = null;
+      }
+    } else {
+      if (!isNullOrUndefined(this.entityModel)) {
+        this.candidateModel = this.entityModel as CandidateViewModel;
+        this.entityAndApprovalEventModel.candidateViewModel = this.candidateModel;
+        this.entityAndApprovalEventModel.openingViewModel = null;
+      }
+    }
+
     this.getAllApprovalEvents();
     this.getUserApprovalRole();
   }
 
   getAllApprovalEvents() {
-
-    this.approvalServiceApp.getApprovalEventsById(this.approvalType).subscribe((data) => {
-      this.approvalEvents = data.body;
-      // console.log(this.approvalEvents);
+    this.approvalEventandTransaction.entityId = !isNullOrUndefined(this.openingModel.openingId) ?
+      this.openingModel.openingId : this.candidateModel.candidateId;
+    this.approvalEventandTransaction.approvalId = this.approvalType;
+    this.approvalServiceApp.getApprovalEventsById(this.approvalEventandTransaction).subscribe((data) => {
+      this.approvalEvents = data.body.approvalEventViewModel;
+      if (data.body.approvalTransactionViewModel !== null) {
+        this.approvalTransaction = data.body.approvalTransactionViewModel;
+        this.nextEventOrder = this.approvalTransaction.nextEventOrderNumber;
+        this.currentEventOrder = this.approvalTransaction.eventOrderNumber;
+        this.permissibleEvent = this.approvalTransaction.permissibleEvent;
+      } else {
+        this.nextEventOrder = 1;
+        this.permissibleEvent = 1;
+      }
     });
   }
 
@@ -52,11 +112,139 @@ export class StripComponent implements OnInit {
 
   onApprovalEventClick(approvalEvent) {
     // TODO : apply check for role permission; if allowed then allowed else return
+    this.showPopup = false;
     this.currentEventClicked = approvalEvent;
+    if (this.currentEventClicked.approvalEventOrder === this.nextEventOrder &&
+      this.currentEventClicked.approvalEventOrder === this.permissibleEvent) {
+      const ulElement = this.source.nativeElement;
+      const itemIndex = this.approvalEvents.indexOf(approvalEvent);
+      if (itemIndex !== -1 && itemIndex > 0) {
+        let totalWidth = 0;
+        for (let i = 0; i < itemIndex; i++) {
+          totalWidth += ulElement.children[i].clientWidth;
+        }
+        this.styleleft = (totalWidth + 20) + 'px';
+      } else {
+        this.styleleft = '20px';
+      }
+      this.showPopup = true;
+      this.clicked = true;
+    }
   }
 
   onApprovalActionClick(approvalActions) {
     // TODO : Save the page state/data to database
+    this.submitted = true;
+    this.clicked = this.comments === null || this.comments === '' ? true : false;
+    this.onSubmit.emit(true);
+    this.approvalTransaction.eventOrderNumber = this.approvalTransaction.nextEventOrderNumber;
+    this.approvalTransaction.approvalActionId = approvalActions.approvalActionId;
+    if (this.currentEventClicked.approvalEventOrder === this.approvalTransaction.nextEventOrderNumber ||
+      (isNullOrUndefined(this.approvalTransaction.nextEventOrderNumber)
+      )) {
+      const approvalEventOrders = this.approvalEvents.map(x => x.approvalEventOrder);
+      if (this.currentEventClicked.approvalEventOrder === Math.min.apply(null, approvalEventOrders) &&
+        this.approvalType === ApprovalType.Opening) {
+        this.insertOrUpdateOpening();
+      } else {
+        const approvalActionIds = this.currentEventClicked.approvalActions.map(x => x.approvalActionId);
+        this.approvalTransaction.comments = this.comments;
+        if (approvalActions.approvalActionId === Math.min.apply(null, approvalActionIds)) {
+          this.approvalTransaction.nextEventOrderNumber = this.approvalType === ApprovalType.Opening ?
+            this.approvalTransaction.nextEventOrderNumber - 1 : -1;
+        }
+        if (approvalActions.approvalActionId === Math.max.apply(null, approvalActionIds)) {
+          this.approvalTransaction.nextEventOrderNumber += 1;
+        }
+        this.insertApprovalTransaction();
+        if (this.approvalTransaction.nextEventOrderNumber <= this.approvalEvents.length) {
+          this.approvalServiceApp.manageApprovalTransaction(this.entityAndApprovalEventModel).subscribe(
+            (data) => {
+              if (data.status === Status.Success) {
+                this.nextEventOrder = data.body.nextEventOrderNumber;
+                this.currentEventOrder = data.body.eventOrderNumber;
+                this.msgService.showInfo('COMMON.INFO');
+              } else {
+                this.msgService.showError('Error');
+              }
+            });
+        } else {
+          this.approvalTransaction.nextEventOrderNumber = 0;
+          this.insertApprovalTransaction();
+          this.approvalServiceApp.manageApprovalTransaction(this.entityAndApprovalEventModel).subscribe(
+            (data) => {
+              if (data.status === Status.Success) {
+                this.nextEventOrder = data.body.nextEventOrderNumber;
+                this.currentEventOrder = data.body.eventOrderNumber;
+                this.msgService.showInfo('COMMON.INFO');
+              } else {
+                this.msgService.showError('Error');
+              }
+            });
+        }
+      }
+    }
+  }
+
+  insertOrUpdateOpening() {
+    if (this.isValidate(this.openingModel)) {
+      if (isNullOrUndefined(this.openingModel.openingId)) {
+        this.entityAndApprovalEventModel.approvalTransactionViewModel = this.currentEventClicked;
+      } else {
+        this.entityAndApprovalEventModel.approvalTransactionViewModel = this.approvalTransaction;
+      }
+      this.entityAndApprovalEventModel.approvalTransactionViewModel.comments = this.comments;
+      this.openingServiceApp.CreateOrUpdateOpening(this.entityAndApprovalEventModel).subscribe(
+        (data) => {
+          if (data.status === Status.Success) {
+            this.nextEventOrder = data.body.nextEventOrderNumber;
+            this.currentEventOrder = data.body.eventOrderNumber;
+            this.msgService.showInfo('COMMON.INFO');
+          } else {
+            this.msgService.showError('Error');
+          }
+        });
+    }
+  }
+
+  insertApprovalTransaction() {
+    const approvalEventOrders = this.approvalEvents.map(x => x.approvalEventOrder);
+    if (this.currentEventClicked.approvalEventOrder === Math.min.apply(null, approvalEventOrders)) {
+      this.entityAndApprovalEventModel.approvalTransactionViewModel = this.currentEventClicked;
+      this.entityAndApprovalEventModel.approvalTransactionViewModel.nextEventOrderNumber = this.approvalTransaction.nextEventOrderNumber;
+    } else {
+      this.entityAndApprovalEventModel.approvalTransactionViewModel = this.approvalTransaction;
+    }
+  }
+
+  isValidate(opening: OpeningViewModel): boolean {
+    if (isNullOrUndefined(opening.title) || isNullOrUndefined(opening.description)) {
+      return false;
+    } else if (opening.primarySkillTypes.length <= 0) {
+      return false;
+    } else if (this.SameSkillinBothSkillType(opening)) {
+      this.msgService.showInfo('OPENING.SAMESKILLS');
+      return false;
+    }
+    return true;
+  }
+
+  SameSkillinBothSkillType(opening): boolean {
+    const sameSkill = [];
+    opening.primarySkillTypes.forEach(skill => {
+      opening.secondarySkillTypes.forEach(value => {
+        if (skill.skillId === value.skillId) {
+          sameSkill.push(skill);
+        }
+      });
+    });
+    if (sameSkill.length > 0) { return true; }
+    return false;
+  }
+
+  close() {
+    this.clicked = false;
+    this.submitted = false;
   }
 
 }

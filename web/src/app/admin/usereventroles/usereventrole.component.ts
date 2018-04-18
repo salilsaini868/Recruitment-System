@@ -12,11 +12,12 @@ import { RoleServiceApp } from '../users/shared/role.serviceApp';
 import { UserServiceApp } from '../users/shared/user.serviceApp';
 import { DisplayMessageService } from '../../shared/toastr/display.message.service';
 import { ApprovalServiceApp } from '../../approval/shared/approval.serviceApp';
-import { ApprovalEventModel } from '../../shared/customModels/approval-event-model';
 import { TranslateService } from '@ngx-translate/core';
 import { UserEventRoleServiceApp } from './shared/usereventrole.serviceApp';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
 import { ApprovalModel } from '../../shared/customModels/approval-model';
+import { ApprovalEventViewModel } from '../../shared/customModels/approval-event-view-model';
+import { ApprovalService } from '../../webapi/services';
 
 @Component({
     'selector': 'app-usereventrole',
@@ -25,8 +26,12 @@ import { ApprovalModel } from '../../shared/customModels/approval-model';
 
 export class UserEventRoleComponent implements OnInit {
 
-    approvalEvents: ApprovalEventModel[] = [] as ApprovalEventModel[];
+    approvalEvents: ApprovalEventViewModel[] = [] as ApprovalEventViewModel[];
     approvalEventRoleModel: ApprovalEventRoleViewModel = {} as ApprovalEventRoleViewModel;
+    approvalRole: ApprovalService.ApiApprovalGetApprovedUsersByRoleGetParams = {} as
+        ApprovalService.ApiApprovalGetApprovedUsersByRoleGetParams;
+    approvalEventandTransaction: ApprovalService.ApiApprovalGetApprovalEventsGetParams = {} as
+        ApprovalService.ApiApprovalGetApprovalEventsGetParams;
     roles: RoleViewModel[] = [] as RoleViewModel[];
     approvalEventRoleModels: ApprovalEventRoleViewModel[] = [] as ApprovalEventRoleViewModel[];
     users: UserModel[] = [];
@@ -98,13 +103,17 @@ export class UserEventRoleComponent implements OnInit {
     }
 
     getApprovalEvents() {
+        this.approvalEventandTransaction.approvalId = this.approvalId;
+        this.approvalEventandTransaction.entityId = null;
         if (!isNullOrUndefined(this.approvalId) && (String(this.approvalId) !== '0')) {
-            this.approvalServiceApp.getApprovalEventsById(this.approvalId).subscribe(
+            this.approvalServiceApp.getApprovalEventsById(this.approvalEventandTransaction).subscribe(
                 (data) => {
                     if (data.status === Status.Success) {
-                        this.approvalEvents = data.body;
+                        this.approvalEvents = data.body.approvalEventViewModel;
                         const approvalEvent = this.defaultOption;
                         this.approvalEvents.splice(0, 0, { approvalEventId: 0, approvalEventName: approvalEvent });
+                        this.users = [];
+                        this.getRoles();
                     } else {
                         this.msgService.showError('Error');
                     }
@@ -115,6 +124,11 @@ export class UserEventRoleComponent implements OnInit {
             const approvalEvent = this.defaultOption;
             this.approvalEvents.splice(0, 0, { approvalEventId: 0, approvalEventName: approvalEvent });
         }
+    }
+
+    setRoles() {
+        this.getRoles();
+        this.users = [];
     }
 
     getRoles() {
@@ -137,12 +151,27 @@ export class UserEventRoleComponent implements OnInit {
                 (data) => {
                     if (data.status === Status.Success) {
                         this.users = data.body;
+                        this.approvalRole.approvalEventId = this.approvalEventRoleModel.approvalEventId;
+                        this.approvalRole.roleId = this.approvalEventRoleModel.roleId;
+                        this.userEvetRoleServiceApp.getApprovedUsers(this.approvalRole).subscribe(
+                            (userData) => {
+                                this.approvalEventRoleModel.users = userData.body;
+                                this.checkedUsers(userData.body);
+                            });
                     } else {
                         this.msgService.showError('Error');
                     }
                 }
             );
         }
+    }
+
+    checkedUsers(userlist: UserModel[]) {
+        this.users.forEach(x => x.isChecked = false);
+        userlist.forEach((x) => {
+            const user = this.users.filter(y => y.userId === x.userId);
+            user.forEach((z) => z.isChecked = true);
+        });
     }
 
     onSubmit(eventRoleForm) {

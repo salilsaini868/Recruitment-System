@@ -5,4 +5,8 @@ export class CandidateListModel {
     experienceYear?: number;
     experienceMonth?: number;
     opening?: string;
+    isReadyForInterview?: boolean;
+    assignedUsers?: number;
+    status?: string;
+    documents?: number;
 }

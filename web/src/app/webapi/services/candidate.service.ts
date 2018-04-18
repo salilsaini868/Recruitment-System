@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators/map';
 import { filter } from 'rxjs/operators/filter';
 
 import { IResult } from '../models/iresult';
-import { CandidateViewModel } from '../models/candidate-view-model';
+import { CandidateAssignedUserModel } from '../models/candidate-assigned-user-model';
 
 
 @Injectable()
@@ -23,13 +23,13 @@ export class CandidateService extends BaseService {
   }
 
   /**
-   * @param candidateView - undefined
+   * @param candidate - undefined
    */
-  ApiCandidateAddCandidatePostResponse(candidateView?: CandidateViewModel): Observable<HttpResponse<IResult>> {
+  ApiCandidateAddCandidatePostResponse(candidate?: string): Observable<HttpResponse<IResult>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
-    __body = candidateView;
+    if (candidate != null) __params = __params.set("candidate", candidate.toString());
     let req = new HttpRequest<any>(
       "POST",
       this.rootUrl + `/api/Candidate/AddCandidate`,
@@ -52,21 +52,58 @@ export class CandidateService extends BaseService {
   }
 
   /**
-   * @param candidateView - undefined
+   * @param candidate - undefined
    */
-  ApiCandidateAddCandidatePost(candidateView?: CandidateViewModel): Observable<IResult> {
-    return this.ApiCandidateAddCandidatePostResponse(candidateView).pipe(
+  ApiCandidateAddCandidatePost(candidate?: string): Observable<IResult> {
+    return this.ApiCandidateAddCandidatePostResponse(candidate).pipe(
       map(_r => _r.body)
     );
   }
   /**
-   * @param candidateView - undefined
+   * @param candidateAssignedUserList - undefined
    */
-  ApiCandidateUpdateCandidatePutResponse(candidateView?: CandidateViewModel): Observable<HttpResponse<IResult>> {
+  ApiCandidateAddUserForCandidatePostResponse(candidateAssignedUserList?: CandidateAssignedUserModel[]): Observable<HttpResponse<IResult>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
-    __body = candidateView;
+    __body = candidateAssignedUserList;
+    let req = new HttpRequest<any>(
+      "POST",
+      this.rootUrl + `/api/Candidate/AddUserForCandidate`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      filter(_r => _r instanceof HttpResponse),
+      map(_r => {
+        let _resp = _r as HttpResponse<any>;
+        let _body: IResult = null;
+        _body = _resp.body as IResult
+        return _resp.clone({body: _body}) as HttpResponse<IResult>;
+      })
+    );
+  }
+
+  /**
+   * @param candidateAssignedUserList - undefined
+   */
+  ApiCandidateAddUserForCandidatePost(candidateAssignedUserList?: CandidateAssignedUserModel[]): Observable<IResult> {
+    return this.ApiCandidateAddUserForCandidatePostResponse(candidateAssignedUserList).pipe(
+      map(_r => _r.body)
+    );
+  }
+  /**
+   * @param candidate - undefined
+   */
+  ApiCandidateUpdateCandidatePutResponse(candidate?: string): Observable<HttpResponse<IResult>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    if (candidate != null) __params = __params.set("candidate", candidate.toString());
     let req = new HttpRequest<any>(
       "PUT",
       this.rootUrl + `/api/Candidate/UpdateCandidate`,
@@ -89,10 +126,10 @@ export class CandidateService extends BaseService {
   }
 
   /**
-   * @param candidateView - undefined
+   * @param candidate - undefined
    */
-  ApiCandidateUpdateCandidatePut(candidateView?: CandidateViewModel): Observable<IResult> {
-    return this.ApiCandidateUpdateCandidatePutResponse(candidateView).pipe(
+  ApiCandidateUpdateCandidatePut(candidate?: string): Observable<IResult> {
+    return this.ApiCandidateUpdateCandidatePutResponse(candidate).pipe(
       map(_r => _r.body)
     );
   }
@@ -166,7 +203,182 @@ export class CandidateService extends BaseService {
     return this.ApiCandidateGetCandidateByIdGetResponse(id).pipe(
       map(_r => _r.body)
     );
+  }
+  /**
+   * @param candidateId - undefined
+   */
+  ApiCandidateGetAssignedUsersByIdGetResponse(candidateId: string): Observable<HttpResponse<IResult>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    if (candidateId != null) __params = __params.set("candidateId", candidateId.toString());
+    let req = new HttpRequest<any>(
+      "GET",
+      this.rootUrl + `/api/Candidate/GetAssignedUsersById`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      filter(_r => _r instanceof HttpResponse),
+      map(_r => {
+        let _resp = _r as HttpResponse<any>;
+        let _body: IResult = null;
+        _body = _resp.body as IResult
+        return _resp.clone({body: _body}) as HttpResponse<IResult>;
+      })
+    );
+  }
+
+  /**
+   * @param candidateId - undefined
+   */
+  ApiCandidateGetAssignedUsersByIdGet(candidateId: string): Observable<IResult> {
+    return this.ApiCandidateGetAssignedUsersByIdGetResponse(candidateId).pipe(
+      map(_r => _r.body)
+    );
+  }
+  /**
+   * @param userId - undefined
+   */
+  ApiCandidateGetCandidatesCorrespondingToLoggedUserGetResponse(userId: string): Observable<HttpResponse<IResult>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    if (userId != null) __params = __params.set("userId", userId.toString());
+    let req = new HttpRequest<any>(
+      "GET",
+      this.rootUrl + `/api/Candidate/GetCandidatesCorrespondingToLoggedUser`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      filter(_r => _r instanceof HttpResponse),
+      map(_r => {
+        let _resp = _r as HttpResponse<any>;
+        let _body: IResult = null;
+        _body = _resp.body as IResult
+        return _resp.clone({body: _body}) as HttpResponse<IResult>;
+      })
+    );
+  }
+
+  /**
+   * @param userId - undefined
+   */
+  ApiCandidateGetCandidatesCorrespondingToLoggedUserGet(userId: string): Observable<IResult> {
+    return this.ApiCandidateGetCandidatesCorrespondingToLoggedUserGetResponse(userId).pipe(
+      map(_r => _r.body)
+    );
+  }
+  /**
+   * @param candidateId - undefined
+   */
+  ApiCandidateApprovedForInterviewPutResponse(candidateId: string): Observable<HttpResponse<IResult>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    if (candidateId != null) __params = __params.set("candidateId", candidateId.toString());
+    let req = new HttpRequest<any>(
+      "PUT",
+      this.rootUrl + `/api/Candidate/ApprovedForInterview`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      filter(_r => _r instanceof HttpResponse),
+      map(_r => {
+        let _resp = _r as HttpResponse<any>;
+        let _body: IResult = null;
+        _body = _resp.body as IResult
+        return _resp.clone({body: _body}) as HttpResponse<IResult>;
+      })
+    );
+  }
+
+  /**
+   * @param candidateId - undefined
+   */
+  ApiCandidateApprovedForInterviewPut(candidateId: string): Observable<IResult> {
+    return this.ApiCandidateApprovedForInterviewPutResponse(candidateId).pipe(
+      map(_r => _r.body)
+    );
+  }
+  /**
+   * @param file - undefined
+   * @param WebRootPath - undefined
+   * @param WebRootFileProvider - undefined
+   * @param EnvironmentName - undefined
+   * @param ContentRootPath - undefined
+   * @param ContentRootFileProvider - undefined
+   * @param ApplicationName - undefined
+   */
+  ApiCandidateDownloadFilePostResponse(params: CandidateService.ApiCandidateDownloadFilePostParams): Observable<HttpResponse<string>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    if (params.file != null) __params = __params.set("file", params.file.toString());
+    if (params.WebRootPath != null) __params = __params.set("WebRootPath", params.WebRootPath.toString());
+    if (params.WebRootFileProvider != null) __params = __params.set("WebRootFileProvider", params.WebRootFileProvider.toString());
+    if (params.EnvironmentName != null) __params = __params.set("EnvironmentName", params.EnvironmentName.toString());
+    if (params.ContentRootPath != null) __params = __params.set("ContentRootPath", params.ContentRootPath.toString());
+    if (params.ContentRootFileProvider != null) __params = __params.set("ContentRootFileProvider", params.ContentRootFileProvider.toString());
+    if (params.ApplicationName != null) __params = __params.set("ApplicationName", params.ApplicationName.toString());
+    let req = new HttpRequest<any>(
+      "POST",
+      this.rootUrl + `/api/Candidate/DownloadFile`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'text'
+      });
+
+    return this.http.request<any>(req).pipe(
+      filter(_r => _r instanceof HttpResponse),
+      map(_r => {
+        let _resp = _r as HttpResponse<any>;
+        let _body: string = null;
+        _body = _resp.body as string
+        return _resp.clone({body: _body}) as HttpResponse<string>;
+      })
+    );
+  }
+
+  /**
+   * @param file - undefined
+   * @param WebRootPath - undefined
+   * @param WebRootFileProvider - undefined
+   * @param EnvironmentName - undefined
+   * @param ContentRootPath - undefined
+   * @param ContentRootFileProvider - undefined
+   * @param ApplicationName - undefined
+   */
+  ApiCandidateDownloadFilePost(params: CandidateService.ApiCandidateDownloadFilePostParams): Observable<string> {
+    return this.ApiCandidateDownloadFilePostResponse(params).pipe(
+      map(_r => _r.body)
+    );
   }}
 
 export module CandidateService {
+  export interface ApiCandidateDownloadFilePostParams {
+    file?: string;
+    WebRootPath?: string;
+    WebRootFileProvider?: any;
+    EnvironmentName?: string;
+    ContentRootPath?: string;
+    ContentRootFileProvider?: any;
+    ApplicationName?: string;
+  }
 }

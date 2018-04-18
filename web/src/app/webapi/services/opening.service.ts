@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators/map';
 import { filter } from 'rxjs/operators/filter';
 
 import { IResult } from '../models/iresult';
-import { OpeningViewModel } from '../models/opening-view-model';
+import { EntityAndApprovalViewModel } from '../models/entity-and-approval-view-model';
 
 
 @Injectable()
@@ -23,16 +23,16 @@ export class OpeningService extends BaseService {
   }
 
   /**
-   * @param openingViewModel - undefined
+   * @param entityAndApprovalViewModel - undefined
    */
-  ApiOpeningCreateOpeningPostResponse(openingViewModel?: OpeningViewModel): Observable<HttpResponse<IResult>> {
+  ApiOpeningInsertOrUpdateOpeningPostResponse(entityAndApprovalViewModel?: EntityAndApprovalViewModel): Observable<HttpResponse<IResult>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
-    __body = openingViewModel;
+    __body = entityAndApprovalViewModel;
     let req = new HttpRequest<any>(
       "POST",
-      this.rootUrl + `/api/Opening/CreateOpening`,
+      this.rootUrl + `/api/Opening/InsertOrUpdateOpening`,
       __body,
       {
         headers: __headers,
@@ -52,24 +52,24 @@ export class OpeningService extends BaseService {
   }
 
   /**
-   * @param openingViewModel - undefined
+   * @param entityAndApprovalViewModel - undefined
    */
-  ApiOpeningCreateOpeningPost(openingViewModel?: OpeningViewModel): Observable<IResult> {
-    return this.ApiOpeningCreateOpeningPostResponse(openingViewModel).pipe(
+  ApiOpeningInsertOrUpdateOpeningPost(entityAndApprovalViewModel?: EntityAndApprovalViewModel): Observable<IResult> {
+    return this.ApiOpeningInsertOrUpdateOpeningPostResponse(entityAndApprovalViewModel).pipe(
       map(_r => _r.body)
     );
   }
   /**
-   * @param openingViewModel - undefined
+   * @param userId - undefined
    */
-  ApiOpeningUpdateOpeningPutResponse(openingViewModel?: OpeningViewModel): Observable<HttpResponse<IResult>> {
+  ApiOpeningGetOpeningsCorrespondingToLoggedUserGetResponse(userId: string): Observable<HttpResponse<IResult>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
-    __body = openingViewModel;
+    if (userId != null) __params = __params.set("userId", userId.toString());
     let req = new HttpRequest<any>(
-      "PUT",
-      this.rootUrl + `/api/Opening/UpdateOpening`,
+      "GET",
+      this.rootUrl + `/api/Opening/GetOpeningsCorrespondingToLoggedUser`,
       __body,
       {
         headers: __headers,
@@ -89,10 +89,10 @@ export class OpeningService extends BaseService {
   }
 
   /**
-   * @param openingViewModel - undefined
+   * @param userId - undefined
    */
-  ApiOpeningUpdateOpeningPut(openingViewModel?: OpeningViewModel): Observable<IResult> {
-    return this.ApiOpeningUpdateOpeningPutResponse(openingViewModel).pipe(
+  ApiOpeningGetOpeningsCorrespondingToLoggedUserGet(userId: string): Observable<IResult> {
+    return this.ApiOpeningGetOpeningsCorrespondingToLoggedUserGetResponse(userId).pipe(
       map(_r => _r.body)
     );
   }
