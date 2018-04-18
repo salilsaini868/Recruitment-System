@@ -2,7 +2,7 @@
         <div class="col-xs-12 app-list">
                 <label>Approval History:</label>
                 <ul>
-                        <li *ngFor="let approvalResponseModel of approvalResponseModel.body">
+                        <li *ngFor="let approvalResponseModel of approvalResponseModels">
                                 <p>
                                         <span class="box-header"> {{approvalResponseModel.approvalActionName }} by </span> {{approvalResponseModel.firstName}}
                                         {{approvalResponseModel.lastName}} on

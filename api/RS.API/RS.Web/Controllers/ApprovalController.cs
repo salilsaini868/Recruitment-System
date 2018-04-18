@@ -45,7 +45,8 @@ namespace RS.Web.Controllers
         [HttpPost]
         public IResult GetApprovalDetails(Guid entityId)
         {
-            return _approvalManager.ApprovalTransactionDetails(entityId);
+            var app = _approvalManager.ApprovalTransactionDetails(entityId);
+            return app;
         }
 
         [HttpGet]
