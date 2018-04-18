@@ -33,7 +33,8 @@ export class CandidateComponent implements OnInit {
     submitted = false;
     isUploaded = false;
     organizations: string[] = [];
-    config2: any = {'placeholder': 'Enter Organization'};
+    flag = true;
+    config2: any = { 'placeholder': 'Enter Organization' };
 
     constructor(private openingServiceApp: OpeningServiceApp, private candidateServiceApp: CandidateServiceApp,
         private qualificationServiceApp: QualificationsServiceApp, private route: ActivatedRoute,
@@ -51,9 +52,9 @@ export class CandidateComponent implements OnInit {
     }
 
     setDefaultValues() {
-        this.candidateModel.gender = -1;
-        this.candidateModel.experienceYear = -1;
-        this.candidateModel.experienceMonth = -1;
+        this.candidateModel.gender = AppConstants.defaultValue;
+        this.candidateModel.experienceYear = AppConstants.defaultValue;
+        this.candidateModel.experienceMonth = AppConstants.defaultValue;
     }
 
     initializeMethods() {
@@ -62,8 +63,9 @@ export class CandidateComponent implements OnInit {
     }
 
     onInputChangedEvent(input: string) {
-        if (!isNullOrUndefined(input) && input !== '' && input.replace(/\s/g, '').length) {
-            this.candidateServiceApp.getOrganizationOnInputChangedEvent(input).subscribe(
+        this.flag = true;
+        if (!isNullOrUndefined(input) && input.replace(/\s/g, '').length && input.length > AppConstants.minimumLength) {
+            this.candidateServiceApp.getOrganizationOnInputChangedEvent(input).debounceTime(AppConstants.delayTime).subscribe(
                 (data) => {
                     if (data.status === Status.Success) {
                         this.organizations = data.body;
@@ -74,6 +76,15 @@ export class CandidateComponent implements OnInit {
             );
         } else {
             this.organizations = [];
+        }
+    }
+
+    onselectOrganization(organization) {
+        if (!isNullOrUndefined(organization)) {
+            this.candidateModel.organizationName = organization;
+            this.flag = false;
+        } else {
+            return false;
         }
     }
 
@@ -152,7 +163,6 @@ export class CandidateComponent implements OnInit {
     }
 
     onSubmit(candidateForm) {
-        debugger;
         this.submitted = true;
         if (candidateForm.valid) {
             if (isNullOrUndefined(this.candidateModel.candidateId)) {

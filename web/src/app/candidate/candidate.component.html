@@ -123,10 +123,16 @@
                             <div class="col-md-3 col-sm-3 col-xs-12">
                                 <label>{{ 'CANDIDATE.ORGANIZATION' | translate }}</label>
                             </div>
-                            <div class="col-md-9 col-sm-9 col-xs-12 auto-display">
-                                <input autocomplete [config]="config2" type="text"  [items]="organizations" (inputChangedEvent)="onInputChangedEvent($event)" required name="org"
-                                    [(ngModel)]="candidateModel.organizationName" #org="ngModel" maxlength="250" class="auto-input">
-
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input autocomplete="off" type="text" (keyup)="onInputChangedEvent($event.target.value)" required name="org" [(ngModel)]="candidateModel.organizationName"
+                                    #org="ngModel" maxlength="250" class="auto-input">
+                                <div class="search-result" *ngIf="flag">
+                                    <ul>
+                                        <li *ngFor="let organization of organizations">
+                                            <a (click)="onselectOrganization(organization)">{{organization}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
                                 <div *ngIf="org.errors && (org.dirty || submitted)" [hidden]="!org.errors.required" class="validation-error">
                                     {{ 'CANDIDATE.REQUIRED' | translate }}
                                 </div>
