@@ -27,7 +27,7 @@ namespace RS.Data.Interfaces
         int GetTotalCandidatesHired();
         int GetTotalCandidatesAttendedInterview(int month);
         List<SeriesModel> GetSeriesDetail(int type);
-        Users GetUserForCandidateApproval(ApprovalTransactionViewModel approvalTransactionViewModel);
+        Users GetUserForCandidateApproval(Guid entityId, int nextEventOrderNumber);
         List<Users> GetUserForOpeningApproval(ApprovalTransactionViewModel approvalTransactionViewModel);
     }
 }

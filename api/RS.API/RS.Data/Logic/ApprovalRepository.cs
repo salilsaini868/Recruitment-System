@@ -134,9 +134,9 @@ namespace RS.Data.Logic
             return _context.ApprovalTransactions.Where(x => x.IsApproved && x.ApprovalId == (int)Approval.Candidate && DateTime.Now.Month == x.ModifiedDate.Value.Month && x.IsActive && !x.IsDeleted).Count();
         }
 
-        public Users GetUserForCandidateApproval(ApprovalTransactionViewModel approvalTransactionViewModel)
+        public Users GetUserForCandidateApproval(Guid entityId, int nextEventOrderNumber)
         {
-            return _context.CandidateAssignedUser.Include(s => s.ApprovalEvent).Include(t => t.User).FirstOrDefault(x => x.ApprovalEvent.ApprovalEventOrder == approvalTransactionViewModel.NextEventOrderNumber && x.IsActive && !x.IsDeleted).User;
+            return _context.CandidateAssignedUser.Include(s => s.ApprovalEvent).Include(t => t.User).FirstOrDefault(x => x.CandidateId == entityId && x.ApprovalEvent.ApprovalEventOrder == nextEventOrderNumber && x.IsActive && !x.IsDeleted).User;
         }
 
         public int GetTotalCandidatesAttendedInterview(int month)

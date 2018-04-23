@@ -294,12 +294,12 @@ namespace RS.Service.Logic
                     approvalTransactionDetail.Comments = approvalTransactionViewModel.Comments;
                     _approvalRepository.UpdateApprovalTransaction(approvalTransactionModel, approvalTransactionDetail);
 
-                    UserViewModel userViewModel = new UserViewModel();
                     if (approvalTransactionViewModel.ApprovalTransactionId != 0)
                     {
                         if (approvalTransactionViewModel.ApprovalId == (int)Approval.Candidate)
                         {
-                            var user = _approvalRepository.GetUserForCandidateApproval(approvalTransactionViewModel);
+                            UserViewModel userViewModel = new UserViewModel();
+                            var user = _approvalRepository.GetUserForCandidateApproval(approvalTransactionViewModel.EntityId, approvalTransactionViewModel.NextEventOrderNumber);
                             userViewModel.MapFromModel(user);
                             approvalTransactionViewModel.User = userViewModel;
                             MailDetailModel mailDetail = new MailDetailModel();
@@ -314,6 +314,7 @@ namespace RS.Service.Logic
                             var users = _approvalRepository.GetUserForOpeningApproval(approvalTransactionViewModel);
                             users.ForEach(user =>
                             {
+                                UserViewModel userViewModel = new UserViewModel();
                                 MailDetailModel mailDetail = new MailDetailModel();
                                 userViewModel.MapFromModel(user);
                                 approvalTransactionViewModel.User = userViewModel;
