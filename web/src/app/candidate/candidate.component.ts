@@ -14,6 +14,7 @@ import { CandidateViewModel, QualificationViewModel, OpeningViewModel } from '..
 import { Status, ApprovalType } from '../app.enum';
 import { DisplayMessageService } from '../shared/toastr/display.message.service';
 import { AppConstants } from '../shared/constant/constant.variable';
+import { OrganizationViewModel } from '../shared/customModels/organization-view-model';
 
 @Component({
     selector: 'app-candidate',
@@ -24,6 +25,7 @@ export class CandidateComponent implements OnInit {
     candidateModel: CandidateViewModel = {} as CandidateViewModel;
     openings: OpeningViewModel[] = [] as OpeningViewModel[];
     qualifications: QualificationViewModel[] = [] as QualificationViewModel[];
+    organizations: OrganizationViewModel[] = [] as OrganizationViewModel[];
     years: number[] = [];
     months: number[] = [];
     defaultOption: any;
@@ -32,7 +34,6 @@ export class CandidateComponent implements OnInit {
     filePath: any;
     submitted = false;
     isUploaded = false;
-    organizations: string[] = [];
     flag = true;
     config2: any = { 'placeholder': 'Enter Organization' };
 
@@ -79,9 +80,10 @@ export class CandidateComponent implements OnInit {
         }
     }
 
-    onselectOrganization(organization) {
-        if (!isNullOrUndefined(organization)) {
-            this.candidateModel.organizationName = organization;
+    onSelectOrganization(organizationId) {
+        if (!isNullOrUndefined(organizationId)) {
+            this.candidateModel.organizationId = organizationId;
+            this.candidateModel.organizationName = null;
             this.flag = false;
         } else {
             return false;

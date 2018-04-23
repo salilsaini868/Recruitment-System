@@ -16,6 +16,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using RS.ViewModel.Organization;
 
 namespace RS.Service.Logic
 {
@@ -61,10 +62,9 @@ namespace RS.Service.Logic
 
                 #region Insert Organization
                 Organizations organization = null;
-                var organizationModel = _candidateRepository.GetOrganization(candidateViewModel.OrganizationName);
-                if (organizationModel != null)
+                if (candidateViewModel.OrganizationId != 0)
                 {
-                    candidateModel.OrganizationId = organizationModel.OrganizationId;
+                    candidateModel.OrganizationId = candidateViewModel.OrganizationId;
                 }
                 else
                 {
@@ -352,10 +352,9 @@ namespace RS.Service.Logic
                 Organizations organization = null;
                 if (candidateModel.OrganizationId != candidateViewModel.OrganizationId)
                 {
-                    var organizationModel = _candidateRepository.GetOrganization(candidateViewModel.OrganizationName);
-                    if (organizationModel != null)
+                    if (candidateViewModel.OrganizationId != 0)
                     {
-                        candidateModel.OrganizationId = organizationModel.OrganizationId;
+                        candidateModel.OrganizationId = candidateViewModel.OrganizationId;
                     }
                     else
                     {
@@ -408,7 +407,9 @@ namespace RS.Service.Logic
             };
             try
             {
-                result.Body = _candidateRepository.GetOrganizationsOnInputChanged(input);
+                List<OrganizationViewModel> organizationModels = new List<OrganizationViewModel>(); 
+                var organizations = _candidateRepository.GetOrganizationsOnInputChanged(input);
+                result.Body = organizationModels.MapFromModel<Organizations, OrganizationViewModel>(organizations);
             }
             catch (Exception e)
             {

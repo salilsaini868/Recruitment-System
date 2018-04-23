@@ -129,7 +129,7 @@
                                 <div class="search-result" *ngIf="flag">
                                     <ul>
                                         <li *ngFor="let organization of organizations">
-                                            <a (click)="onselectOrganization(organization)">{{organization}}</a>
+                                            <a (click)="onSelectOrganization(organization.organizationId)">{{ organization.name }}</a>    
                                         </li>
                                     </ul>
                                 </div>
