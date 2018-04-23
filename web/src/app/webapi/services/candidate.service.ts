@@ -351,6 +351,43 @@ export class CandidateService extends BaseService {
     return this.ApiCandidateDownloadFilePostResponse(file).pipe(
       map(_r => _r.body)
     );
+  }
+  /**
+   * @param input - undefined
+   */
+  ApiCandidateGetOrganizationsOnInputChangedGetResponse(input?: string): Observable<HttpResponse<IResult>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    if (input != null) __params = __params.set("input", input.toString());
+    let req = new HttpRequest<any>(
+      "GET",
+      this.rootUrl + `/api/Candidate/GetOrganizationsOnInputChanged`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      filter(_r => _r instanceof HttpResponse),
+      map(_r => {
+        let _resp = _r as HttpResponse<any>;
+        let _body: IResult = null;
+        _body = _resp.body as IResult
+        return _resp.clone({body: _body}) as HttpResponse<IResult>;
+      })
+    );
+  }
+
+  /**
+   * @param input - undefined
+   */
+  ApiCandidateGetOrganizationsOnInputChangedGet(input?: string): Observable<IResult> {
+    return this.ApiCandidateGetOrganizationsOnInputChangedGetResponse(input).pipe(
+      map(_r => _r.body)
+    );
   }}
 
 export module CandidateService {
