@@ -12,6 +12,7 @@ export class QualificationsComponent implements OnInit {
   qualifications: QualificationViewModel[] = [] as QualificationViewModel[];
   isCreateOrUpdate  = true;
   submitted = false;
+  isQualificationExists: boolean = false;
 
   constructor(private qualificationsServiceApp: QualificationsServiceApp) {
 
@@ -41,6 +42,20 @@ export class QualificationsComponent implements OnInit {
         );
       }
     }
+  }
+
+  checkNameExits() {
+    let $this = this;
+    let qualificationname = $this.qualificationsModel.name;
+    this.qualifications.every(function (qualification) {
+      if (qualification['name'] === qualificationname) {
+        $this.isQualificationExists = true;
+        return false;
+      }else{
+        $this.isQualificationExists = false;
+        return true;
+      }
+    });
   }
 
   listQualification() {

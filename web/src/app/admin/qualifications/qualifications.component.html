@@ -15,7 +15,8 @@
                                     </div>
                                     <div class="col-md-9 col-sm-9 col-xs-12">
                                         <input autofocus type="text" class="full-input" id="qualifications" id="name" name="qualificationName" [(ngModel)]="qualificationsModel.name" required #qualificationName="ngModel"
-                                            minlength="3" maxlength="20">
+                                            minlength="3" maxlength="20" (keyup)="checkNameExits()">
+                                            <div *ngIf="isQualificationExists" id="nameExists" class="text">{{ 'QUALIFICATIONS.MESSAGE' | translate }}</div>
                                         <div *ngIf="qualificationName.errors && (qualificationName.dirty || submitted)" [hidden]="!qualificationName.errors.required" class="validation-error">
                                             {{ 'USER.REQUIRED' | translate }}
                                         </div>
