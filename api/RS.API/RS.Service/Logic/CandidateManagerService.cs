@@ -13,10 +13,9 @@ using System.Security.Principal;
 using RS.Common.Extensions;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Http;
-using System.IO;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using RS.ViewModel.Organization;
+
 
 namespace RS.Service.Logic
 {
@@ -65,10 +64,9 @@ namespace RS.Service.Logic
 
                 #region Insert Organization
                 Organizations organization = null;
-                var organizationModel = _candidateRepository.GetOrganization(candidateViewModel.OrganizationName);
-                if (organizationModel != null)
+                if (candidateViewModel.OrganizationId != 0)
                 {
-                    candidateModel.OrganizationId = organizationModel.OrganizationId;
+                    candidateModel.OrganizationId = candidateViewModel.OrganizationId;
                 }
                 else
                 {
@@ -366,10 +364,9 @@ namespace RS.Service.Logic
                 Organizations organization = null;
                 if (candidateModel.OrganizationId != candidateViewModel.OrganizationId)
                 {
-                    var organizationModel = _candidateRepository.GetOrganization(candidateViewModel.OrganizationName);
-                    if (organizationModel != null)
+                    if (candidateViewModel.OrganizationId != 0)
                     {
-                        candidateModel.OrganizationId = organizationModel.OrganizationId;
+                        candidateModel.OrganizationId = candidateViewModel.OrganizationId;
                     }
                     else
                     {
@@ -413,5 +410,25 @@ namespace RS.Service.Logic
             return result;
         }
 
+        public IResult GetOrganizationsOnInputChanged(string input)
+        {
+            var result = new Result
+            {
+                Operation = Operation.Read,
+                Status = Status.Success
+            };
+            try
+            {
+                List<OrganizationViewModel> organizationModels = new List<OrganizationViewModel>(); 
+                var organizations = _candidateRepository.GetOrganizationsOnInputChanged(input);
+                result.Body = organizationModels.MapFromModel<Organizations, OrganizationViewModel>(organizations);
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Error;
+            }
+            return result;
+        }
     }
 }

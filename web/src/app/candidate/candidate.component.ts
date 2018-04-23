@@ -14,6 +14,7 @@ import { CandidateViewModel, QualificationViewModel, OpeningViewModel } from '..
 import { Status, ApprovalType } from '../app.enum';
 import { DisplayMessageService } from '../shared/toastr/display.message.service';
 import { AppConstants } from '../shared/constant/constant.variable';
+import { OrganizationViewModel } from '../shared/customModels/organization-view-model';
 
 @Component({
     selector: 'app-candidate',
@@ -24,6 +25,7 @@ export class CandidateComponent implements OnInit {
     candidateModel: CandidateViewModel = {} as CandidateViewModel;
     openings: OpeningViewModel[] = [] as OpeningViewModel[];
     qualifications: QualificationViewModel[] = [] as QualificationViewModel[];
+    organizations: OrganizationViewModel[] = [] as OrganizationViewModel[];
     years: number[] = [];
     months: number[] = [];
     defaultOption: any;
@@ -32,6 +34,8 @@ export class CandidateComponent implements OnInit {
     filePath: any;
     submitted = false;
     isUploaded = false;
+    flag = true;
+    config2: any = { 'placeholder': 'Enter Organization' };
 
     constructor(private openingServiceApp: OpeningServiceApp, private candidateServiceApp: CandidateServiceApp,
         private qualificationServiceApp: QualificationsServiceApp, private route: ActivatedRoute,
@@ -49,14 +53,41 @@ export class CandidateComponent implements OnInit {
     }
 
     setDefaultValues() {
-        this.candidateModel.gender = -1;
-        this.candidateModel.experienceYear = -1;
-        this.candidateModel.experienceMonth = -1;
+        this.candidateModel.gender = AppConstants.defaultValue;
+        this.candidateModel.experienceYear = AppConstants.defaultValue;
+        this.candidateModel.experienceMonth = AppConstants.defaultValue;
     }
 
     initializeMethods() {
         this.getOpenings();
         this.getAllQualifications();
+    }
+
+    onInputChangedEvent(input: string) {
+        this.flag = true;
+        if (!isNullOrUndefined(input) && input.replace(/\s/g, '').length && input.length > AppConstants.minimumLength) {
+            this.candidateServiceApp.getOrganizationOnInputChangedEvent(input).debounceTime(AppConstants.delayTime).subscribe(
+                (data) => {
+                    if (data.status === Status.Success) {
+                        this.organizations = data.body;
+                    } else {
+                        this.msgService.showError('Error');
+                    }
+                }
+            );
+        } else {
+            this.organizations = [];
+        }
+    }
+
+    onSelectOrganization(organizationId) {
+        if (!isNullOrUndefined(organizationId)) {
+            this.candidateModel.organizationId = organizationId;
+            this.candidateModel.organizationName = null;
+            this.flag = false;
+        } else {
+            return false;
+        }
     }
 
     getAllQualifications(): void {

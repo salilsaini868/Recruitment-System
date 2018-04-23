@@ -5,10 +5,6 @@ using RS.Entity.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System;
-using RS.ViewModel.Candidate;
-using RS.Common.Extensions;
-using System.Security.Claims;
-using System.Security.Principal;
 
 namespace RS.Data.Logic
 {
@@ -60,11 +56,6 @@ namespace RS.Data.Logic
             return _context.Candidates.Include(t => t.Organisation).Include(s => s.CandidateDocuments).Where(x => (x.IsActive && !x.IsDeleted)).ToList();
         }
 
-        public Organizations GetOrganization(string organization)
-        {
-            return _context.Organizations.FirstOrDefault(x => x.Name == organization && (x.IsActive && !x.IsDeleted));
-        }
-
         public void AssignUserForCandidate(CandidateAssignedUser candidateAssignedUser)
         {
             _context.CandidateAssignedUser.Add(candidateAssignedUser);
@@ -86,6 +77,11 @@ namespace RS.Data.Logic
         {
             _context.Entry(candidate).State = EntityState.Modified;
             _context.SaveChanges();
+        }
+
+        public List<Organizations> GetOrganizationsOnInputChanged(string input)
+        {
+            return _context.Organizations.Where(x => x.Name.Substring(0, input.Length).Equals(input) && (x.IsActive && !x.IsDeleted)).ToList();
         }
     }
 }
