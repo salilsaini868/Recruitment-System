@@ -83,6 +83,7 @@ export class UserComponent implements OnInit {
             if (this.userModel.password === this.userModel.confirmPassword) {
                 if (isNullOrUndefined(this.userModel.userId)) {
                     this.userModel.password = this.utilityService.encrypt(this.userModel.password);
+                    this.userModel.confirmPassword = this.userModel.password;
                     this.userServiceApp.createUser(this.userModel).subscribe(
                         (data) => {
                             this.showUsersList();

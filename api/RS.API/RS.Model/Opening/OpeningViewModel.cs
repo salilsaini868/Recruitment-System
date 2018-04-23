@@ -17,8 +17,8 @@ namespace RS.ViewModel.Opening
         public List<SkillViewModel> SecondarySkillTypes { get; set; }
         public string PrimarySkills { get; set; }
         public string SecondarySkills { get; set; }
-        public string CreatedDate {get;set;}
-        public string ModifiedDate { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime? ModifiedDate { get; set; }
         public string Status { get; set; }
     }
 

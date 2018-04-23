@@ -51,7 +51,7 @@
                             </div>
                             <div class="col-md-9 col-sm-9 col-xs-12">
                                 <input class="full-input" type="password" required name="password" pattern="^[a-z0-9_-]{6,}$" [(ngModel)]="userModel.password"
-                                    #password="ngModel" maxlength="25">
+                                    #password="ngModel" maxlength="50">
                                 <div *ngIf="password.errors && (password.dirty || submitted)" [hidden]="!password.errors.required" class="validation-error">
                                     {{ 'USER.REQUIRED' | translate }}
                                 </div>

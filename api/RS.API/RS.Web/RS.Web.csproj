@@ -9,8 +9,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="uploadFiles\" />
     <Folder Include="Properties\PublishProfiles\" />
+    <Folder Include="uploadFiles\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

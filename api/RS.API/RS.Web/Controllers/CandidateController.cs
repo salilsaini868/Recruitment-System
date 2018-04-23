@@ -118,7 +118,7 @@ namespace RS.Web.Controllers
             {
                 return null;
             }
-            var folder = _configuration["UploadFiles"];
+            var folder = _configuration["uploadFiles"];
             var path = Path.Combine(_hostingEnvironment.ContentRootPath, folder + file);
             var memory = new MemoryStream();
             using (var stream = new FileStream(path, FileMode.Open))
@@ -136,7 +136,6 @@ namespace RS.Web.Controllers
             var allowedExtensions = _configuration["ResumeExtension"].Split(',');           
             var extension = FileHelper.GetExtension(file, allowedExtensions);
             candidateDocumentViewModel.UploadedDocument = Guid.NewGuid().ToString() + extension;
-
         }
 
     }

@@ -1,20 +1,20 @@
-﻿using RS.Service.Interfaces;
+﻿using Microsoft.Extensions.Configuration;
+using RS.Common.CommonData;
 using RS.Common.Enums;
-using RS.Entity;
+using RS.Common.Extensions;
+using RS.Data.Interfaces;
+using RS.Entity.Models;
+using RS.Service.Interfaces;
+using RS.ViewModel.Approval;
+using RS.ViewModel.ChartViewModel;
+using RS.ViewModel.Dashboard;
+using RS.ViewModel.Opening;
 using RS.ViewModel.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using RS.Common.CommonData;
-using RS.Common.Extensions;
-using RS.Data.Interfaces;
-using RS.Entity.Models;
-using RS.ViewModel.Approval;
 using System.Security.Claims;
 using System.Security.Principal;
-using RS.ViewModel.Opening;
-using RS.ViewModel.Dashboard;
-using RS.ViewModel.ChartViewModel;
 
 namespace RS.Service.Logic
 {
@@ -25,13 +25,16 @@ namespace RS.Service.Logic
         private readonly IApprovalRepository _approvalRepository;
         private readonly IOpeningRepository _openingRepository;
         private readonly ICandidateRepository _candidateRepository;
+        private readonly IConfiguration _configuration;
         #endregion
-        public ApprovalManagerService(IPrincipal principal, IApprovalRepository approvalRepository, IOpeningRepository openingRepository, ICandidateRepository candidateRepository)
+        public ApprovalManagerService(IPrincipal principal, IApprovalRepository approvalRepository, IOpeningRepository openingRepository, ICandidateRepository candidateRepository,
+            IConfiguration configuration)
         {
             _principal = principal as ClaimsPrincipal;
             _approvalRepository = approvalRepository;
             _openingRepository = openingRepository;
             _candidateRepository = candidateRepository;
+            _configuration = configuration;
         }
 
         public IResult GetApprovalEvents(int approvalId, Guid entityId)
@@ -282,6 +285,7 @@ namespace RS.Service.Logic
                     }
 
                     approvalTransactionModel.MapFromViewModel(approvalTransactionViewModel, (ClaimsIdentity)_principal.Identity);
+                    approvalTransactionViewModel.Action = approvalTransactionModel.ApprovalAction.ApprovalActionName;
                     var approvalTransactionDetail = new ApprovalTransactionDetails();
                     approvalTransactionDetail.MapAuditColumns((ClaimsIdentity)_principal.Identity);
                     approvalTransactionDetail.ApprovalTransactionId = approvalTransactionViewModel.ApprovalTransactionId;
@@ -290,6 +294,37 @@ namespace RS.Service.Logic
                     approvalTransactionDetail.Comments = approvalTransactionViewModel.Comments;
                     _approvalRepository.UpdateApprovalTransaction(approvalTransactionModel, approvalTransactionDetail);
 
+                    UserViewModel userViewModel = new UserViewModel();
+                    if (approvalTransactionViewModel.ApprovalTransactionId != 0)
+                    {
+                        if (approvalTransactionViewModel.ApprovalId == (int)Approval.Candidate)
+                        {
+                            var user = _approvalRepository.GetUserForCandidateApproval(approvalTransactionViewModel);
+                            userViewModel.MapFromModel(user);
+                            approvalTransactionViewModel.User = userViewModel;
+                            MailDetailModel mailDetail = new MailDetailModel();
+                            mailDetail.EmailId = user.Email;
+                            mailDetail.Subject = approvalTransactionViewModel.Action + " Candidate";
+                            mailDetail.Template = TemplateType.Appoval;
+                            mailDetail.MessageBody = approvalTransactionViewModel;
+                            GenericHelper.Send(mailDetail, _configuration);
+                        }
+                        else
+                        {
+                            var users = _approvalRepository.GetUserForOpeningApproval(approvalTransactionViewModel);
+                            users.ForEach(user =>
+                            {
+                                MailDetailModel mailDetail = new MailDetailModel();
+                                userViewModel.MapFromModel(user);
+                                approvalTransactionViewModel.User = userViewModel;
+                                mailDetail.EmailId = user.Email;
+                                mailDetail.Subject = approvalTransactionViewModel.Action + " Opening";
+                                mailDetail.Template = TemplateType.Appoval;
+                                mailDetail.MessageBody = approvalTransactionViewModel;
+                                GenericHelper.Send(mailDetail, _configuration);
+                            });
+                        }
+                    }
                     result.Body = approvalTransactionViewModel;
                 }
             }
@@ -355,6 +390,7 @@ namespace RS.Service.Logic
             approvalTransaction.ApprovalTransactionDetails.Add(approvalTransactionDetail);
             _approvalRepository.CreateApprovalTransaction(approvalTransaction);
             approvalTransactionViewModel.MapFromModel(approvalTransaction);
+
             return approvalTransactionViewModel;
         }
 

@@ -134,6 +134,11 @@ namespace RS.Data.Logic
             return _context.ApprovalTransactions.Where(x => x.IsApproved && x.ApprovalId == (int)Approval.Candidate && DateTime.Now.Month == x.ModifiedDate.Value.Month && x.IsActive && !x.IsDeleted).Count();
         }
 
+        public Users GetUserForCandidateApproval(ApprovalTransactionViewModel approvalTransactionViewModel)
+        {
+            return _context.CandidateAssignedUser.Include(s => s.ApprovalEvent).Include(t => t.User).FirstOrDefault(x => x.ApprovalEvent.ApprovalEventOrder == approvalTransactionViewModel.NextEventOrderNumber && x.IsActive && !x.IsDeleted).User;
+        }
+
         public int GetTotalCandidatesAttendedInterview(int month)
         {
             return _context.ApprovalTransactions.Where(x => x.ApprovalId == (int)Approval.Candidate && x.ModifiedDate.Value.Month == month && x.IsActive && !x.IsDeleted).Count();
@@ -216,6 +221,11 @@ namespace RS.Data.Logic
                 return candidate.Gender;
             }
             return 0;
+        }
+
+        public List<Users> GetUserForOpeningApproval(ApprovalTransactionViewModel approvalTransactionViewModel)
+        {
+            return _context.ApprovalEventRoles.Include(t => t.User).Where(x => x.ApprovalEventId == approvalTransactionViewModel.NextEventOrderNumber && x.IsActive && !x.IsDeleted).Select(x => x.User).ToList();
         }
     }
 }

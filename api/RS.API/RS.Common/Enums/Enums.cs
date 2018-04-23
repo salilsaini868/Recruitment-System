@@ -27,4 +27,11 @@
         All = 1,
         Gender = 2
     }
+
+    public enum TemplateType
+    {
+        UserRegistration = 1,
+        Appoval = 2,
+        Interview = 3
+    }
 }
