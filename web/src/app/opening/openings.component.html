@@ -25,8 +25,8 @@
                             <td> -- </td>
                         </ng-template>
                         <td>{{opening.status}}</td>
-                        <td>{{opening.createdDate}}</td>
-                        <td>{{opening.modifiedDate}}</td>
+                        <td>{{opening.createdDate | date: 'dd-MM-yyyy'}}</td>
+                        <td>{{opening.modifiedDate | date: 'dd-MM-yyyy'}}</td>
                         <td>
                             <button *ngIf="loggedRole == 'Sr.HR'" title="Delete" class="btn btn-danger no-radius" (click)="deleteOpening(opening.openingId)">{{ 'OPENING.DELETE' | translate }}</button>
                             <button *ngIf="loggedRole == 'Sr.HR' && opening.status == 'Re-Edit'" title="Edit" class="btn btn-primary no-radius blue-btn" (click)="updateOpening(opening.openingId)">{{ 'OPENING.UPDATE' | translate }}</button>

@@ -13,10 +13,9 @@ using System.Security.Principal;
 using RS.Common.Extensions;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Http;
-using System.IO;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using RS.ViewModel.Organization;
+
 
 namespace RS.Service.Logic
 {
@@ -28,16 +27,19 @@ namespace RS.Service.Logic
         private readonly IApprovalRepository _approvalRepository;
         private readonly IOpeningRepository _openingRepository;
         private readonly IQualificationRepository _qualificationRepository;
+        private readonly IConfiguration _configuration;
 
         #endregion
         public CandidateManagerService(IPrincipal principal, ICandidateRepository candidateRepository,
-            IOpeningRepository openingRepository, IQualificationRepository qualificationRepository, IApprovalRepository approvalRepository)
+            IOpeningRepository openingRepository, IQualificationRepository qualificationRepository, IApprovalRepository approvalRepository,
+            IConfiguration configuration)
         {
             _principal = principal as ClaimsPrincipal;
             _candidateRepository = candidateRepository;
             _openingRepository = openingRepository;
             _qualificationRepository = qualificationRepository;
             _approvalRepository = approvalRepository;
+            _configuration = configuration;
         }
 
         public IResult AddCandidate(CandidateViewModel candidateViewModel, CandidateDocumentViewModel candidateDocumentViewModel)
@@ -57,7 +59,7 @@ namespace RS.Service.Logic
                 var openingCandidate = new OpeningCandidates();
                 openingCandidate.OpeningId = candidateViewModel.OpeningId;
                 openingCandidate.Candidate = candidateModel;
-                openingCandidate.MapAuditColumns((ClaimsIdentity)_principal.Identity); 
+                openingCandidate.MapAuditColumns((ClaimsIdentity)_principal.Identity);
                 #endregion
 
                 #region Insert Organization
@@ -180,6 +182,16 @@ namespace RS.Service.Logic
                 }
                 var candidateViewModel = new CandidateViewModel();
                 candidateViewModel.MapFromModel(candidateModel);
+                if (candidateViewModel.IsReadyForInterview)
+                {
+                    var user = _approvalRepository.GetUserForCandidateApproval(candidateViewModel.CandidateId, Constants.FirstApproval);
+                    MailDetailModel mailDetail = new MailDetailModel();
+                    mailDetail.EmailId = user.Email;
+                    mailDetail.Subject = "Ready For Interview";
+                    mailDetail.Template = TemplateType.Appoval;
+                    mailDetail.MessageBody = user;
+                    GenericHelper.Send(mailDetail, _configuration);
+                }
                 result.Body = candidateViewModel.CandidateId;
 
             }
@@ -374,7 +386,7 @@ namespace RS.Service.Logic
                 {
                     openingCandidateModel.OpeningId = candidateViewModel.OpeningId;
                     openingCandidateModel.MapAuditColumns((ClaimsIdentity)_principal.Identity);
-                } 
+                }
                 #endregion
 
                 #region Candidate Document Insert Update
