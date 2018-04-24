@@ -15,7 +15,7 @@ export class SkillsComponent implements OnInit {
   skills: SkillViewModel[] = [] as SkillViewModel[];
   isCreateOrUpdate: boolean;
   submitted = false;
-  duplicate: boolean=false;
+  isSkillExists: boolean = false;
 
   constructor(private skillsServiceApp: SkillsServiceApp,private displayMessage: DisplayMessageService) {
   }
@@ -46,28 +46,27 @@ export class SkillsComponent implements OnInit {
       }
     }
   }
+  checkNameExitsOnBlur() {
+    let $this = this;
+    let skillName = $this.skillsModel.name;
+    this.skills.every(function (skill) {
+      if (skill['name'] === skillName) {
+        $this.isSkillExists = true;
+        return false;
+      }else{
+        $this.isSkillExists = false;
+        return true;
+      }
+    });
+  }
 
   listSkill() {
-    this.skillsServiceApp.listSkill()
-      .subscribe((data) => {
+    this.skillsServiceApp.listSkill().subscribe((data) => {
         if (data) {
           this.skills = data.body;
-          
         }
       });
   }
-  checkDuplicate(enteredSkill){
-    for(let skill of this.skills){
-      if(skill == enteredSkill){
-        this.duplicate = true
-      }
-    }
-    this.duplicate = false
-  }
-  onBlurMethod(){
-    this.skillsModel;
-    this.displayMessage.showWarning("skills name already exist ");
-   }
 
   deleteSkills(i) {
     this.skills.splice(i, 1);

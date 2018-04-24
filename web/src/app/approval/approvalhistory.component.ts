@@ -22,7 +22,6 @@ export class ApprovalhistoryComponent implements OnInit {
         this.getApprovalDetails();
     }
     getApprovalDetails() {
-        debugger;
         this.approvalServiceApp.getApprovalDetails(this.entityId).subscribe(
             (data) => {
                 if (data.status === Status.Success) {
