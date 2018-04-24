@@ -7,7 +7,8 @@ import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-transla
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { ChartModule, HIGHCHARTS_MODULES } from 'angular-highcharts';
+import exporting from 'highcharts/modules/exporting.src.js';
 
 // Services
 import {
@@ -24,10 +25,14 @@ export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
+export function highchartsModules() {
+    return [exporting];
+}
+
 @NgModule({
     imports: [
         HttpClientModule,
-        CommonModule, FormsModule, ReactiveFormsModule, RouterModule,
+        CommonModule, FormsModule, ReactiveFormsModule, RouterModule, ChartModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
@@ -36,9 +41,9 @@ export function HttpLoaderFactory(http: HttpClient) {
             }
         }),
     ],
-    declarations: [ HeaderComponent, FooterComponent, LeftSideBarComponent, SideBarPipe, HiringTrendChartComponent],
-    exports: [ HeaderComponent, FooterComponent, LeftSideBarComponent, SideBarPipe, HiringTrendChartComponent],
-    providers: []
+    declarations: [HeaderComponent, FooterComponent, LeftSideBarComponent, SideBarPipe, HiringTrendChartComponent],
+    exports: [HeaderComponent, FooterComponent, LeftSideBarComponent, SideBarPipe, HiringTrendChartComponent],
+    providers: [{ provide: HIGHCHARTS_MODULES, useFactory: highchartsModules }]
 })
 
 export class SharedModule {

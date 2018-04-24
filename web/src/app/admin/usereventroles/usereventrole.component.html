@@ -7,7 +7,7 @@
                     <div>
                         <label>{{ 'EVENTROLE.APPROVAL' | translate }}</label>
                         <div>
-                            <select [(ngModel)]="approvalId" [ngModelOptions]="{standalone: true}" (change)="getApprovalEvents(approvalId)" required>
+                            <select [(ngModel)]="approvalId" [ngModelOptions]="{standalone: true}" (change)="getApprovalEvents()" required>
                                 <option *ngFor="let approval of approvals" [attr.value]="approval.approvalId">{{approval.approvalName}}</option>
                             </select>
                         </div>
@@ -23,7 +23,7 @@
                     <div>
                         <label>{{ 'EVENTROLE.ROLE' | translate }}</label>
                         <div>
-                            <select [(ngModel)]="approvalEventRoleModel.roleId" [ngModelOptions]="{standalone: true}" (change)="getUsers(approvalEventRoleModel.roleId)"
+                            <select [(ngModel)]="approvalEventRoleModel.roleId" [ngModelOptions]="{standalone: true}" (change)="getUsers()"
                                 required>
                                 <option *ngFor="let role of roles" [attr.value]="role.roleId">{{role.name}}</option>
                             </select>

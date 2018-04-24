@@ -9,4 +9,7 @@ export class AppConstants {
   public static get uriForAdd(): string { return '/api/Candidate/AddCandidate'; }
   public static get uriForUpdate(): string { return '/api/Candidate/UpdateCandidate'; }
   public static get uriForFile(): string { return '/api/Candidate/DownloadFile'; }
+  public static get delayTime(): number { return 1000; }
+  public static get minimumLength(): number { return 2; }
+  public static get defaultValue(): number { return -1; }
 }

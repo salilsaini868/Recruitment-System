@@ -31,7 +31,7 @@
         /// The modified date column
         /// </summary>
         public static string ModifiedDate = "ModifiedDate";
-        
+
         /// <summary>
         /// Is Deleted Column
         /// </summary>
@@ -41,7 +41,12 @@
         /// Is Active Column
         /// </summary>
         public const string IsActiveColumn = "IsActive";
-      
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public const int FirstApproval = 1;
+
     }
 
     public static class SkillStatusNotification
