@@ -40,6 +40,10 @@ export class CandidateServiceApp {
         return this.apiCandidateSevice.ApiCandidateApprovedForInterviewPut(candidateId);
     }
 
+    getOrganizationOnInputChangedEvent(input): Observable<any> {
+        return this.apiCandidateSevice.ApiCandidateGetOrganizationsOnInputChangedGet(input).map(x => (x));
+    }
+
     addCandidate(uri, candidate, fileToUpload: any): Observable<any> {
         const url = this.apiConfig.rootUrl + uri;
         const formdata = new FormData();
@@ -49,7 +53,7 @@ export class CandidateServiceApp {
     }
 
     updateCandidate(uri, candidate, fileToUpload: any): Observable<any> {
-        const url =  this.apiConfig.rootUrl + uri;
+        const url = this.apiConfig.rootUrl + uri;
         const formdata = new FormData();
         formdata.append('candidate', JSON.stringify(candidate));
         formdata.append('uploadFile', fileToUpload);
@@ -57,7 +61,7 @@ export class CandidateServiceApp {
     }
 
     downloadCandiadteResume(uri, fileName): Observable<any> {
-        const url =  this.apiConfig.rootUrl + uri;
+        const url = this.apiConfig.rootUrl + uri;
         const formdata = new FormData();
         formdata.append('file', fileName);
         return this.http.post(url, formdata, { responseType: 'blob' }).map(x => (x));

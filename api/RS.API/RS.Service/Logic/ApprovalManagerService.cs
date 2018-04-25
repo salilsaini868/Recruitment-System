@@ -370,7 +370,7 @@ namespace RS.Service.Logic
             };
             try
             {
-                result.Body = _approvalRepository.ApprovalTransactionDetails(entityId); 
+                result.Body = _approvalRepository.ApprovalTransactionDetails(entityId);
             }
             catch (Exception e)
             {
@@ -378,6 +378,16 @@ namespace RS.Service.Logic
                 result.Status = Status.Error;
             }
             return result;
+        }
+
+        public IResult GetDashboardDetails()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IResult GetChartDetails(int type)
+        {
+            throw new NotImplementedException();
         }
     }
 }

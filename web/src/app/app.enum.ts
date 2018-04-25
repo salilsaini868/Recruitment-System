@@ -10,3 +10,7 @@ export enum Status {
 export enum ApprovalType {
     Opening = 1, Candidate = 2
 }
+
+export enum ShowType {
+    All = 1, Gender = 2
+}

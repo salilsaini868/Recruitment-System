@@ -15,6 +15,7 @@ using System.Linq;
 using RS.ViewModel.Skill;
 using RS.ViewModel.Approval;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Configuration;
 
 namespace RS.Service.Logic
 {
@@ -25,17 +26,18 @@ namespace RS.Service.Logic
         private readonly IApprovalRepository _approvalRepository;
         private readonly IApprovalManagerService _approvalManagerService;
         private readonly ClaimsPrincipal _principal;
+        private readonly IConfiguration _configuration;
         #endregion
-        public OpeningManagerService(IPrincipal principal, IApprovalManagerService approvalManagerService, IOpeningRepository openingRepository, IApprovalRepository approvalRepository)
+        public OpeningManagerService(IPrincipal principal, IApprovalManagerService approvalManagerService, IOpeningRepository openingRepository, IApprovalRepository approvalRepository,
+            IConfiguration configuration)
         {
             _openingRepository = openingRepository;
             _approvalRepository = approvalRepository;
             _approvalManagerService = approvalManagerService;
             _principal = principal as ClaimsPrincipal;
+            _configuration = configuration;
         }
 
-
-        // TODO : Implement Transaction
         public IResult InsertOrUpdateOpening(EntityAndApprovalViewModel entityAndApprovalViewModel)
         {
             var result = new Result
@@ -71,6 +73,17 @@ namespace RS.Service.Logic
 
                     entityAndApprovalViewModel.openingViewModel.OpeningId = openingModel.OpeningId;
                     var approvalTransactionViewModel = _approvalManagerService.AddApprovalTransaction(entityAndApprovalViewModel);
+
+                    var users = _approvalRepository.GetUserForOpeningApproval(approvalTransactionViewModel);
+                    users.ForEach(user =>
+                    {
+                        MailDetailModel mailDetail = new MailDetailModel();
+                        mailDetail.EmailId = user.Email;
+                        mailDetail.Subject = "Opening Approval";
+                        mailDetail.Template = TemplateType.Appoval;
+                        mailDetail.MessageBody = approvalTransactionViewModel;
+                        GenericHelper.Send(mailDetail, _configuration);
+                    });
                     result.Body = approvalTransactionViewModel;
                 }
             }
@@ -105,11 +118,10 @@ namespace RS.Service.Logic
 
                     var openingViewModel = new OpeningViewModel();
                     MapPrimaryandSecondarySkills(openingViewModel, opening);
-                    openingViewModel.CreatedDate = opening.CreatedDate.ToString("MM/dd/yyyy");
-                    openingViewModel.ModifiedDate = opening.ModifiedDate.HasValue ? opening.ModifiedDate.Value.ToString("MM/dd/yyyy") : string.Empty;
-                    openingViewModel.IsApproved = approvalTransaction.IsApproved;
+
                     if (approvalTransaction != null)
                     {
+                        openingViewModel.IsApproved = approvalTransaction.IsApproved;
                         openingViewModel.Status = approvalTransaction.ApprovalAction.ApprovalActionName;
                     }
                     return openingViewModel.MapFromModel(opening);
@@ -141,9 +153,7 @@ namespace RS.Service.Logic
 
                     var openingViewModel = new OpeningViewModel();
                     MapPrimaryandSecondarySkills(openingViewModel, opening);
-                    openingViewModel.CreatedDate = opening.CreatedDate.ToString("MM/dd/yyyy");
-                    openingViewModel.ModifiedDate = opening.ModifiedDate.HasValue ? opening.ModifiedDate.Value.ToString("MM/dd/yyyy") : string.Empty;
-                    
+
                     if (approvalTransaction != null)
                     {
                         openingViewModel.IsApproved = approvalTransaction.IsApproved;

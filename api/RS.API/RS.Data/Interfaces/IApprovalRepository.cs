@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using RS.Entity.Models;
-using RS.ViewModel.User;
 using System;
 
 using RS.Entity.DTO;
 
 using RS.ViewModel.Approval;
+using RS.ViewModel.ChartViewModel;
 
 
 namespace RS.Data.Interfaces
@@ -31,6 +31,16 @@ namespace RS.Data.Interfaces
         List<ApprovalTransactions> GetAllApprovalTransactions(List<Guid> openingIds);
         int GetApprovalEventOrderOfUser(Guid entityId, Guid userId, int approvalId);
 
+
+
+
+        int GetTotalOpenOpenings();
+        int GetTotalCloseOpenings();
+        int GetTotalCandidatesHired();
+        int GetTotalCandidatesAttendedInterview(int month);
+        List<SeriesModel> GetSeriesDetail(int type);
+        Users GetUserForCandidateApproval(Guid entityId, int nextEventOrderNumber);
+        List<Users> GetUserForOpeningApproval(ApprovalTransactionViewModel approvalTransactionViewModel);
 
     }
 }
