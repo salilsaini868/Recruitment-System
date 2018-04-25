@@ -10,8 +10,10 @@ import { OpeningServiceApp } from './shared/opening.serviceApp';
 // Models
 import { SkillViewModel } from '../webapi/models/skill-view-model';
 import { SkillModel } from '../shared/customModels/skill-model';
+import { ApprovalResponseModel } from '../shared/customModels/approvel-response.model';
 
 import { OpeningSkillType, Status, ApprovalType } from '../app.enum';
+import { ApprovalhistoryComponent } from './../approval/approvalhistory.component';
 import { ApprovalServiceApp } from '../approval/shared/approval.serviceApp';
 import { ApprovalTransactionViewModel, OpeningViewModel } from '../webapi/models';
 
@@ -30,6 +32,7 @@ export class OpeningComponent implements OnInit {
     approvalTransaction: ApprovalTransactionViewModel = {} as ApprovalTransactionViewModel;
     approval: any;
     opening: any;
+    details: any;
     isDataAvailable = false;
     submitted = false;
 

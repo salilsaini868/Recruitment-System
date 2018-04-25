@@ -26,6 +26,7 @@ namespace RS.Service.Logic
         private readonly IOpeningRepository _openingRepository;
         private readonly ICandidateRepository _candidateRepository;
         private readonly IConfiguration _configuration;
+        private Guid entityId;
         #endregion
         public ApprovalManagerService(IPrincipal principal, IApprovalRepository approvalRepository, IOpeningRepository openingRepository, ICandidateRepository candidateRepository,
             IConfiguration configuration)
@@ -402,7 +403,29 @@ namespace RS.Service.Logic
             return User.UserId;
         }
 
+
+        public IResult ApprovalTransactionDetails(Guid entityId) {
+            
+                var result = new Result
+                {
+                    Operation = Operation.Read,
+                    Status = Status.Success
+                };
+                try
+                {
+                    result.Body = _approvalRepository.ApprovalTransactionDetails(entityId);
+                }
+                catch (Exception e)
+                {
+                    result.Message = e.Message;
+                    result.Status = Status.Error;
+                }
+                return result;
+            }
+        
+
         public IResult GetDashboardDetails()
+
         {
             var result = new Result
             {
@@ -411,6 +434,9 @@ namespace RS.Service.Logic
             };
             try
             {
+
+                result.Body = _approvalRepository.ApprovalTransactionDetails(entityId); 
+
                 DashboardViewModel dashboardViewModel = new DashboardViewModel();
                 dashboardViewModel.TotalOpenOpenings = _approvalRepository.GetTotalOpenOpenings();
                 dashboardViewModel.TotalCloseOpenings = _approvalRepository.GetTotalCloseOpenings();
@@ -438,6 +464,7 @@ namespace RS.Service.Logic
                 ChartViewModel chartViewModel = new ChartViewModel();
                 chartViewModel.Series = _approvalRepository.GetSeriesDetail(showType);
                 result.Body = chartViewModel;
+
             }
             catch (Exception e)
             {

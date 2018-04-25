@@ -7,8 +7,12 @@ using RS.Data.Interfaces;
 using RS.Entity.Models;
 using RS.ViewModel.Approval;
 using RS.ViewModel.User;
+
+using RS.Entity.DTO;
+
 using RS.Common.Enums;
 using RS.ViewModel.ChartViewModel;
+
 
 namespace RS.Data.Logic
 {
@@ -58,6 +62,33 @@ namespace RS.Data.Logic
             });
             return dictionary;
         }
+
+        public List<ApprovalTransactionDetails> GetApprovalTransactionDetails()
+        {
+            return _context.ApprovalTransactionDetails.ToList();
+        }
+
+        public List<ApprovalTransactionDetailsDTO> ApprovalTransactionDetails(Guid entityId)
+        {
+            return (from ApprovalTransactionDetail in _context.ApprovalTransactionDetails
+
+                    join ApprovalTran in _context.ApprovalTransactions on ApprovalTransactionDetail.ApprovalTransactionId equals ApprovalTran.ApprovalTransactionId
+                    join ApprovalAction in _context.ApprovalActions on ApprovalTransactionDetail.ApprovalActionId equals ApprovalAction.ApprovalActionId
+                    join users in _context.Users on ApprovalTransactionDetail.CreatedBy equals users.UserId
+
+                    where (ApprovalTran.EntityId == entityId)
+
+                    select new ApprovalTransactionDetailsDTO
+                    {
+                        ApprovalActionName = ApprovalAction.ApprovalActionName,
+                        FirstName = users.FirstName,
+                        LastName = users.LastName,
+                        ActionPerformedDate = ApprovalTransactionDetail.ModifiedDate.Value,
+
+
+                    }).ToList();
+        }
+
 
         public int GetApprovalEventOrderNumber(ApprovalEventViewModel approvalEventViewModel)
         {

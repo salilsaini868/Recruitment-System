@@ -46,6 +46,11 @@ namespace RS.Service.Interfaces
         /// <summary>
         /// 
         /// </summary>
+
+        /// <param name="entityId"></param>
+        /// <returns></returns
+        IResult ApprovalTransactionDetails(Guid entityId);
+
         /// <param name="openingId"></param>
         /// <returns></returns>
         IResult GetApprovalTransactionByEntity(Guid openingId);
