@@ -15,9 +15,7 @@ export class QualificationsComponent implements OnInit {
   isQualificationExists: boolean = false;
 
   constructor(private qualificationsServiceApp: QualificationsServiceApp) {
-
   }
-
   ngOnInit() {
     this.listQualification();
   }
@@ -43,7 +41,6 @@ export class QualificationsComponent implements OnInit {
       }
     }
   }
-
   checkNameExits() {
     let $this = this;
     let qualificationname = $this.qualificationsModel.name;
@@ -57,7 +54,6 @@ export class QualificationsComponent implements OnInit {
       }
     });
   }
-
   listQualification() {
     this.qualificationsServiceApp.getAllQualification()
       .subscribe((data) => {

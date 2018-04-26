@@ -17,14 +17,12 @@ export class SkillsComponent implements OnInit {
   submitted = false;
   isSkillExists: boolean = false;
 
-  constructor(private skillsServiceApp: SkillsServiceApp,private displayMessage: DisplayMessageService) {
+  constructor(private skillsServiceApp: SkillsServiceApp, private displayMessage: DisplayMessageService) {
   }
-
   ngOnInit() {
     this.listSkill();
     this.isCreateOrUpdate = true;
   }
-
   onSubmit(skillsform) {
     this.submitted = true;
     if (skillsform.valid) {
@@ -53,21 +51,19 @@ export class SkillsComponent implements OnInit {
       if (skill['name'] === skillName) {
         $this.isSkillExists = true;
         return false;
-      }else{
+      } else {
         $this.isSkillExists = false;
         return true;
       }
     });
   }
-
   listSkill() {
     this.skillsServiceApp.listSkill().subscribe((data) => {
-        if (data) {
-          this.skills = data.body;
-        }
-      });
+      if (data) {
+        this.skills = data.body;
+      }
+    });
   }
-
   deleteSkills(i) {
     this.skills.splice(i, 1);
     this.skillsServiceApp.deleteSkill().subscribe((data) => {
@@ -75,7 +71,6 @@ export class SkillsComponent implements OnInit {
       }
     });
   }
-
   editSkills(skills) {
     this.skillsModel.skillId = skills.skillId;
     this.skillsModel.name = skills.name;
