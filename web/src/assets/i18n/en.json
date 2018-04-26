@@ -23,6 +23,7 @@
         "DESCRIPTION": "Description",
         "SAVE": "Save",
         "UPDATE": "Update",
+        "REQUIRED": "This field is required",
         "CREATE_QUALIFICATIONS": "Create Qualification",
         "UPDATE_QUALIFICATIONS": "Update Qualification",
         "MESSAGE": "This Qualification with same already exists. Please choose another one..!"

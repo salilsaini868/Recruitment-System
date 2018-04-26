@@ -41,7 +41,7 @@ export class QualificationsComponent implements OnInit {
       }
     }
   }
-  checkNameExits() {
+  checkQualificationExits() {
     let $this = this;
     let qualificationname = $this.qualificationsModel.name;
     this.qualifications.every(function (qualification) {
@@ -78,5 +78,4 @@ export class QualificationsComponent implements OnInit {
     this.qualificationsModel.description = qualifications.description;
     this.isCreateOrUpdate = false;
   }
-
 }
