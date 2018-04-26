@@ -31,9 +31,6 @@ namespace RS.Data.Interfaces
         List<ApprovalTransactions> GetAllApprovalTransactions(List<Guid> openingIds);
         int GetApprovalEventOrderOfUser(Guid entityId, Guid userId, int approvalId);
 
-
-
-
         int GetTotalOpenOpenings();
         int GetTotalCloseOpenings();
         int GetTotalCandidatesHired();
@@ -42,5 +39,6 @@ namespace RS.Data.Interfaces
         Users GetUserForCandidateApproval(Guid entityId, int nextEventOrderNumber);
         List<Users> GetUserForOpeningApproval(ApprovalTransactionViewModel approvalTransactionViewModel);
         dynamic ApprovalTransactionDetails(object entityId);
+
     }
 }
