@@ -19,7 +19,7 @@ import { ApprovalModule } from '../../approval/shared/approval.module';
         FormsModule,
         TranslateModule,
         CandidateRouterModule,
-        ApprovalModule
+        ApprovalModule,
     ],
     exports: [],
     declarations: [CandidateComponent, CandidatesComponent, AssignedUserComponent, CandidateDetailsComponent],

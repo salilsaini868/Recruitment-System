@@ -11,6 +11,7 @@ using RS.ViewModel.User;
 using RS.Entity.DTO;
 
 using RS.Common.Enums;
+using RS.ViewModel.ChartViewModel;
 
 
 namespace RS.Data.Logic
@@ -146,8 +147,116 @@ namespace RS.Data.Logic
             {
                 var assignedUser = _context.CandidateAssignedUser.Include(x => x.ApprovalEvent).FirstOrDefault(x => x.UserId == userId && x.CandidateId == entityId && x.IsActive && !x.IsDeleted);
                 return assignedUser.ApprovalEvent.ApprovalEventOrder;
-            }    
+            }
         }
 
+        public int GetTotalOpenOpenings()
+        {
+            return _context.ApprovalTransactions.Where(x => x.IsApproved && x.ApprovalId == (int)Approval.Opening && DateTime.Now.Month == x.ModifiedDate.Value.Month && x.IsActive && !x.IsDeleted).Count();
+        }
+
+        public int GetTotalCloseOpenings()
+        {
+            return 0;
+        }
+
+        public int GetTotalCandidatesHired()
+        {
+            return _context.ApprovalTransactions.Where(x => x.IsApproved && x.ApprovalId == (int)Approval.Candidate && DateTime.Now.Month == x.ModifiedDate.Value.Month && x.IsActive && !x.IsDeleted).Count();
+        }
+
+        public Users GetUserForCandidateApproval(Guid entityId, int nextEventOrderNumber)
+        {
+            return _context.CandidateAssignedUser.Include(s => s.ApprovalEvent).Include(t => t.User).FirstOrDefault(x => x.CandidateId == entityId && x.ApprovalEvent.ApprovalEventOrder == nextEventOrderNumber && x.IsActive && !x.IsDeleted).User;
+        }
+
+        public int GetTotalCandidatesAttendedInterview(int month)
+        {
+            return _context.ApprovalTransactions.Where(x => x.ApprovalId == (int)Approval.Candidate && x.ModifiedDate.Value.Month == month && x.IsActive && !x.IsDeleted).Count();
+        }
+
+        public List<SeriesModel> GetSeriesDetail(int showType)
+        {
+            List<SeriesModel> series = new List<SeriesModel>();
+            if (showType == (int)ShowType.All)
+            {
+                var approvedOpenings = _context.ApprovalTransactions.Where(x => x.ApprovalId == (int)Approval.Opening && x.IsApproved && x.IsActive && !x.IsDeleted).Select(x => x.EntityId).ToList();
+                var openings = new List<String>();
+                approvedOpenings.ForEach(x =>
+                {
+                    openings.Add(_context.Openings.FirstOrDefault(s => s.OpeningId == x && s.IsActive && !s.IsDeleted).Title);
+                });
+                openings.ForEach(opening =>
+                {
+                    SeriesModel seriesModel = new SeriesModel();
+                    seriesModel.Data = new List<int>();
+                    seriesModel.Name = opening;
+                    for (int i = 1; i <= 12; i++)
+                    {
+                        seriesModel.Data.Add(GetCandidatesHired(i, opening));
+                    }
+                    series.Add(seriesModel);
+                });
+            }
+            else
+            {
+                var gender = _context.Candidates.Select(x => x.Gender).Distinct().ToList();
+                gender.ForEach(x =>
+                {
+                    SeriesModel seriesModel = new SeriesModel();
+                    seriesModel.Data = new List<int>();
+                    seriesModel.Name = x == 1 ? "Male" : "Female";
+                    for (int i = 1; i <= 12; i++)
+                    {
+                        seriesModel.Data.Add(GetCandidatesHiredBasedOnGender(i, x));
+                    }
+                    series.Add(seriesModel);
+                });
+            }
+            SeriesModel totalCandidateInterviewed = new SeriesModel();
+            totalCandidateInterviewed.Name = "Total Candidate Interviewed";
+            totalCandidateInterviewed.Data = new List<int>();
+            for (int i = 1; i <= 12; i++)
+            {
+                totalCandidateInterviewed.Data.Add(GetTotalCandidatesAttendedInterview(i));
+            }
+            series.Add(totalCandidateInterviewed);
+            return series;
+        }
+
+        private int GetCandidatesHired(int i, string opening)
+        {
+            return _context.ApprovalTransactions.Where(x => x.IsApproved && GetOpening(x.EntityId) == opening && x.ApprovalId == (int)Approval.Candidate && DateTime.Now.Month == i && x.IsActive && !x.IsDeleted).Count();
+        }
+
+        private string GetOpening(Guid candidateId)
+        {
+            var openingCandidate = _context.OpeningCandidates.Include(t => t.Opening).FirstOrDefault(x => x.CandidateId == candidateId && x.IsActive && !x.IsDeleted);
+            if (openingCandidate != null)
+            {
+                return openingCandidate.Opening.Title;
+            }
+            return null;
+        }
+
+        private int GetCandidatesHiredBasedOnGender(int i, int gender)
+        {
+            return _context.ApprovalTransactions.Where(x => x.IsApproved && GetGender(x.EntityId) == gender && x.ApprovalId == (int)Approval.Candidate && DateTime.Now.Month == i && x.IsActive && !x.IsDeleted).Count();
+        }
+
+        private int GetGender(Guid candidateId)
+        {
+            var candidate = _context.Candidates.FirstOrDefault(x => x.CandidateId == candidateId && x.IsActive && !x.IsDeleted);
+            if (candidate != null)
+            {
+                return candidate.Gender;
+            }
+            return 0;
+        }
+
+        public List<Users> GetUserForOpeningApproval(ApprovalTransactionViewModel approvalTransactionViewModel)
+        {
+            return _context.ApprovalEventRoles.Include(t => t.User).Where(x => x.ApprovalEventId == approvalTransactionViewModel.NextEventOrderNumber && x.IsActive && !x.IsDeleted).Select(x => x.User).ToList();
+        }
     }
 }

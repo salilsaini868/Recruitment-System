@@ -1,16 +1,16 @@
 ﻿using RS.Service.Interfaces;
 using RS.Common.Enums;
 using RS.Common.Extensions;
-using RS.Entity;
 using RS.ViewModel.User;
 using System;
 using System.Linq;
 using RS.Data.Interfaces;
 using RS.Common.CommonData;
 using RS.Entity.Models;
-using System.Collections.Generic;
 using System.Security.Claims;
 using System.Security.Principal;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Hosting;
 
 namespace RS.Service.Logic
 {
@@ -21,14 +21,16 @@ namespace RS.Service.Logic
         private readonly IUserRepository _userRepository;
         private readonly IRoleRepository _roleRepository;
         private readonly IApprovalRepository _approvalRepository;
+        private readonly IConfiguration _configuration;
 
         #endregion
         public UserManagerService(IPrincipal principal, IUserRepository userRepository, IRoleRepository roleRepository,
-            IApprovalRepository approvalRepository)
+            IApprovalRepository approvalRepository, IConfiguration configuration, IHostingEnvironment hostingEnvironment)
         {
             this._userRepository = userRepository;
             this._roleRepository = roleRepository;
             this._approvalRepository = approvalRepository;
+            this._configuration = configuration;
             this._principal = principal as ClaimsPrincipal;
         }
 
@@ -65,7 +67,7 @@ namespace RS.Service.Logic
             return result;
         }
 
-        public IResult CreateUser(UserViewModel user)
+        public IResult CreateUser(UserViewModel userViewModel)
         {
             var result = new Result
             {
@@ -74,8 +76,8 @@ namespace RS.Service.Logic
             };
             try
             {
-                var duplicateUserName = _userRepository.GetFirstOrDefault(x => (x.IsActive && !x.IsDeleted) && (x.UserName == user.UserName));
-                var duplicateEmail = _userRepository.GetFirstOrDefault(x => (x.IsActive && !x.IsDeleted) && (x.Email == user.Email));
+                var duplicateUserName = _userRepository.GetFirstOrDefault(x => (x.IsActive && !x.IsDeleted) && (x.UserName == userViewModel.UserName));
+                var duplicateEmail = _userRepository.GetFirstOrDefault(x => (x.IsActive && !x.IsDeleted) && (x.Email == userViewModel.Email));
                 if (duplicateUserName != null)
                 {
                     result.Status = Status.Fail;
@@ -93,13 +95,23 @@ namespace RS.Service.Logic
                 else
                 {
                     var userModel = new Users();
-                    userModel.MapFromViewModel(user, (ClaimsIdentity)_principal.Identity);
+                    userModel.MapFromViewModel(userViewModel, (ClaimsIdentity)_principal.Identity);
 
                     UserRoles userRole = new UserRoles();
-                    userRole.RoleId = user.RoleId;
-                    userRole.Role = _roleRepository.GetByID(user.RoleId);
+                    userRole.RoleId = userViewModel.RoleId;
+                    userRole.Role = _roleRepository.GetByID(userViewModel.RoleId);
                     userRole.MapAuditColumns((ClaimsIdentity)_principal.Identity);
                     _userRepository.CreateUser(userModel, userRole);
+                    userViewModel.Password = GenericHelper.DecryptPassword(userViewModel.Password);
+                    if (userModel.UserId != Guid.Empty)
+                    {
+                        MailDetailModel mailDetail = new MailDetailModel();
+                        mailDetail.EmailId = userModel.Email;
+                        mailDetail.Subject = "Registration Confirmation";
+                        mailDetail.Template = TemplateType.UserRegistration;
+                        mailDetail.MessageBody = userViewModel;
+                        GenericHelper.Send(mailDetail, _configuration);
+                    }
                     result.Body = userModel.UserId;
                 }
             }
@@ -109,7 +121,6 @@ namespace RS.Service.Logic
                 result.Status = Status.Error;
             }
             return result;
-
         }
 
         public IResult ForgotPassword(string userName)
@@ -248,9 +259,6 @@ namespace RS.Service.Logic
             }
             return result;
         }
-        #region private members
-
-        #endregion private members
 
         #region public methods
 
@@ -380,8 +388,6 @@ namespace RS.Service.Logic
                 _userRepository.Update(userModel);
                 _userRepository.SaveChanges();
                 result.Body = userModel;
-
-
             }
             catch (Exception e)
             {
@@ -392,6 +398,5 @@ namespace RS.Service.Logic
         }
 
         #endregion
-
     }
 }

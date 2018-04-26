@@ -1,6 +1,6 @@
 {
     "LOGIN": {
-        "SIGNIN":"SIGN IN",
+        "SIGNIN": "SIGN IN",
         "INVALIDLOGIN": "Invalid username and password"
     },
     "SKILLS": {
@@ -152,6 +152,20 @@
         "UPDATE": "Update",
         "DELETE": "Delete",
         "MANDATORY": "User is Mandatory"
+    },
+    "DASHBOARD": {
+        "OPEN": "Open Openings",
+        "CLOSE": "Close Openings",
+        "HIRED": "Candidates Hired",
+        "CANDIDATEINTERVIEWED": "Candidates Interviewed",
+        "ALL": "All",
+        "GENDER": "Gender"
+    },
+    "CHARTBOARD": {
+        "TITLE": "Monthly Candidate Hiring",
+        "SUBTITLE": "Source: RHPM.com",
+        "YTITLE": "Candidate Hired",
+        "CREDITS": "Evry India"
     },
     "COMMON": {
         "SOMEERROROCURRED": "Some errror has been occured",

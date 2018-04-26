@@ -70,5 +70,18 @@ namespace RS.Service.Interfaces
         /// <returns></returns>
         IResult ManageApprovalTransaction(EntityAndApprovalViewModel entityAndApprovalViewModel);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        IResult GetDashboardDetails();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        IResult GetChartDetails(int type);
+
     }
 }

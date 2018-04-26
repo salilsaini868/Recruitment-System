@@ -7,9 +7,6 @@ import { SkillService } from '../../../webapi/services/skill.service';
 @Injectable()
 export class SkillsServiceApp {
 
-  onBlurMethod():Observable<any>  {
-    return;
-  }
     constructor(private apiSkillsService: SkillService) { }
     addSkill(SkillsModel): Observable<any> {
         return this.apiSkillsService.ApiSkillCreateSkillPost(SkillsModel).map(x => (x));

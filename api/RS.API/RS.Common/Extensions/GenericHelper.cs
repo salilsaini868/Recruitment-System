@@ -1,8 +1,15 @@
 ﻿using RS.Common.CommonData;
 using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Mail;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
+using RS.Common.Enums;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 
 namespace RS.Common.Extensions
 {
@@ -91,6 +98,86 @@ namespace RS.Common.Extensions
         {
             var pinfo = entity.GetType().GetProperty(columnName);
             if (pinfo != null) { pinfo.SetValue(entity, value, null); }
+        }
+
+        public static void SendMail(string email, string subject, string msgBody, IConfiguration configuration)
+        {
+            try
+            {
+                SmtpClient client = new SmtpClient(configuration["Host"]);
+                client.UseDefaultCredentials = false;
+                client.EnableSsl = true;
+                client.Credentials = new NetworkCredential(configuration["EmailId"], configuration["Password"]);
+
+                MailMessage mailMessage = new MailMessage();
+                mailMessage.From = new MailAddress(configuration["EmailId"], configuration["Title"]);
+                mailMessage.To.Add(email);
+                mailMessage.IsBodyHtml = true;
+                mailMessage.Body = msgBody;
+                mailMessage.Subject = subject;
+                client.Send(mailMessage);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static void Send(MailDetailModel mailDetail, IConfiguration config)
+        {
+            var msgBody = "";
+            if (mailDetail.Template == TemplateType.UserRegistration)
+            {
+                using (StreamReader reader = new StreamReader(config["UserRegistrationTemplatePath"]))
+                {
+                    msgBody = reader.ReadToEnd();
+                }
+                var userViewModel = mailDetail.MessageBody;
+                msgBody = msgBody.Replace("{FirstName}", userViewModel.FirstName);
+                msgBody = msgBody.Replace("{Password}", userViewModel.Password);
+                msgBody = msgBody.Replace("{UserName}", userViewModel.UserName);
+            }
+            else if (mailDetail.Template == TemplateType.Appoval)
+            {
+                using (StreamReader reader = new StreamReader(config["ApprovalTemplatePath"]))
+                {
+                    msgBody = reader.ReadToEnd();
+                }
+                var approvalTransactionViewModel = mailDetail.MessageBody;
+                msgBody = msgBody.Replace("{FirstName}", approvalTransactionViewModel.User.FirstName);
+            }
+            else
+            {
+                msgBody = "";
+            }
+            SendMail(mailDetail.EmailId, mailDetail.Subject, msgBody, config);
+        }
+
+        public static string DecryptPassword(string encryptedString)
+        {
+            RijndaelManaged myRijndael = new RijndaelManaged();
+            myRijndael.BlockSize = 128;
+            myRijndael.KeySize = 128;
+            myRijndael.IV = HexStringToByteArray("abcdef9876543210abcdef9876543210");
+
+            myRijndael.Padding = PaddingMode.None;
+            myRijndael.Mode = CipherMode.ECB;
+            myRijndael.Key = HexStringToByteArray("0123456789abcdef0123456789abcdef");
+            byte[] encryptedBytes = Convert.FromBase64String(encryptedString);
+            var decryptor = myRijndael.CreateDecryptor(myRijndael.Key, myRijndael.IV);
+            byte[] originalBytes = decryptor.TransformFinalBlock(encryptedBytes, 0, encryptedBytes.Length);
+
+            return Encoding.UTF8.GetString(originalBytes).Trim();
+        }
+
+        private static byte[] HexStringToByteArray(string strHex)
+        {
+            dynamic r = new byte[strHex.Length / 2];
+            for (int i = 0; i <= strHex.Length - 1; i += 2)
+            {
+                r[i / 2] = Convert.ToByte(Convert.ToInt32(strHex.Substring(i, 2), 16));
+            }
+            return r;
         }
     }
 }
