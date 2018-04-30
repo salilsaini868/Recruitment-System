@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { QualificationsServiceApp } from './shared/qualifications.serviceApp';
 import { QualificationViewModel } from '../../webapi/models/qualification-view-model';
+import { Router, Params, ActivatedRoute } from '@angular/router';
+import { isNullOrUndefined } from 'util';
+import { Status } from '../../app.enum';
 
 @Component({
   selector: 'app-qualifications',
@@ -12,8 +15,9 @@ export class QualificationsComponent implements OnInit {
   qualifications: QualificationViewModel[] = [] as QualificationViewModel[];
   submitted = false;
   isQualificationExists: boolean = false;
+  Title: any = true;
 
-  constructor(private qualificationsServiceApp: QualificationsServiceApp) {
+  constructor(private qualificationsServiceApp: QualificationsServiceApp, private router: Router, private route: ActivatedRoute, ) {
   }
   ngOnInit() {
     this.listQualification();
@@ -47,7 +51,7 @@ export class QualificationsComponent implements OnInit {
       if (qualification['name'] === qualificationname) {
         $this.isQualificationExists = true;
         return false;
-      }else{
+      } else {
         $this.isQualificationExists = false;
         return true;
       }
@@ -70,9 +74,22 @@ export class QualificationsComponent implements OnInit {
         }
       });
   }
+  getQualificationById(qualificationId) {
+      if (!isNullOrUndefined(qualificationId)) {
+        this.qualificationsServiceApp.getQualificationById(qualificationId).subscribe(
+          (data) => {
+            if (data.status === Status.Success) {
+              this.qualificationsModel = data.body;
+            }
+          });
+      }
+  }
 
-  editQualifications(qualifications) {
-    this.qualificationsModel.name = qualifications.name;
-    this.qualificationsModel.description = qualifications.description;
+  editQualifications(qualificationId) {
+    this.qualificationsModel.qualificationId = qualificationId;
+    this.getQualificationById(qualificationId)
+    this.Title = false;
   }
 }
+
+

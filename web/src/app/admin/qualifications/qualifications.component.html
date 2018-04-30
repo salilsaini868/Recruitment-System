@@ -1,7 +1,9 @@
 <div class="content-wrapper">
     <div class="panel panel-primary no-radius">
         <div id="updatePanel" class="panel-heading  no-radius">
-            {{(isCreateOrUpdate ? 'QUALIFICATIONS.CREATE_QUALIFICATIONS' : 'QUALIFICATIONS.UPDATE_QUALIFICATIONS') | translate }}
+            <div *ngIf="Title; then create else update"></div>
+            <ng-template #create>Create Qualification</ng-template>
+            <ng-template #update>Update Qualification</ng-template>
         </div>
         <div class="panel-body">
             <div class="row">
@@ -63,7 +65,7 @@
                         <td>{{qualification.name}}</td>
                         <td>{{qualification.description}}</td>
                         <td>
-                            <a class="btn btn-success no-radius" (click)="editQualifications(qualification)">
+                            <a class="btn btn-success no-radius" (click)="editQualifications(qualification.qualificationId)">
                                 <span class="glyphicon glyphicon-edit"></span>
                             </a>
                             <a class="btn btn-danger no-radius" (click)="deleteQualifications(qualifications)">
