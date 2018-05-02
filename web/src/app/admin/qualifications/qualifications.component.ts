@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { QualificationsServiceApp } from './shared/qualifications.serviceApp';
 import { QualificationViewModel } from '../../webapi/models/qualification-view-model';
+import { isNullOrUndefined } from 'util';
+import { Status } from '../../app.enum';
 
 @Component({
   selector: 'app-qualifications',
@@ -10,13 +12,11 @@ import { QualificationViewModel } from '../../webapi/models/qualification-view-m
 export class QualificationsComponent implements OnInit {
   qualificationsModel: QualificationViewModel = {} as QualificationViewModel;
   qualifications: QualificationViewModel[] = [] as QualificationViewModel[];
-  isCreateOrUpdate  = true;
   submitted = false;
+  isQualificationExists: boolean = false;
 
   constructor(private qualificationsServiceApp: QualificationsServiceApp) {
-
   }
-
   ngOnInit() {
     this.listQualification();
   }
@@ -42,7 +42,19 @@ export class QualificationsComponent implements OnInit {
       }
     }
   }
-
+  checkQualificationExits() {
+    let $this = this;
+    let qualificationname = $this.qualificationsModel.name;
+    this.qualifications.every(function (qualification) {
+      if (qualification['name'] === qualificationname) {
+        $this.isQualificationExists = true;
+        return false;
+      } else {
+        $this.isQualificationExists = false;
+        return true;
+      }
+    });
+  }
   listQualification() {
     this.qualificationsServiceApp.getAllQualification()
       .subscribe((data) => {
@@ -51,7 +63,6 @@ export class QualificationsComponent implements OnInit {
         }
       });
   }
-
   deleteQualifications(i) {
     this.qualifications.splice(i, 1);
     this.qualificationsServiceApp.deleteQualification()
@@ -60,12 +71,20 @@ export class QualificationsComponent implements OnInit {
         }
       });
   }
-
-  editQualifications(qualifications) {
-    this.qualificationsModel.qualificationId = qualifications.qualificationId;
-    this.qualificationsModel.name = qualifications.name;
-    this.qualificationsModel.description = qualifications.description;
-    this.isCreateOrUpdate = false;
+  getQualificationById(qualificationId) {
+    if (!isNullOrUndefined(qualificationId)) {
+      this.qualificationsServiceApp.getQualificationById(qualificationId).subscribe(
+        (data) => {
+          if (data.status === Status.Success) {
+            this.qualificationsModel = data.body;
+          }
+        });
+    }
   }
-
+  editQualifications(qualificationId) {
+    this.qualificationsModel.qualificationId = qualificationId;
+    this.getQualificationById(qualificationId);
+  }
 }
+
+
