@@ -1,6 +1,11 @@
 <div class="content-wrapper">
     <div class="panel panel-default no-radius">
-        <div class="panelheader panel-heading no-radius">Create User</div>
+        <div class="panelheader panel-heading no-radius">
+                <div *ngIf="userModel.userId === undefined; then create else update"></div>
+                <ng-template #create>Create User</ng-template>
+                <ng-template #update>Update User</ng-template> 
+        </div>
+
         <div class="panel-body">
             <form (ngSubmit)="onSubmit(userForm)" #userForm="ngForm">
                 <div class="row">
@@ -28,7 +33,6 @@
                         </div>
                     </div>
                 </div>
-
 
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-xs-12">

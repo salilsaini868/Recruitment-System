@@ -1,7 +1,7 @@
 <div class="content-wrapper">
     <div class="panel panel-primary no-radius">
         <div id="updatePanel" class="panel-heading  no-radius">
-            <div *ngIf="Title; then create else update"></div>
+            <div *ngIf="qualificationsModel.qualificationId===undefined; then create else update"></div>
             <ng-template #create>Create Qualification</ng-template>
             <ng-template #update>Update Qualification</ng-template>
         </div>
@@ -47,7 +47,6 @@
             </div>
         </div>
     </div>
-
 
     <h3>{{ 'QUALIFICATION_DETAILS.QUALIFICATION_DETAILS' | translate }}</h3>
     <div class="table-responsive-top">

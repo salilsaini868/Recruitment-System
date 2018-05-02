@@ -20,4 +20,7 @@ export class SkillsServiceApp {
     updateSkill(SkillsModel): Observable<any> {
         return this.apiSkillsService.ApiSkillUpdateSkillPut(SkillsModel).map(x => (x));
     }
+    getSkillById(skillId): Observable<any> {
+        return this.apiSkillsService.ApiSkillGetSkillByIdGet(skillId).map(x => (x));
+    }
 }

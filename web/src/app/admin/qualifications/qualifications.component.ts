@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { QualificationsServiceApp } from './shared/qualifications.serviceApp';
 import { QualificationViewModel } from '../../webapi/models/qualification-view-model';
-import { Router, Params, ActivatedRoute } from '@angular/router';
 import { isNullOrUndefined } from 'util';
 import { Status } from '../../app.enum';
 
@@ -15,9 +14,8 @@ export class QualificationsComponent implements OnInit {
   qualifications: QualificationViewModel[] = [] as QualificationViewModel[];
   submitted = false;
   isQualificationExists: boolean = false;
-  Title: any = true;
 
-  constructor(private qualificationsServiceApp: QualificationsServiceApp, private router: Router, private route: ActivatedRoute, ) {
+  constructor(private qualificationsServiceApp: QualificationsServiceApp) {
   }
   ngOnInit() {
     this.listQualification();
@@ -65,7 +63,6 @@ export class QualificationsComponent implements OnInit {
         }
       });
   }
-
   deleteQualifications(i) {
     this.qualifications.splice(i, 1);
     this.qualificationsServiceApp.deleteQualification()
@@ -75,20 +72,18 @@ export class QualificationsComponent implements OnInit {
       });
   }
   getQualificationById(qualificationId) {
-      if (!isNullOrUndefined(qualificationId)) {
-        this.qualificationsServiceApp.getQualificationById(qualificationId).subscribe(
-          (data) => {
-            if (data.status === Status.Success) {
-              this.qualificationsModel = data.body;
-            }
-          });
-      }
+    if (!isNullOrUndefined(qualificationId)) {
+      this.qualificationsServiceApp.getQualificationById(qualificationId).subscribe(
+        (data) => {
+          if (data.status === Status.Success) {
+            this.qualificationsModel = data.body;
+          }
+        });
+    }
   }
-
   editQualifications(qualificationId) {
     this.qualificationsModel.qualificationId = qualificationId;
-    this.getQualificationById(qualificationId)
-    this.Title = false;
+    this.getQualificationById(qualificationId);
   }
 }
 
