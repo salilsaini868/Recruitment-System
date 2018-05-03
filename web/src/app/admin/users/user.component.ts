@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { RoleViewModel } from '../../shared/customModels/role-view-model';
 import { UserServiceApp } from './shared/user.serviceApp';
-import { isNullOrUndefined, error, debug } from 'util';
+import { isNullOrUndefined } from 'util';
 import { UserModel } from '../../shared/customModels/user-model';
 import { RoleServiceApp } from './shared/role.serviceApp';
 import { DisplayMessageService } from '../../shared/toastr/display.message.service';
@@ -33,7 +33,6 @@ export class UserComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getAllUsers();
         this.setDefaultOption();
         this.intializeMethods();
 
@@ -42,6 +41,7 @@ export class UserComponent implements OnInit {
     intializeMethods() {
         this.getAllRole();
         this.getUserById();
+        this.getAllUsers();
     }
 
     setDefaultOption() {
