@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { RoleViewModel } from '../../shared/customModels/role-view-model';
 import { UserServiceApp } from './shared/user.serviceApp';
-import { isNullOrUndefined, error } from 'util';
+import { isNullOrUndefined } from 'util';
 import { UserModel } from '../../shared/customModels/user-model';
 import { RoleServiceApp } from './shared/role.serviceApp';
 import { DisplayMessageService } from '../../shared/toastr/display.message.service';
 import { Status } from '../../app.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { UtilityService } from '../../shared/utility/utility.service';
+import { Users } from '../../webapi/models/users';
 
 @Component({
     selector: 'app-user',
@@ -19,11 +20,14 @@ import { UtilityService } from '../../shared/utility/utility.service';
 export class UserComponent implements OnInit {
 
     userModel: UserModel = {} as UserModel;
+    users: UserModel[] = [] as UserModel[];
     roles: RoleViewModel[] = [] as RoleViewModel[];
     submitted = false;
     defaultOption: any;
+    isEmailExists: boolean = false;
+    isUserExists: boolean = false;
 
-    constructor(private userServiceApp: UserServiceApp, private route: ActivatedRoute,
+    constructor(private userServiceApp: UserServiceApp, private route: ActivatedRoute, private userService: UserServiceApp,
         private router: Router, private roleServiceApp: RoleServiceApp, private displayMessage: DisplayMessageService,
         private translateService: TranslateService, private utilityService: UtilityService) {
     }
@@ -31,11 +35,13 @@ export class UserComponent implements OnInit {
     ngOnInit() {
         this.setDefaultOption();
         this.intializeMethods();
+
     }
 
     intializeMethods() {
         this.getAllRole();
         this.getUserById();
+        this.getAllUsers();
     }
 
     setDefaultOption() {
@@ -77,6 +83,25 @@ export class UserComponent implements OnInit {
         });
     }
 
+    checkUserNameExists() {
+        let userName = this.userModel.userName;
+        const user = this.users.find(user => user.userName === userName);
+        if (isNullOrUndefined(user)) {
+            this.isUserExists = false;
+        } else {
+            this.isUserExists = true;
+        }
+    }
+    checkUserEmailExists() {
+        let email = this.userModel.email;
+        const userEmail = this.users.find(u => u.email === email);
+        if (isNullOrUndefined(userEmail)) {
+            this.isEmailExists = false;
+        } else {
+            this.isEmailExists = true;
+        }
+    }
+
     onSubmit(userForm) {
         this.submitted = true;
         if (userForm.valid) {
@@ -101,5 +126,15 @@ export class UserComponent implements OnInit {
             }
         }
     }
+    getAllUsers() {
+        this.userService.getAllUsers().subscribe(
+            (data) => {
+                if (data.status === Status.Success) {
+                    this.users = data.body;
+                }
+            }
+        );
+    }
+
 }
 
