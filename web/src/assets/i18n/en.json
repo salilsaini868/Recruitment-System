@@ -55,8 +55,8 @@
         "UPDATE": "Update",
         "DELETE": "Delete",
         "FORGOTPASSWORD": "Forgot password?",
-        "USEREXIST": "User with the same Username Already Exists!.",
-        "EMAILEXIST": "User with the same EmailID Already Exists!."
+        "USERNAMEEXISTMESSAGE": "User with the same Username Already Exists!.",
+        "EMAILIDEXISTMESSAGE": "User with the same EmailID Already Exists!."
     },
     "OPENING": {
         "LIST": "List of Openings",

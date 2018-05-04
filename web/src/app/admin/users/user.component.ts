@@ -130,7 +130,6 @@ export class UserComponent implements OnInit {
         this.userService.getAllUsers().subscribe(
             (data) => {
                 if (data.status === Status.Success) {
-                    console.log("Users", data.body);
                     this.users = data.body;
                 }
             }

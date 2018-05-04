@@ -39,7 +39,7 @@
                             <div class="col-md-9 col-sm-9 col-xs-12">
                                 <input class="full-input" type="text" required id ="name" id="user" name="userName" [(ngModel)]="userModel.userName" #userName="ngModel" maxlength="25" 
                                 (keyup)="checkUserNameExists()">
-                                <div *ngIf="isUserExists" id="nameExists" class="text">{{ 'USER.USEREXIST' | translate }}</div>
+                                <div *ngIf="isUserExists" id="nameExists" class="text">{{ 'USER.USERNAMEEXISTMESSAGE' | translate }}</div>
                                 <div *ngIf="userName.errors && (userName.dirty || submitted)" [hidden]="!userName.errors.required" class="validation-error">
                                     {{ 'USER.REQUIRED' | translate }}
                                 </div>
@@ -86,7 +86,7 @@
                                 <input class="full-input" type="text" autocomplete="off" required name="email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" [(ngModel)]="userModel.email"
                                     #email="ngModel" maxlength="25" (keyup)="checkUserEmailExists()">
                                     <div *ngIf="isEmailExists" id="emailExists" class="text">
-                                        {{ 'USER.EMAILEXIST' | translate }}
+                                        {{ 'USER.EMAILIDEXISTMESSAGE' | translate }}
                                     </div>
                                 <div *ngIf="email.errors && (email.dirty || submitted)" [hidden]="!email.errors.required" class="validation-error">
                                     {{ 'USER.REQUIRED' | translate }}
