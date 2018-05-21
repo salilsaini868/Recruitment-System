@@ -100,7 +100,7 @@ namespace RS.Common.Extensions
             if (pinfo != null) { pinfo.SetValue(entity, value, null); }
         }
 
-        public static void SendMail(string email, string subject, string msgBody, IConfiguration configuration)
+        public static async void SendMail(string email, string subject, string msgBody, IConfiguration configuration)
         {
             try
             {
@@ -115,7 +115,7 @@ namespace RS.Common.Extensions
                 mailMessage.IsBodyHtml = true;
                 mailMessage.Body = msgBody;
                 mailMessage.Subject = subject;
-                client.Send(mailMessage);
+                await client.SendMailAsync(mailMessage);
             }
             catch (Exception ex)
             {
@@ -137,14 +137,31 @@ namespace RS.Common.Extensions
                 msgBody = msgBody.Replace("{Password}", userViewModel.Password);
                 msgBody = msgBody.Replace("{UserName}", userViewModel.UserName);
             }
-            else if (mailDetail.Template == TemplateType.Appoval)
+            else if (mailDetail.Template == TemplateType.ScheduleUserForInterview)
             {
-                using (StreamReader reader = new StreamReader(config["ApprovalTemplatePath"]))
+                using (StreamReader reader = new StreamReader(config["ScheduleInterviewTemplatePath"]))
                 {
                     msgBody = reader.ReadToEnd();
                 }
-                var approvalTransactionViewModel = mailDetail.MessageBody;
-                msgBody = msgBody.Replace("{FirstName}", approvalTransactionViewModel.User.FirstName);
+                var scheduledUser = mailDetail.MessageBody;
+                msgBody = msgBody.Replace("{FirstName}", scheduledUser.User.FirstName);
+                msgBody = msgBody.Replace("{ApprovalEvent}", scheduledUser.ApprovalEvent.ApprovalEventName);
+                msgBody = msgBody.Replace("{Date}", scheduledUser.InterviewScheduledDate);
+                msgBody = msgBody.Replace("{Time}", scheduledUser.InterviewScheduledTime);
+                msgBody = msgBody.Replace("{Candidate}", scheduledUser.Candidate.FirstName + " " + scheduledUser.Candidate.LastName);
+            }
+            else if (mailDetail.Template == TemplateType.InterviewCancelled)
+            {
+                using (StreamReader reader = new StreamReader(config["InterviewCancelledTemplatePath"]))
+                {
+                    msgBody = reader.ReadToEnd();
+                }
+                var scheduledUser = mailDetail.MessageBody;
+                msgBody = msgBody.Replace("{FirstName}", scheduledUser.User.FirstName);
+                msgBody = msgBody.Replace("{ApprovalEvent}", scheduledUser.ApprovalEvent.ApprovalEventName);
+                msgBody = msgBody.Replace("{Date}", scheduledUser.InterviewScheduledDate);
+                msgBody = msgBody.Replace("{Time}", scheduledUser.InterviewScheduledTime);
+                msgBody = msgBody.Replace("{Candidate}", scheduledUser.Candidate.FirstName + " " + scheduledUser.Candidate.LastName);
             }
             else
             {

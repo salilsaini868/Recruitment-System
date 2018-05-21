@@ -279,7 +279,7 @@ namespace RS.Service.Logic
                     userView.FullName = user.FirstName + " " + user.LastName;
                     var firstOrDefault = user.UserRoles.FirstOrDefault();
                     if (firstOrDefault != null) userView.Role = firstOrDefault.Role.Name;
-                    userView.approvalDetail = _approvalRepository.GetApprovalEventsOfUser(user.UserId);
+                    userView.approvalDetail = _approvalRepository.GetApprovalEventsOfUserForOpening(user.UserId);
                     result.Body = userView;
                 }
                 else

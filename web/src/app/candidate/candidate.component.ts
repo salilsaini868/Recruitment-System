@@ -26,6 +26,7 @@ export class CandidateComponent implements OnInit {
     openings: OpeningViewModel[] = [] as OpeningViewModel[];
     qualifications: QualificationViewModel[] = [] as QualificationViewModel[];
     organizations: OrganizationViewModel[] = [] as OrganizationViewModel[];
+    organizationName: any;
     years: number[] = [];
     months: number[] = [];
     defaultOption: any;
@@ -80,10 +81,11 @@ export class CandidateComponent implements OnInit {
         }
     }
 
-    onSelectOrganization(organizationId) {
-        if (!isNullOrUndefined(organizationId)) {
-            this.candidateModel.organizationId = organizationId;
-            this.candidateModel.organizationName = null;
+    onSelectOrganization(organization) {
+        if (!isNullOrUndefined(organization)) {
+            this.candidateModel.organizationId = organization.organizationId;
+            this.candidateModel.organizationName = organization.name;
+            this.organizationName = organization.name;
             this.flag = false;
         } else {
             return false;
@@ -167,6 +169,8 @@ export class CandidateComponent implements OnInit {
     onSubmit(candidateForm) {
         this.submitted = true;
         if (candidateForm.valid) {
+            this.candidateModel.organizationId = this.candidateModel.organizationName === this.organizationName ?
+                this.candidateModel.organizationId : 0;
             if (isNullOrUndefined(this.candidateModel.candidateId)) {
                 this.candidateServiceApp.addCandidate(AppConstants.uriForAdd, this.candidateModel, this.uploadedFile).
                     subscribe(

@@ -32,4 +32,12 @@ export class ApprovalServiceApp {
     return this.apiApprovalService.ApiApprovalGetChartDetailsGet(showType).map(x => (x));
   }
 
+  checkForStartInterview(candidate): Observable<any> {
+    return this.apiApprovalService.ApiApprovalCheckForStartInterviewPost(candidate).map(x => (x));
+  }
+
+  getApprovalEventsOfUserForCandidate(candidate): Observable<any> {
+    return this.apiApprovalService.ApiApprovalGetApprovalEventsOfUserForCandidateGet(candidate).map(x => (x));
+  }
+
 }

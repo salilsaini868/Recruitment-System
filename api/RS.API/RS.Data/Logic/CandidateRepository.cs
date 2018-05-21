@@ -67,10 +67,16 @@ namespace RS.Data.Logic
             return _context.CandidateAssignedUser.Where(x => x.CandidateId == candidateId && (x.IsActive && !x.IsDeleted)).ToList();
         }
 
-        public List<Candidates> GetCandidatesCorrespondingToLoggedUser(Guid userId)
+        public List<ScheduleUserForCandidate> GetCandidatesCorrespondingToLoggedUser(Guid userId)
         {
-            List<Guid> candidateList = _context.CandidateAssignedUser.Where(x => x.UserId == userId && (x.IsActive && !x.IsDeleted)).Select(x => x.CandidateId).ToList();
-            return _context.Candidates.Where(x => candidateList.Contains(x.CandidateId) && x.IsReadyForInterview && (x.IsActive && !x.IsDeleted)).ToList();
+            var ScheduleUserForCandidateList = _context.ScheduleUserForCandidate.Include(t => t.Candidate).Where(x => x.UserId == userId && (x.IsActive && !x.IsDeleted)).Select(x => x.CandidateId).Distinct().ToList();
+            var scheduleUserList = new List<ScheduleUserForCandidate>();
+            ScheduleUserForCandidateList.ForEach(x =>
+            {
+                var scheduleUser = _context.ScheduleUserForCandidate.Include(t => t.Candidate).Where(t => t.CandidateId == x).OrderByDescending(t => t.ApprovalEventId).First();
+                scheduleUserList.Add(scheduleUser);
+            });
+            return scheduleUserList;
         }
 
         public void ApprovedForInterview(Candidates candidate)
@@ -82,6 +88,43 @@ namespace RS.Data.Logic
         public List<Organizations> GetOrganizationsOnInputChanged(string input)
         {
             return _context.Organizations.Where(x => x.Name.Substring(0, input.Length).Equals(input) && (x.IsActive && !x.IsDeleted)).ToList();
+        }
+
+        public void AddScheduledUsers(ScheduleUserForCandidate scheduleUser)
+        {
+            _context.ScheduleUserForCandidate.Add(scheduleUser);
+        }
+
+        public List<ScheduleUserForCandidate> GetScheduledUserByApprovalEvent(ScheduleUserForCandidate scheduleUser)
+        {
+            return _context.ScheduleUserForCandidate.Include(t => t.ApprovalEvent).Include(s => s.User).Where(x => x.CandidateId == scheduleUser.CandidateId && x.ApprovalEventId == scheduleUser.ApprovalEventId && (x.IsActive && !x.IsDeleted)).ToList();
+        }
+
+        public List<ScheduleUserForCandidate> GetScheduledUsersById(Guid candidateId)
+        {
+            return _context.ScheduleUserForCandidate.Include(t => t.ApprovalEvent).Include(s => s.User).Where(x => x.CandidateId == candidateId && (x.IsActive && !x.IsDeleted)).ToList();
+        }
+
+        public void OnInterviewFinished(ApprovalTransactions approvalTransaction, Guid userId)
+        {
+            _context.ScheduleUserForCandidate.FirstOrDefault(x => x.CandidateId == approvalTransaction.EntityId && x.ApprovalEvent.ApprovalEventOrder == approvalTransaction.EventOrderNumber && x.UserId == userId && (x.IsActive && !x.IsDeleted)).IsFinished = true;
+            _context.SaveChanges();
+        }
+
+        public void OnCandidateApproved(ApprovalTransactions approvalTransaction)
+        {
+            _context.Candidates.FirstOrDefault(x => x.CandidateId == approvalTransaction.EntityId && (x.IsActive && !x.IsDeleted)).IsApproved = true;
+            _context.SaveChanges();
+        }
+
+        public bool CheckForInterviewCompletion(ScheduleUserForCandidate scheduleUserForCandidate)
+        {
+            var interviewCompleted = _context.ScheduleUserForCandidate.Where(x => x.ApprovalEventId == scheduleUserForCandidate.ApprovalEventId && x.CandidateId == scheduleUserForCandidate.CandidateId && x.IsFinished && (x.IsActive && !x.IsDeleted)).ToList();
+            if (interviewCompleted.Any())
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

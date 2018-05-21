@@ -1,4 +1,5 @@
-﻿using RS.Entity.Models;
+﻿using RS.ViewModel.Approval;
+using RS.ViewModel.User;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,10 +12,10 @@ namespace RS.ViewModel.Candidate
         public int ApprovalEventId { get; set; }
         public Guid CandidateId { get; set; }
 
-        public ApprovalEvents ApprovalEvent { get; set; }
-        public Candidates Candidate { get; set; }
+        public ApprovalEventViewModel ApprovalEvent { get; set; }
+        public CandidateViewModel Candidate { get; set; }
 
         public Guid UserId { get; set; }
-        public Users User { get; set; }
+        public UserViewModel User { get; set; }
     }
 }

@@ -20,10 +20,23 @@ namespace RS.Data.Interfaces
 
         List<CandidateAssignedUser> GetAssignedUsersByID(Guid candidateId);
 
-        List<Candidates> GetCandidatesCorrespondingToLoggedUser(Guid userId);
+        List<ScheduleUserForCandidate> GetScheduledUsersById(Guid candidateId);
+
+        List<ScheduleUserForCandidate> GetCandidatesCorrespondingToLoggedUser(Guid userId);
 
         void ApprovedForInterview(Candidates candidate);
 
         List<Organizations> GetOrganizationsOnInputChanged(string input);
+
+        void AddScheduledUsers(ScheduleUserForCandidate scheduleUser);
+
+        List<ScheduleUserForCandidate> GetScheduledUserByApprovalEvent(ScheduleUserForCandidate scheduleUser);
+
+        void OnInterviewFinished(ApprovalTransactions approvalTransaction, Guid userId);
+
+        void OnCandidateApproved(ApprovalTransactions approvalTransaction);
+
+        bool CheckForInterviewCompletion(ScheduleUserForCandidate scheduleUserForCandidate);
+
     }
 }

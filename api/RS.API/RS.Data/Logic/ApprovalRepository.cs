@@ -44,17 +44,25 @@ namespace RS.Data.Logic
             return _context.Approvals.ToList();
         }
 
-        public Dictionary<string, string> GetApprovalEventsOfUser(Guid UserId)
+        public Dictionary<string, List<int>> GetApprovalEventsOfUserForOpening(Guid UserId)
         {
-            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            Dictionary<string, List<int>> dictionary = new Dictionary<string, List<int>>();
             var events = _context.ApprovalEventRoles.Where(x => x.UserId == UserId && x.IsActive && !x.IsDeleted).ToList();
 
             var approvalEvents = events.Distinct().Select(t => t.ApprovalEventId).ToList();
             approvalEvents.ForEach(x =>
             {
                 string approvalName = _context.ApprovalEvents.Include(s => s.Approval).FirstOrDefault(t => t.ApprovalEventId == x).Approval.ApprovalName;
-                string eventIds = string.Join(",", x);
-                dictionary.Add(approvalName, eventIds);
+                if (dictionary.ContainsKey(approvalName))
+                {
+                    dictionary[approvalName].Add(x);
+                }
+                else
+                {
+                    List<int> eventIds = new List<int>();
+                    eventIds.Add(x);
+                    dictionary.Add(approvalName, eventIds);
+                }
             });
             return dictionary;
         }
@@ -109,13 +117,13 @@ namespace RS.Data.Logic
         {
             if (approvalId == (int)Approval.Opening)
             {
-                var assignedUser = _context.ApprovalEventRoles.Include(x => x.ApprovalEvent).FirstOrDefault(x => x.UserId == userId && x.IsActive && !x.IsDeleted);
-                return assignedUser.ApprovalEvent.ApprovalEventOrder;
+                var scheduledUser = _context.ApprovalEventRoles.Include(x => x.ApprovalEvent).FirstOrDefault(x => x.UserId == userId && x.IsActive && !x.IsDeleted);
+                return scheduledUser.ApprovalEvent.ApprovalEventOrder;
             }
             else
             {
-                var assignedUser = _context.CandidateAssignedUser.Include(x => x.ApprovalEvent).FirstOrDefault(x => x.UserId == userId && x.CandidateId == entityId && x.IsActive && !x.IsDeleted);
-                return assignedUser.ApprovalEvent.ApprovalEventOrder;
+                var scheduledUser = _context.ScheduleUserForCandidate.Include(x => x.ApprovalEvent).Where(x => x.UserId == userId && x.CandidateId == entityId && x.IsActive && !x.IsDeleted).OrderByDescending(x => x.ApprovalEventId).First();
+                return scheduledUser.ApprovalEvent.ApprovalEventOrder;
             }
         }
 
@@ -195,7 +203,7 @@ namespace RS.Data.Logic
 
         private int GetCandidatesHired(int i, string opening)
         {
-            return _context.ApprovalTransactions.Where(x => x.IsApproved && GetOpening(x.EntityId) == opening && x.ApprovalId == (int)Approval.Candidate && DateTime.Now.Month == i && x.IsActive && !x.IsDeleted).Count();
+            return _context.ApprovalTransactions.Where(x => x.IsApproved && GetOpening(x.EntityId) == opening && x.ApprovalId == (int)Approval.Candidate && x.ModifiedDate.Value.Month == i && x.IsActive && !x.IsDeleted).Count();
         }
 
         private string GetOpening(Guid candidateId)
@@ -210,7 +218,7 @@ namespace RS.Data.Logic
 
         private int GetCandidatesHiredBasedOnGender(int i, int gender)
         {
-            return _context.ApprovalTransactions.Where(x => x.IsApproved && GetGender(x.EntityId) == gender && x.ApprovalId == (int)Approval.Candidate && DateTime.Now.Month == i && x.IsActive && !x.IsDeleted).Count();
+            return _context.ApprovalTransactions.Where(x => x.IsApproved && GetGender(x.EntityId) == gender && x.ApprovalId == (int)Approval.Candidate && x.ModifiedDate.Value.Month == i && x.IsActive && !x.IsDeleted).Count();
         }
 
         private int GetGender(Guid candidateId)
@@ -226,6 +234,47 @@ namespace RS.Data.Logic
         public List<Users> GetUserForOpeningApproval(ApprovalTransactionViewModel approvalTransactionViewModel)
         {
             return _context.ApprovalEventRoles.Include(t => t.User).Where(x => x.ApprovalEventId == approvalTransactionViewModel.NextEventOrderNumber && x.IsActive && !x.IsDeleted).Select(x => x.User).ToList();
+        }
+
+        public int GetNextEventOrderForCandidate(Guid candidateId)
+        {
+            var eventOrder = 1;
+            var entityList = _context.ApprovalTransactions.Where(x => x.IsActive && !x.IsDeleted).Select(x => x.EntityId).ToList();
+            if (entityList.Contains(candidateId))
+            {
+                eventOrder = _context.ApprovalTransactions.FirstOrDefault(x => x.EntityId == candidateId && x.IsActive && !x.IsDeleted).NextEventOrderNumber;
+                if (eventOrder == -1 || eventOrder == 0)
+                {
+                    return _context.ApprovalTransactions.FirstOrDefault(x => x.EntityId == candidateId && x.IsActive && !x.IsDeleted).EventOrderNumber;
+                }
+            }
+            return eventOrder;
+        }
+
+        public bool CheckForStartInterview(Guid candidateId, int approvalEventId, Guid userId)
+        {
+            var interviewStarted = _context.ScheduleUserForCandidate.FirstOrDefault(x => x.ApprovalEventId == approvalEventId && x.CandidateId == candidateId && x.IsStarted && (x.IsActive && !x.IsDeleted));
+            if (interviewStarted != null && interviewStarted.UserId != userId)
+            {
+                return true;
+            }
+            _context.ScheduleUserForCandidate.FirstOrDefault(x => x.ApprovalEventId == approvalEventId && x.UserId == userId && x.CandidateId == candidateId && (x.IsActive && !x.IsDeleted)).IsStarted = true;
+            _context.SaveChanges();
+            return false;
+        }
+
+        public Dictionary<string, List<int>> GetApprovalEventsOfUserForCandidate(Guid candidateId, Guid UserId)
+        {
+            Dictionary<string, List<int>> dictionary = new Dictionary<string, List<int>>();
+            var approvalEvent = _context.ScheduleUserForCandidate.Where(x => x.UserId == UserId && x.CandidateId == candidateId && x.IsActive && !x.IsDeleted).Max(x => x.ApprovalEventId);
+
+            string approvalName = _context.ApprovalEvents.Include(s => s.Approval).FirstOrDefault(t => t.ApprovalEventId == approvalEvent).Approval.ApprovalName;
+
+            List<int> eventIds = new List<int>();
+            eventIds.Add(approvalEvent);
+            dictionary.Add(approvalName, eventIds);
+
+            return dictionary;
         }
     }
 }

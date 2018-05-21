@@ -129,7 +129,7 @@
                                 <div class="search-result" *ngIf="flag">
                                     <ul>
                                         <li *ngFor="let organization of organizations">
-                                            <a (click)="onSelectOrganization(organization.organizationId)">{{ organization.name }}</a>    
+                                            <a (click)="onSelectOrganization(organization)">{{ organization.name }}</a>    
                                         </li>
                                     </ul>
                                 </div>
@@ -170,9 +170,6 @@
                     </div>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <button id="bttn" type="submit" class="btn btn-primary blue-btn pull-right btn-gap">{{ 'CANDIDATE.SAVE' | translate }}</button>
-                    </div>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <button id="bttn" type="button" *ngIf="candidateModel.candidateId != null" (click)="assignUser()" class="btn btn-primary blue-btn pull-right btn-gap">{{ 'CANDIDATE.ASSIGNUSER' | translate }}</button>
                     </div>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <button id="bttn" type="button" (click)="goBack()" class="btn btn-primary blue-btn pull-right btn-gap">{{ 'CANDIDATE.BACK' | translate }}</button>

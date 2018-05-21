@@ -12,7 +12,7 @@ namespace RS.Data.Interfaces
         List<Approvals> GetAllApprovals();
         void AddApprovalEventRole(ApprovalEventRoles approvalEventRole);
         List<ApprovalEventRoles> GetAllApprovalEventRole();
-        Dictionary<string, string> GetApprovalEventsOfUser(Guid UserId);
+        Dictionary<string, List<int>> GetApprovalEventsOfUserForOpening(Guid UserId);
         int GetApprovalEventOrderNumber(ApprovalEventViewModel approvalEventViewModel);
         List<Users> GetApprovedUsersByRole(int roleId, int approvalEventId);
         List<Users> GetApprovedUsers(int approvalEventId);
@@ -29,5 +29,8 @@ namespace RS.Data.Interfaces
         List<SeriesModel> GetSeriesDetail(int type);
         Users GetUserForCandidateApproval(Guid entityId, int nextEventOrderNumber);
         List<Users> GetUserForOpeningApproval(ApprovalTransactionViewModel approvalTransactionViewModel);
+        int GetNextEventOrderForCandidate(Guid candidateId);
+        bool CheckForStartInterview(Guid candidateId, int approvalEventId, Guid userId);
+        Dictionary<string, List<int>> GetApprovalEventsOfUserForCandidate(Guid candidateId, Guid UserId);
     }
 }

@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
+using RS.ViewModel.Candidate;
 
 namespace RS.Service.Logic
 {
@@ -273,6 +274,10 @@ namespace RS.Service.Logic
                     if (approvalTransactionViewModel.NextEventOrderNumber == 0)
                     {
                         approvalTransactionModel.IsApproved = true;
+                        if (approvalTransactionViewModel.ApprovalId == (int)Approval.Candidate)
+                        {
+                            _candidateRepository.OnCandidateApproved(approvalTransactionModel);
+                        }
                     }
 
                     if (approvalTransactionModel.NextEventOrderNumber == approvalTransactionViewModel.NextEventOrderNumber)
@@ -293,39 +298,44 @@ namespace RS.Service.Logic
                     approvalTransactionDetail.EventOrderNumber = approvalTransactionViewModel.EventOrderNumber;
                     approvalTransactionDetail.Comments = approvalTransactionViewModel.Comments;
                     _approvalRepository.UpdateApprovalTransaction(approvalTransactionModel, approvalTransactionDetail);
-
-                    if (approvalTransactionViewModel.ApprovalTransactionId != 0)
+                    var userId = GenericHelper.GetUserClaimDetails((ClaimsIdentity)_principal.Identity).UserId;
+                    if (approvalTransactionViewModel.ApprovalId == (int)Approval.Candidate)
                     {
-                        if (approvalTransactionViewModel.ApprovalId == (int)Approval.Candidate)
-                        {
-                            UserViewModel userViewModel = new UserViewModel();
-                            var user = _approvalRepository.GetUserForCandidateApproval(approvalTransactionViewModel.EntityId, approvalTransactionViewModel.NextEventOrderNumber);
-                            userViewModel.MapFromModel(user);
-                            approvalTransactionViewModel.User = userViewModel;
-                            MailDetailModel mailDetail = new MailDetailModel();
-                            mailDetail.EmailId = user.Email;
-                            mailDetail.Subject = approvalTransactionViewModel.Action + " Candidate";
-                            mailDetail.Template = TemplateType.Appoval;
-                            mailDetail.MessageBody = approvalTransactionViewModel;
-                            GenericHelper.Send(mailDetail, _configuration);
-                        }
-                        else
-                        {
-                            var users = _approvalRepository.GetUserForOpeningApproval(approvalTransactionViewModel);
-                            users.ForEach(user =>
-                            {
-                                UserViewModel userViewModel = new UserViewModel();
-                                MailDetailModel mailDetail = new MailDetailModel();
-                                userViewModel.MapFromModel(user);
-                                approvalTransactionViewModel.User = userViewModel;
-                                mailDetail.EmailId = user.Email;
-                                mailDetail.Subject = approvalTransactionViewModel.Action + " Opening";
-                                mailDetail.Template = TemplateType.Appoval;
-                                mailDetail.MessageBody = approvalTransactionViewModel;
-                                GenericHelper.Send(mailDetail, _configuration);
-                            });
-                        }
+                        _candidateRepository.OnInterviewFinished(approvalTransactionModel, userId);
                     }
+                   
+                    //if (approvalTransactionViewModel.ApprovalTransactionId != 0)
+                    //{
+                    //    if (approvalTransactionViewModel.ApprovalId == (int)Approval.Candidate)
+                    //    {
+                    //        UserViewModel userViewModel = new UserViewModel();
+                    //        var user = _approvalRepository.GetUserForCandidateApproval(approvalTransactionViewModel.EntityId, approvalTransactionViewModel.NextEventOrderNumber);
+                    //        userViewModel.MapFromModel(user);
+                    //        approvalTransactionViewModel.User = userViewModel;
+                    //        MailDetailModel mailDetail = new MailDetailModel();
+                    //        mailDetail.EmailId = user.Email;
+                    //        mailDetail.Subject = approvalTransactionViewModel.Action + " Candidate";
+                    //        mailDetail.Template = TemplateType.Appoval;
+                    //        mailDetail.MessageBody = approvalTransactionViewModel;
+                    //        GenericHelper.Send(mailDetail, _configuration);
+                    //    }
+                    //    else
+                    //    {
+                    //        var users = _approvalRepository.GetUserForOpeningApproval(approvalTransactionViewModel);
+                    //        users.ForEach(user =>
+                    //        {
+                    //            UserViewModel userViewModel = new UserViewModel();
+                    //            MailDetailModel mailDetail = new MailDetailModel();
+                    //            userViewModel.MapFromModel(user);
+                    //            approvalTransactionViewModel.User = userViewModel;
+                    //            mailDetail.EmailId = user.Email;
+                    //            mailDetail.Subject = approvalTransactionViewModel.Action + " Opening";
+                    //            mailDetail.Template = TemplateType.Appoval;
+                    //            mailDetail.MessageBody = approvalTransactionViewModel;
+                    //            GenericHelper.Send(mailDetail, _configuration);
+                    //        });
+                    //    }
+                    //}
                     result.Body = approvalTransactionViewModel;
                 }
             }
@@ -391,6 +401,11 @@ namespace RS.Service.Logic
             approvalTransaction.ApprovalTransactionDetails.Add(approvalTransactionDetail);
             _approvalRepository.CreateApprovalTransaction(approvalTransaction);
             approvalTransactionViewModel.MapFromModel(approvalTransaction);
+            var userId = GenericHelper.GetUserClaimDetails((ClaimsIdentity)_principal.Identity).UserId;
+            if (entityAndApprovalViewModel.candidateViewModel != null)
+            {
+                _candidateRepository.OnInterviewFinished(approvalTransaction, userId);
+            }
 
             return approvalTransactionViewModel;
         }
@@ -438,6 +453,84 @@ namespace RS.Service.Logic
                 ChartViewModel chartViewModel = new ChartViewModel();
                 chartViewModel.Series = _approvalRepository.GetSeriesDetail(showType);
                 result.Body = chartViewModel;
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Error;
+            }
+            return result;
+        }
+
+        public IResult GetUsersToScheduleInterview(int approvalEvent)
+        {
+            var result = new Result
+            {
+                Operation = Operation.Read,
+                Status = Status.Success
+            };
+            try
+            {
+                result.Body = _approvalRepository.GetSeriesDetail(approvalEvent);
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Error;
+            }
+            return result;
+        }
+
+        public IResult GetNextEventOrderForCandidate(Guid candidateId)
+        {
+            var result = new Result
+            {
+                Operation = Operation.Read,
+                Status = Status.Success
+            };
+            try
+            {
+                result.Body = _approvalRepository.GetNextEventOrderForCandidate(candidateId);
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Error;
+            }
+            return result;
+        }
+
+        public IResult CheckForStartInterview(CandidateListModel candidate)
+        {
+            var result = new Result
+            {
+                Operation = Operation.Read,
+                Status = Status.Success
+            };
+            try
+            {
+                var userId = GenericHelper.GetUserClaimDetails((ClaimsIdentity)_principal.Identity).UserId;
+                result.Body = _approvalRepository.CheckForStartInterview(candidate.CandidateId, candidate.ApprovalEventId, userId);
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Error;
+            }
+            return result;
+        }
+
+        public IResult GetApprovalEventsOfUserForCandidate(Guid candidateId)
+        {
+            var result = new Result
+            {
+                Operation = Operation.Read,
+                Status = Status.Success
+            };
+            try
+            {
+                var userId = GenericHelper.GetUserClaimDetails((ClaimsIdentity)_principal.Identity).UserId;
+                result.Body = _approvalRepository.GetApprovalEventsOfUserForCandidate(candidateId, userId);
             }
             catch (Exception e)
             {

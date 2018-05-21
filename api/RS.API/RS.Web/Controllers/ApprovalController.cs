@@ -9,6 +9,7 @@ using System.Net.Http;
 using Microsoft.AspNetCore.Authorization;
 using RS.ViewModel.Approval;
 using RS.ViewModel.Opening;
+using RS.ViewModel.Candidate;
 
 namespace RS.Web.Controllers
 {
@@ -88,6 +89,27 @@ namespace RS.Web.Controllers
         {
             var ChartDetails = _approvalManager.GetChartDetails(showType);
             return ChartDetails;
+        }
+
+        [HttpGet]
+        public IResult GetNextEventOrderForCandidate(Guid candidateId)
+        {
+            var NextEventOrder = _approvalManager.GetNextEventOrderForCandidate(candidateId);
+            return NextEventOrder;
+        }
+
+        [HttpGet]
+        public IResult GetApprovalEventsOfUserForCandidate(Guid candidateId)
+        {
+            var NextEventOrder = _approvalManager.GetApprovalEventsOfUserForCandidate(candidateId);
+            return NextEventOrder;
+        }
+
+        [HttpPost]
+        public IResult CheckForStartInterview([FromBody]CandidateListModel candidate)
+        {
+            var NextEventOrder = _approvalManager.CheckForStartInterview(candidate);
+            return NextEventOrder;
         }
     }
 }

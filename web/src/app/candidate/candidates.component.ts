@@ -8,6 +8,8 @@ import { AppConstants } from '../shared/constant/constant.variable';
 import { CandidateViewModel } from '../webapi/models/candidate-view-model';
 import { TranslateService } from '@ngx-translate/core';
 import decode from 'jwt-decode';
+import { ApprovalServiceApp } from '../approval/shared/approval.serviceApp';
+import { window } from 'rxjs/operator/window';
 
 @Component({
     selector: 'app-candidates',
@@ -22,7 +24,8 @@ export class CandidatesComponent implements OnInit {
     promptMsg: any;
 
     constructor(private candidateServiceApp: CandidateServiceApp, private router: Router,
-        private msgService: DisplayMessageService, private translateService: TranslateService) {
+        private msgService: DisplayMessageService, private translateService: TranslateService,
+        private approvalServiceApp: ApprovalServiceApp) {
     }
 
     ngOnInit() {
@@ -67,33 +70,11 @@ export class CandidatesComponent implements OnInit {
     }
 
     setPromptMsg() {
-        this.translateService.get('CANDIDATE.PROMPTMSG').subscribe(
+        this.translateService.get('CANDIDATE.DISPLAYALERTMSG').subscribe(
             (data) => {
                 this.promptMsg = data;
             }
         );
-    }
-
-    startInterview(candidate) {
-        if (window.confirm(this.promptMsg)) {
-            if (candidate.assignedUsers > 0) {
-                if (candidate.documents > 0) {
-                    this.candidateServiceApp.approvedForInterview(candidate.candidateId).subscribe(
-                        (data) => {
-                            if (data.status === Status.Success) {
-                                this.getAllCandidates();
-                            } else {
-                                this.msgService.showError('Error');
-                            }
-                        }
-                    );
-                } else {
-                    this.msgService.showError('CANDIDATE.NODOCUMENTS');
-                }
-            } else {
-                this.msgService.showError('CANDIDATE.NOUSERSASSIGNED');
-            }
-        }
     }
 
     addCandidate() {
@@ -106,6 +87,26 @@ export class CandidatesComponent implements OnInit {
 
     getCandidateDetail(candidateId) {
         this.router.navigate(['CandidateDetails', candidateId]);
+    }
+
+    startInterview(candidate) {
+        this.approvalServiceApp.checkForStartInterview(candidate).subscribe(
+            (data) => {
+                if (data.status === Status.Success) {
+                    if (data.body) {
+                        alert(this.promptMsg);
+                    } else {
+                        this.router.navigate(['CandidateDetails', candidate.candidateId]);
+                    }
+                } else {
+
+                }
+            }
+        );
+    }
+
+    scheduleInterview(candidateId) {
+        this.router.navigate(['ScheduleInterview', candidateId]);
     }
 
 }

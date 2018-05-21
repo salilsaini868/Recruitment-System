@@ -22,6 +22,7 @@ import { OpeningModule } from './opening/shared/opening.module';
 import { DashboardModule } from './dashboard/shared/dashboard.module';
 import { CandidateModule } from './candidate/shared/candidate.module';
 
+
 import { ApiModule } from './webapi/api.module';
 import { DetailModule } from './detail/shared/detail.module';
 
