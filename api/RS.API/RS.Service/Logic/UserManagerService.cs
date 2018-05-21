@@ -333,6 +333,7 @@ namespace RS.Service.Logic
                 {
                     userRoleModel.ForEach(x => x.MapDeleteColumns((ClaimsIdentity)_principal.Identity));
                     var userRole = new UserRoles();
+                    userRole.UserId = user.UserId;
                     userRole.RoleId = user.RoleId;
                     userRole.Role = _roleRepository.GetByID(user.RoleId);
                     userRole.MapAuditColumns((ClaimsIdentity)_principal.Identity);

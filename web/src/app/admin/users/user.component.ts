@@ -66,12 +66,14 @@ export class UserComponent implements OnInit {
     }
 
     getUserById() {
+        debugger;
         this.route.params.subscribe((params: Params) => {
             const userId = params['userId'];
             if (!isNullOrUndefined(userId)) {
                 this.userServiceApp.getUserById(userId).subscribe(
                     (data) => {
                         if (data.status === Status.Success) {
+                            debugger;
                             this.userModel = data.body;
                             this.userModel.password = this.utilityService.decrypt(this.userModel.password);
                             this.userModel.confirmPassword = this.userModel.password;
@@ -83,16 +85,17 @@ export class UserComponent implements OnInit {
     }
 
     checkUserNameExists() {
-        let userName = this.userModel.userName;
-        const user = this.users.find(user => user.userName === userName);
+        const userName = this.userModel.userName;
+        const user = this.users.find(x => x.userName === userName);
         if (isNullOrUndefined(user)) {
             this.isUserExists = false;
         } else {
             this.isUserExists = true;
         }
     }
+
     checkUserEmailExists() {
-        let email = this.userModel.email;
+        const email = this.userModel.email;
         const userEmail = this.users.find(u => u.email === email);
         if (isNullOrUndefined(userEmail)) {
             this.isEmailExists = false;
@@ -105,9 +108,9 @@ export class UserComponent implements OnInit {
         this.submitted = true;
         if (userForm.valid) {
             if (this.userModel.password === this.userModel.confirmPassword) {
+                this.userModel.password = this.utilityService.encrypt(this.userModel.password);
+                this.userModel.confirmPassword = this.userModel.password;
                 if (isNullOrUndefined(this.userModel.userId)) {
-                    this.userModel.password = this.utilityService.encrypt(this.userModel.password);
-                    this.userModel.confirmPassword = this.userModel.password;
                     this.userServiceApp.createUser(this.userModel).subscribe(
                         (data) => {
                             this.showUsersList();
