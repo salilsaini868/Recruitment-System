@@ -303,7 +303,7 @@ namespace RS.Service.Logic
                     {
                         _candidateRepository.OnInterviewFinished(approvalTransactionModel, userId);
                     }
-                   
+
                     //if (approvalTransactionViewModel.ApprovalTransactionId != 0)
                     //{
                     //    if (approvalTransactionViewModel.ApprovalId == (int)Approval.Candidate)
@@ -472,6 +472,25 @@ namespace RS.Service.Logic
             try
             {
                 result.Body = _approvalRepository.GetSeriesDetail(approvalEvent);
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Error;
+            }
+            return result;
+        }
+
+        public IResult ApprovalTransactionDetails(Guid entityId)
+        {
+            var result = new Result
+            {
+                Operation = Operation.Read,
+                Status = Status.Success
+            };
+            try
+            {
+                result.Body = _approvalRepository.ApprovalTransactionDetails(entityId);
             }
             catch (Exception e)
             {

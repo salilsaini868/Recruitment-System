@@ -10,7 +10,7 @@
         "UPDATE": "Update",
         "CREATE_SKILLS": "Create Skills",
         "UPDATE_SKILLS": "Update Skills",
-        "MESSAGE": "Skill with the same name Already Exists!."
+        "EXIST": "This Skill with same already exists. Please choose another one..!"
     },
     "SKILL_DETAILS": {
         "SKILL_DETAILS": "Skill Details",
@@ -23,6 +23,7 @@
         "DESCRIPTION": "Description",
         "SAVE": "Save",
         "UPDATE": "Update",
+        "REQUIRED": "This field is required",
         "CREATE_QUALIFICATIONS": "Create Qualification",
         "UPDATE_QUALIFICATIONS": "Update Qualification",
         "MESSAGE": "This Qualification with same already exists. Please choose another one..!"
@@ -54,7 +55,9 @@
         "SAVE": "Save",
         "UPDATE": "Update",
         "DELETE": "Delete",
-        "FORGOTPASSWORD": "Forgot password?"
+        "FORGOTPASSWORD": "Forgot password?",
+        "USERNAMEEXISTMESSAGE": "User with the same Username Already Exists!.",
+        "EMAILIDEXISTMESSAGE": "User with the same EmailID Already Exists!."
     },
     "OPENING": {
         "LIST": "List of Openings",

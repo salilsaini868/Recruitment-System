@@ -1,7 +1,9 @@
 <div class="content-wrapper">
     <div class="panel panel-primary no-radius">
         <div id="updatePanel" class="panel-heading  no-radius">
-            {{(isCreateOrUpdate ? 'QUALIFICATIONS.CREATE_QUALIFICATIONS' : 'QUALIFICATIONS.UPDATE_QUALIFICATIONS') | translate }}
+            <div *ngIf="qualificationsModel.qualificationId===undefined; then create else update"></div>
+            <ng-template #create>Create Qualification</ng-template>
+            <ng-template #update>Update Qualification</ng-template>
         </div>
         <div class="panel-body">
             <div class="row">
@@ -15,9 +17,10 @@
                                     </div>
                                     <div class="col-md-9 col-sm-9 col-xs-12">
                                         <input autofocus type="text" class="full-input" id="qualifications" id="name" name="qualificationName" [(ngModel)]="qualificationsModel.name" required #qualificationName="ngModel"
-                                            minlength="3" maxlength="20">
+                                            minlength="3" maxlength="20" (keyup)="checkQualificationExits()">
+                                            <div *ngIf="isQualificationExists"  id="nameExists"  class="text">{{ 'QUALIFICATIONS.MESSAGE' | translate }}</div>
                                         <div *ngIf="qualificationName.errors && (qualificationName.dirty || submitted)" [hidden]="!qualificationName.errors.required" class="validation-error">
-                                            {{ 'USER.REQUIRED' | translate }}
+                                            {{ 'QUALIFICATIONS.REQUIRED' | translate }}
                                         </div>
                                     </div>
                                 </div>
@@ -45,7 +48,6 @@
         </div>
     </div>
 
-
     <h3>{{ 'QUALIFICATION_DETAILS.QUALIFICATION_DETAILS' | translate }}</h3>
     <div class="table-responsive-top">
         <div class="table-responsive">
@@ -62,7 +64,7 @@
                         <td>{{qualification.name}}</td>
                         <td>{{qualification.description}}</td>
                         <td>
-                            <a class="btn btn-success no-radius" (click)="editQualifications(qualification)">
+                            <a class="btn btn-success no-radius" (click)="editQualifications(qualification.qualificationId)">
                                 <span class="glyphicon glyphicon-edit"></span>
                             </a>
                             <a class="btn btn-danger no-radius" (click)="deleteQualifications(qualifications)">

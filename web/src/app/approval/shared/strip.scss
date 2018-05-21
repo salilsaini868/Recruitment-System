@@ -1,5 +1,6 @@
 @import "../../../styles/partials/variable.scss";
 
+
 ul.nav-wizard {
     background-color: $white-color-one;
     border: 1px solid darken($border-color, 10%);
@@ -191,3 +192,67 @@ ul.nav-wizard {
     }
 }
 
+
+.app-list{
+  ul{
+    li{
+      &:before{
+        @media screen and (max-width:$mobile-screen) {
+          left: 44%;
+          top:100%;
+          transform: rotate(89deg);
+        }
+        position:absolute;
+        content: "";
+        right: -26px;
+        top: 38%;
+        width:20px;
+        height: 20px;
+        background: url('../../../assets/images/right-arrow.png') no-repeat;
+      }
+      &:nth-child(4n){
+        &:before{
+          @media screen and (max-width:$mobile-screen) {
+            background: url('../../../assets/images/right-arrow.png') no-repeat;
+          }
+          background: none;
+        }
+      }
+      &:last-child{
+        &:before{
+          background: none !important;
+        }
+      }
+      @media screen and (max-width:$mobile-screen) {
+        width:100%;
+        float: left;
+        margin:0 0 20px 0;
+      }
+        p:first-letter{
+          font-weight: 700;
+        }
+      list-style: none;
+      border: 1px solid $light-blue;
+      margin: 0 30px 22px 0;
+      padding:6px;
+      display: inline-block;
+      position: relative;
+    }
+    padding: 0;
+    margin: 0;
+  }
+  label{
+    margin-bottom: 14px;
+    font-size: 16px;
+  }
+}
+
+
+.box-header{
+  font-weight: 700;
+  display: block;
+  font-size: 13px;
+  margin-bottom: .05rem;
+  padding: 3px 0 3px 3px;
+  background: $border-color;
+}

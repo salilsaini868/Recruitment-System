@@ -1,8 +1,12 @@
 ﻿using System.Collections.Generic;
 using RS.Entity.Models;
 using System;
+
+using RS.Entity.DTO;
+
 using RS.ViewModel.Approval;
 using RS.ViewModel.ChartViewModel;
+
 
 namespace RS.Data.Interfaces
 {
@@ -13,6 +17,8 @@ namespace RS.Data.Interfaces
         void AddApprovalEventRole(ApprovalEventRoles approvalEventRole);
         List<ApprovalEventRoles> GetAllApprovalEventRole();
         Dictionary<string, List<int>> GetApprovalEventsOfUserForOpening(Guid UserId);
+        List<ApprovalTransactionDetails> GetApprovalTransactionDetails();
+        List<ApprovalTransactionDetailsDTO> ApprovalTransactionDetails(Guid entityId);
         int GetApprovalEventOrderNumber(ApprovalEventViewModel approvalEventViewModel);
         List<Users> GetApprovedUsersByRole(int roleId, int approvalEventId);
         List<Users> GetApprovedUsers(int approvalEventId);
@@ -32,5 +38,6 @@ namespace RS.Data.Interfaces
         int GetNextEventOrderForCandidate(Guid candidateId);
         bool CheckForStartInterview(Guid candidateId, int approvalEventId, Guid userId);
         Dictionary<string, List<int>> GetApprovalEventsOfUserForCandidate(Guid candidateId, Guid UserId);
+
     }
 }

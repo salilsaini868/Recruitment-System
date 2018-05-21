@@ -14,6 +14,7 @@ import { CandidateViewModel, QualificationViewModel, OpeningViewModel } from '..
 import { Status, ApprovalType } from '../app.enum';
 import { DisplayMessageService } from '../shared/toastr/display.message.service';
 import { AppConstants } from '../shared/constant/constant.variable';
+import { ApprovalResponseModel } from '../shared/customModels/approvel-response.model';
 import { OrganizationViewModel } from '../shared/customModels/organization-view-model';
 
 @Component({

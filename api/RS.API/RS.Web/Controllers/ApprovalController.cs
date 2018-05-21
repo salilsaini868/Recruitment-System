@@ -43,6 +43,13 @@ namespace RS.Web.Controllers
             return _approvalManager.GetAllApprovals();
         }
 
+        [HttpPost]
+        public IResult GetApprovalDetails(Guid entityId)
+        {
+            var app = _approvalManager.ApprovalTransactionDetails(entityId);
+            return app;
+        }
+
         [HttpGet]
         public IResult GetAllApprovalEventRoles()
         {
