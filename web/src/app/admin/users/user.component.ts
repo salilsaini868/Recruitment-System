@@ -66,14 +66,12 @@ export class UserComponent implements OnInit {
     }
 
     getUserById() {
-        debugger;
         this.route.params.subscribe((params: Params) => {
             const userId = params['userId'];
             if (!isNullOrUndefined(userId)) {
                 this.userServiceApp.getUserById(userId).subscribe(
                     (data) => {
                         if (data.status === Status.Success) {
-                            debugger;
                             this.userModel = data.body;
                             this.userModel.password = this.utilityService.decrypt(this.userModel.password);
                             this.userModel.confirmPassword = this.userModel.password;
