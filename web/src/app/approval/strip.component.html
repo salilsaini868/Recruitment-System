@@ -4,15 +4,15 @@
   <div class="col-xs-12">
     <div *ngIf="approvalUserTypes != null">
       <ul #source *ngIf="approvalEvents.length > 0" class="nav nav-wizard">
-        <li *ngFor="let approvalEvent of approvalEvents"  [class.current]="!isDisabled(approvalEvent.approvalEventId)" [class.status]="approvalEvent.approvalEventOrder <= currentEventOrder">
-          <a (click)="onApprovalEventClick(approvalEvent)" [class.disabled]="isDisabled(approvalEvent.approvalEventId)"> {{ approvalEvent.approvalEventName }}</a>
+        <li *ngFor="let approvalEvent of approvalEvents"  [ngClass]="{status: approvalEvent.approvalEventOrder <= currentEventOrder, current: !isDisabled(approvalEvent.approvalEventId) && approvalEvent.approvalEventOrder == nextEventOrder}">
+          <a (click)="onApprovalEventClick(approvalEvent)" [ngClass]="{disabled: isDisabled(approvalEvent.approvalEventId)}"> {{ approvalEvent.approvalEventName }}</a>
         </li>
       </ul>
 
       <!-- pop up section -->
       <div [ngStyle]="{'left':  styleleft }" *ngIf="clicked && showPopup" #target class="top-info" id="pointer">
         <div class="arrow-top">
-          <a href="javascript:void()" (click)="close()">
+          <a href="javascript:void(0)" (click)="close()">
             <i class="fa fa-close pull-right"></i>
           </a>
           <textarea class="full-input" name="comment" type="text" cols="5" rows="5" class="full-width tarea-inner" [(ngModel)]="comments"

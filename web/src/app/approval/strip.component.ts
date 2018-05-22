@@ -122,7 +122,7 @@ export class StripComponent implements OnInit {
             this.msgService.showError('Error');
           }
         }
-      )
+      );
     }
 
   }
