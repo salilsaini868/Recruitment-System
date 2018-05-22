@@ -7,7 +7,7 @@
                     <div *ngIf="approvalEvent.approvalEventOrder <= eventOrder">
                         <label class="col-xs-12">{{ approvalEvent.approvalEventName }}
                             <div class="inline-b lt-font" *ngIf="approvalEvent.approvalEventOrder != eventOrder">
-                                [ {{ 'CANDIDATE.TAKENBY' | translate }} {{ approvalEvent.userCompletedInterview.firstName }} {{ approvalEvent.userCompletedInterview.lastName }}  {{ 'CANDIDATE.TAKENON' | translate }} {{ approvalEvent.interviewConductedOn }} ]
+                                [ {{ 'CANDIDATE.TAKENBY' | translate }} {{ approvalEvent.userCompletedInterview.firstName }} {{ approvalEvent.userCompletedInterview.lastName }}  {{ 'CANDIDATE.TAKENON' | translate }} {{ approvalEvent.interviewConductedOn | date: 'dd/MM/yyyy at  hh:mm:ss a'}} ]
                             </div>
                         </label>
                         <div *ngFor="let user of approvalEvent.users">
