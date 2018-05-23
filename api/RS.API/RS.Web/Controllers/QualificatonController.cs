@@ -57,6 +57,22 @@ namespace RS.Web.Controllers
                 Body = null
             };
         }
+        [HttpPut]
+        public IResult DeleteQualification([FromBody]QualificationViewModel qualificationView)
+        {
+            if (ModelState.IsValid)
+            {
+                var deleteQualification = _qualificationService.DeleteQualification(qualificationView);
+                return deleteQualification;
+            }
+            return new Result
+            {
+                Operation = Operation.Delete,
+                Status = Status.Fail,
+                Message = CommonErrorMessages.BadRequest,
+                Body = null
+            };
+        }
 
         [HttpGet]
         public IResult GetAllQualification()

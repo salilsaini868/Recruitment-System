@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { QualificationsServiceApp } from './shared/qualifications.serviceApp';
 import { QualificationViewModel } from '../../webapi/models/qualification-view-model';
 import { isNullOrUndefined } from 'util';
@@ -6,7 +6,8 @@ import { Status } from '../../app.enum';
 
 @Component({
   selector: 'app-qualifications',
-  templateUrl: 'qualifications.component.html'
+  templateUrl: 'qualifications.component.html',
+  styleUrls: ['qualifications.scss']
 })
 
 export class QualificationsComponent implements OnInit {
@@ -63,14 +64,20 @@ export class QualificationsComponent implements OnInit {
         }
       });
   }
-  deleteQualifications(i) {
-    this.qualifications.splice(i, 1);
-    this.qualificationsServiceApp.deleteQualification()
-      .subscribe((data) => {
-        if (data) {
-        }
-      });
+
+  deleteQualifications(qualification,i) {
+    let isDelete = confirm("Are you sure you want to delete Qualification...!");
+    if (isDelete) {
+      this.qualifications.splice(i, 1);
+      this.qualificationsServiceApp.deleteQualification(qualification).subscribe(
+        (data) => {
+          if (data.status === Status.Success) {
+            this.qualificationsModel = data.body;
+          }
+        });
+    }
   }
+
   getQualificationById(qualificationId) {
     if (!isNullOrUndefined(qualificationId)) {
       this.qualificationsServiceApp.getQualificationById(qualificationId).subscribe(

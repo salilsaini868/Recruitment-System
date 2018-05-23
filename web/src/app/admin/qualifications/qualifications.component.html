@@ -16,10 +16,11 @@
                                         <label for="name"> {{ 'QUALIFICATIONS.NAME' | translate }}</label>
                                     </div>
                                     <div class="col-md-9 col-sm-9 col-xs-12">
-                                        <input autofocus type="text" class="full-input" id="qualifications" id="name" name="qualificationName" [(ngModel)]="qualificationsModel.name" required #qualificationName="ngModel"
-                                            minlength="3" maxlength="20" (keyup)="checkQualificationExits()">
-                                            <div *ngIf="isQualificationExists"  id="nameExists"  class="text">{{ 'QUALIFICATIONS.MESSAGE' | translate }}</div>
-                                        <div *ngIf="qualificationName.errors && (qualificationName.dirty || submitted)" [hidden]="!qualificationName.errors.required" class="validation-error">
+                                        <input autofocus type="text" class="full-input" id="qualifications" id="name" name="qualificationName" [(ngModel)]="qualificationsModel.name"
+                                            required #qualificationName="ngModel" minlength="3" maxlength="20" (keyup)="checkQualificationExits()">
+                                        <div *ngIf="isQualificationExists" id="nameExists" class="text">{{ 'QUALIFICATIONS.MESSAGE' | translate }}</div>
+                                        <div *ngIf="qualificationName.errors && (qualificationName.dirty || submitted)" [hidden]="!qualificationName.errors.required"
+                                            class="validation-error">
                                             {{ 'QUALIFICATIONS.REQUIRED' | translate }}
                                         </div>
                                     </div>
@@ -31,7 +32,8 @@
                                         <label for="description">{{ 'QUALIFICATIONS.DESCRIPTION' | translate }} </label>
                                     </div>
                                     <div class="col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" class="full-input" id="description" name="description" [(ngModel)]="qualificationsModel.description" required #description="ngModel">
+                                        <input type="text" class="full-input" id="description" name="description" [(ngModel)]="qualificationsModel.description" required
+                                            #description="ngModel">
                                         <div *ngIf="description.errors && (description.dirty || submitted)" [hidden]="!description.errors.required" class="validation-error">
                                             {{ 'USER.REQUIRED' | translate }}
                                         </div>
@@ -47,7 +49,6 @@
             </div>
         </div>
     </div>
-
     <h3>{{ 'QUALIFICATION_DETAILS.QUALIFICATION_DETAILS' | translate }}</h3>
     <div class="table-responsive-top">
         <div class="table-responsive">
@@ -60,15 +61,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let qualification of qualifications">
+                    <tr *ngFor="let qualification of qualifications; let  i = index">
                         <td>{{qualification.name}}</td>
                         <td>{{qualification.description}}</td>
                         <td>
-                            <a class="btn btn-success no-radius" (click)="editQualifications(qualification.qualificationId)">
-                                <span class="glyphicon glyphicon-edit"></span>
+                            <a class="btn btn-primary  blue-btn" (click)="editQualifications(qualification.qualificationId)">
+                                Update
                             </a>
-                            <a class="btn btn-danger no-radius" (click)="deleteQualifications(qualifications)">
-                                <span class="glyphicon glyphicon-remove"></span>
+                            <a class="btn btn-danger no-radius btn-pad" (click)="deleteQualifications(qualification,i)">
+                                Delete
                             </a>
                         </td>
                     </tr>
