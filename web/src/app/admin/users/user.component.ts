@@ -9,7 +9,6 @@ import { DisplayMessageService } from '../../shared/toastr/display.message.servi
 import { Status } from '../../app.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { UtilityService } from '../../shared/utility/utility.service';
-import { Users } from '../../webapi/models/users';
 
 @Component({
     selector: 'app-user',
@@ -92,6 +91,7 @@ export class UserComponent implements OnInit {
             this.isUserExists = true;
         }
     }
+
     checkUserEmailExists() {
         const email = this.userModel.email;
         const userEmail = this.users.find(u => u.email === email);
@@ -106,9 +106,9 @@ export class UserComponent implements OnInit {
         this.submitted = true;
         if (userForm.valid) {
             if (this.userModel.password === this.userModel.confirmPassword) {
+                this.userModel.password = this.utilityService.encrypt(this.userModel.password);
+                this.userModel.confirmPassword = this.userModel.password;
                 if (isNullOrUndefined(this.userModel.userId)) {
-                    this.userModel.password = this.utilityService.encrypt(this.userModel.password);
-                    this.userModel.confirmPassword = this.userModel.password;
                     this.userServiceApp.createUser(this.userModel).subscribe(
                         (data) => {
                             this.showUsersList();

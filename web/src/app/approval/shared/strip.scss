@@ -215,7 +215,7 @@ ul.nav-wizard {
           @media screen and (max-width:$mobile-screen) {
             background: url('../../../assets/images/right-arrow.png') no-repeat;
           }
-          background: none;
+          // background: none;
         }
       }
       &:last-child{

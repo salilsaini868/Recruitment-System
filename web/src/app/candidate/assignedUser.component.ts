@@ -101,8 +101,8 @@ export class AssignedUserComponent implements OnInit {
         this.router.navigate(['Candidate', candidateId]);
     }
 
-    onSubmit(candidateForm) {
-        if (candidateForm.valid) {
+    onSubmit(assignUserForm) {
+        if (assignUserForm.valid) {
             if (this.candidateAssignedUsers.length > 0) {
                 this.candidateServiceApp.addUserForCandidate(this.candidateAssignedUsers).subscribe(
                     (data) => {

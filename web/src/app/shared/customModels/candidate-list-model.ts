@@ -8,5 +8,8 @@ export class CandidateListModel {
     isReadyForInterview?: boolean;
     assignedUsers?: number;
     status?: string;
+    approvalEventId?: number;
+    isApproved?: boolean;
+    isFinished?: boolean;
     documents?: number;
 }

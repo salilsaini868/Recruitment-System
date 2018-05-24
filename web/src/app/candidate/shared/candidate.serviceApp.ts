@@ -28,8 +28,16 @@ export class CandidateServiceApp {
         return this.apiCandidateSevice.ApiCandidateAddUserForCandidatePost(candidateAssignedUsers).map(x => (x));
     }
 
+    scheduleUserForCandidateInterview(candidateAssignedUsers): Observable<any> {
+        return this.apiCandidateSevice.ApiCandidateAddUsersToConductInterviewPost(candidateAssignedUsers).map(x => (x));
+    }
+
     getAssignedUsersById(candidateId): Observable<any> {
         return this.apiCandidateSevice.ApiCandidateGetAssignedUsersByIdGet(candidateId).map(x => (x));
+    }
+
+    getScheduledUsersByCandidateId(candidateId): Observable<any> {
+        return this.apiCandidateSevice.ApiCandidateGetScheduledUsersByIdGet(candidateId).map(x => (x));
     }
 
     getCandidatesCorrespondingToLoggedUser(userId): Observable<any> {

@@ -6,6 +6,7 @@ using RS.ViewModel.Approval;
 using RS.ViewModel.User;
 using RS.Entity.Models;
 using RS.ViewModel.Opening;
+using RS.ViewModel.Candidate;
 
 namespace RS.Service.Interfaces
 {
@@ -83,5 +84,27 @@ namespace RS.Service.Interfaces
         /// <returns></returns>
         IResult GetChartDetails(int type);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="approvalEvent"></param>
+        /// <returns></returns>
+        IResult GetUsersToScheduleInterview(int approvalEvent);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="candidateId"></param>
+        /// <returns></returns>
+        IResult GetNextEventOrderForCandidate(Guid candidateId);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="candidate"></param>
+        /// <returns></returns>
+        IResult CheckForStartInterview(CandidateListModel candidate);
+
+        IResult GetApprovalEventsOfUserForCandidate(Guid candidateId);
     }
 }

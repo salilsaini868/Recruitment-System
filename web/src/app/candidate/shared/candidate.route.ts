@@ -4,7 +4,10 @@ import { Routes, RouterModule } from '@angular/router';
 import { RoleGuardService } from '../../shared/index.shared';
 
 // Component
-import { CandidateComponent, CandidatesComponent, AssignedUserComponent, CandidateDetailsComponent } from '../index.candidate';
+import {
+    CandidateComponent, CandidatesComponent, AssignedUserComponent, CandidateDetailsComponent,
+    ScheduleInterviewComponent
+} from '../index.candidate';
 
 const CANDIDATE_ROUTES: Routes = [
     {
@@ -42,6 +45,12 @@ const CANDIDATE_ROUTES: Routes = [
         component: CandidateDetailsComponent,
         canActivate: [RoleGuardService],
         data: { expectedRole: ['Sr.HR', 'Manager', 'VP'] }
+    },
+    {
+        path: 'ScheduleInterview/:candidateId',
+        component: ScheduleInterviewComponent,
+        canActivate: [RoleGuardService],
+        data: { expectedRole: ['Sr.HR'] }
     }
 ];
 

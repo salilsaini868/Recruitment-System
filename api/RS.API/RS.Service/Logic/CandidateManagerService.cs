@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
 using RS.ViewModel.Organization;
-
+using RS.ViewModel.Approval;
 
 namespace RS.Service.Logic
 {
@@ -119,7 +119,7 @@ namespace RS.Service.Logic
                         {
                             var existingAssignedUsers = candidateAssignedUserModelsList.Intersect(candidateAssignedUserModels).ToList();
                             var addAssignedUsers = candidateAssignedUserModelsList.Except(existingAssignedUsers).ToList();
-                            var removingAssignedusers = candidateAssignedUserModelsList.Except(existingAssignedUsers).ToList();
+                            var removingAssignedusers = candidateAssignedUserModels.Except(existingAssignedUsers).ToList();
 
                             if (existingAssignedUsers.Any())
                             {
@@ -152,6 +152,13 @@ namespace RS.Service.Logic
                         var assignedUserForCandidate = new CandidateAssignedUser();
                         assignedUserForCandidate.MapFromViewModel(assignedUser, (ClaimsIdentity)_principal.Identity);
                         _candidateRepository.AssignUserForCandidate(assignedUserForCandidate);
+
+                        MailDetailModel mailDetail = new MailDetailModel();
+                        mailDetail.EmailId = assignedUser.User.Email;
+                        mailDetail.Subject = "Registration Confirmation";
+                        mailDetail.Template = TemplateType.ScheduleUserForInterview;
+                        mailDetail.MessageBody = assignedUser;
+                        GenericHelper.Send(mailDetail, _configuration);
                     }
                 }
 
@@ -182,16 +189,16 @@ namespace RS.Service.Logic
                 }
                 var candidateViewModel = new CandidateViewModel();
                 candidateViewModel.MapFromModel(candidateModel);
-                if (candidateViewModel.IsReadyForInterview)
-                {
-                    var user = _approvalRepository.GetUserForCandidateApproval(candidateViewModel.CandidateId, Constants.FirstApproval);
-                    MailDetailModel mailDetail = new MailDetailModel();
-                    mailDetail.EmailId = user.Email;
-                    mailDetail.Subject = "Ready For Interview";
-                    mailDetail.Template = TemplateType.Appoval;
-                    mailDetail.MessageBody = user;
-                    GenericHelper.Send(mailDetail, _configuration);
-                }
+                //if (candidateViewModel.IsReadyForInterview)
+                //{
+                //    var user = _approvalRepository.GetUserForCandidateApproval(candidateViewModel.CandidateId, Constants.FirstApproval);
+                //    MailDetailModel mailDetail = new MailDetailModel();
+                //    mailDetail.EmailId = user.Email;
+                //    mailDetail.Subject = "Ready For Interview";
+                //    mailDetail.Template = TemplateType.Appoval;
+                //    mailDetail.MessageBody = user;
+                //    GenericHelper.Send(mailDetail, _configuration);
+                //}
                 result.Body = candidateViewModel.CandidateId;
 
             }
@@ -232,14 +239,7 @@ namespace RS.Service.Logic
                     candidateListModel.AssignedUsers = assignedUsers.Count;
                     candidateListModel.Documents = candidate.CandidateDocuments.Count;
                     var approvalTransaction = _approvalRepository.GetApprovalTransactionByEntity(candidate.CandidateId);
-                    if (!candidate.IsReadyForInterview)
-                    {
-                        candidateListModel.Status = "Created";
-                    }
-                    else
-                    {
-                        candidateListModel.Status = approvalTransaction == null ? "Ready For Interview" : approvalTransaction.ApprovalAction.ApprovalActionName;
-                    }
+                    candidateListModel.Status = approvalTransaction == null ? "Created" : approvalTransaction.ApprovalAction.ApprovalActionName;
 
                     return candidateListModel.MapFromModel(candidate);
 
@@ -314,10 +314,10 @@ namespace RS.Service.Logic
             };
             try
             {
-                var allCandidates = _candidateRepository.GetCandidatesCorrespondingToLoggedUser(userId);
-                var candidateList = allCandidates.Select(candidate =>
+                var allScheduleUserForCandiadate = _candidateRepository.GetCandidatesCorrespondingToLoggedUser(userId);
+                var candidateList = allScheduleUserForCandiadate.Select(scheduleUser =>
                 {
-                    var openingCandidate = _candidateRepository.GetOpeningCandidate(candidate.CandidateId);
+                    var openingCandidate = _candidateRepository.GetOpeningCandidate(scheduleUser.CandidateId);
                     var candidateListModel = new CandidateListModel();
                     if (openingCandidate != null)
                     {
@@ -325,16 +325,13 @@ namespace RS.Service.Logic
                         candidateListModel.ModifiedDate = openingCandidate.Opening.ModifiedDate;
                     }
 
-                    var approvalTransaction = _approvalRepository.GetApprovalTransactionByEntity(candidate.CandidateId);
-                    if (!candidate.IsReadyForInterview)
-                    {
-                        candidateListModel.Status = "Created";
-                    }
-                    else
-                    {
-                        candidateListModel.Status = approvalTransaction == null ? "Ready For Interview" : approvalTransaction.ApprovalAction.ApprovalActionName;
-                    }
-                    return candidateListModel.MapFromModel(candidate);
+                    var approvalTransaction = _approvalRepository.GetApprovalTransactionByEntity(scheduleUser.CandidateId);
+
+                    candidateListModel.Status = approvalTransaction == null ? "Created" : approvalTransaction.ApprovalAction.ApprovalActionName;
+
+                    candidateListModel.ApprovalEventId = scheduleUser.ApprovalEventId;
+                    candidateListModel.IsFinished = _candidateRepository.CheckForInterviewCompletion(scheduleUser);
+                    return candidateListModel.MapFromModel(scheduleUser.Candidate);
                 }).ToList();
                 List<CandidateListModel> candidateListViewModel = candidateList.Cast<CandidateListModel>().ToList();
                 result.Body = candidateListViewModel.OrderByDescending(x => x.ModifiedDate);
@@ -419,7 +416,7 @@ namespace RS.Service.Logic
             };
             try
             {
-                List<OrganizationViewModel> organizationModels = new List<OrganizationViewModel>(); 
+                List<OrganizationViewModel> organizationModels = new List<OrganizationViewModel>();
                 var organizations = _candidateRepository.GetOrganizationsOnInputChanged(input);
                 result.Body = organizationModels.MapFromModel<Organizations, OrganizationViewModel>(organizations);
             }
@@ -430,5 +427,153 @@ namespace RS.Service.Logic
             }
             return result;
         }
+
+        public IResult AddUsersToConductInterview(List<ScheduleUserForCandidateModel> scheduleUserForCandidateModelList)
+        {
+            var result = new Result
+            {
+                Operation = Operation.Read,
+                Status = Status.Success
+            };
+            try
+            {
+                ScheduleUserForCandidate scheduleUser = new ScheduleUserForCandidate();
+                scheduleUser.MapFromViewModel(scheduleUserForCandidateModelList.First());
+                var scheduledUsersModelList = scheduleUserForCandidateModelList.Select(x => x.UserId).ToList();
+                var scheduledUsers = _candidateRepository.GetScheduledUserByApprovalEvent(scheduleUser);
+                var scheduledUsersList = scheduledUsers.Select(x => x.UserId).ToList();
+                var addingScheduledUsers = new List<ScheduleUserForCandidateModel>();
+                if (scheduledUsersList.Any())
+                {
+                    var existingScheduledUsers = scheduledUsersModelList.Intersect(scheduledUsersList).ToList();
+                    var addScheduledUsers = scheduledUsersModelList.Except(existingScheduledUsers).ToList();
+                    var removingScheduledusers = scheduledUsersList.Except(existingScheduledUsers).ToList();
+
+                    if (existingScheduledUsers.Any())
+                    {
+                        var scheduledUserList = scheduledUsers.Where(x => existingScheduledUsers.Contains(x.UserId)).ToList();
+                        scheduledUserList.ForEach(x => x.MapAuditColumns((ClaimsIdentity)_principal.Identity));
+                    }
+
+                    if (removingScheduledusers.Any())
+                    {
+                        var scheduledUsersModeList = new List<ScheduleUserForCandidateModel>();
+                        var scheduledUserList = scheduledUsers.Where(x => removingScheduledusers.Contains(x.UserId)).ToList();
+                        scheduledUserList.ForEach(x => x.MapDeleteColumns((ClaimsIdentity)_principal.Identity));
+
+                        foreach (var scheduledUser in scheduledUserList)
+                        {
+                            var scheduleUserModel = new ScheduleUserForCandidateModel();
+                            scheduleUserModel.MapFromModel(scheduledUser);
+
+                            var approvalEvent = new ApprovalEventViewModel();
+                            scheduleUserModel.ApprovalEvent = (ApprovalEventViewModel)approvalEvent.MapFromModel(scheduledUser.ApprovalEvent);
+
+                            var user = new UserViewModel();
+                            scheduleUserModel.User = (UserViewModel)user.MapFromModel(scheduledUser.User);
+
+                            CandidateViewModel candidateView = new CandidateViewModel();
+                            candidateView.MapFromModel(_candidateRepository.GetByID(scheduledUser.CandidateId));
+
+                            scheduleUserModel.Candidate = candidateView;
+                            scheduleUserModel.InterviewScheduledDate = scheduledUser.ScheduledOn.ToString("yyyy-MM-dd");
+                            scheduleUserModel.InterviewScheduledTime = scheduledUser.ScheduledOn.ToString("hh:mm a");
+                            MailDetailModel mailDetail = new MailDetailModel();
+                            mailDetail.EmailId = scheduleUserModel.User.Email;
+                            mailDetail.Subject = "Interview Cancelled";
+                            mailDetail.Template = TemplateType.InterviewCancelled;
+                            mailDetail.MessageBody = scheduleUserModel;
+                            GenericHelper.Send(mailDetail, _configuration);
+                        }
+
+                    }
+
+                    if (addScheduledUsers.Any())
+                    {
+                        addingScheduledUsers = scheduleUserForCandidateModelList.Where(x => addScheduledUsers.Contains(x.UserId)).ToList();
+                    }
+                }
+                else
+                {
+                    addingScheduledUsers = scheduleUserForCandidateModelList;
+                }
+                if (addingScheduledUsers.Any())
+                {
+                    foreach (var scheduledUser in addingScheduledUsers)
+                    {
+                        var scheduledUserForCandidate = new ScheduleUserForCandidate();
+                        scheduledUserForCandidate.MapFromViewModel(scheduledUser, (ClaimsIdentity)_principal.Identity);
+                        _candidateRepository.AddScheduledUsers(scheduledUserForCandidate);
+                        CandidateViewModel candidateView = new CandidateViewModel();
+                        candidateView.MapFromModel(_candidateRepository.GetByID(scheduledUser.CandidateId));
+                        scheduledUser.Candidate = candidateView;
+                        scheduledUser.InterviewScheduledDate = scheduledUser.ScheduledOn.ToString("yyyy-MM-dd");
+                        scheduledUser.InterviewScheduledTime = scheduledUser.ScheduledOn.ToString("hh:mm tt");
+                        MailDetailModel mailDetail = new MailDetailModel();
+                        mailDetail.EmailId = scheduledUser.User.Email;
+                        mailDetail.Subject = "Interview Scheduled";
+                        mailDetail.Template = TemplateType.ScheduleUserForInterview;
+                        mailDetail.MessageBody = scheduledUser;
+                        GenericHelper.Send(mailDetail, _configuration);
+                    }
+                }
+                _candidateRepository.SaveChanges();
+                result.Body = scheduleUserForCandidateModelList;
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Error;
+            }
+            return result;
+        }
+
+        public IResult GetScheduledUsersById(Guid candidateId)
+        {
+            var result = new Result
+            {
+                Operation = Operation.Read,
+                Status = Status.Success
+            };
+            try
+            {
+                ScheduleInterviewModel scheduleInterviewModel = new ScheduleInterviewModel();
+                var usersList = new List<UserViewModel>();
+                var scheduledUsersList = new List<ScheduleUserForCandidateModel>();
+                var scheduledUsers = _candidateRepository.GetScheduledUsersById(candidateId);
+                var scheduledInterviewsCompleted = scheduledUsers.Where(x => x.CandidateId == candidateId && x.IsFinished && (x.IsActive && !x.IsDeleted)).ToList();
+                var approvalEventOrderList = scheduledInterviewsCompleted.Select(x => x.ApprovalEvent.ApprovalEventOrder).ToList();
+                var usersCompletedInterview = scheduledInterviewsCompleted.Select(x => x.User).ToList();
+                scheduleInterviewModel.InterviewScheduledTime = scheduledInterviewsCompleted.Select(x => x.ScheduledOn).ToList();
+                scheduleInterviewModel.Users = usersList.MapFromModel<Users, UserViewModel>(usersCompletedInterview);
+                scheduleInterviewModel.FinishedEventOrder = approvalEventOrderList.DefaultIfEmpty(0).Max();
+                scheduleInterviewModel.ScheduledDate = GetScheduledDate(scheduledUsers, candidateId);
+                scheduleInterviewModel.NextApprovalEvent = scheduledInterviewsCompleted.Any() ? scheduledInterviewsCompleted[0].ApprovalEventId + 1 : 4;
+                scheduleInterviewModel.ScheduleUserForCandidateModelList = scheduledUsersList.MapFromModel<ScheduleUserForCandidate, ScheduleUserForCandidateModel>(scheduledUsers);
+                result.Body = scheduleInterviewModel;
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Error;
+            }
+            return result;
+        }
+
+        DateTime GetScheduledDate(List<ScheduleUserForCandidate> scheduledUsers, Guid candidateId)
+        {
+            var date = DateTime.Now;
+            var approvalEventIds = scheduledUsers.Where(x => x.CandidateId == candidateId).Select(x => x.ApprovalEventId).Distinct().ToList();
+            foreach (var approvalEventId in approvalEventIds)
+            {
+                var isFinished = scheduledUsers.Where(x => x.ApprovalEventId == approvalEventId).Select(x => x.IsFinished).ToList();
+                if (!isFinished.Contains(true))
+                {
+                    date = scheduledUsers.FirstOrDefault(x => x.ApprovalEventId == approvalEventId).ScheduledOn;
+                }
+            }
+            return date;
+        }
+
     }
 }

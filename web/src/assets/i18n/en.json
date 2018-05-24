@@ -26,13 +26,17 @@
         "REQUIRED": "This field is required",
         "CREATE_QUALIFICATIONS": "Create Qualification",
         "UPDATE_QUALIFICATIONS": "Update Qualification",
-        "MESSAGE": "This Qualification with same already exists. Please choose another one..!"
+        "MESSAGE": "This Qualification with same already exists. Please choose another one..!",
+        "DELETEERROR": "Qualification error in deleting",
+        "DELETEDSUCCESSFULLY": "Qualification deleted successfully",
+        "FAILEDTODELETE": "Qualification failled to delete"
     },
     "QUALIFICATION_DETAILS": {
         "QUALIFICATION_DETAILS": "Qualification Details",
         "QUALIFICATIONS": "Qualifications",
         "DESCRIPTION": "Description",
         "ACTION": "action"
+        
     },
     "USER": {
         "LIST": "List of Users",
@@ -137,12 +141,18 @@
         "STATUS": "Status",
         "CANCEL": "Cancel",
         "TAKEINTERVIEW": "Take Interview",
+        "SCHEDULEINTERVIEW": "Schedule Interview",
         "STARTINTERVIEW": "Start Interview",
         "VIEW": "View",
         "NOUSERSASSIGNED": "Please assign the Users",
         "NODOCUMENTS": "Please Upload Necessary Documents",
         "PROMPTMSG": "Do you want to start the Interview?",
-        "DOWNLOADRESUME": "Download Candidate Resume"
+        "DOWNLOADRESUME": "Download Candidate Resume",
+        "DISPLAYALERTMSG": "Interview Already Started",
+        "DATE": "Date",
+        "TIME": "Time",
+        "TAKENBY": "Taken By",
+        "TAKENON": "On"
     },
     "EVENTROLE": {
         "APPROVALEVENT": "Approval Event",

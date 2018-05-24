@@ -76,17 +76,18 @@ namespace RS.Service.Logic
                     entityAndApprovalViewModel.openingViewModel.OpeningId = openingModel.OpeningId;
                     var approvalTransactionViewModel = _approvalManagerService.AddApprovalTransaction(entityAndApprovalViewModel);
 
-                    var users = _approvalRepository.GetUserForOpeningApproval(approvalTransactionViewModel);
-                    users.ForEach(user =>
-                    {
-                        MailDetailModel mailDetail = new MailDetailModel();
-                        mailDetail.EmailId = user.Email;
-                        mailDetail.Subject = "Opening Approval";
-                        mailDetail.Template = TemplateType.Appoval;
-                        mailDetail.MessageBody = approvalTransactionViewModel;
-                        GenericHelper.Send(mailDetail, _configuration);
-                    });
+                    // var users = _approvalRepository.GetUserForOpeningApproval(approvalTransactionViewModel);
+                    //users.ForEach(user =>
+                    //{
+                    //    MailDetailModel mailDetail = new MailDetailModel();
+                    //    mailDetail.EmailId = user.Email;
+                    //    mailDetail.Subject = "Opening Approval";
+                    //    mailDetail.Template = TemplateType.Appoval;
+                    //    mailDetail.MessageBody = approvalTransactionViewModel;
+                    //    GenericHelper.Send(mailDetail, _configuration);
+                    //});
                     result.Body = approvalTransactionViewModel;
+               
                 }
             }
             catch (Exception e)

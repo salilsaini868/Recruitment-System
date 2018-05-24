@@ -98,6 +98,13 @@ namespace RS.Web.Controllers
         }
 
         [HttpGet]
+        public IResult GetScheduledUsersById(Guid candidateId)
+        {
+            var assignedUsers = _candidateManagerService.GetScheduledUsersById(candidateId);
+            return assignedUsers;
+        }
+
+        [HttpGet]
         public IResult GetCandidatesCorrespondingToLoggedUser(Guid userId)
         {
             var assignedUsers = _candidateManagerService.GetCandidatesCorrespondingToLoggedUser(userId);
@@ -108,6 +115,13 @@ namespace RS.Web.Controllers
         public IResult ApprovedForInterview(Guid candidateId)
         {
             var approvedCandidate = _candidateManagerService.ApprovedForInterview(candidateId);
+            return approvedCandidate;
+        }
+
+        [HttpPost]
+        public IResult AddUsersToConductInterview([FromBody]List<ScheduleUserForCandidateModel> scheduleUserForCandidateModelList)
+        {
+            var approvedCandidate = _candidateManagerService.AddUsersToConductInterview(scheduleUserForCandidateModelList);
             return approvedCandidate;
         }
 

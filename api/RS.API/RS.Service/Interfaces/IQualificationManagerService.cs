@@ -1,8 +1,5 @@
 ﻿using RS.Common.CommonData;
 using RS.ViewModel.Qualification;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace RS.Service.Interfaces
 {
@@ -25,9 +22,9 @@ namespace RS.Service.Interfaces
         /// <summary>
         /// Delete a Qualification
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="qualification"></param>
         /// <returns></returns>
-        IResult DeleteQualification(int id);
+        IResult DeleteQualification(QualificationViewModel qualification);
 
         /// <summary>
         /// Get All Qualifications
