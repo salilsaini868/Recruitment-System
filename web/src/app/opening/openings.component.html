@@ -2,18 +2,41 @@
     <h2>{{ 'OPENING.LIST' | translate }}</h2>
 
     <button *ngIf="loggedRole == 'Sr.HR'" title="Add" class="btn btn-primary blue-btn pull-right no-radius" (click)="addOpening()">Add</button>
+    <input class="search" placeholder="Search..." type="text" [(ngModel)]="listFilter" />
+    <button (click)="search()" class="button button4">GO</button>
 
     <div class="table-responsive-top">
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>{{ 'OPENING.TITLE' | translate }}</th>
+                        <th class="pointer" (click)="sort('Title')">{{ 'OPENING.TITLE' | translate }}
+                            <i class="fa" [ngClass]="{'fa-sort': searchAndSortModel.property !== 'Title', 
+                                'fa-sort-asc': (searchAndSortModel.property === 'Title' && !isDesc), 
+                                'fa-sort-desc': (searchAndSortModel.property === 'Title' && isDesc) }" aria-hidden="true">
+                            </i>
+                        </th>
                         <th>{{ 'OPENING.PRIMARYSKILLS' | translate }}</th>
                         <th>{{ 'OPENING.SECONDARYSKILLS' | translate }}</th>
-                        <th>{{ 'OPENING.STATUS' | translate }}</th>
-                        <th>{{ 'OPENING.CREATEDON' | translate }}</th>
-                        <th>{{ 'OPENING.UPDATEDON' | translate }}</th>
+                        <th class="pointer" (click)="sort('Status')">{{ 'OPENING.STATUS' | translate }}
+                            <i class="pointer" class="fa" [ngClass]="{'fa-sort': searchAndSortModel.property !== 'Status', 
+                                    'fa-sort-asc': (searchAndSortModel.property === 'Status' && !isDesc), 
+                                    'fa-sort-desc': (searchAndSortModel.property === 'Status' && isDesc) }" aria-hidden="true">
+                            </i>
+                        </th>
+                        <th class="pointer" (click)="sort('CreatedDate')">{{ 'OPENING.CREATEDON' | translate }}
+                            <i class="pointer" class="fa" [ngClass]="{'fa-sort': searchAndSortModel.property !== 'CreatedDate', 
+                                        'fa-sort-asc': (searchAndSortModel.property === 'CreatedDate' && !isDesc), 
+                                        'fa-sort-desc': (searchAndSortModel.property === 'CreatedDate' && isDesc) }" aria-hidden="true">
+                            </i>
+                        </th>
+                        <th class="pointer" (click)="sort('ModifiedDate')">{{ 'OPENING.UPDATEDON' | translate }}
+                            <i class="pointer" class="fa" [ngClass]="{'fa-sort': searchAndSortModel.property !== 'ModifiedDate', 
+                                            'fa-sort-asc': (searchAndSortModel.property === 'ModifiedDate' && !isDesc), 
+                                            'fa-sort-desc': (searchAndSortModel.property === 'ModifiedDate' && isDesc) }"
+                                aria-hidden="true">
+                            </i>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -29,9 +52,12 @@
                         <td>{{opening.modifiedDate | date: 'dd-MM-yyyy'}}</td>
                         <td>
                             <button *ngIf="loggedRole == 'Sr.HR'" title="Delete" class="btn btn-danger no-radius" (click)="deleteOpening(opening.openingId)">{{ 'OPENING.DELETE' | translate }}</button>
-                            <button *ngIf="loggedRole == 'Sr.HR' && opening.status == 'Re-Edit'" title="Edit" class="btn btn-primary no-radius blue-btn" (click)="updateOpening(opening.openingId)">{{ 'OPENING.UPDATE' | translate }}</button>
-                            <button *ngIf="loggedRole != 'Sr.HR' && !opening.isApproved" title="Edit Opening" class="btn btn-primary no-radius blue-btn" (click)="updateOpening(opening.openingId)">{{ 'OPENING.EDIT' | translate }}</button>
-                            <button *ngIf="loggedRole == 'Sr.HR' && opening.isApproved" title="AddCandidate" class="btn btn-primary no-radius blue-btn" (click)="addCandidate(opening.openingId)">{{ 'OPENING.ADD' | translate }}</button>
+                            <button *ngIf="loggedRole == 'Sr.HR' && opening.status == 'Re-Edit'" title="Edit" class="btn btn-primary no-radius blue-btn"
+                                (click)="updateOpening(opening.openingId)">{{ 'OPENING.UPDATE' | translate }}</button>
+                            <button *ngIf="loggedRole != 'Sr.HR' && !opening.isApproved" title="Edit Opening" class="btn btn-primary no-radius blue-btn"
+                                (click)="updateOpening(opening.openingId)">{{ 'OPENING.EDIT' | translate }}</button>
+                            <button *ngIf="loggedRole == 'Sr.HR' && opening.isApproved" title="AddCandidate" class="btn btn-primary no-radius blue-btn"
+                                (click)="addCandidate(opening.openingId)">{{ 'OPENING.ADD' | translate }}</button>
                             <button *ngIf="opening.isApproved" title="ViewOpening" class="btn btn-primary no-radius blue-btn" (click)="openingDetails(opening.openingId)">{{ 'OPENING.VIEW' | translate }}</button>
                         </td>
                     </tr>

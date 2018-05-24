@@ -26,8 +26,8 @@ import { SharedModule } from '../../shared/shared.module';
     SharedModule,
     ApprovalRouterModule
   ],
-  exports: [StripComponent,ApprovalhistoryComponent],
-  declarations: [StripComponent,ApprovalhistoryComponent],
+  exports: [StripComponent, ApprovalhistoryComponent],
+  declarations: [StripComponent, ApprovalhistoryComponent],
   providers: [ApprovalServiceApp],
 })
 

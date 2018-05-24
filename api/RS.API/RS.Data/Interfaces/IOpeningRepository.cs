@@ -1,4 +1,5 @@
 ﻿using RS.Entity.Models;
+using RS.ViewModel.Opening;
 using System;
 using System.Collections.Generic;
 
@@ -14,7 +15,7 @@ namespace RS.Data.Interfaces
 
         new List<Openings> GetAll();
 
-        List<Openings> GetOpeningsCorrespondingToLoggedUser(Guid userId);
+        List<OpeningViewModel> GetOpeningsCorrespondingToLoggedUser(Guid userId);
 
     }
 }

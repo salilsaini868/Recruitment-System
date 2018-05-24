@@ -16,7 +16,8 @@ export class ApprovalhistoryComponent implements OnInit {
 
     @Input() entityId: any;
 
-    constructor(private router: Router, private msgService: DisplayMessageService,private approvalServiceApp: ApprovalServiceApp, private route: ActivatedRoute) {
+    constructor(private router: Router, private msgService: DisplayMessageService,
+        private approvalServiceApp: ApprovalServiceApp, private route: ActivatedRoute) {
     }
     ngOnInit() {
         this.getApprovalDetails();
@@ -26,7 +27,7 @@ export class ApprovalhistoryComponent implements OnInit {
             (data) => {
                 if (data.status === Status.Success) {
                     this.approvalResponseModels = data.body;
-                }else {
+                } else {
                     this.msgService.showError('Error');
                 }
             }

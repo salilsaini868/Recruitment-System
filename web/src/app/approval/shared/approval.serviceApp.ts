@@ -16,9 +16,9 @@ export class ApprovalServiceApp {
     return this.apiApprovalService.ApiApprovalGetApprovalsGet().map((x) => x);
   }
 
-  getApprovalDetails(userId):Observable<any>{
+  getApprovalDetails(userId): Observable<any> {
     return this.apiApprovalService.ApiApprovalGetApprovalDetailsPost(userId).map(x => (x));
-}
+  }
   getApprovalTransactionByEntity(entityId): Observable<any> {
     return this.apiApprovalService.ApiApprovalGetApprovalTransactionByEntityGet(entityId).map(x => (x));
   }

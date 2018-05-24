@@ -78,7 +78,8 @@
         "UPDATEDON": "Updated On",
         "STATUS": "Status",
         "ADD": "Add Candidate",
-        "EDIT": "Edit"
+        "EDIT": "Edit",
+        "DEFAULTSORTPROPERTY": "ModifiedDate"
     },
     "FORGOTPASSWORD": {
         "TITLE": "Forgot password",

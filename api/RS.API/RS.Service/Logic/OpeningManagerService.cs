@@ -16,6 +16,8 @@ using RS.ViewModel.Skill;
 using RS.ViewModel.Approval;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Configuration;
+using System.Collections;
+using RS.ViewModel.SearchAndSortModel;
 
 namespace RS.Service.Logic
 {
@@ -135,7 +137,7 @@ namespace RS.Service.Logic
             return result;
         }
 
-        public IResult GetOpeningsCorrespondingToLoggedUser(Guid userId)
+        public IResult GetOpeningsCorrespondingToLoggedUser(SearchAndSortModel searchAndSortModel)
         {
             var result = new Result
             {
@@ -144,23 +146,31 @@ namespace RS.Service.Logic
             };
             try
             {
-                var allOpenings = _openingRepository.GetOpeningsCorrespondingToLoggedUser(userId);
-                var openingIds = allOpenings.Select(x => x.OpeningId).Distinct().ToList();
-                var approvalTransactions = _approvalRepository.GetAllApprovalTransactions(openingIds).ToList();
-                result.Body = allOpenings.Select(opening =>
+                var allOpenings = _openingRepository.GetOpeningsCorrespondingToLoggedUser(searchAndSortModel.UserId);
+
+                List<OpeningViewModel> openingModelList = new List<OpeningViewModel>();
+                if (searchAndSortModel.Property != null)
                 {
-                    var approvalTransaction = approvalTransactions.FirstOrDefault(x => x.EntityId == opening.OpeningId);
-
-                    var openingViewModel = new OpeningViewModel();
-                    MapPrimaryandSecondarySkills(openingViewModel, opening);
-
-                    if (approvalTransaction != null)
+                    if (searchAndSortModel.Direction == 1)
                     {
-                        openingViewModel.IsApproved = approvalTransaction.IsApproved;
-                        openingViewModel.Status = approvalTransaction.ApprovalAction.ApprovalActionName;
+                        openingModelList = allOpenings.OrderBy(x => x.GetType().GetProperty(searchAndSortModel.Property).GetValue(x, null)).ToList();
                     }
-                    return openingViewModel.MapFromModel(opening);
-                }).ToList();
+                    else
+                    {
+                        openingModelList = allOpenings.OrderByDescending(x => x.GetType().GetProperty(searchAndSortModel.Property).GetValue(x, null)).ToList();
+                    }
+                }
+                else
+                {
+                    openingModelList = allOpenings;
+                }
+                if(searchAndSortModel.SearchString != null)
+                {
+                    result.Body = openingModelList.Where(x => x.Title.ToLower().Contains(searchAndSortModel.SearchString.ToLower()) || x.PrimarySkills.ToLower().Contains(searchAndSortModel.SearchString.ToLower()) || x.SecondarySkills.ToLower().Contains(searchAndSortModel.SearchString.ToLower())).ToList();
+                } else
+                {
+                    result.Body = openingModelList;
+                }
             }
             catch (Exception e)
             {

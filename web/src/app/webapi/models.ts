@@ -22,4 +22,5 @@ export { UserRoles } from './models/user-roles';
 export { Roles } from './models/roles';
 export { UserLoginModel } from './models/user-login-model';
 export { ChangePassword } from './models/change-password';
+export { SearchAndSortModel } from './models/search-and-sort-model';
 export { QualificationViewModel } from './models/qualification-view-model';

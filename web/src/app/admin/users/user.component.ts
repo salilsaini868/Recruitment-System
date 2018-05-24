@@ -24,8 +24,8 @@ export class UserComponent implements OnInit {
     roles: RoleViewModel[] = [] as RoleViewModel[];
     submitted = false;
     defaultOption: any;
-    isEmailExists: boolean = false;
-    isUserExists: boolean = false;
+    isEmailExists = false;
+    isUserExists = false;
 
     constructor(private userServiceApp: UserServiceApp, private route: ActivatedRoute, private userService: UserServiceApp,
         private router: Router, private roleServiceApp: RoleServiceApp, private displayMessage: DisplayMessageService,
@@ -84,8 +84,8 @@ export class UserComponent implements OnInit {
     }
 
     checkUserNameExists() {
-        let userName = this.userModel.userName;
-        const user = this.users.find(user => user.userName === userName);
+        const userName = this.userModel.userName;
+        const user = this.users.find(x => x.userName === userName);
         if (isNullOrUndefined(user)) {
             this.isUserExists = false;
         } else {
@@ -93,7 +93,7 @@ export class UserComponent implements OnInit {
         }
     }
     checkUserEmailExists() {
-        let email = this.userModel.email;
+        const email = this.userModel.email;
         const userEmail = this.users.find(u => u.email === email);
         if (isNullOrUndefined(userEmail)) {
             this.isEmailExists = false;

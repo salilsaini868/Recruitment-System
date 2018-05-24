@@ -258,5 +258,6 @@ namespace RS.Data.Logic
         {
             return _context.ApprovalEventRoles.Include(t => t.User).Where(x => x.ApprovalEventId == approvalTransactionViewModel.NextEventOrderNumber && x.IsActive && !x.IsDeleted).Select(x => x.User).ToList();
         }
+
     }
 }

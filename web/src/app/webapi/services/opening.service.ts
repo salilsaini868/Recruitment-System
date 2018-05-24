@@ -11,6 +11,7 @@ import { filter } from 'rxjs/operators/filter';
 
 import { IResult } from '../models/iresult';
 import { EntityAndApprovalViewModel } from '../models/entity-and-approval-view-model';
+import { SearchAndSortModel } from '../models/search-and-sort-model';
 
 
 @Injectable()
@@ -60,15 +61,15 @@ export class OpeningService extends BaseService {
     );
   }
   /**
-   * @param userId - undefined
+   * @param searchAndSortModel - undefined
    */
-  ApiOpeningGetOpeningsCorrespondingToLoggedUserGetResponse(userId: string): Observable<HttpResponse<IResult>> {
+  ApiOpeningGetOpeningsCorrespondingToLoggedUserPostResponse(searchAndSortModel?: SearchAndSortModel): Observable<HttpResponse<IResult>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
-    if (userId != null) __params = __params.set("userId", userId.toString());
+    __body = searchAndSortModel;
     let req = new HttpRequest<any>(
-      "GET",
+      "POST",
       this.rootUrl + `/api/Opening/GetOpeningsCorrespondingToLoggedUser`,
       __body,
       {
@@ -89,10 +90,10 @@ export class OpeningService extends BaseService {
   }
 
   /**
-   * @param userId - undefined
+   * @param searchAndSortModel - undefined
    */
-  ApiOpeningGetOpeningsCorrespondingToLoggedUserGet(userId: string): Observable<IResult> {
-    return this.ApiOpeningGetOpeningsCorrespondingToLoggedUserGetResponse(userId).pipe(
+  ApiOpeningGetOpeningsCorrespondingToLoggedUserPost(searchAndSortModel?: SearchAndSortModel): Observable<IResult> {
+    return this.ApiOpeningGetOpeningsCorrespondingToLoggedUserPostResponse(searchAndSortModel).pipe(
       map(_r => _r.body)
     );
   }

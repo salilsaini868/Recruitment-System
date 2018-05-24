@@ -38,7 +38,6 @@ namespace RS.Data.Interfaces
         List<SeriesModel> GetSeriesDetail(int type);
         Users GetUserForCandidateApproval(Guid entityId, int nextEventOrderNumber);
         List<Users> GetUserForOpeningApproval(ApprovalTransactionViewModel approvalTransactionViewModel);
-        dynamic ApprovalTransactionDetails(object entityId);
 
     }
 }

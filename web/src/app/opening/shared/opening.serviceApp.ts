@@ -9,7 +9,8 @@ import { OpeningViewModel } from '../../webapi/models';
 @Injectable()
 export class OpeningServiceApp {
 
-    constructor(private http: HttpClient,private apiApprovalService: ApprovalService, private apiOpeningService: OpeningService, private apiSkillService: SkillService) { }
+    constructor(private http: HttpClient, private apiApprovalService: ApprovalService, private apiOpeningService: OpeningService,
+        private apiSkillService: SkillService) { }
 
     CreateOrUpdateOpening(entityAndApprovalEventModel): Observable<any> {
         return this.apiOpeningService.ApiOpeningInsertOrUpdateOpeningPost(entityAndApprovalEventModel).map(x => (x));
@@ -23,11 +24,12 @@ export class OpeningServiceApp {
         return this.apiOpeningService.ApiOpeningGetAllOpeningGet().map(x => (x));
     }
 
-    getOpeningsCorrespondingToLoggedUser(userId): Observable<any> {
-        return this.apiOpeningService.ApiOpeningGetOpeningsCorrespondingToLoggedUserGet(userId).map(x => (x));
+    getOpeningsCorrespondingToLoggedUser(searchAndSortModel): Observable<any> {
+        return this.apiOpeningService.ApiOpeningGetOpeningsCorrespondingToLoggedUserPost(searchAndSortModel).map(x => (x));
     }
 
     getOpeningById(openingId): Observable<any> {
         return this.apiOpeningService.ApiOpeningGetOpeningByIdGet(openingId).map(x => (x));
     }
+
 }
