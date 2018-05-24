@@ -20,13 +20,15 @@
                         <td>{{candidate.opening}}</td>
                         <td>{{candidate.status}}</td>
                         <td *ngIf="loggedRole == 'Sr.HR'">
-                            <button *ngIf="!candidate.isReadyForInterview" title="Delete" class="btn btn-danger no-radius" (click)="deleteCandidate(candidate.candidateId)">{{ 'CANDIDATE.DELETE' | translate }}</button>
-                            <button *ngIf="!candidate.isReadyForInterview" title="Edit" class="btn btn-primary blue-btn no-radius" (click)="updateCandidate(candidate.candidateId)">{{ 'CANDIDATE.EDIT' | translate }}</button>
-                            <button *ngIf="!candidate.isReadyForInterview" title="Start Interview" class="btn btn-primary blue-btn no-radius" (click)="startInterview(candidate)">{{ 'CANDIDATE.STARTINTERVIEW' | translate }}</button>
-                            <button *ngIf="candidate.isReadyForInterview" title="View" class="btn btn-primary blue-btn no-radius" (click)="getCandidateDetail(candidate.candidateId)">{{ 'CANDIDATE.VIEW' | translate }}</button>
+                            <button *ngIf="!candidate.isApproved" title="Delete" class="btn btn-danger no-radius" (click)="deleteCandidate(candidate.candidateId)">{{ 'CANDIDATE.DELETE' | translate }}</button>
+                            <button *ngIf="!candidate.isApproved" title="Edit" class="btn btn-primary blue-btn no-radius" (click)="updateCandidate(candidate.candidateId)">{{ 'CANDIDATE.EDIT' | translate }}</button>
+                            <!--<button *ngIf="!candidate.isReadyForInterview" title="Start Interview" class="btn btn-primary blue-btn no-radius" (click)="startInterview(candidate)">{{ 'CANDIDATE.STARTINTERVIEW' | translate }}</button>!-->
+                            <button *ngIf="!candidate.isApproved" title="Schedule Interview" class="btn btn-primary blue-btn no-radius" (click)="scheduleInterview(candidate.candidateId)">{{ 'CANDIDATE.SCHEDULEINTERVIEW' | translate }}</button>
+                            <button *ngIf="candidate.isApproved" title="View" class="btn btn-primary blue-btn no-radius" (click)="getCandidateDetail(candidate.candidateId)">{{ 'CANDIDATE.VIEW' | translate }}</button>
                         </td>
                         <td *ngIf="loggedRole != 'Sr.HR'">
-                            <button title="TakeInterview" class="btn btn-primary blue-btn no-radius" (click)="getCandidateDetail(candidate.candidateId)">{{ 'CANDIDATE.TAKEINTERVIEW' | translate }}</button>
+                            <button *ngIf="!candidate.isFinished" title="TakeInterview" class="btn btn-primary blue-btn no-radius" (click)="startInterview(candidate)">{{ 'CANDIDATE.TAKEINTERVIEW' | translate }}</button>
+                            <button *ngIf="candidate.isFinished" title="View" class="btn btn-primary blue-btn no-radius" (click)="getCandidateDetail(candidate.candidateId)">{{ 'CANDIDATE.VIEW' | translate }}</button>
                         </td>
                     </tr>
                 </tbody>

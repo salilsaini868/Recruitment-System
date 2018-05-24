@@ -1,4 +1,4 @@
-import { ApprovalActionViewModel } from '../../webapi/models';
+import { ApprovalActionViewModel, UserViewModel } from '../../webapi/models';
 import { UserModel } from './user-model';
 
 export class ApprovalEventViewModel {
@@ -8,4 +8,6 @@ export class ApprovalEventViewModel {
     approvalId?: number;
     approvalActions?: ApprovalActionViewModel[];
     users?: UserModel[];
+    userCompletedInterview?: UserViewModel;
+    interviewConductedOn?: Date;
 }

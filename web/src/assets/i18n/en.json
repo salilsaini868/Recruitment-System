@@ -140,12 +140,18 @@
         "STATUS": "Status",
         "CANCEL": "Cancel",
         "TAKEINTERVIEW": "Take Interview",
+        "SCHEDULEINTERVIEW": "Schedule Interview",
         "STARTINTERVIEW": "Start Interview",
         "VIEW": "View",
         "NOUSERSASSIGNED": "Please assign the Users",
         "NODOCUMENTS": "Please Upload Necessary Documents",
         "PROMPTMSG": "Do you want to start the Interview?",
-        "DOWNLOADRESUME": "Download Candidate Resume"
+        "DOWNLOADRESUME": "Download Candidate Resume",
+        "DISPLAYALERTMSG": "Interview Already Started",
+        "DATE": "Date",
+        "TIME": "Time",
+        "TAKENBY": "Taken By",
+        "TAKENON": "On"
     },
     "EVENTROLE": {
         "APPROVALEVENT": "Approval Event",

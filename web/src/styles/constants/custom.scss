@@ -382,7 +382,9 @@
         text-transform: capitalize;
     }
     label{
-        margin-top: 6px;
+        margin: 6px 10px 0 0;
+        font-weight: 600;
+        font-size: 16px;
     }
     .panel-heading{
         font-size:20px;
@@ -498,7 +500,39 @@
     position: relative;
 }
 
+.inline-b{
+    display: inline-block;
+}
+.lt-font{
+    font-weight: 300;
+}
+.sm-font{
+    font-size: 14px;
+}
 
+.time-mid{
+    margin-right: 20px;
+}
+.time-pic{
+    margin: -20px 0 0 0;
+}
+.date-gap{
+    margin-top: 10px;
+}
+
+ .current{
+   a{
+        &:hover{
+            background: $strip-blue !important;
+            }
+        background: $strip-blue;
+        color: $white-color !important;
+    }
+    &:after{
+        border-left: 16px solid $strip-blue !important;
+    }
+}
+  
 
 
   

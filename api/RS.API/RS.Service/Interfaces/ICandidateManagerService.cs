@@ -79,5 +79,19 @@ namespace RS.Service.Interfaces
         /// <returns></returns>
         IResult GetOrganizationsOnInputChanged(string input);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="scheduleUserForCandidateModel"></param>
+        /// <returns></returns>
+        IResult AddUsersToConductInterview(List<ScheduleUserForCandidateModel> scheduleUserForCandidateModel);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="candidateId"></param>
+        /// <returns></returns>
+        IResult GetScheduledUsersById(Guid candidateId);
+
     }
 }

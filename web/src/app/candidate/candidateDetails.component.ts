@@ -7,7 +7,6 @@ import { Status, ApprovalType } from '../app.enum';
 import { DisplayMessageService } from '../shared/toastr/display.message.service';
 import { QualificationsServiceApp } from '../admin/qualifications/shared/qualifications.serviceApp';
 import { OpeningServiceApp } from '../opening/shared/opening.serviceApp';
-import { Approvals } from '../webapi/models/approvals';
 import { ApprovalServiceApp } from '../approval/shared/approval.serviceApp';
 import { TranslateService } from '@ngx-translate/core';
 import { AppConstants } from '../shared/constant/constant.variable';

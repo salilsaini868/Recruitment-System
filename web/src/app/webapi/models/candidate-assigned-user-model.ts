@@ -1,7 +1,7 @@
 /* tslint:disable */
-import { ApprovalEvents } from './approval-events';
-import { Candidates } from './candidates';
-import { Users } from './users';
+import { ApprovalEventViewModel } from './approval-event-view-model';
+import { CandidateViewModel } from './candidate-view-model';
+import { UserViewModel } from './user-view-model';
 
 /**
  */
@@ -9,8 +9,8 @@ export class CandidateAssignedUserModel {
     candidateAssignedUserId?: number;
     approvalEventId?: number;
     candidateId?: string;
-    approvalEvent?: ApprovalEvents;
-    candidate?: Candidates;
+    approvalEvent?: ApprovalEventViewModel;
+    candidate?: CandidateViewModel;
     userId?: string;
-    user?: Users;
+    user?: UserViewModel;
 }

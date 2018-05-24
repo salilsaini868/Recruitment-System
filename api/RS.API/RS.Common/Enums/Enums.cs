@@ -31,7 +31,7 @@
     public enum TemplateType
     {
         UserRegistration = 1,
-        Appoval = 2,
-        Interview = 3
+        ScheduleUserForInterview = 2,
+        InterviewCancelled = 3
     }
 }

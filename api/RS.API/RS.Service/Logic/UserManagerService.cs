@@ -279,7 +279,7 @@ namespace RS.Service.Logic
                     userView.FullName = user.FirstName + " " + user.LastName;
                     var firstOrDefault = user.UserRoles.FirstOrDefault();
                     if (firstOrDefault != null) userView.Role = firstOrDefault.Role.Name;
-                    userView.approvalDetail = _approvalRepository.GetApprovalEventsOfUser(user.UserId);
+                    userView.approvalDetail = _approvalRepository.GetApprovalEventsOfUserForOpening(user.UserId);
                     result.Body = userView;
                 }
                 else
@@ -333,6 +333,7 @@ namespace RS.Service.Logic
                 {
                     userRoleModel.ForEach(x => x.MapDeleteColumns((ClaimsIdentity)_principal.Identity));
                     var userRole = new UserRoles();
+                    userRole.UserId = user.UserId;
                     userRole.RoleId = user.RoleId;
                     userRole.Role = _roleRepository.GetByID(user.RoleId);
                     userRole.MapAuditColumns((ClaimsIdentity)_principal.Identity);

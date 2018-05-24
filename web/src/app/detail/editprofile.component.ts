@@ -14,7 +14,8 @@ export class EditprofileComponent implements OnInit {
     editprofileform: any;
     userModel: UserModel = {} as UserModel;
 
-    constructor(private router: Router, private userServiceApp: UserServiceApp, private changepasswordServiceApp: ChangepasswordServiceApp, private displayMessage: DisplayMessageService) {
+    constructor(private router: Router, private userServiceApp: UserServiceApp, private changepasswordServiceApp: ChangepasswordServiceApp,
+        private displayMessage: DisplayMessageService) {
     }
     onSubmit(editprofileform) {
         if (editprofileform.valid) {

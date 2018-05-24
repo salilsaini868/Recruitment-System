@@ -20,6 +20,7 @@ namespace RS.ViewModel.Candidate
         public string QualificationName { get; set; }
         public Guid OpeningId { get; set; }
         public string OpeningTitle { get; set; }
+        public bool IsApproved { get; set; }
         public bool IsReadyForInterview { get; set; }
         public CandidateDocumentViewModel CandidateDocument { get; set; }
     }

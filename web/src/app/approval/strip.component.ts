@@ -11,8 +11,9 @@ import { OpeningServiceApp } from '../opening/shared/opening.serviceApp';
 import { ApprovalEventViewModel } from '../shared/customModels/approval-event-view-model';
 import { DisplayMessageService } from '../shared/toastr/display.message.service';
 import { OpeningModule } from '../opening/shared/opening.module';
-import { ApprovalService } from '../webapi/services';
+import { ApprovalService, CandidateService } from '../webapi/services';
 import { CandidateModule } from '../candidate/shared/candidate.module';
+import { CandidateServiceApp } from '../candidate/shared/candidate.serviceApp';
 
 @Component({
   selector: 'app-approvalstrip',
@@ -27,6 +28,8 @@ export class StripComponent implements OnInit {
   entityAndApprovalEventModel: EntityAndApprovalViewModel = {} as EntityAndApprovalViewModel;
   approvalEventandTransaction: ApprovalService.ApiApprovalGetApprovalEventsGetParams = {} as
     ApprovalService.ApiApprovalGetApprovalEventsGetParams;
+  userApprovalPermission: CandidateService.ApiCandidateCheckForUserPermissionGetParams = {} as
+    CandidateService.ApiCandidateCheckForUserPermissionGetParams;
   approvalUserTypes: any;
   comments = null;
   clicked: boolean;
@@ -39,6 +42,7 @@ export class StripComponent implements OnInit {
   styleleft: any;
   permissibleEvent: any;
   submitted = false;
+  userId: any;
 
   @ViewChild('source') source;
   @Input() approvalType: number;
@@ -47,7 +51,7 @@ export class StripComponent implements OnInit {
 
   constructor(private router: Router, private approvalServiceApp: ApprovalServiceApp,
     private openingServiceApp: OpeningServiceApp, private msgService: DisplayMessageService,
-    private eleRef: ElementRef, private _renderer: Renderer2) {
+    private eleRef: ElementRef, private _renderer: Renderer2, private candidateServiceApp: CandidateServiceApp) {
 
   }
 
@@ -57,6 +61,8 @@ export class StripComponent implements OnInit {
     this.onSubmit.emit(false);
     this.showPopup = false;
     this.currentEventClicked = null;
+    this.approvalUserTypes = null;
+    this.getLoggedUser();
 
     if (this.approvalType === ApprovalType.Opening) {
       if (!isNullOrUndefined(this.entityModel)) {
@@ -74,6 +80,13 @@ export class StripComponent implements OnInit {
 
     this.getAllApprovalEvents();
     this.getUserApprovalRole();
+  }
+
+  getLoggedUser() {
+    let tokenPayload = '';
+    const token = localStorage.getItem(AppConstants.AuthToken);
+    if (!isNullOrUndefined(token)) { tokenPayload = decode(token); }
+    this.userId = tokenPayload[AppConstants.IdClaim];
   }
 
   getAllApprovalEvents() {
@@ -95,23 +108,35 @@ export class StripComponent implements OnInit {
   }
 
   getUserApprovalRole() {
-    let tokenPayload = '';
-    const token = localStorage.getItem(AppConstants.AuthToken);
-    if (!isNullOrUndefined(token)) { tokenPayload = decode(token); }
-    this.approvalUserTypes = JSON.parse(tokenPayload[AppConstants.ApprovalTypeRole]);
+    if (this.approvalType === ApprovalType.Opening) {
+      let tokenPayload = '';
+      const token = localStorage.getItem(AppConstants.AuthToken);
+      if (!isNullOrUndefined(token)) { tokenPayload = decode(token); }
+      this.approvalUserTypes = JSON.parse(tokenPayload[AppConstants.ApprovalTypeRole]);
+    } else {
+      this.approvalServiceApp.getApprovalEventsOfUserForCandidate(this.entityModel.candidateId).subscribe(
+        (data) => {
+          if (data.status === Status.Success) {
+            this.approvalUserTypes = data.body;
+          } else {
+            this.msgService.showError('Error');
+          }
+        }
+      );
+    }
+
   }
 
   isDisabled(approvalEventId) {
     const approval = ApprovalType[this.approvalType];
-    const userApprovalEventTypes = this.approvalUserTypes[approval].split(',');
-    if (userApprovalEventTypes.find(t => t === approvalEventId.toString())) {
+    const userApprovalEventTypes = this.approvalUserTypes[approval];
+    if (userApprovalEventTypes.find(t => t === approvalEventId)) {
       return false;
     }
     return true;
   }
 
   onApprovalEventClick(approvalEvent) {
-    // TODO : apply check for role permission; if allowed then allowed else return
     this.showPopup = false;
     this.currentEventClicked = approvalEvent;
     if (this.currentEventClicked.approvalEventOrder === this.nextEventOrder &&
@@ -133,7 +158,6 @@ export class StripComponent implements OnInit {
   }
 
   onApprovalActionClick(approvalActions) {
-    // TODO : Save the page state/data to database
     this.submitted = true;
     this.clicked = this.comments === null || this.comments === '' ? true : false;
     this.onSubmit.emit(true);

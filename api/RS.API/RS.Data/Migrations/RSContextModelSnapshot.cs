@@ -507,6 +507,50 @@ namespace RS.Data.Migrations
                     b.ToTable("Roles");
                 });
 
+            modelBuilder.Entity("RS.Entity.Models.ScheduleUserForCandidate", b =>
+                {
+                    b.Property<int>("ScheduleUserForCandidateId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ApprovalEventId");
+
+                    b.Property<Guid>("CandidateId");
+
+                    b.Property<Guid>("CreatedBy");
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<Guid?>("DeletedBy");
+
+                    b.Property<DateTime?>("DeletedDate");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<bool>("IsFinished");
+
+                    b.Property<bool>("IsStarted");
+
+                    b.Property<Guid?>("ModifiedBy");
+
+                    b.Property<DateTime?>("ModifiedDate");
+
+                    b.Property<DateTime>("ScheduledOn");
+
+                    b.Property<Guid>("UserId");
+
+                    b.HasKey("ScheduleUserForCandidateId");
+
+                    b.HasIndex("ApprovalEventId");
+
+                    b.HasIndex("CandidateId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ScheduleUserForCandidate");
+                });
+
             modelBuilder.Entity("RS.Entity.Models.Skills", b =>
                 {
                     b.Property<int>("SkillId")
@@ -731,6 +775,24 @@ namespace RS.Data.Migrations
                     b.HasOne("RS.Entity.Models.Skills", "Skill")
                         .WithMany("OpeningSkills")
                         .HasForeignKey("SkillId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("RS.Entity.Models.ScheduleUserForCandidate", b =>
+                {
+                    b.HasOne("RS.Entity.Models.ApprovalEvents", "ApprovalEvent")
+                        .WithMany()
+                        .HasForeignKey("ApprovalEventId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("RS.Entity.Models.Candidates", "Candidate")
+                        .WithMany()
+                        .HasForeignKey("CandidateId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("RS.Entity.Models.Users", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

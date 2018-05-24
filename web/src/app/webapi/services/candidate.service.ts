@@ -11,6 +11,7 @@ import { filter } from 'rxjs/operators/filter';
 
 import { IResult } from '../models/iresult';
 import { CandidateAssignedUserModel } from '../models/candidate-assigned-user-model';
+import { ScheduleUserForCandidateModel } from '../models/schedule-user-for-candidate-model';
 
 
 @Injectable()
@@ -242,6 +243,43 @@ export class CandidateService extends BaseService {
     );
   }
   /**
+   * @param candidateId - undefined
+   */
+  ApiCandidateGetScheduledUsersByIdGetResponse(candidateId: string): Observable<HttpResponse<IResult>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    if (candidateId != null) __params = __params.set("candidateId", candidateId.toString());
+    let req = new HttpRequest<any>(
+      "GET",
+      this.rootUrl + `/api/Candidate/GetScheduledUsersById`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      filter(_r => _r instanceof HttpResponse),
+      map(_r => {
+        let _resp = _r as HttpResponse<any>;
+        let _body: IResult = null;
+        _body = _resp.body as IResult
+        return _resp.clone({body: _body}) as HttpResponse<IResult>;
+      })
+    );
+  }
+
+  /**
+   * @param candidateId - undefined
+   */
+  ApiCandidateGetScheduledUsersByIdGet(candidateId: string): Observable<IResult> {
+    return this.ApiCandidateGetScheduledUsersByIdGetResponse(candidateId).pipe(
+      map(_r => _r.body)
+    );
+  }
+  /**
    * @param userId - undefined
    */
   ApiCandidateGetCandidatesCorrespondingToLoggedUserGetResponse(userId: string): Observable<HttpResponse<IResult>> {
@@ -279,6 +317,49 @@ export class CandidateService extends BaseService {
     );
   }
   /**
+   * @param userId - undefined
+   * @param entityId - undefined
+   * @param approvalEventId - undefined
+   */
+  ApiCandidateCheckForUserPermissionGetResponse(params: CandidateService.ApiCandidateCheckForUserPermissionGetParams): Observable<HttpResponse<IResult>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    if (params.userId != null) __params = __params.set("userId", params.userId.toString());
+    if (params.entityId != null) __params = __params.set("entityId", params.entityId.toString());
+    if (params.approvalEventId != null) __params = __params.set("approvalEventId", params.approvalEventId.toString());
+    let req = new HttpRequest<any>(
+      "GET",
+      this.rootUrl + `/api/Candidate/CheckForUserPermission`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      filter(_r => _r instanceof HttpResponse),
+      map(_r => {
+        let _resp = _r as HttpResponse<any>;
+        let _body: IResult = null;
+        _body = _resp.body as IResult
+        return _resp.clone({body: _body}) as HttpResponse<IResult>;
+      })
+    );
+  }
+
+  /**
+   * @param userId - undefined
+   * @param entityId - undefined
+   * @param approvalEventId - undefined
+   */
+  ApiCandidateCheckForUserPermissionGet(params: CandidateService.ApiCandidateCheckForUserPermissionGetParams): Observable<IResult> {
+    return this.ApiCandidateCheckForUserPermissionGetResponse(params).pipe(
+      map(_r => _r.body)
+    );
+  }
+  /**
    * @param candidateId - undefined
    */
   ApiCandidateApprovedForInterviewPutResponse(candidateId: string): Observable<HttpResponse<IResult>> {
@@ -312,6 +393,43 @@ export class CandidateService extends BaseService {
    */
   ApiCandidateApprovedForInterviewPut(candidateId: string): Observable<IResult> {
     return this.ApiCandidateApprovedForInterviewPutResponse(candidateId).pipe(
+      map(_r => _r.body)
+    );
+  }
+  /**
+   * @param scheduleUserForCandidateModelList - undefined
+   */
+  ApiCandidateAddUsersToConductInterviewPostResponse(scheduleUserForCandidateModelList?: ScheduleUserForCandidateModel[]): Observable<HttpResponse<IResult>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    __body = scheduleUserForCandidateModelList;
+    let req = new HttpRequest<any>(
+      "POST",
+      this.rootUrl + `/api/Candidate/AddUsersToConductInterview`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      filter(_r => _r instanceof HttpResponse),
+      map(_r => {
+        let _resp = _r as HttpResponse<any>;
+        let _body: IResult = null;
+        _body = _resp.body as IResult
+        return _resp.clone({body: _body}) as HttpResponse<IResult>;
+      })
+    );
+  }
+
+  /**
+   * @param scheduleUserForCandidateModelList - undefined
+   */
+  ApiCandidateAddUsersToConductInterviewPost(scheduleUserForCandidateModelList?: ScheduleUserForCandidateModel[]): Observable<IResult> {
+    return this.ApiCandidateAddUsersToConductInterviewPostResponse(scheduleUserForCandidateModelList).pipe(
       map(_r => _r.body)
     );
   }
@@ -391,4 +509,9 @@ export class CandidateService extends BaseService {
   }}
 
 export module CandidateService {
+  export interface ApiCandidateCheckForUserPermissionGetParams {
+    userId: string;
+    entityId: string;
+    approvalEventId: number;
+  }
 }

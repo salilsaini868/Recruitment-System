@@ -52,6 +52,7 @@ namespace RS.Data.Logic
         public void UpdateUserRole(UserRoles userRole)
         {
             _context.UserRoles.Add(userRole);
+            _context.SaveChanges();
         }
 
         List<Users> IUserRepository.GetAll()

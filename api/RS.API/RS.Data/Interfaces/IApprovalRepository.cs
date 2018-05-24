@@ -16,11 +16,9 @@ namespace RS.Data.Interfaces
         List<Approvals> GetAllApprovals();
         void AddApprovalEventRole(ApprovalEventRoles approvalEventRole);
         List<ApprovalEventRoles> GetAllApprovalEventRole();
+        Dictionary<string, List<int>> GetApprovalEventsOfUserForOpening(Guid UserId);
         List<ApprovalTransactionDetails> GetApprovalTransactionDetails();
-        Dictionary<string, string> GetApprovalEventsOfUser(Guid UserId);
-
         List<ApprovalTransactionDetailsDTO> ApprovalTransactionDetails(Guid entityId);
-
         int GetApprovalEventOrderNumber(ApprovalEventViewModel approvalEventViewModel);
         List<Users> GetApprovedUsersByRole(int roleId, int approvalEventId);
         List<Users> GetApprovedUsers(int approvalEventId);
@@ -30,7 +28,6 @@ namespace RS.Data.Interfaces
         void AddApprovalTransactionDetails(ApprovalTransactionDetails approvalTransactionDetails);
         List<ApprovalTransactions> GetAllApprovalTransactions(List<Guid> openingIds);
         int GetApprovalEventOrderOfUser(Guid entityId, Guid userId, int approvalId);
-
         int GetTotalOpenOpenings();
         int GetTotalCloseOpenings();
         int GetTotalCandidatesHired();
@@ -38,7 +35,9 @@ namespace RS.Data.Interfaces
         List<SeriesModel> GetSeriesDetail(int type);
         Users GetUserForCandidateApproval(Guid entityId, int nextEventOrderNumber);
         List<Users> GetUserForOpeningApproval(ApprovalTransactionViewModel approvalTransactionViewModel);
-        dynamic ApprovalTransactionDetails(object entityId);
+        int GetNextEventOrderForCandidate(Guid candidateId);
+        bool CheckForStartInterview(Guid candidateId, int approvalEventId, Guid userId);
+        Dictionary<string, List<int>> GetApprovalEventsOfUserForCandidate(Guid candidateId, Guid UserId);
 
     }
 }

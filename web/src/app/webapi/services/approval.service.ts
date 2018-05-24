@@ -12,6 +12,7 @@ import { filter } from 'rxjs/operators/filter';
 import { IResult } from '../models/iresult';
 import { ApprovalEventRoleViewModel } from '../models/approval-event-role-view-model';
 import { EntityAndApprovalViewModel } from '../models/entity-and-approval-view-model';
+import { CandidateListModel } from '../models/candidate-list-model';
 
 
 @Injectable()
@@ -387,6 +388,117 @@ export class ApprovalService extends BaseService {
    */
   ApiApprovalGetChartDetailsGet(showType: number): Observable<IResult> {
     return this.ApiApprovalGetChartDetailsGetResponse(showType).pipe(
+      map(_r => _r.body)
+    );
+  }
+  /**
+   * @param candidateId - undefined
+   */
+  ApiApprovalGetNextEventOrderForCandidateGetResponse(candidateId: string): Observable<HttpResponse<IResult>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    if (candidateId != null) __params = __params.set("candidateId", candidateId.toString());
+    let req = new HttpRequest<any>(
+      "GET",
+      this.rootUrl + `/api/Approval/GetNextEventOrderForCandidate`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      filter(_r => _r instanceof HttpResponse),
+      map(_r => {
+        let _resp = _r as HttpResponse<any>;
+        let _body: IResult = null;
+        _body = _resp.body as IResult
+        return _resp.clone({body: _body}) as HttpResponse<IResult>;
+      })
+    );
+  }
+
+  /**
+   * @param candidateId - undefined
+   */
+  ApiApprovalGetNextEventOrderForCandidateGet(candidateId: string): Observable<IResult> {
+    return this.ApiApprovalGetNextEventOrderForCandidateGetResponse(candidateId).pipe(
+      map(_r => _r.body)
+    );
+  }
+  /**
+   * @param candidateId - undefined
+   */
+  ApiApprovalGetApprovalEventsOfUserForCandidateGetResponse(candidateId: string): Observable<HttpResponse<IResult>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    if (candidateId != null) __params = __params.set("candidateId", candidateId.toString());
+    let req = new HttpRequest<any>(
+      "GET",
+      this.rootUrl + `/api/Approval/GetApprovalEventsOfUserForCandidate`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      filter(_r => _r instanceof HttpResponse),
+      map(_r => {
+        let _resp = _r as HttpResponse<any>;
+        let _body: IResult = null;
+        _body = _resp.body as IResult
+        return _resp.clone({body: _body}) as HttpResponse<IResult>;
+      })
+    );
+  }
+
+  /**
+   * @param candidateId - undefined
+   */
+  ApiApprovalGetApprovalEventsOfUserForCandidateGet(candidateId: string): Observable<IResult> {
+    return this.ApiApprovalGetApprovalEventsOfUserForCandidateGetResponse(candidateId).pipe(
+      map(_r => _r.body)
+    );
+  }
+  /**
+   * @param candidate - undefined
+   */
+  ApiApprovalCheckForStartInterviewPostResponse(candidate?: CandidateListModel): Observable<HttpResponse<IResult>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    __body = candidate;
+    let req = new HttpRequest<any>(
+      "POST",
+      this.rootUrl + `/api/Approval/CheckForStartInterview`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      filter(_r => _r instanceof HttpResponse),
+      map(_r => {
+        let _resp = _r as HttpResponse<any>;
+        let _body: IResult = null;
+        _body = _resp.body as IResult
+        return _resp.clone({body: _body}) as HttpResponse<IResult>;
+      })
+    );
+  }
+
+  /**
+   * @param candidate - undefined
+   */
+  ApiApprovalCheckForStartInterviewPost(candidate?: CandidateListModel): Observable<IResult> {
+    return this.ApiApprovalCheckForStartInterviewPostResponse(candidate).pipe(
       map(_r => _r.body)
     );
   }}

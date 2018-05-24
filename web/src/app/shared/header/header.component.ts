@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppConstants } from '../constant/constant.variable';
 import * as $ from 'jquery/dist/jquery.min.js';
+import { isNullOrUndefined } from 'util';
+import decode from 'jwt-decode';
 
 @Component({
     selector: 'app-header',
@@ -10,8 +12,19 @@ import * as $ from 'jquery/dist/jquery.min.js';
 
 export class HeaderComponent implements OnInit {
 
+    name: string;
+    intialOfFirstName: any;
+    intialOfLastName: any;
+
     constructor(private router: Router) { }
-    ngOnInit(): void {
+    ngOnInit() {
+        let tokenPayload = '';
+        const token = localStorage.getItem(AppConstants.AuthToken);
+        if (!isNullOrUndefined(token)) { tokenPayload = decode(token); }
+        this.name = tokenPayload[AppConstants.NameClaim];
+        const names = this.name.split(' ');
+        this.intialOfFirstName = names[0].charAt(0);
+        this.intialOfLastName = names[1].charAt(0);
     }
 
     logout() {
