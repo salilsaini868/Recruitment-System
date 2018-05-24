@@ -14,8 +14,8 @@ export class SkillsServiceApp {
     listSkill(): Observable<any> {
         return this.apiSkillsService.ApiSkillGetAllSkillGet().map(x => (x));
     }
-    deleteSkill(): Observable<any> {
-        return;
+    deleteSkill(skillsModel): Observable<any> {
+        return this.apiSkillsService.ApiSkillDeleteSkillPut(skillsModel).map(x =>(x));
     }
     updateSkill(SkillsModel): Observable<any> {
         return this.apiSkillsService.ApiSkillUpdateSkillPut(SkillsModel).map(x => (x));

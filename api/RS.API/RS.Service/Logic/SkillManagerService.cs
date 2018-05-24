@@ -104,6 +104,33 @@ namespace RS.Service.Logic
             return result;
         }
 
+        public IResult DeleteSkill(SkillViewModel skill)
+        {
+            var result = new Result
+            {
+                Operation = Operation.Delete,
+                Status = Status.Success
+            };
+            try
+            {
+                var skillObj = _skillRepository.GetFirstOrDefault(x => x.SkillId == skill.SkillId);
+                if (skillObj != null)
+                {
+                    skillObj.MapDeleteColumns((ClaimsIdentity)_principal.Identity);
+                    _skillRepository.Update(skillObj);
+                    _skillRepository.SaveChanges();
+                    result.Message = SkillStatusNotification.SkillDeleted;
+                }
+                result.Body = skillObj;
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Error;
+            }
+            return result;
+        }
+
         public IResult UpdateSkill(SkillViewModel skill)
         {
             var result = new Result

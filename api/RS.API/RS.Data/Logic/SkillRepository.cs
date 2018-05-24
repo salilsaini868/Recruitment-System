@@ -1,8 +1,7 @@
 ﻿using RS.Data.Interfaces;
 using RS.Entity.Models;
-using System;
+using System.Linq;
 using System.Collections.Generic;
-using System.Text;
 
 namespace RS.Data.Logic
 {
@@ -12,6 +11,10 @@ namespace RS.Data.Logic
         public SkillRepository(RSContext context) : base(context) {
 
             this._context = context;
+        }
+        List<Skills> ISkillRepository.GetAll()
+        {
+            return _context.Skills.Where(x => (x.IsActive && !x.IsDeleted)).ToList();
         }
     }
 }

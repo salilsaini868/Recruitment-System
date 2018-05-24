@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using RS.Service.Interfaces;
 using RS.ViewModel.Skill;
 using RS.Common.CommonData;
+using RS.Common.Enums;
 
 namespace RS.Web.Controllers
 {
@@ -35,6 +36,23 @@ namespace RS.Web.Controllers
         {
             var updatedSkill  = _skillService.UpdateSkill(skillView);
             return updatedSkill;
+        }
+
+        [HttpPut]
+        public IResult DeleteSkill([FromBody]SkillViewModel skillView)
+        {
+            if (ModelState.IsValid)
+            {
+                var deleteQualification = _skillService.DeleteSkill(skillView);
+                return deleteQualification;
+            }
+            return new Result
+            {
+                Operation = Operation.Delete,
+                Status = Status.Fail,
+                Message = CommonErrorMessages.BadRequest,
+                Body = null
+            };
         }
 
         [HttpGet]

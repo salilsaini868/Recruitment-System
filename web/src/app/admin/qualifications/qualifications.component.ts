@@ -7,8 +7,7 @@ import { Status } from '../../app.enum';
 
 @Component({
   selector: 'app-qualifications',
-  templateUrl: 'qualifications.component.html',
-  styleUrls: ['qualifications.scss']
+  templateUrl: 'qualifications.component.html'
 })
 
 export class QualificationsComponent implements OnInit {
@@ -67,7 +66,7 @@ export class QualificationsComponent implements OnInit {
   }
 
   deleteQualifications(qualification, i) {
-    let isDelete = confirm("Are you sure you want to delete Qualification...!");
+    let isDelete = confirm("Are you sure you want to delete Qualification?");
     if (isDelete) {
       this.qualifications.splice(i, 1);
       this.qualificationsServiceApp.deleteQualification(qualification).subscribe(

@@ -60,14 +60,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let skill of skills">
+                    <tr *ngFor="let skill of skills; let i = index">
                         <td>{{skill.name}}</td>
                         <td>{{skill.description}}</td>
                         <td>
-                            <a class="btn btn-success no-radius" (click)="editSkills(skill.skillId)">
+                            <a class="btn btn-primary  blue-btn" (click)="editSkills(skill.skillId)">
                                 <span class="glyphicon glyphicon-edit"></span>
                             </a>
-                            <a class="btn btn-danger no-radius" data-toggle="modal" data-target="#delete">
+                            <a class="btn btn-danger no-radius btn-pad" (click)="deleteSkills(skill,i)">
                                 <span class="glyphicon glyphicon-remove"></span>
                             </a>
                         </td>
