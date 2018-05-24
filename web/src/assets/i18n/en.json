@@ -10,7 +10,10 @@
         "UPDATE": "Update",
         "CREATE_SKILLS": "Create Skills",
         "UPDATE_SKILLS": "Update Skills",
-        "EXIST": "This Skill with same already exists. Please choose another one..!"
+        "EXIST": "This Skill with same already exists. Please choose another one..!",
+        "DELETEERROR": "Skill error while deleting",
+        "DELETEDSUCCESSFULLY": "Skill deleted successfully",
+        "FAILEDTODELETE": "Skill failled to delete"
     },
     "SKILL_DETAILS": {
         "SKILL_DETAILS": "Skill Details",
