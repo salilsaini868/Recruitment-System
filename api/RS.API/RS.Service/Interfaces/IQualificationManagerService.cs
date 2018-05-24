@@ -1,8 +1,5 @@
 ﻿using RS.Common.CommonData;
 using RS.ViewModel.Qualification;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace RS.Service.Interfaces
 {
