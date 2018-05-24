@@ -7,6 +7,6 @@ namespace RS.Data.Interfaces
 {
     public interface IQualificationRepository : IRepository<Qualifications>
     {
-
+        List<Qualifications> GetAll();
     }
 }

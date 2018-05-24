@@ -56,9 +56,31 @@ namespace RS.Service.Logic
             return result;
         }
 
-        public IResult DeleteQualification(int id)
+        public IResult DeleteQualification(QualificationViewModel qualification)
         {
-            throw new NotImplementedException();
+            var result = new Result
+            {
+                Operation = Operation.Delete,
+                Status = Status.Success   
+            };
+            try
+            {
+                var qualificationObj = _qualificationRepository.GetFirstOrDefault(x => x.QualificationId == qualification.QualificationId);
+                if (qualificationObj != null)
+                {
+                    qualificationObj.MapDeleteColumns((ClaimsIdentity)_principal.Identity);
+                    _qualificationRepository.Update(qualificationObj);
+                    _qualificationRepository.SaveChanges();
+                    result.Message = QualificationStatusNotification.QualificationDeleted;
+                }
+                result.Body = qualificationObj;
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Error;
+            }
+            return result;
         }
 
         public IResult GetAllQualification()

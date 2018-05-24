@@ -1,6 +1,7 @@
-﻿using RS.Data.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using RS.Data.Interfaces;
 using RS.Entity.Models;
-using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 
@@ -12,6 +13,10 @@ namespace RS.Data.Logic
         public QualificationRepository(RSContext context) : base(context) {
 
             this._context = context;
+        }
+        List<Qualifications> IQualificationRepository.GetAll()
+        {
+            return _context.Qualifications.Where(x => (x.IsActive && !x.IsDeleted)).ToList();
         }
     }
 }

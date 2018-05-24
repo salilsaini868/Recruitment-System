@@ -26,13 +26,17 @@
         "REQUIRED": "This field is required",
         "CREATE_QUALIFICATIONS": "Create Qualification",
         "UPDATE_QUALIFICATIONS": "Update Qualification",
-        "MESSAGE": "This Qualification with same already exists. Please choose another one..!"
+        "MESSAGE": "This Qualification with same already exists. Please choose another one..!",
+        "DELETEERROR": "Qualification error in deleting",
+        "DELETEDSUCCESSFULLY": "Qualification deleted successfully",
+        "FAILEDTODELETE": "Qualification failled to delete"
     },
     "QUALIFICATION_DETAILS": {
         "QUALIFICATION_DETAILS": "Qualification Details",
         "QUALIFICATIONS": "Qualifications",
         "DESCRIPTION": "Description",
         "ACTION": "action"
+        
     },
     "USER": {
         "LIST": "List of Users",
