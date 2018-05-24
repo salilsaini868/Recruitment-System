@@ -13,8 +13,8 @@ import decode from 'jwt-decode';
 export class HeaderComponent implements OnInit {
 
     name: string;
-    firstName: any;
-    lastName: any;
+    intialOfFirstName: any;
+    intialOfLastName: any;
 
     constructor(private router: Router) { }
     ngOnInit() {
@@ -23,8 +23,8 @@ export class HeaderComponent implements OnInit {
         if (!isNullOrUndefined(token)) { tokenPayload = decode(token); }
         this.name = tokenPayload[AppConstants.NameClaim];
         const names = this.name.split(' ');
-        this.firstName = names[0].charAt(0);
-        this.lastName = names[1].charAt(0);
+        this.intialOfFirstName = names[0].charAt(0);
+        this.intialOfLastName = names[1].charAt(0);
     }
 
     logout() {
