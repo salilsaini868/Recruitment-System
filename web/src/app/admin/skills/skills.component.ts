@@ -64,12 +64,27 @@ export class SkillsComponent implements OnInit {
       }
     });
   }
-  deleteSkills(i) {
-    this.skills.splice(i, 1);
-    this.skillsServiceApp.deleteSkill().subscribe((data) => {
-      if (data) {
-      }
-    });
+  deleteSkills(skill, i) {
+    let isDelete = confirm("Are you sure you want to delete skill?");
+    if (isDelete) {
+      this.skills.splice(i, 1);
+      this.skillsServiceApp.deleteSkill(skill).subscribe(
+        (data) => {
+          if (data.status === Status.Success) {
+            this.skillsModel = data.body;
+            this.displayMessage.showSuccess('SKILLS.DELETEDSUCCESSFULLY');
+          }
+          if (data.status === Status.Fail) {
+            this.displayMessage.showWarning('SKILLS.FAILEDTODELETE');
+          }
+          if (data.status === Status.Error) {
+            this.displayMessage.showError('SKILLS.DELETEERROR');
+          }
+        },
+        (error) => {
+          this.displayMessage.showError('SKILLS.DELETEERROR');
+       });
+    }
   }
   getSkillById(skillId) {
     if (!isNullOrUndefined(skillId)) {
