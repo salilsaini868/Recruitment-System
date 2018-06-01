@@ -9,6 +9,7 @@ using RS.Service.Interfaces;
 using RS.ViewModel.Skill;
 using RS.Common.CommonData;
 using RS.Common.Enums;
+using RS.ViewModel.SearchAndSortModel;
 
 namespace RS.Web.Controllers
 {
@@ -34,7 +35,7 @@ namespace RS.Web.Controllers
         [HttpPut]
         public IResult UpdateSkill([FromBody]SkillViewModel skillView)
         {
-            var updatedSkill  = _skillService.UpdateSkill(skillView);
+            var updatedSkill = _skillService.UpdateSkill(skillView);
             return updatedSkill;
         }
 
@@ -67,6 +68,13 @@ namespace RS.Web.Controllers
         {
             var skillRecord = _skillService.GetSkillById(id);
             return skillRecord;
+        }
+
+        [HttpPost]
+        public IResult GetSkillsCorrespondingToSkill([FromBody]SearchAndSortModel searchAndSortModel)
+        {
+            var skillList = _skillService.GetSkillsCorrespondingToSkill(searchAndSortModel);
+            return skillList;
         }
     }
 }

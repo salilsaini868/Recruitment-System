@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
-using System.Text;
+using RS.ViewModel.SearchAndSortModel;
 
 namespace RS.Service.Logic
 {
@@ -18,6 +18,9 @@ namespace RS.Service.Logic
     {
         private readonly ClaimsPrincipal _principal;
         private readonly ISkillRepository _skillRepository;
+
+        public static object Read { get; private set; }
+
         public SkillManagerService(IPrincipal principal, ISkillRepository skillRepository)
         {
             _skillRepository = skillRepository;
@@ -161,6 +164,29 @@ namespace RS.Service.Logic
             {
                 result.Message = e.Message;
                 result.Status = Status.Error;
+            }
+            return result;
+        }
+
+        public IResult GetSkillsCorrespondingToSkill(SearchAndSortModel searchAndSortModel)
+        {
+            var result = new Result
+            {
+                Skill = Operation.Read,
+                Status = Status.Success
+            };
+            try
+            {
+                List<SkillViewModel> skillModelList = new List<SkillViewModel>();
+                var GetAll = _skillRepository.GetAll(searchAndSortModel).ToList();
+
+                result.Body = GetAll;
+               
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Fail;
             }
             return result;
         }

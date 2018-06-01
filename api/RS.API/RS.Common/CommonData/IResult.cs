@@ -22,5 +22,6 @@ namespace RS.Common.CommonData
         public Status Status { get; set; }
         public String Message { get; set; }
         public dynamic Body { get; set; }
+        public object Skill { get; set; }
     }
 }

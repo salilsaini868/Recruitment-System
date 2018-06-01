@@ -1,5 +1,6 @@
 ﻿using RS.Common.CommonData;
 using RS.Entity.Models;
+using RS.ViewModel.SearchAndSortModel;
 using RS.ViewModel.Skill;
 using System;
 using System.Collections.Generic;
@@ -42,5 +43,13 @@ namespace RS.Service.Interfaces
         /// <param name="id"></param>
         /// <returns></returns>
         IResult GetSkillById(int id);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="skillId"></param>
+        /// <returns></returns>
+        IResult GetSkillsCorrespondingToSkill(SearchAndSortModel searchAndSortModel);
+
     }
 }

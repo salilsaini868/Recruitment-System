@@ -4,6 +4,9 @@ import { SkillViewModel } from '../../webapi/models/skill-view-model';
 import { DisplayMessageService } from '../../shared/toastr/display.message.service';
 import { isNullOrUndefined } from 'util';
 import { Status } from '../../app.enum';
+import { TranslateService } from '@ngx-translate/core';
+import { SearchAndSortModel } from '../../webapi/models/search-and-sort-model';
+import { isEmpty } from 'rxjs/operator/isEmpty';
 
 @Component({
   selector: 'app-skills',
@@ -13,15 +16,23 @@ import { Status } from '../../app.enum';
 
 export class SkillsComponent implements OnInit {
 
+  msg: string;
+  isEmpty: boolean = false;
   skillsModel: SkillViewModel = {} as SkillViewModel;
   skills: SkillViewModel[] = [] as SkillViewModel[];
+  searchAndSortModel: SearchAndSortModel = {} as SearchAndSortModel;
   submitted = false;
   isSkillExists: boolean = false;
+  listFilter: string;
+  skillId: any;
+  isDesc = false;
 
-  constructor(private skillsServiceApp: SkillsServiceApp, private displayMessage: DisplayMessageService) {
+
+  constructor(private skillsServiceApp: SkillsServiceApp, private displayMessage: DisplayMessageService, private translateService: TranslateService) {
   }
   ngOnInit() {
     this.listSkill();
+    this.setDefaultSortOption();
   }
   onSubmit(skillsform) {
     this.submitted = true;
@@ -83,7 +94,7 @@ export class SkillsComponent implements OnInit {
         },
         (error) => {
           this.displayMessage.showError('SKILLS.DELETEERROR');
-       });
+        });
     }
   }
   getSkillById(skillId) {
@@ -99,5 +110,72 @@ export class SkillsComponent implements OnInit {
   editSkills(skillId) {
     this.skillsModel.skillId = skillId;
     this.getSkillById(skillId);
+  }
+
+  setDefaultSortOption() {
+    this.searchAndSortModel.skillId = this.skillId;
+    this.searchAndSortModel.direction = -1;
+    this.translateService.get('SKILLS.DEFAULTSORTPROPERTY').subscribe(
+      (data) => {
+        this.searchAndSortModel.property = data;
+        this.getAllSkills();
+      }
+    );
+  }
+
+  getAllSkills() {
+    this.skillsServiceApp.getSkillsCorrespondingToSkill(this.searchAndSortModel).subscribe(
+      (data) => {
+        if (data.status === Status.Success) {
+          this.skills = data.body;
+        } else {
+          this.displayMessage.showError('Error');
+        }
+      }
+    );
+  }
+  sort(property) {
+    this.isDesc = !this.isDesc;
+    this.searchAndSortModel.direction = this.isDesc ? 1 : -1;
+    this.searchAndSortModel.skillId = this.skillId;
+    this.searchAndSortModel.property = property;
+    this.skillsServiceApp.getSkillsCorrespondingToSkill(this.searchAndSortModel).subscribe(
+      (data) => {
+        if (data.status === Status.Success) {
+          this.skills = data.body;
+        }
+      }
+    );
+  }
+
+  clear() {
+    if (this.listFilter === "") {
+      this.search()
+    }
+    return;
+  }
+  onKeydown(event) {
+    if  (event.key  ===  'Enter') {
+      this.search();
+    }
+  }
+  search() {
+    this.searchAndSortModel.searchString = this.listFilter.trim();
+    this.skillsServiceApp.getSkillsCorrespondingToSkill(this.searchAndSortModel).subscribe(
+      (data) => {
+        if (data.status === Status.Success) {
+          if (data.body && (data.body.length > 0)) {
+            console.log("dataIsEmpty",data.body,data.body.length);
+            this.isEmpty = false;
+            this.skills = data.body;
+          }
+          else {
+            console.log("dataIsEmpty");
+            this.isEmpty = true;
+            this.skills = data.body;
+          }
+        }
+      }
+    );
   }
 }

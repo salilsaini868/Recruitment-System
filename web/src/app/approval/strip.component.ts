@@ -28,8 +28,7 @@ export class StripComponent implements OnInit {
   entityAndApprovalEventModel: EntityAndApprovalViewModel = {} as EntityAndApprovalViewModel;
   approvalEventandTransaction: ApprovalService.ApiApprovalGetApprovalEventsGetParams = {} as
     ApprovalService.ApiApprovalGetApprovalEventsGetParams;
-  userApprovalPermission: CandidateService.ApiCandidateCheckForUserPermissionGetParams = {} as
-    CandidateService.ApiCandidateCheckForUserPermissionGetParams;
+
   approvalUserTypes: any;
   comments = null;
   clicked: boolean;
