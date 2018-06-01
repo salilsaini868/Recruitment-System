@@ -19,8 +19,6 @@ namespace RS.Service.Logic
         private readonly ClaimsPrincipal _principal;
         private readonly ISkillRepository _skillRepository;
 
-        public static object Read { get; private set; }
-
         public SkillManagerService(IPrincipal principal, ISkillRepository skillRepository)
         {
             _skillRepository = skillRepository;
@@ -168,11 +166,11 @@ namespace RS.Service.Logic
             return result;
         }
 
-        public IResult GetSkillsCorrespondingToSkill(SearchAndSortModel searchAndSortModel)
+        public IResult GetSkillSearchSortResults(SearchAndSortModel searchAndSortModel)
         {
             var result = new Result
             {
-                Skill = Operation.Read,
+                Operation = Operation.Read,
                 Status = Status.Success
             };
             try

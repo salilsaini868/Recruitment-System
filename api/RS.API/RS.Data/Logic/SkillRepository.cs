@@ -22,36 +22,28 @@ namespace RS.Data.Logic
         {
 
             List<SkillViewModel> skillModelList = new List<SkillViewModel>();
-            var GetAll = _context.Skills.Where(x => (x.IsActive && !x.IsDeleted)).ToList();
+            var skillList = _context.Skills.Where(x => (x.IsActive && !x.IsDeleted)).ToList();
            
-            var skillLists = skillModelList.MapFromModel<Skills, SkillViewModel>(GetAll);
-            List<SkillViewModel> skillOrderList = new List<SkillViewModel>();
-            List<SkillViewModel> skillSearchSort = new List<SkillViewModel>();
-
+            var skillViewModelLists = skillModelList.MapFromModel<Skills, SkillViewModel>(skillList);
+           
             if (searchAndSortModel.Property != null)
             {
                 if (searchAndSortModel.Direction == 1)
                 {
-                    skillOrderList = skillLists.OrderBy(x => x.GetType().GetProperty(searchAndSortModel.Property).GetValue(x, null)).ToList();
+                    skillViewModelLists = skillViewModelLists.OrderBy(x => x.GetType().GetProperty(searchAndSortModel.Property).GetValue(x, null)).ToList();
                 }
                 else
                 {
-                    skillOrderList = skillLists.OrderByDescending(x => x.GetType().GetProperty(searchAndSortModel.Property).GetValue(x, null)).ToList();
+                    skillViewModelLists = skillViewModelLists.OrderByDescending(x => x.GetType().GetProperty(searchAndSortModel.Property).GetValue(x, null)).ToList();
                 }
             }
 
-            else
-            {
-                skillOrderList = skillLists;
-            }
-            skillSearchSort = skillOrderList;
             if (searchAndSortModel.SearchString != null)
             {
-                skillSearchSort = skillOrderList.Where(x => x.Name.ToLower().Contains(searchAndSortModel.SearchString.ToLower())).ToList();
+                skillViewModelLists = skillViewModelLists.Where(x => x.Name.ToLower().Contains(searchAndSortModel.SearchString.ToLower())).ToList();
             }
-            
-             
-                return skillSearchSort;
+
+                return skillViewModelLists;
             
         }
     }

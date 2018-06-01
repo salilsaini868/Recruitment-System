@@ -73,7 +73,7 @@ namespace RS.Web.Controllers
         [HttpPost]
         public IResult GetSkillsCorrespondingToSkill([FromBody]SearchAndSortModel searchAndSortModel)
         {
-            var skillList = _skillService.GetSkillsCorrespondingToSkill(searchAndSortModel);
+            var skillList = _skillService.GetSkillSearchSortResults(searchAndSortModel);
             return skillList;
         }
     }

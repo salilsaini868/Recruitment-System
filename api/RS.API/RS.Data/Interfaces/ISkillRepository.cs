@@ -10,6 +10,5 @@ namespace RS.Data.Interfaces
     public interface ISkillRepository : IRepository<Skills>
     {
         List<SkillViewModel> GetAll(SearchAndSortModel searchAndSortModel);
-        //List<SkillViewModel> GetSkillsCorrespondingToSkill(Guid skillId);
     }
 }

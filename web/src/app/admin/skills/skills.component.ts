@@ -16,8 +16,6 @@ import { isEmpty } from 'rxjs/operator/isEmpty';
 
 export class SkillsComponent implements OnInit {
 
-  msg: string;
-  isEmpty: boolean = false;
   skillsModel: SkillViewModel = {} as SkillViewModel;
   skills: SkillViewModel[] = [] as SkillViewModel[];
   searchAndSortModel: SearchAndSortModel = {} as SearchAndSortModel;
@@ -85,10 +83,10 @@ export class SkillsComponent implements OnInit {
             this.skillsModel = data.body;
             this.displayMessage.showSuccess('SKILLS.DELETEDSUCCESSFULLY');
           }
-          if (data.status === Status.Fail) {
+          else if (data.status === Status.Fail) {
             this.displayMessage.showWarning('SKILLS.FAILEDTODELETE');
           }
-          if (data.status === Status.Error) {
+          else if (data.status === Status.Error) {
             this.displayMessage.showError('SKILLS.DELETEERROR');
           }
         },
@@ -143,7 +141,12 @@ export class SkillsComponent implements OnInit {
       (data) => {
         if (data.status === Status.Success) {
           this.skills = data.body;
+        } else if (data.status === Status.Error) {
+          this.displayMessage.showError('SKILLS.SORTINGERROR');
         }
+      },
+      (error) => {
+        this.displayMessage.showError('SKILLS.ERROR');
       }
     );
   }
@@ -155,7 +158,7 @@ export class SkillsComponent implements OnInit {
     return;
   }
   onKeydown(event) {
-    if  (event.key  ===  'Enter') {
+    if (event.key === 'Enter') {
       this.search();
     }
   }
@@ -164,17 +167,14 @@ export class SkillsComponent implements OnInit {
     this.skillsServiceApp.getSkillsCorrespondingToSkill(this.searchAndSortModel).subscribe(
       (data) => {
         if (data.status === Status.Success) {
-          if (data.body && (data.body.length > 0)) {
-            console.log("dataIsEmpty",data.body,data.body.length);
-            this.isEmpty = false;
-            this.skills = data.body;
-          }
-          else {
-            console.log("dataIsEmpty");
-            this.isEmpty = true;
-            this.skills = data.body;
-          }
+          this.skills = data.body;
         }
+        else if (data.status === Status.Error) {
+          this.displayMessage.showError('SKILLS.SEARCHINGERROR');
+        }
+      },
+      (error) => {
+        this.displayMessage.showError('SKILLS.ERROR');
       }
     );
   }

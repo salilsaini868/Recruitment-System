@@ -75,23 +75,26 @@
                 </thead>
                 
                 <tbody>
-                    <tr *ngIf="isEmpty">
+                    <tr *ngIf="skills.length === 0; else rowTemplate" >
                         <td></td>
                         <td align="center"> {{ 'SKILLS.NORECORD' | translate }} </td>
                         <td></td>  
                     </tr>
-                    <tr *ngFor="let skill of skills; let i = index">
-                        <td>{{skill.name}}</td>
-                        <td>{{skill.description}}</td>
-                        <td>
-                            <a class="btn btn-primary  blue-btn" (click)="editSkills(skill.skillId)">
-                                <span class="glyphicon glyphicon-edit"></span>
-                            </a>
-                            <a class="btn btn-danger no-radius btn-pad" (click)="deleteSkills(skill,i)">
-                                <span class="glyphicon glyphicon-remove"></span>
-                            </a>
-                        </td>
-                    </tr>
+                    <ng-template #rowTemplate>
+                            <tr *ngFor="let skill of skills; let i = index">
+                                    <td>{{skill.name}}</td>
+                                    <td>{{skill.description}}</td>
+                                    <td>
+                                        <a class="btn btn-primary  blue-btn" (click)="editSkills(skill.skillId)">
+                                            <span class="glyphicon glyphicon-edit"></span>
+                                        </a>
+                                        <a class="btn btn-danger no-radius btn-pad" (click)="deleteSkills(skill,i)">
+                                            <span class="glyphicon glyphicon-remove"></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                    </ng-template>
+                 
                 </tbody>
             </table>
         </div>
