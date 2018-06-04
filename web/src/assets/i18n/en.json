@@ -38,7 +38,12 @@
         "MESSAGE": "This Qualification with same already exists. Please choose another one..!",
         "DELETEERROR": "Qualification error in deleting",
         "DELETEDSUCCESSFULLY": "Qualification deleted successfully",
-        "FAILEDTODELETE": "Qualification failled to delete"
+        "FAILEDTODELETE": "Qualification failled to delete",
+        "DEFAULTSORTPROPERTY": "Name",
+        "NORECORD": "No Qualifications found !",
+        "SORTINGERROR": "Error accord while sorting",
+        "SEARCHINGERROR": "Error accord while searching",
+        "ERROR": "Bad request"
     },
     "QUALIFICATION_DETAILS": {
         "QUALIFICATION_DETAILS": "Qualification Details",

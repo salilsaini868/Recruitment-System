@@ -9,6 +9,7 @@ using RS.Service.Interfaces;
 using RS.Common.CommonData;
 using RS.ViewModel.Qualification;
 using RS.Common.Enums;
+using RS.ViewModel.SearchAndSortModel;
 
 namespace RS.Web.Controllers
 {
@@ -86,6 +87,13 @@ namespace RS.Web.Controllers
         {
             var QualificationRecord = _qualificationService.GetQualificationById(id);
             return QualificationRecord;
+        }
+
+        [HttpPost]
+        public IResult GetQualificationsResults([FromBody]SearchAndSortModel searchAndSortModel)
+        {
+            var quaificationList = _qualificationService.GetQualificationsResults(searchAndSortModel);
+            return quaificationList;
         }
     }
 }
