@@ -208,14 +208,14 @@ export class SkillService extends BaseService {
   /**
    * @param searchAndSortModel - undefined
    */
-  ApiSkillGetSkillsCorrespondingToSkillPostResponse(searchAndSortModel?: SearchAndSortModel): Observable<HttpResponse<IResult>> {
+  ApiSkillGetSkillsResultsPostResponse(searchAndSortModel?: SearchAndSortModel): Observable<HttpResponse<IResult>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
     __body = searchAndSortModel;
     let req = new HttpRequest<any>(
       "POST",
-      this.rootUrl + `/api/Skill/GetSkillsCorrespondingToSkill`,
+      this.rootUrl + `/api/Skill/GetSkillsResults`,
       __body,
       {
         headers: __headers,
@@ -237,8 +237,8 @@ export class SkillService extends BaseService {
   /**
    * @param searchAndSortModel - undefined
    */
-  ApiSkillGetSkillsCorrespondingToSkillPost(searchAndSortModel?: SearchAndSortModel): Observable<IResult> {
-    return this.ApiSkillGetSkillsCorrespondingToSkillPostResponse(searchAndSortModel).pipe(
+  ApiSkillGetSkillsResultsPost(searchAndSortModel?: SearchAndSortModel): Observable<IResult> {
+    return this.ApiSkillGetSkillsResultsPostResponse(searchAndSortModel).pipe(
       map(_r => _r.body)
     );
   }}

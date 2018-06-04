@@ -15,3 +15,4 @@ export { ScheduleUserForCandidateModel } from './models/schedule-user-for-candid
 export { UserLoginModel } from './models/user-login-model';
 export { ChangePassword } from './models/change-password';
 export { QualificationViewModel } from './models/qualification-view-model';
+export { SearchAndSortModel } from './models/search-and-sort-model';

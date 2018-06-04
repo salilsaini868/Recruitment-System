@@ -122,7 +122,7 @@ export class SkillsComponent implements OnInit {
   }
 
   getAllSkills() {
-    this.skillsServiceApp.getSkillsCorrespondingToSkill(this.searchAndSortModel).subscribe(
+    this.skillsServiceApp.GetSkillsResults(this.searchAndSortModel).subscribe(
       (data) => {
         if (data.status === Status.Success) {
           this.skills = data.body;
@@ -137,7 +137,7 @@ export class SkillsComponent implements OnInit {
     this.searchAndSortModel.direction = this.isDesc ? 1 : -1;
     this.searchAndSortModel.skillId = this.skillId;
     this.searchAndSortModel.property = property;
-    this.skillsServiceApp.getSkillsCorrespondingToSkill(this.searchAndSortModel).subscribe(
+    this.skillsServiceApp.GetSkillsResults(this.searchAndSortModel).subscribe(
       (data) => {
         if (data.status === Status.Success) {
           this.skills = data.body;
@@ -164,7 +164,7 @@ export class SkillsComponent implements OnInit {
   }
   search() {
     this.searchAndSortModel.searchString = this.listFilter.trim();
-    this.skillsServiceApp.getSkillsCorrespondingToSkill(this.searchAndSortModel).subscribe(
+    this.skillsServiceApp.GetSkillsResults(this.searchAndSortModel).subscribe(
       (data) => {
         if (data.status === Status.Success) {
           this.skills = data.body;

@@ -166,7 +166,7 @@ namespace RS.Service.Logic
             return result;
         }
 
-        public IResult GetSkillSearchSortResults(SearchAndSortModel searchAndSortModel)
+        public IResult GetSkillsResults(SearchAndSortModel searchAndSortModel)
         {
             var result = new Result
             {
@@ -176,9 +176,11 @@ namespace RS.Service.Logic
             try
             {
                 List<SkillViewModel> skillModelList = new List<SkillViewModel>();
-                var GetAll = _skillRepository.GetAll(searchAndSortModel).ToList();
+                var skillList = _skillRepository.GetAll(searchAndSortModel).ToList();
 
-                result.Body = GetAll;
+                var skillViewModelLists = skillModelList.MapFromModel<Skills, SkillViewModel>(skillList);
+
+                result.Body = skillViewModelLists;
                
             }
             catch (Exception e)

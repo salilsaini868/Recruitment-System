@@ -49,7 +49,7 @@ namespace RS.Service.Interfaces
         /// </summary>
         /// <param name="skillId"></param>
         /// <returns></returns>
-        IResult GetSkillSearchSortResults(SearchAndSortModel searchAndSortModel);
+        IResult GetSkillsResults(SearchAndSortModel searchAndSortModel);
 
     }
 }
