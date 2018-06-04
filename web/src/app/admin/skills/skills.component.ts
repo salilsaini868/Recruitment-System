@@ -122,33 +122,14 @@ export class SkillsComponent implements OnInit {
   }
 
   getAllSkills() {
-    this.skillsServiceApp.GetSkillsResults(this.searchAndSortModel).subscribe(
-      (data) => {
-        if (data.status === Status.Success) {
-          this.skills = data.body;
-        } else {
-          this.displayMessage.showError('Error');
-        }
-      }
-    );
+    this.getSkillResults();
   }
   sort(property) {
     this.isDesc = !this.isDesc;
     this.searchAndSortModel.direction = this.isDesc ? 1 : -1;
     this.searchAndSortModel.skillId = this.skillId;
     this.searchAndSortModel.property = property;
-    this.skillsServiceApp.GetSkillsResults(this.searchAndSortModel).subscribe(
-      (data) => {
-        if (data.status === Status.Success) {
-          this.skills = data.body;
-        } else if (data.status === Status.Error) {
-          this.displayMessage.showError('SKILLS.SORTINGERROR');
-        }
-      },
-      (error) => {
-        this.displayMessage.showError('SKILLS.ERROR');
-      }
-    );
+    this.getSkillResults();
   }
 
   clear() {
@@ -164,13 +145,17 @@ export class SkillsComponent implements OnInit {
   }
   search() {
     this.searchAndSortModel.searchString = this.listFilter.trim();
+    this.getSkillResults();
+  }
+
+  getSkillResults(){
     this.skillsServiceApp.GetSkillsResults(this.searchAndSortModel).subscribe(
       (data) => {
         if (data.status === Status.Success) {
           this.skills = data.body;
         }
         else if (data.status === Status.Error) {
-          this.displayMessage.showError('SKILLS.SEARCHINGERROR');
+          this.displayMessage.showError('SKILLS.ERROR');
         }
       },
       (error) => {

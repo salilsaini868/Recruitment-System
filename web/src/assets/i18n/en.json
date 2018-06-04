@@ -17,9 +17,8 @@
         "DEFAULTSORTPROPERTY": "Name",
         "REQUIRED": "This field is required",
         "NORECORD": "No Skills found !",
-        "SORTINGERROR": "Error accord while sorting",
-        "SEARCHINGERROR": "Error accord while searching",
-        "ERROR": "Bad request"
+        "ERROR": "Error Occurred",
+        "SEARCH":"Search..."
     },
     "SKILL_DETAILS": {
         "SKILL_DETAILS": "Skill Details",
@@ -38,7 +37,11 @@
         "MESSAGE": "This Qualification with same already exists. Please choose another one..!",
         "DELETEERROR": "Qualification error in deleting",
         "DELETEDSUCCESSFULLY": "Qualification deleted successfully",
-        "FAILEDTODELETE": "Qualification failled to delete"
+        "FAILEDTODELETE": "Qualification failled to delete",
+        "DEFAULTSORTPROPERTY": "Name",
+        "NORECORD": "No Qualifications found !",
+        "ERROR": "Error Occurred ",
+        "SEARCH":"Search..."
     },
     "QUALIFICATION_DETAILS": {
         "QUALIFICATION_DETAILS": "Qualification Details",

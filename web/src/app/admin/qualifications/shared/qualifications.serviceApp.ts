@@ -27,4 +27,7 @@ export class QualificationsServiceApp {
     getQualificationById(qualificatonId): Observable<any> {
         return this.apiQualificationsService.ApiQualificatonGetQualificationlByIdGet(qualificatonId).map(x => (x));
     }
+    GetQualificationsResults(searchAndSortModel): Observable<any> {
+        return this.apiQualificationsService.ApiQualificatonGetQualificationsResultsPost(searchAndSortModel).map(x => (x));
+    }
 }

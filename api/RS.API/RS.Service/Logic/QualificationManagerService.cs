@@ -11,6 +11,7 @@ using RS.Common.Extensions;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
+using RS.ViewModel.SearchAndSortModel;
 
 namespace RS.Service.Logic
 {
@@ -18,9 +19,10 @@ namespace RS.Service.Logic
     {
         private readonly ClaimsPrincipal _principal;
         private readonly IQualificationRepository _qualificationRepository;
+
         public QualificationManagerService(IPrincipal principal, IQualificationRepository qualificationRepository)
         {
-            this._qualificationRepository = qualificationRepository;
+            _qualificationRepository = qualificationRepository;
             _principal = principal as ClaimsPrincipal;
         }
         public IResult CreateQualification(QualificationViewModel qualification)
@@ -154,6 +156,31 @@ namespace RS.Service.Logic
             {
                 result.Message = e.Message;
                 result.Status = Status.Error;
+            }
+            return result;
+        }
+
+        public IResult GetQualificationsResults(SearchAndSortModel searchAndSortModel)
+        {
+            var result = new Result
+            {
+                Operation = Operation.Read,
+                Status = Status.Success
+            };
+            try
+            {
+                List<QualificationViewModel> qualificationModelList = new List<QualificationViewModel>();
+                var qualificationList = _qualificationRepository.GetAll(searchAndSortModel).ToList();
+
+                var qualificationViewModelLists = qualificationModelList.MapFromModel<Qualifications, QualificationViewModel>(qualificationList);
+
+                result.Body = qualificationViewModelLists;
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Fail;
+
             }
             return result;
         }

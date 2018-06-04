@@ -50,7 +50,7 @@
     </div>
 
     <h3>{{ 'SKILL_DETAILS.SKILL_DETAILS' | translate }}</h3>
-    <input (keydown)="onKeydown($event)" (keyup)="clear()" class="search search-skill" placeholder="Search..." name="listFilter" type="text"
+    <input (keydown)="onKeydown($event)" (keyup)="clear()" class="search search-skill" placeholder="{{ 'SKILLS.SEARCH' | translate }}" name="listFilter" type="text"
         [(ngModel)]="listFilter" />
     <button [disabled]="!listFilter" type="submit" (click)="search()" class="btn">GO</button>
 
