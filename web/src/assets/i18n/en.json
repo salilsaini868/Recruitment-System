@@ -41,9 +41,9 @@
         "FAILEDTODELETE": "Qualification failled to delete",
         "DEFAULTSORTPROPERTY": "Name",
         "NORECORD": "No Qualifications found !",
-        "SORTINGERROR": "Error accord while sorting",
-        "SEARCHINGERROR": "Error accord while searching",
-        "ERROR": "Bad request"
+        "SEARCHSORTERROR": "Error accord ",
+        "ERROR": "Bad request",
+        "SEARCH":"Search..."
     },
     "QUALIFICATION_DETAILS": {
         "QUALIFICATION_DETAILS": "Qualification Details",

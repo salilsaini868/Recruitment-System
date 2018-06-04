@@ -124,33 +124,15 @@ export class QualificationsComponent implements OnInit {
   }
 
   getAllQualifications() {
-    this.qualificationsServiceApp.GetQualificationsResults(this.searchAndSortModel).subscribe(
-      (data) => {
-        if (data.status === Status.Success) {
-          this.qualifications = data.body;
-        } else {
-          this.displayMessage.showError('Error');
-        }
+    this.getQualificationResults();
+
       }
-    );
-  }
   sort(property) {
     this.isDesc = !this.isDesc;
     this.searchAndSortModel.direction = this.isDesc ? 1 : -1;
     this.searchAndSortModel.qualificationId = this.qualificationId;
     this.searchAndSortModel.property = property;
-    this.qualificationsServiceApp.GetQualificationsResults(this.searchAndSortModel).subscribe(
-      (data) => {
-        if (data.status === Status.Success) {
-          this.qualifications = data.body;
-        } else if (data.status === Status.Error) {
-          this.displayMessage.showError('QUALIFICATIONS.SORTINGERROR');
-        }
-      },
-      (error) => {
-        this.displayMessage.showError('QUALIFICATIONS.ERROR');
-      }
-    );
+    this.getQualificationResults();
   }
 
   clear() {
@@ -166,13 +148,17 @@ export class QualificationsComponent implements OnInit {
   }
   search() {
     this.searchAndSortModel.searchString = this.listFilter.trim();
+    this.getQualificationResults();
+  }
+ 
+  getQualificationResults(){
     this.qualificationsServiceApp.GetQualificationsResults(this.searchAndSortModel).subscribe(
       (data) => {
         if (data.status === Status.Success) {
           this.qualifications = data.body;
         }
         else if (data.status === Status.Error) {
-          this.displayMessage.showError('QUALIFICATIONS.SEARCHINGERROR');
+          this.displayMessage.showError('QUALIFICATIONS.SEARCHSORTERROR');
         }
       },
       (error) => {
@@ -180,7 +166,6 @@ export class QualificationsComponent implements OnInit {
       }
     );
   }
-
 
 }
 
