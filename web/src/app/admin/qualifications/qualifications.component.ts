@@ -158,7 +158,7 @@ export class QualificationsComponent implements OnInit {
           this.qualifications = data.body;
         }
         else if (data.status === Status.Error) {
-          this.displayMessage.showError('QUALIFICATIONS.SEARCHSORTERROR');
+          this.displayMessage.showError('QUALIFICATIONS.ERROR');
         }
       },
       (error) => {

@@ -155,7 +155,7 @@ export class SkillsComponent implements OnInit {
           this.skills = data.body;
         }
         else if (data.status === Status.Error) {
-          this.displayMessage.showError('SKILLS.SEARCHSORTERROR');
+          this.displayMessage.showError('SKILLS.ERROR');
         }
       },
       (error) => {
