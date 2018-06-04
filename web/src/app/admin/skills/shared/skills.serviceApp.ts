@@ -23,4 +23,7 @@ export class SkillsServiceApp {
     getSkillById(skillId): Observable<any> {
         return this.apiSkillsService.ApiSkillGetSkillByIdGet(skillId).map(x => (x));
     }
+    GetSkillsResults(searchAndSortModel): Observable<any> {
+        return this.apiSkillsService.ApiSkillGetSkillsResultsPost(searchAndSortModel).map(x => (x));
+    }
 }

@@ -11,6 +11,7 @@ import { filter } from 'rxjs/operators/filter';
 
 import { IResult } from '../models/iresult';
 import { SkillViewModel } from '../models/skill-view-model';
+import { SearchAndSortModel } from '../models/search-and-sort-model';
 
 
 @Injectable()
@@ -201,6 +202,43 @@ export class SkillService extends BaseService {
    */
   ApiSkillGetSkillByIdGet(id: number): Observable<IResult> {
     return this.ApiSkillGetSkillByIdGetResponse(id).pipe(
+      map(_r => _r.body)
+    );
+  }
+  /**
+   * @param searchAndSortModel - undefined
+   */
+  ApiSkillGetSkillsResultsPostResponse(searchAndSortModel?: SearchAndSortModel): Observable<HttpResponse<IResult>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    __body = searchAndSortModel;
+    let req = new HttpRequest<any>(
+      "POST",
+      this.rootUrl + `/api/Skill/GetSkillsResults`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      filter(_r => _r instanceof HttpResponse),
+      map(_r => {
+        let _resp = _r as HttpResponse<any>;
+        let _body: IResult = null;
+        _body = _resp.body as IResult
+        return _resp.clone({body: _body}) as HttpResponse<IResult>;
+      })
+    );
+  }
+
+  /**
+   * @param searchAndSortModel - undefined
+   */
+  ApiSkillGetSkillsResultsPost(searchAndSortModel?: SearchAndSortModel): Observable<IResult> {
+    return this.ApiSkillGetSkillsResultsPostResponse(searchAndSortModel).pipe(
       map(_r => _r.body)
     );
   }}
