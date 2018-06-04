@@ -20,31 +20,24 @@ namespace RS.Data.Logic
 
         List<Skills> ISkillRepository.GetAll(SearchAndSortModel searchAndSortModel)
         {
+            var skillList = _context.Skills.Where(x => (x.IsActive && !x.IsDeleted));
 
-            List<SkillViewModel> skillModelList = new List<SkillViewModel>();
-            var skillList = _context.Skills.Where(x => (x.IsActive && !x.IsDeleted)).ToList();
-           
-          //  var skillViewModelLists = skillModelList.MapFromModel<Skills, SkillViewModel>(skillList);
-           
+            if (searchAndSortModel.SearchString != null)
+            {
+                skillList = skillList.Where(x => x.Name.ToLower().Contains(searchAndSortModel.SearchString.ToLower()));
+            }
             if (searchAndSortModel.Property != null)
             {
                 if (searchAndSortModel.Direction == 1)
                 {
-                    skillList = skillList.OrderBy(x => x.GetType().GetProperty(searchAndSortModel.Property).GetValue(x, null)).ToList();
+                    skillList = skillList.OrderBy(x => x.GetType().GetProperty(searchAndSortModel.Property).GetValue(x, null));
                 }
                 else
                 {
-                    skillList = skillList.OrderByDescending(x => x.GetType().GetProperty(searchAndSortModel.Property).GetValue(x, null)).ToList();
+                    skillList = skillList.OrderByDescending(x => x.GetType().GetProperty(searchAndSortModel.Property).GetValue(x, null));
                 }
             }
-
-            if (searchAndSortModel.SearchString != null)
-            {
-                skillList = skillList.Where(x => x.Name.ToLower().Contains(searchAndSortModel.SearchString.ToLower())).ToList();
-            }
-
-                return skillList;
-            
+            return skillList.ToList();  
         }
     }
 }
