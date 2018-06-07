@@ -113,7 +113,6 @@ export class QualificationsComponent implements OnInit {
 
 
   setDefaultSortOption() {
-    this.searchAndSortModel.qualificationId = this.qualificationId;
     this.searchAndSortModel.direction = -1;
     this.translateService.get('QUALIFICATIONS.DEFAULTSORTPROPERTY').subscribe(
       (data) => {
@@ -130,7 +129,6 @@ export class QualificationsComponent implements OnInit {
   sort(property) {
     this.isDesc = !this.isDesc;
     this.searchAndSortModel.direction = this.isDesc ? 1 : -1;
-    this.searchAndSortModel.qualificationId = this.qualificationId;
     this.searchAndSortModel.property = property;
     this.getQualificationResults();
   }
