@@ -31,4 +31,7 @@ export class UserServiceApp {
     getUsersByRole(roleId): Observable<any> {
         return this.apiUserService.ApiUserGetUsersByRoleGet(roleId).map(x => (x));
     }
+    GetUsersResults(searchAndSortModel): Observable<any> {
+        return  this.apiUserService.ApiUserGetUsersResultsPost(searchAndSortModel).map(x => (x));
+    }
 }

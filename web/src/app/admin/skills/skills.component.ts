@@ -111,7 +111,6 @@ export class SkillsComponent implements OnInit {
   }
 
   setDefaultSortOption() {
-    this.searchAndSortModel.skillId = this.skillId;
     this.searchAndSortModel.direction = -1;
     this.translateService.get('SKILLS.DEFAULTSORTPROPERTY').subscribe(
       (data) => {
@@ -127,7 +126,6 @@ export class SkillsComponent implements OnInit {
   sort(property) {
     this.isDesc = !this.isDesc;
     this.searchAndSortModel.direction = this.isDesc ? 1 : -1;
-    this.searchAndSortModel.skillId = this.skillId;
     this.searchAndSortModel.property = property;
     this.getSkillResults();
   }
@@ -148,7 +146,7 @@ export class SkillsComponent implements OnInit {
     this.getSkillResults();
   }
 
-  getSkillResults(){
+  getSkillResults() {
     this.skillsServiceApp.GetSkillsResults(this.searchAndSortModel).subscribe(
       (data) => {
         if (data.status === Status.Success) {

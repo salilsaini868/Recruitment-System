@@ -3,6 +3,7 @@ using RS.Entity.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using RS.ViewModel.SearchAndSortModel;
 
 namespace RS.Data.Interfaces
 {
@@ -16,8 +17,6 @@ namespace RS.Data.Interfaces
 
         void UpdateUserRole(UserRoles userRole);
 
-        new List<Users> GetAll();
-
         Users GetByID(Guid userId);
 
         List<Users> GetUsersByRole(int roleId);
@@ -25,5 +24,6 @@ namespace RS.Data.Interfaces
         Users GetEmailIdByUserName(String userName);
 
         void UpdateUser(Users user);
+        List<Users> GetAll(SearchAndSortModel searchAndSortModel);
     }
 }

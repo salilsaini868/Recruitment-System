@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System;
 using System.Collections.Generic;
+using RS.ViewModel.SearchAndSortModel;
 
 namespace RS.Data.Logic
 {
@@ -55,15 +56,39 @@ namespace RS.Data.Logic
             _context.SaveChanges();
         }
 
-        List<Users> IUserRepository.GetAll()
-        {
-            return _context.Users.Include(t => t.UserRoles).ThenInclude(r => r.Role).Where(x => (x.IsActive && !x.IsDeleted)).ToList();
-        }
-
         public void UpdateUser(Users user)
         {
             _context.Entry(user).State = EntityState.Modified;
             _context.SaveChanges();
         }
+
+
+        List<Users> IUserRepository.GetAll(SearchAndSortModel searchAndSortModel)
+        {
+            var userList = _context.Users.Include(t => t.UserRoles).ThenInclude(r => r.Role).Where(x => (x.IsActive && !x.IsDeleted)).ToList();
+
+            if (searchAndSortModel.SearchString != null)
+            {
+                userList = userList.Where(x => x.FirstName.ToLower().Contains(searchAndSortModel.SearchString.ToLower()) ||
+                    x.LastName.ToLower().Contains(searchAndSortModel.SearchString.ToLower()) ||
+                    x.Email.ToLower().Contains(searchAndSortModel.SearchString.ToLower()) ||
+                    x.UserRoles.Where(y => y.Role.Name.ToLower()
+                    .Contains(searchAndSortModel.SearchString.ToLower())).Any()
+                    ).ToList();
+            }
+            if (searchAndSortModel.Property != null)
+            {
+                if (searchAndSortModel.Direction == 1)
+                {
+                  userList = userList.OrderBy(x => x.GetType().GetProperty(searchAndSortModel.Property).GetValue(x, null)).ToList();
+                }
+                else
+                {
+                  userList = userList.OrderByDescending(x => x.GetType().GetProperty(searchAndSortModel.Property).GetValue(x, null)).ToList();
+                }
+            }
+            return userList;
+        }
+
     }
 }

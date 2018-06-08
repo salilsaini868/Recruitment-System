@@ -14,7 +14,7 @@
         "DELETEERROR": "Skill error while deleting",
         "DELETEDSUCCESSFULLY": "Skill deleted successfully",
         "FAILEDTODELETE": "Skill failled to delete",
-        "DEFAULTSORTPROPERTY": "Name",
+        "DEFAULTSORTPROPERTY": "FirstName",
         "REQUIRED": "This field is required",
         "NORECORD": "No Skills found !",
         "ERROR": "Error Occurred",
@@ -73,7 +73,11 @@
         "DELETE": "Delete",
         "FORGOTPASSWORD": "Forgot password?",
         "USERNAMEEXISTMESSAGE": "User with the same Username Already Exists!.",
-        "EMAILIDEXISTMESSAGE": "User with the same EmailID Already Exists!."
+        "EMAILIDEXISTMESSAGE": "User with the same EmailID Already Exists!.",
+        "DEFAULTSORTPROPERTY": "FirstName",
+        "NORECORD": "No User found !",
+        "ERROR": "Error Occurred",
+        "SEARCH":"Search..."
     },
     "OPENING": {
         "LIST": "List of Openings",

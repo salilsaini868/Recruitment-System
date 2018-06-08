@@ -1,5 +1,6 @@
 ﻿using RS.Common.CommonData;
 using RS.Common.Enums;
+using RS.ViewModel.SearchAndSortModel;
 using RS.ViewModel.User;
 using System;
 
@@ -26,6 +27,7 @@ namespace RS.Service.Interfaces
         IResult GetUsersByRole(int roleId);
 
         IResult GetUserDetail();
+        IResult GetUsersResults(SearchAndSortModel searchAndSortModel);
 
     }
 }

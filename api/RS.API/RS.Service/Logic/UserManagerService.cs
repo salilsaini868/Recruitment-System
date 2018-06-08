@@ -11,6 +11,8 @@ using System.Security.Claims;
 using System.Security.Principal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
+using RS.ViewModel.SearchAndSortModel;
+using System.Collections.Generic;
 
 namespace RS.Service.Logic
 {
@@ -394,6 +396,40 @@ namespace RS.Service.Logic
             {
                 result.Message = e.Message;
                 result.Status = Status.Error;
+            }
+            return result;
+        }
+
+
+
+        public IResult GetUsersResults(SearchAndSortModel searchAndSortModel)
+        {
+            var result = new Result
+            {
+                Operation = Operation.Read,
+                Status = Status.Success
+            };
+            try
+            {
+                var userList = _userRepository.GetAll(searchAndSortModel).ToList();
+
+                result.Body = userList.Select(user =>
+                {
+                    var getUserRole = user.UserRoles.FirstOrDefault(x => (x.IsActive && !x.IsDeleted));
+                    var userViewModel = new UserViewModel();
+                    if (getUserRole != null)
+                    {
+                        userViewModel.RoleId = getUserRole.RoleId;
+                        userViewModel.Role = getUserRole.Role.Name;
+                    }
+                    return userViewModel.MapFromModel(user);
+                }).ToList();
+
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Fail;
             }
             return result;
         }
