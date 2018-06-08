@@ -12,7 +12,7 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th width=400 class="pointer" (click)="sort('FirstName')">
+                        <th class="pointer" (click)="sort('FirstName')">
                             <span class="pull-left">{{ 'USER.FIRSTNAME' | translate }}</span>
                             <span class="arrow-gap">
                                 <i class="fa" [ngClass]="{'fa-sort': searchAndSortModel.property !== 'FirstName', 
@@ -22,7 +22,7 @@
                             </span>
                         </th>
 
-                        <th width=400 class="pointer" (click)="sort('LastName')">
+                        <th class="pointer" (click)="sort('LastName')">
                             <span class="pull-left">{{ 'USER.LASTNAME' | translate}}</span>
                             <span class="arrow-gap">
                                 <i class="fa" [ngClass]="{'fa-sort': searchAndSortModel.property !== 'LastName', 
@@ -32,7 +32,7 @@
                             </span>
                         </th>
 
-                        <th width=400 class="pointer" (click)="sort('Email')">
+                        <th  class="pointer" (click)="sort('Email')">
                             <span class="pull-left">{{ 'USER.EMAIL' | translate }}</span>
                             <span class="arrow-gap">
                                 <i class="fa" [ngClass]="{'fa-sort': searchAndSortModel.property !== 'Email', 
