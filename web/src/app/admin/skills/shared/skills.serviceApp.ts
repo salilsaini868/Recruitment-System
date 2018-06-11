@@ -14,13 +14,16 @@ export class SkillsServiceApp {
     listSkill(): Observable<any> {
         return this.apiSkillsService.ApiSkillGetAllSkillGet().map(x => (x));
     }
-    deleteSkill(): Observable<any> {
-        return;
+    deleteSkill(skillsModel): Observable<any> {
+        return this.apiSkillsService.ApiSkillDeleteSkillPut(skillsModel).map(x =>(x));
     }
     updateSkill(SkillsModel): Observable<any> {
         return this.apiSkillsService.ApiSkillUpdateSkillPut(SkillsModel).map(x => (x));
     }
     getSkillById(skillId): Observable<any> {
         return this.apiSkillsService.ApiSkillGetSkillByIdGet(skillId).map(x => (x));
+    }
+    GetSkillsResults(searchAndSortModel): Observable<any> {
+        return this.apiSkillsService.ApiSkillGetSkillsResultsPost(searchAndSortModel).map(x => (x));
     }
 }

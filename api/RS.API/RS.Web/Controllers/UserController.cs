@@ -16,6 +16,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using RS.ViewModel.SearchAndSortModel;
 
 namespace RS.Web.Controllers
 {
@@ -72,6 +73,13 @@ namespace RS.Web.Controllers
         {
             var userRecord = _userService.GetUsersByRole(id);
             return userRecord;
+        }
+
+        [HttpPost]
+        public IResult GetUsersResults([FromBody]SearchAndSortModel searchAndSortModel)
+        {
+            var userList = _userService.GetUsersResults(searchAndSortModel);
+            return userList;
         }
 
     }

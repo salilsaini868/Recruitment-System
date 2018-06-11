@@ -4,6 +4,9 @@ import { SkillViewModel } from '../../webapi/models/skill-view-model';
 import { DisplayMessageService } from '../../shared/toastr/display.message.service';
 import { isNullOrUndefined } from 'util';
 import { Status } from '../../app.enum';
+import { TranslateService } from '@ngx-translate/core';
+import { SearchAndSortModel } from '../../webapi/models/search-and-sort-model';
+import { isEmpty } from 'rxjs/operator/isEmpty';
 
 @Component({
   selector: 'app-skills',
@@ -15,13 +18,20 @@ export class SkillsComponent implements OnInit {
 
   skillsModel: SkillViewModel = {} as SkillViewModel;
   skills: SkillViewModel[] = [] as SkillViewModel[];
+  searchAndSortModel: SearchAndSortModel = {} as SearchAndSortModel;
   submitted = false;
   isSkillExists = false;
+  listFilter: string;
+  skillId: any;
+  isDesc = false;
 
-  constructor(private skillsServiceApp: SkillsServiceApp, private displayMessage: DisplayMessageService) {
+
+  constructor(private skillsServiceApp: SkillsServiceApp, private displayMessage: DisplayMessageService,
+    private translateService: TranslateService) {
   }
   ngOnInit() {
     this.listSkill();
+    this.setDefaultSortOption();
   }
   onSubmit(skillsform) {
     this.submitted = true;
@@ -63,12 +73,25 @@ export class SkillsComponent implements OnInit {
       }
     });
   }
-  deleteSkills(i) {
-    this.skills.splice(i, 1);
-    this.skillsServiceApp.deleteSkill().subscribe((data) => {
-      if (data) {
-      }
-    });
+  deleteSkills(skill, i) {
+    const isDelete = confirm('Are you sure you want to delete skill?');
+    if (isDelete) {
+      this.skills.splice(i, 1);
+      this.skillsServiceApp.deleteSkill(skill).subscribe(
+        (data) => {
+          if (data.status === Status.Success) {
+            this.skillsModel = data.body;
+            this.displayMessage.showSuccess('SKILLS.DELETEDSUCCESSFULLY');
+          } else if (data.status === Status.Fail) {
+            this.displayMessage.showWarning('SKILLS.FAILEDTODELETE');
+          } else if (data.status === Status.Error) {
+            this.displayMessage.showError('SKILLS.DELETEERROR');
+          }
+        },
+        (error) => {
+          this.displayMessage.showError('SKILLS.DELETEERROR');
+        });
+    }
   }
   getSkillById(skillId) {
     if (!isNullOrUndefined(skillId)) {
@@ -83,5 +106,56 @@ export class SkillsComponent implements OnInit {
   editSkills(skillId) {
     this.skillsModel.skillId = skillId;
     this.getSkillById(skillId);
+  }
+
+  setDefaultSortOption() {
+    this.searchAndSortModel.direction = -1;
+    this.translateService.get('SKILLS.DEFAULTSORTPROPERTY').subscribe(
+      (data) => {
+        this.searchAndSortModel.property = data;
+        this.getAllSkills();
+      }
+    );
+  }
+
+  getAllSkills() {
+    this.getSkillResults();
+  }
+  sort(property) {
+    this.isDesc = !this.isDesc;
+    this.searchAndSortModel.direction = this.isDesc ? 1 : -1;
+    this.searchAndSortModel.property = property;
+    this.getSkillResults();
+  }
+
+  clear() {
+    if (this.listFilter === '') {
+      this.search();
+    }
+    return;
+  }
+  onKeydown(event) {
+    if (event.key === 'Enter') {
+      this.search();
+    }
+  }
+  search() {
+    this.searchAndSortModel.searchString = this.listFilter.trim();
+    this.getSkillResults();
+  }
+
+  getSkillResults() {
+    this.skillsServiceApp.GetSkillsResults(this.searchAndSortModel).subscribe(
+      (data) => {
+        if (data.status === Status.Success) {
+          this.skills = data.body;
+        } else if (data.status === Status.Error) {
+          this.displayMessage.showError('SKILLS.ERROR');
+        }
+      },
+      (error) => {
+        this.displayMessage.showError('SKILLS.ERROR');
+      }
+    );
   }
 }

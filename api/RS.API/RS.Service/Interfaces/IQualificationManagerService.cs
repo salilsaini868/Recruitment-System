@@ -1,5 +1,6 @@
 ﻿using RS.Common.CommonData;
 using RS.ViewModel.Qualification;
+using RS.ViewModel.SearchAndSortModel;
 
 namespace RS.Service.Interfaces
 {
@@ -38,5 +39,12 @@ namespace RS.Service.Interfaces
         /// <param name="id"></param>
         /// <returns></returns>
         IResult GetQualificationById(int id);
+
+        /// <summary>
+        /// Get Qualification Results
+        /// </summary>
+        /// <param name="qualificationId"></param>
+        /// <returns></returns>
+        IResult GetQualificationsResults(SearchAndSortModel searchAndSortModel);
     }
 }

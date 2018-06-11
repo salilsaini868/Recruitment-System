@@ -10,7 +10,15 @@
         "UPDATE": "Update",
         "CREATE_SKILLS": "Create Skills",
         "UPDATE_SKILLS": "Update Skills",
-        "EXIST": "This Skill with same already exists. Please choose another one..!"
+        "EXIST": "This Skill with same already exists. Please choose another one..!",
+        "DELETEERROR": "Skill error while deleting",
+        "DELETEDSUCCESSFULLY": "Skill deleted successfully",
+        "FAILEDTODELETE": "Skill failled to delete",
+        "DEFAULTSORTPROPERTY": "FirstName",
+        "REQUIRED": "This field is required",
+        "NORECORD": "No Skills found !",
+        "ERROR": "Error Occurred",
+        "SEARCH":"Search..."
     },
     "SKILL_DETAILS": {
         "SKILL_DETAILS": "Skill Details",
@@ -29,7 +37,11 @@
         "MESSAGE": "This Qualification with same already exists. Please choose another one..!",
         "DELETEERROR": "Qualification error in deleting",
         "DELETEDSUCCESSFULLY": "Qualification deleted successfully",
-        "FAILEDTODELETE": "Qualification failled to delete"
+        "FAILEDTODELETE": "Qualification failled to delete",
+        "DEFAULTSORTPROPERTY": "Name",
+        "NORECORD": "No Qualifications found !",
+        "ERROR": "Error Occurred ",
+        "SEARCH":"Search..."
     },
     "QUALIFICATION_DETAILS": {
         "QUALIFICATION_DETAILS": "Qualification Details",
@@ -61,7 +73,11 @@
         "DELETE": "Delete",
         "FORGOTPASSWORD": "Forgot password?",
         "USERNAMEEXISTMESSAGE": "User with the same Username Already Exists!.",
-        "EMAILIDEXISTMESSAGE": "User with the same EmailID Already Exists!."
+        "EMAILIDEXISTMESSAGE": "User with the same EmailID Already Exists!.",
+        "DEFAULTSORTPROPERTY": "FirstName",
+        "NORECORD": "No User found !",
+        "ERROR": "Error Occurred",
+        "SEARCH":"Search..."
     },
     "OPENING": {
         "LIST": "List of Openings",

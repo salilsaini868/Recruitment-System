@@ -1,5 +1,6 @@
 ﻿using RS.Common.CommonData;
 using RS.Entity.Models;
+using RS.ViewModel.SearchAndSortModel;
 using RS.ViewModel.Skill;
 using System;
 using System.Collections.Generic;
@@ -26,9 +27,9 @@ namespace RS.Service.Interfaces
         /// <summary>
         /// Delete a Skill
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="skill"></param>
         /// <returns></returns>
-        IResult DeleteSkill(int id);
+        IResult DeleteSkill(SkillViewModel skill);
 
         /// <summary>
         /// Get All Skills
@@ -42,5 +43,13 @@ namespace RS.Service.Interfaces
         /// <param name="id"></param>
         /// <returns></returns>
         IResult GetSkillById(int id);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="skillId"></param>
+        /// <returns></returns>
+        IResult GetSkillsResults(SearchAndSortModel searchAndSortModel);
+
     }
 }

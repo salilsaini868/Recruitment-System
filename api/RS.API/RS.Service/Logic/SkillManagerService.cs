@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
-using System.Text;
+using RS.ViewModel.SearchAndSortModel;
 
 namespace RS.Service.Logic
 {
@@ -18,6 +18,7 @@ namespace RS.Service.Logic
     {
         private readonly ClaimsPrincipal _principal;
         private readonly ISkillRepository _skillRepository;
+
         public SkillManagerService(IPrincipal principal, ISkillRepository skillRepository)
         {
             _skillRepository = skillRepository;
@@ -104,6 +105,33 @@ namespace RS.Service.Logic
             return result;
         }
 
+        public IResult DeleteSkill(SkillViewModel skill)
+        {
+            var result = new Result
+            {
+                Operation = Operation.Delete,
+                Status = Status.Success
+            };
+            try
+            {
+                var skillObj = _skillRepository.GetFirstOrDefault(x => x.SkillId == skill.SkillId);
+                if (skillObj != null)
+                {
+                    skillObj.MapDeleteColumns((ClaimsIdentity)_principal.Identity);
+                    _skillRepository.Update(skillObj);
+                    _skillRepository.SaveChanges();
+                    result.Message = SkillStatusNotification.SkillDeleted;
+                }
+                result.Body = skillObj;
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Error;
+            }
+            return result;
+        }
+
         public IResult UpdateSkill(SkillViewModel skill)
         {
             var result = new Result
@@ -134,6 +162,31 @@ namespace RS.Service.Logic
             {
                 result.Message = e.Message;
                 result.Status = Status.Error;
+            }
+            return result;
+        }
+
+        public IResult GetSkillsResults(SearchAndSortModel searchAndSortModel)
+        {
+            var result = new Result
+            {
+                Operation = Operation.Read,
+                Status = Status.Success
+            };
+            try
+            {
+                List<SkillViewModel> skillModelList = new List<SkillViewModel>();
+                var skillList = _skillRepository.GetAll(searchAndSortModel).ToList();
+
+                var skillViewModelLists = skillModelList.MapFromModel<Skills, SkillViewModel>(skillList);
+
+                result.Body = skillViewModelLists;
+               
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Fail;
             }
             return result;
         }

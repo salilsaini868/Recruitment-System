@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RS.Service.Interfaces;
 using RS.ViewModel.Skill;
 using RS.Common.CommonData;
-using Microsoft.AspNetCore.Cors;
-
+using RS.ViewModel.SearchAndSortModel;
 namespace RS.Web.Controllers
 {
     [Produces("application/json")]
@@ -38,6 +33,13 @@ namespace RS.Web.Controllers
             return updatedSkill;
         }
 
+        [HttpPut]
+        public IResult DeleteSkill([FromBody]SkillViewModel skillView)
+        {
+            var deleteQualification = _skillService.DeleteSkill(skillView);
+            return deleteQualification;
+        }
+
         [HttpGet]
         public IResult GetAllSkill()
         {
@@ -50,6 +52,13 @@ namespace RS.Web.Controllers
         {
             var skillRecord = _skillService.GetSkillById(id);
             return skillRecord;
+        }
+
+        [HttpPost]
+        public IResult GetSkillsResults([FromBody]SearchAndSortModel searchAndSortModel)
+        {
+            var skillList = _skillService.GetSkillsResults(searchAndSortModel);
+            return skillList;
         }
     }
 }

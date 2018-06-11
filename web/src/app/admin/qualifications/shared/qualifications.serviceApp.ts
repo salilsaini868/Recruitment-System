@@ -17,7 +17,7 @@ export class QualificationsServiceApp {
     }
 
     deleteQualification(qualificationsModel): Observable<any> {
-        return this.apiQualificationsService.ApiQualificatonDeleteQualificationPut(qualificationsModel).map(x =>(x));
+        return this.apiQualificationsService.ApiQualificatonDeleteQualificationPut(qualificationsModel).map(x => (x));
     }
 
     updateQualification(QualificationsModel): Observable<any> {
@@ -26,5 +26,8 @@ export class QualificationsServiceApp {
 
     getQualificationById(qualificatonId): Observable<any> {
         return this.apiQualificationsService.ApiQualificatonGetQualificationlByIdGet(qualificatonId).map(x => (x));
+    }
+    GetQualificationsResults(searchAndSortModel): Observable<any> {
+        return this.apiQualificationsService.ApiQualificatonGetQualificationsResultsPost(searchAndSortModel).map(x => (x));
     }
 }
