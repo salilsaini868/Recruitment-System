@@ -8,6 +8,7 @@ import { OpeningViewModel } from '../webapi/models';
 import { SearchAndSortModel } from 'app/shared/customModels/search-and-sort-model';
 import { TranslateService } from '@ngx-translate/core';
 import decode from 'jwt-decode';
+import { OpeningListModel } from 'app/shared/customModels/opening-list-model';
 
 @Component({
     selector: 'app-openings',
@@ -16,7 +17,7 @@ import decode from 'jwt-decode';
 
 export class OpeningsComponent implements OnInit {
 
-    openings: OpeningViewModel[] = [] as OpeningViewModel[];
+    openings: OpeningListModel[] = [] as OpeningListModel[];
     searchAndSortModel: SearchAndSortModel = {} as SearchAndSortModel;
     listFilter: string;
     loggedRole: any;
@@ -88,6 +89,25 @@ export class OpeningsComponent implements OnInit {
                 }
             }
         );
+    }
+
+    clear() {
+        if (this.listFilter === '') {
+            this.search();
+        }
+    }
+
+    onKeydown(event) {
+        if (event.key === 'Enter') {
+            this.search();
+        }
+    }
+
+    checkRole(loggedRole) {
+        if (loggedRole === 'Sr.HR') {
+            return true;
+        }
+        return false;
     }
 
     addOpening() {

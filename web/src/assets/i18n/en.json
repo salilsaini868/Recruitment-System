@@ -83,7 +83,8 @@
         "STATUS": "Status",
         "ADD": "Add Candidate",
         "EDIT": "Edit",
-        "DEFAULTSORTPROPERTY": "ModifiedDate"
+        "DEFAULTSORTPROPERTY": "ModifiedDate",
+        "NORECORDS":"No Openings Found"
     },
     "FORGOTPASSWORD": {
         "TITLE": "Forgot password",

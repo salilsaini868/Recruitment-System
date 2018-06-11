@@ -2,8 +2,8 @@
     <h2>{{ 'OPENING.LIST' | translate }}</h2>
 
     <button *ngIf="loggedRole == 'Sr.HR'" title="Add" class="btn btn-primary blue-btn pull-right no-radius" (click)="addOpening()">Add</button>
-    <input class="search" placeholder="Search..." type="text" [(ngModel)]="listFilter" />
-    <button (click)="search()" class="button button4">GO</button>
+    <input (keydown)="onKeydown($event)" class="search" placeholder="Search..." type="text" [(ngModel)]="listFilter" />
+    <button (click)="search()" (keyup)="clear()" class="button button4">GO</button>
 
     <div class="table-responsive-top">
         <div class="table-responsive">
@@ -40,27 +40,34 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr title="{{ opening.description }}" *ngFor="let opening of openings">
-                        <td>{{opening.title}}</td>
-                        <td>{{opening.primarySkills}}</td>
-                        <td *ngIf="opening.secondarySkillTypes.length > 0; else elseBlock">{{opening.secondarySkills}}</td>
-                        <ng-template #elseBlock>
-                            <td> -- </td>
-                        </ng-template>
-                        <td>{{opening.status}}</td>
-                        <td>{{opening.createdDate | date: 'dd-MM-yyyy'}}</td>
-                        <td>{{opening.modifiedDate | date: 'dd-MM-yyyy'}}</td>
-                        <td>
-                            <button *ngIf="loggedRole == 'Sr.HR'" title="Delete" class="btn btn-danger no-radius" (click)="deleteOpening(opening.openingId)">{{ 'OPENING.DELETE' | translate }}</button>
-                            <button *ngIf="loggedRole == 'Sr.HR' && opening.status == 'Re-Edit'" title="Edit" class="btn btn-primary no-radius blue-btn"
-                                (click)="updateOpening(opening.openingId)">{{ 'OPENING.UPDATE' | translate }}</button>
-                            <button *ngIf="loggedRole != 'Sr.HR' && !opening.isApproved" title="Edit Opening" class="btn btn-primary no-radius blue-btn"
-                                (click)="updateOpening(opening.openingId)">{{ 'OPENING.EDIT' | translate }}</button>
-                            <button *ngIf="loggedRole == 'Sr.HR' && opening.isApproved" title="AddCandidate" class="btn btn-primary no-radius blue-btn"
-                                (click)="addCandidate(opening.openingId)">{{ 'OPENING.ADD' | translate }}</button>
-                            <button *ngIf="opening.isApproved" title="ViewOpening" class="btn btn-primary no-radius blue-btn" (click)="openingDetails(opening.openingId)">{{ 'OPENING.VIEW' | translate }}</button>
-                        </td>
+                    <tr *ngIf="openings.length === 0; else rowTemplate">
+                        <td></td>
+                        <td align="center">{{'OPENING.NORECORDS' | translate }}</td>
+                        <td></td>
                     </tr>
+                    <ng-template #rowTemplate>
+                        <tr title="{{ opening.description }}" *ngFor="let opening of openings">
+                            <td>{{opening.title}}</td>
+                            <td>{{opening.primarySkills}}</td>
+                            <td *ngIf="opening.secondarySkills; else elseBlock">{{opening.secondarySkills}}</td>
+                            <ng-template #elseBlock>
+                                <td> -- </td>
+                            </ng-template>
+                            <td>{{opening.status}}</td>
+                            <td>{{opening.createdDate | date: 'dd-MM-yyyy'}}</td>
+                            <td>{{opening.modifiedDate | date: 'dd-MM-yyyy'}}</td>
+                            <td>
+                                <button *ngIf="checkRole(loggedRole)" title="Delete" class="btn btn-danger no-radius" (click)="deleteOpening(opening.openingId)">{{ 'OPENING.DELETE' | translate }}</button>
+                                <button *ngIf="checkRole(loggedRole) && opening.status == 'Re-Edit'" title="Edit" class="btn btn-primary no-radius blue-btn"
+                                    (click)="updateOpening(opening.openingId)">{{ 'OPENING.UPDATE' | translate }}</button>
+                                <button *ngIf="!checkRole(loggedRole) && !opening.isApproved" title="Edit Opening" class="btn btn-primary no-radius blue-btn"
+                                    (click)="updateOpening(opening.openingId)">{{ 'OPENING.EDIT' | translate }}</button>
+                                <button *ngIf="checkRole(loggedRole) && opening.isApproved" title="AddCandidate" class="btn btn-primary no-radius blue-btn"
+                                    (click)="addCandidate(opening.openingId)">{{ 'OPENING.ADD' | translate }}</button>
+                                <button *ngIf="opening.isApproved" title="ViewOpening" class="btn btn-primary no-radius blue-btn" (click)="openingDetails(opening.openingId)">{{ 'OPENING.VIEW' | translate }}</button>
+                            </td>
+                        </tr>
+                    </ng-template>
                 </tbody>
             </table>
         </div>

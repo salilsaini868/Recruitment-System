@@ -147,31 +147,7 @@ namespace RS.Service.Logic
             };
             try
             {
-                var allOpenings = _openingRepository.GetOpeningsCorrespondingToLoggedUser(searchAndSortModel.UserId);
-
-                List<OpeningViewModel> openingModelList = new List<OpeningViewModel>();
-                if (searchAndSortModel.Property != null)
-                {
-                    if (searchAndSortModel.Direction == 1)
-                    {
-                        openingModelList = allOpenings.OrderBy(x => x.GetType().GetProperty(searchAndSortModel.Property).GetValue(x, null)).ToList();
-                    }
-                    else
-                    {
-                        openingModelList = allOpenings.OrderByDescending(x => x.GetType().GetProperty(searchAndSortModel.Property).GetValue(x, null)).ToList();
-                    }
-                }
-                else
-                {
-                    openingModelList = allOpenings;
-                }
-                if(searchAndSortModel.SearchString != null)
-                {
-                    result.Body = openingModelList.Where(x => x.Title.ToLower().Contains(searchAndSortModel.SearchString.ToLower()) || x.PrimarySkills.ToLower().Contains(searchAndSortModel.SearchString.ToLower()) || x.SecondarySkills.ToLower().Contains(searchAndSortModel.SearchString.ToLower())).ToList();
-                } else
-                {
-                    result.Body = openingModelList;
-                }
+                result.Body = _openingRepository.GetOpeningsCorrespondingToLoggedUser(searchAndSortModel);
             }
             catch (Exception e)
             {

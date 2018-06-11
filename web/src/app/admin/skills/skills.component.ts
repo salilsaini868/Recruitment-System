@@ -16,7 +16,7 @@ export class SkillsComponent implements OnInit {
   skillsModel: SkillViewModel = {} as SkillViewModel;
   skills: SkillViewModel[] = [] as SkillViewModel[];
   submitted = false;
-  isSkillExists: boolean = false;
+  isSkillExists = false;
 
   constructor(private skillsServiceApp: SkillsServiceApp, private displayMessage: DisplayMessageService) {
   }
@@ -45,14 +45,13 @@ export class SkillsComponent implements OnInit {
     }
   }
   checkNameExitsOnBlur() {
-    let $this = this;
-    let skillName = $this.skillsModel.name;
+    const skillName = this.skillsModel.name;
     this.skills.every(function (skill) {
       if (skill['name'] === skillName) {
-        $this.isSkillExists = true;
+        this.isSkillExists = true;
         return false;
       } else {
-        $this.isSkillExists = false;
+        this.isSkillExists = false;
         return true;
       }
     });

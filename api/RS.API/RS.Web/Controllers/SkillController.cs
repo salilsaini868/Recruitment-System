@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using RS.Service.Interfaces;
 using RS.ViewModel.Skill;
 using RS.Common.CommonData;
+using Microsoft.AspNetCore.Cors;
 
 namespace RS.Web.Controllers
 {
@@ -33,7 +34,7 @@ namespace RS.Web.Controllers
         [HttpPut]
         public IResult UpdateSkill([FromBody]SkillViewModel skillView)
         {
-            var updatedSkill  = _skillService.UpdateSkill(skillView);
+            var updatedSkill = _skillService.UpdateSkill(skillView);
             return updatedSkill;
         }
 

@@ -231,7 +231,8 @@ namespace RS.Data.Logic
 
         private int GetCandidatesHired(int i, string opening)
         {
-            return _context.ApprovalTransactions.Where(x => x.IsApproved && GetOpening(x.EntityId) == opening && x.ApprovalId == (int)Approval.Candidate && x.ModifiedDate.Value.Month == i && x.IsActive && !x.IsDeleted).Count();
+            var c =  _context.ApprovalTransactions.Where(x => x.IsApproved && GetOpening(x.EntityId) == opening && x.ApprovalId == (int)Approval.Candidate && x.ModifiedDate.Value.Month == i && x.IsActive && !x.IsDeleted).Count();
+            return c;
         }
 
         private string GetOpening(Guid candidateId)

@@ -1,5 +1,7 @@
-﻿using RS.Entity.Models;
+﻿using RS.Entity.DTO;
+using RS.Entity.Models;
 using RS.ViewModel.Opening;
+using RS.ViewModel.SearchAndSortModel;
 using System;
 using System.Collections.Generic;
 
@@ -15,7 +17,7 @@ namespace RS.Data.Interfaces
 
         new List<Openings> GetAll();
 
-        List<OpeningViewModel> GetOpeningsCorrespondingToLoggedUser(Guid userId);
+        List<OpeningModelDTO> GetOpeningsCorrespondingToLoggedUser(SearchAndSortModel searchAndSortModel);
 
     }
 }
