@@ -2,8 +2,8 @@
     <h2>{{ 'OPENING.LIST' | translate }}</h2>
 
     <button *ngIf="loggedRole == 'Sr.HR'" title="Add" class="btn btn-primary blue-btn pull-right no-radius" (click)="addOpening()">Add</button>
-    <input (keydown)="onKeydown($event)" class="search" placeholder="Search..." type="text" [(ngModel)]="listFilter" />
-    <button (click)="search()" (keyup)="clear()" class="button button4">GO</button>
+    <input (keydown)="onKeydown($event)" (keyup)="clear()" class="search" placeholder="Search..." type="text" [(ngModel)]="listFilter" />
+    <button (click)="search()" class="button button4">{{ 'OPENING.SEARCH' | translate }}</button>
 
     <div class="table-responsive-top">
         <div class="table-responsive">

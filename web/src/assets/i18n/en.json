@@ -100,7 +100,8 @@
         "ADD": "Add Candidate",
         "EDIT": "Edit",
         "DEFAULTSORTPROPERTY": "ModifiedDate",
-        "NORECORDS":"No Openings Found"
+        "NORECORDS":"No Openings Found",
+        "SEARCH":"GO"
     },
     "FORGOTPASSWORD": {
         "TITLE": "Forgot password",

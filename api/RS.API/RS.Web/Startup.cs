@@ -52,7 +52,7 @@ namespace RS.Web
                 options.AddPolicy(DefaultCorsPolicyName, p =>
                 {
                     //todo: Get from configuration
-                    p.WithOrigins("http://localhost:8080").AllowAnyHeader().AllowAnyMethod();
+                    p.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod();
                 });
             });
 
