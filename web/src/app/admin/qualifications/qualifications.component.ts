@@ -10,7 +10,7 @@ import { Status } from '../../app.enum';
 @Component({
   selector: 'app-qualifications',
   templateUrl: 'qualifications.component.html',
-  styleUrls:['qualifications.scss'],
+  styleUrls: ['qualifications.scss'],
 })
 
 export class QualificationsComponent implements OnInit {
@@ -18,13 +18,14 @@ export class QualificationsComponent implements OnInit {
   qualifications: QualificationViewModel[] = [] as QualificationViewModel[];
   searchAndSortModel: SearchAndSortModel = {} as SearchAndSortModel;
   submitted = false;
-  isQualificationExists: boolean = false;
+  isQualificationExists = false;
   listFilter: string;
   qualificationId: any;
   isDesc = false;
 
 
-  constructor(private qualificationsServiceApp: QualificationsServiceApp, private displayMessage: DisplayMessageService,private translateService: TranslateService) {
+  constructor(private qualificationsServiceApp: QualificationsServiceApp, private displayMessage: DisplayMessageService,
+    private translateService: TranslateService) {
   }
   ngOnInit() {
     this.listQualification();
@@ -52,14 +53,13 @@ export class QualificationsComponent implements OnInit {
     }
   }
   checkQualificationExits() {
-    let $this = this;
-    let qualificationname = $this.qualificationsModel.name;
+    const qualificationname = this.qualificationsModel.name;
     this.qualifications.every(function (qualification) {
       if (qualification['name'] === qualificationname) {
-        $this.isQualificationExists = true;
+        this.isQualificationExists = true;
         return false;
       } else {
-        $this.isQualificationExists = false;
+        this.isQualificationExists = false;
         return true;
       }
     });
@@ -74,7 +74,7 @@ export class QualificationsComponent implements OnInit {
   }
 
   deleteQualifications(qualification, i) {
-    let isDelete = confirm("Are you sure you want to delete Qualification?");
+    const isDelete = confirm('Are you sure you want to delete Qualification?');
     if (isDelete) {
       this.qualifications.splice(i, 1);
       this.qualificationsServiceApp.deleteQualification(qualification).subscribe(
@@ -82,17 +82,15 @@ export class QualificationsComponent implements OnInit {
           if (data.status === Status.Success) {
             this.qualificationsModel = data.body;
             this.displayMessage.showSuccess('QUALIFICATIONS.DELETEDSUCCESSFULLY');
-          }
-         else if (data.status === Status.Fail) {
+          } else if (data.status === Status.Fail) {
             this.displayMessage.showWarning('QUALIFICATIONS.FAILEDTODELETE');
-          }
-         else if (data.status === Status.Error) {
+          } else if (data.status === Status.Error) {
             this.displayMessage.showError('QUALIFICATIONS.DELETEERROR');
           }
         },
         (error) => {
           this.displayMessage.showError('QUALIFICATIONS.DELETEERROR');
-       });
+        });
     }
   }
 
@@ -125,7 +123,7 @@ export class QualificationsComponent implements OnInit {
   getAllQualifications() {
     this.getQualificationResults();
 
-      }
+  }
   sort(property) {
     this.isDesc = !this.isDesc;
     this.searchAndSortModel.direction = this.isDesc ? 1 : -1;
@@ -134,8 +132,8 @@ export class QualificationsComponent implements OnInit {
   }
 
   clear() {
-    if (this.listFilter === "") {
-      this.search()
+    if (this.listFilter === '') {
+      this.search();
     }
     return;
   }
@@ -148,14 +146,13 @@ export class QualificationsComponent implements OnInit {
     this.searchAndSortModel.searchString = this.listFilter.trim();
     this.getQualificationResults();
   }
- 
-  getQualificationResults(){
+
+  getQualificationResults() {
     this.qualificationsServiceApp.GetQualificationsResults(this.searchAndSortModel).subscribe(
       (data) => {
         if (data.status === Status.Success) {
           this.qualifications = data.body;
-        }
-        else if (data.status === Status.Error) {
+        } else if (data.status === Status.Error) {
           this.displayMessage.showError('QUALIFICATIONS.ERROR');
         }
       },

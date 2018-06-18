@@ -77,6 +77,13 @@ export class CandidatesComponent implements OnInit {
         );
     }
 
+    checkRole(loggedRole) {
+        if (loggedRole === 'Sr.HR') {
+            return true;
+        }
+        return false;
+    }
+
     addCandidate() {
         this.router.navigate(['Candidate']);
     }

@@ -20,13 +20,14 @@ export class SkillsComponent implements OnInit {
   skills: SkillViewModel[] = [] as SkillViewModel[];
   searchAndSortModel: SearchAndSortModel = {} as SearchAndSortModel;
   submitted = false;
-  isSkillExists: boolean = false;
+  isSkillExists = false;
   listFilter: string;
   skillId: any;
   isDesc = false;
 
 
-  constructor(private skillsServiceApp: SkillsServiceApp, private displayMessage: DisplayMessageService, private translateService: TranslateService) {
+  constructor(private skillsServiceApp: SkillsServiceApp, private displayMessage: DisplayMessageService,
+    private translateService: TranslateService) {
   }
   ngOnInit() {
     this.listSkill();
@@ -54,14 +55,13 @@ export class SkillsComponent implements OnInit {
     }
   }
   checkNameExitsOnBlur() {
-    let $this = this;
-    let skillName = $this.skillsModel.name;
+    const skillName = this.skillsModel.name;
     this.skills.every(function (skill) {
       if (skill['name'] === skillName) {
-        $this.isSkillExists = true;
+        this.isSkillExists = true;
         return false;
       } else {
-        $this.isSkillExists = false;
+        this.isSkillExists = false;
         return true;
       }
     });
@@ -74,7 +74,7 @@ export class SkillsComponent implements OnInit {
     });
   }
   deleteSkills(skill, i) {
-    let isDelete = confirm("Are you sure you want to delete skill?");
+    const isDelete = confirm('Are you sure you want to delete skill?');
     if (isDelete) {
       this.skills.splice(i, 1);
       this.skillsServiceApp.deleteSkill(skill).subscribe(
@@ -82,11 +82,9 @@ export class SkillsComponent implements OnInit {
           if (data.status === Status.Success) {
             this.skillsModel = data.body;
             this.displayMessage.showSuccess('SKILLS.DELETEDSUCCESSFULLY');
-          }
-          else if (data.status === Status.Fail) {
+          } else if (data.status === Status.Fail) {
             this.displayMessage.showWarning('SKILLS.FAILEDTODELETE');
-          }
-          else if (data.status === Status.Error) {
+          } else if (data.status === Status.Error) {
             this.displayMessage.showError('SKILLS.DELETEERROR');
           }
         },
@@ -131,8 +129,8 @@ export class SkillsComponent implements OnInit {
   }
 
   clear() {
-    if (this.listFilter === "") {
-      this.search()
+    if (this.listFilter === '') {
+      this.search();
     }
     return;
   }
@@ -151,8 +149,7 @@ export class SkillsComponent implements OnInit {
       (data) => {
         if (data.status === Status.Success) {
           this.skills = data.body;
-        }
-        else if (data.status === Status.Error) {
+        } else if (data.status === Status.Error) {
           this.displayMessage.showError('SKILLS.ERROR');
         }
       },

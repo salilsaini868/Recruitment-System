@@ -9,6 +9,7 @@ using System.Net.Http;
 using Microsoft.AspNetCore.Authorization;
 using RS.ViewModel.Opening;
 using RS.ViewModel.Approval;
+using RS.ViewModel.SearchAndSortModel;
 
 namespace RS.Web.Controllers
 {
@@ -33,10 +34,10 @@ namespace RS.Web.Controllers
             return createdOpening;
         }
 
-        [HttpGet]
-        public IResult GetOpeningsCorrespondingToLoggedUser(Guid userId)
+        [HttpPost]
+        public IResult GetOpeningsCorrespondingToLoggedUser([FromBody]SearchAndSortModel searchAndSortModel)
         {
-            var openingList = _openingManagerService.GetOpeningsCorrespondingToLoggedUser(userId);
+            var openingList = _openingManagerService.GetOpeningsCorrespondingToLoggedUser(searchAndSortModel);
             return openingList;
         }
 
@@ -53,5 +54,6 @@ namespace RS.Web.Controllers
             var openingRecord = _openingManagerService.GetOpeningById(id);
             return openingRecord;
         }
+
     }
 }

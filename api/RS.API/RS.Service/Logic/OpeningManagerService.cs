@@ -16,6 +16,8 @@ using RS.ViewModel.Skill;
 using RS.ViewModel.Approval;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Configuration;
+using System.Collections;
+using RS.ViewModel.SearchAndSortModel;
 
 namespace RS.Service.Logic
 {
@@ -136,7 +138,7 @@ namespace RS.Service.Logic
             return result;
         }
 
-        public IResult GetOpeningsCorrespondingToLoggedUser(Guid userId)
+        public IResult GetOpeningsCorrespondingToLoggedUser(SearchAndSortModel searchAndSortModel)
         {
             var result = new Result
             {
@@ -145,23 +147,7 @@ namespace RS.Service.Logic
             };
             try
             {
-                var allOpenings = _openingRepository.GetOpeningsCorrespondingToLoggedUser(userId);
-                var openingIds = allOpenings.Select(x => x.OpeningId).Distinct().ToList();
-                var approvalTransactions = _approvalRepository.GetAllApprovalTransactions(openingIds).ToList();
-                result.Body = allOpenings.Select(opening =>
-                {
-                    var approvalTransaction = approvalTransactions.FirstOrDefault(x => x.EntityId == opening.OpeningId);
-
-                    var openingViewModel = new OpeningViewModel();
-                    MapPrimaryandSecondarySkills(openingViewModel, opening);
-
-                    if (approvalTransaction != null)
-                    {
-                        openingViewModel.IsApproved = approvalTransaction.IsApproved;
-                        openingViewModel.Status = approvalTransaction.ApprovalAction.ApprovalActionName;
-                    }
-                    return openingViewModel.MapFromModel(opening);
-                }).ToList();
+                result.Body = _openingRepository.GetOpeningsCorrespondingToLoggedUser(searchAndSortModel);
             }
             catch (Exception e)
             {

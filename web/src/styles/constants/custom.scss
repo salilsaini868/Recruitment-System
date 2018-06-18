@@ -500,6 +500,17 @@
     position: relative;
 }
 
+.pointer{
+    cursor: pointer;
+}
+
+.search{
+    height: 38px;
+    padding: 10px 16px;
+    font-size: 16px;
+    line-height: 1.3333333;
+    border-radius: 6px
+}
 .inline-b{
     display: inline-block;
 }
@@ -534,5 +545,8 @@
 }
   
 
-
-  
+.button4 {
+    border-radius: 12px;
+    height: 35px;
+    width: 47px;
+}

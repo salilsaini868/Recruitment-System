@@ -1,6 +1,7 @@
 ﻿using RS.Common.CommonData;
 using RS.ViewModel.Approval;
 using RS.ViewModel.Opening;
+using RS.ViewModel.SearchAndSortModel;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -41,6 +42,7 @@ namespace RS.Service.Interfaces
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        IResult GetOpeningsCorrespondingToLoggedUser(Guid userId);
+        IResult GetOpeningsCorrespondingToLoggedUser(SearchAndSortModel searchAndSortModel);
+
     }
 }

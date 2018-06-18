@@ -16,9 +16,10 @@ export class ApprovalhistoryComponent implements OnInit {
 
     @Input() entityId: any;
 
-    constructor(private router: Router, private msgService: DisplayMessageService, private approvalServiceApp: ApprovalServiceApp,
-        private route: ActivatedRoute) {
+    constructor(private router: Router, private msgService: DisplayMessageService,
+        private approvalServiceApp: ApprovalServiceApp, private route: ActivatedRoute) {
     }
+
     ngOnInit() {
         this.getApprovalDetails();
     }

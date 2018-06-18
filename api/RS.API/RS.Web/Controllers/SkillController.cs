@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RS.Service.Interfaces;
 using RS.ViewModel.Skill;
 using RS.Common.CommonData;
-using RS.Common.Enums;
 using RS.ViewModel.SearchAndSortModel;
-
 namespace RS.Web.Controllers
 {
     [Produces("application/json")]
@@ -42,18 +35,8 @@ namespace RS.Web.Controllers
         [HttpPut]
         public IResult DeleteSkill([FromBody]SkillViewModel skillView)
         {
-            if (ModelState.IsValid)
-            {
-                var deleteQualification = _skillService.DeleteSkill(skillView);
-                return deleteQualification;
-            }
-            return new Result
-            {
-                Operation = Operation.Delete,
-                Status = Status.Fail,
-                Message = CommonErrorMessages.BadRequest,
-                Body = null
-            };
+            var deleteQualification = _skillService.DeleteSkill(skillView);
+            return deleteQualification;
         }
 
         [HttpGet]

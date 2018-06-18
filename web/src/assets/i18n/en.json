@@ -98,7 +98,10 @@
         "UPDATEDON": "Updated On",
         "STATUS": "Status",
         "ADD": "Add Candidate",
-        "EDIT": "Edit"
+        "EDIT": "Edit",
+        "DEFAULTSORTPROPERTY": "ModifiedDate",
+        "NORECORDS":"No Openings Found",
+        "SEARCH":"GO"
     },
     "FORGOTPASSWORD": {
         "TITLE": "Forgot password",

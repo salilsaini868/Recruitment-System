@@ -1,6 +1,4 @@
 ﻿using RS.Data.Interfaces;
-using RS.Data;
-using RS.Entity;
 using RS.Entity.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
