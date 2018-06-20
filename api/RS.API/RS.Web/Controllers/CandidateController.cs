@@ -10,11 +10,6 @@ using Newtonsoft.Json;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
-using System.Text;
-using Microsoft.IdentityModel.Tokens;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Net;
 
 namespace RS.Web.Controllers
 {
@@ -35,9 +30,9 @@ namespace RS.Web.Controllers
         }
 
         [HttpPost]
-        public IResult AddCandidate(string candidate)
+        public IResult AddCandidate()
         {
-            var candidateViewModel = JsonConvert.DeserializeObject<CandidateViewModel>(candidate);
+            var candidateViewModel = JsonConvert.DeserializeObject<CandidateViewModel>(Request.Form["candidate"]);
             var file = Request.Form.Files["uploadFile"];
             var candidateDocumentViewModel = new CandidateDocumentViewModel();
             GetCandidateDocumentDetails(candidateDocumentViewModel, file);
@@ -45,7 +40,7 @@ namespace RS.Web.Controllers
             if (addedCandidate.Body != null)
             {
                 var allowedExtensions = _configuration["ResumeExtension"].Split(',');
-                FileHelper.SaveFile(file, candidateDocumentViewModel.UploadedDocument, allowedExtensions, _hostingEnvironment);
+                FileHelper.SaveFile(file, candidateDocumentViewModel.UploadedDocument, allowedExtensions, _hostingEnvironment, "uploadFiles");
             }
             return addedCandidate;
         }
@@ -58,9 +53,9 @@ namespace RS.Web.Controllers
         }
 
         [HttpPut]
-        public IResult UpdateCandidate(string candidate)
+        public IResult UpdateCandidate()
         {
-            var candidateViewModel = JsonConvert.DeserializeObject<CandidateViewModel>(candidate);
+            var candidateViewModel = JsonConvert.DeserializeObject<CandidateViewModel>(Request.Form["candidate"]);
             var file = Request.Form.Files["uploadFile"];
             var candidateDocumentViewModel = candidateViewModel.CandidateDocument;
             if (file != null)
@@ -71,7 +66,7 @@ namespace RS.Web.Controllers
             if (updatedCandidate.Body != null && file != null)
             {
                 var allowedExtensions = _configuration["ResumeExtension"].Split(',');
-                //FileHelper.SaveFile(file, allowedExtensions, _hostingEnvironment);
+                FileHelper.SaveFile(file, candidateDocumentViewModel.UploadedDocument, allowedExtensions, _hostingEnvironment, "uploadFiles");
             }
             return updatedCandidate;
         }

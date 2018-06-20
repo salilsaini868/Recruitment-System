@@ -12,7 +12,6 @@ using System.Security.Principal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using RS.ViewModel.SearchAndSortModel;
-using System.Collections.Generic;
 
 namespace RS.Service.Logic
 {

@@ -170,10 +170,10 @@ export class CandidateComponent implements OnInit {
     onSubmit(candidateForm) {
         this.submitted = true;
         if (candidateForm.valid) {
-            this.candidateModel.organizationId = this.candidateModel.organizationName === this.organizationName ?
-                this.candidateModel.organizationId : 0;
             if (isNullOrUndefined(this.candidateModel.candidateId)) {
-                this.candidateServiceApp.addCandidate(AppConstants.uriForAdd, this.candidateModel, this.uploadedFile).
+                this.candidateModel.organizationId = this.candidateModel.organizationName === this.organizationName ?
+                    this.candidateModel.organizationId : 0;
+                this.candidateServiceApp.addCandidate(AppConstants.uriForAddCandidate, this.candidateModel, this.uploadedFile).
                     subscribe(
                     (data) => {
                         if (data.body.status === Status.Success) {
@@ -183,7 +183,8 @@ export class CandidateComponent implements OnInit {
                         }
                     });
             } else {
-                this.candidateServiceApp.updateCandidate(AppConstants.uriForUpdate, this.candidateModel, this.uploadedFile).subscribe(
+                this.candidateServiceApp.updateCandidate(AppConstants.uriForUpdateCandidate, this.candidateModel, this.uploadedFile)
+                    .subscribe(
                     (data) => {
                         if (data.body.status === Status.Success) {
                             this.showCandidateList();

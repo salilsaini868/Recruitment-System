@@ -1,9 +1,9 @@
 <div class="content-wrapper">
     <div class="panel panel-default no-radius">
         <div class="panelheader panel-heading no-radius">
-                <div *ngIf="userModel.userId === undefined; then create else update"></div>
-                <ng-template #create>Create User</ng-template>
-                <ng-template #update>Update User</ng-template> 
+            <div *ngIf="userModel.userId === undefined; then create else update"></div>
+            <ng-template #create>Create User</ng-template>
+            <ng-template #update>Update User</ng-template>
         </div>
 
         <div class="panel-body">
@@ -41,8 +41,8 @@
                                 <label>{{ 'USER.USERNAME' | translate }}</label>
                             </div>
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                                <input class="full-input" type="text" required id ="name" id="user" name="userName" [(ngModel)]="userModel.userName" #userName="ngModel" maxlength="25" 
-                                (keyup)="checkUserNameExists()">
+                                <input class="full-input" type="text" required id="name" id="user" name="userName" [(ngModel)]="userModel.userName" #userName="ngModel"
+                                    maxlength="25" (keyup)="checkUserNameExists()">
                                 <div *ngIf="isUserExists" id="nameExists" class="text">{{ 'USER.USERNAMEEXISTMESSAGE' | translate }}</div>
                                 <div *ngIf="userName.errors && (userName.dirty || submitted)" [hidden]="!userName.errors.required" class="validation-error">
                                     {{ 'USER.REQUIRED' | translate }}
@@ -87,11 +87,11 @@
                                 <label>{{ 'USER.EMAIL' | translate }}</label>
                             </div>
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                                <input class="full-input" type="text" autocomplete="off" required name="email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" [(ngModel)]="userModel.email"
-                                    #email="ngModel" maxlength="25" (keyup)="checkUserEmailExists()">
-                                    <div *ngIf="isEmailExists" id="emailExists" class="text">
-                                        {{ 'USER.EMAILIDEXISTMESSAGE' | translate }}
-                                    </div>
+                                <input class="full-input" type="text" autocomplete="off" required name="email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                                    [(ngModel)]="userModel.email" #email="ngModel" maxlength="25" (keyup)="checkUserEmailExists()">
+                                <div *ngIf="isEmailExists" id="emailExists" class="text">
+                                    {{ 'USER.EMAILIDEXISTMESSAGE' | translate }}
+                                </div>
                                 <div *ngIf="email.errors && (email.dirty || submitted)" [hidden]="!email.errors.required" class="validation-error">
                                     {{ 'USER.REQUIRED' | translate }}
                                 </div>
@@ -120,6 +120,14 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div>
+                        <input type="file" (change)="fileChangeEvent($event)" />
+
+                        <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="4 / 3" [resizeToWidth]="128"
+                            format="png" (imageCropped)="imageCropped($event)"></image-cropper>
+
+                        <img [src]="croppedImage" />
                     </div>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <button id="bttn" type="submit" class="btn btn-primary blue-btn pull-right btn-gap">{{ 'USER.SAVE' | translate }}</button>

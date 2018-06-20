@@ -10,4 +10,5 @@ export class UserModel {
     role?: string;
     roleId?: number;
     isChecked?: boolean;
+    image?: string;
 }

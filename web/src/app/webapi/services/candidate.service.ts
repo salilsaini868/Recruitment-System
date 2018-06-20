@@ -24,13 +24,11 @@ export class CandidateService extends BaseService {
   }
 
   /**
-   * @param candidate - undefined
    */
-  ApiCandidateAddCandidatePostResponse(candidate?: string): Observable<HttpResponse<IResult>> {
+  ApiCandidateAddCandidatePostResponse(): Observable<HttpResponse<IResult>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
-    if (candidate != null) __params = __params.set("candidate", candidate.toString());
     let req = new HttpRequest<any>(
       "POST",
       this.rootUrl + `/api/Candidate/AddCandidate`,
@@ -53,10 +51,9 @@ export class CandidateService extends BaseService {
   }
 
   /**
-   * @param candidate - undefined
    */
-  ApiCandidateAddCandidatePost(candidate?: string): Observable<IResult> {
-    return this.ApiCandidateAddCandidatePostResponse(candidate).pipe(
+  ApiCandidateAddCandidatePost(): Observable<IResult> {
+    return this.ApiCandidateAddCandidatePostResponse().pipe(
       map(_r => _r.body)
     );
   }
@@ -98,13 +95,11 @@ export class CandidateService extends BaseService {
     );
   }
   /**
-   * @param candidate - undefined
    */
-  ApiCandidateUpdateCandidatePutResponse(candidate?: string): Observable<HttpResponse<IResult>> {
+  ApiCandidateUpdateCandidatePutResponse(): Observable<HttpResponse<IResult>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
-    if (candidate != null) __params = __params.set("candidate", candidate.toString());
     let req = new HttpRequest<any>(
       "PUT",
       this.rootUrl + `/api/Candidate/UpdateCandidate`,
@@ -127,10 +122,9 @@ export class CandidateService extends BaseService {
   }
 
   /**
-   * @param candidate - undefined
    */
-  ApiCandidateUpdateCandidatePut(candidate?: string): Observable<IResult> {
-    return this.ApiCandidateUpdateCandidatePutResponse(candidate).pipe(
+  ApiCandidateUpdateCandidatePut(): Observable<IResult> {
+    return this.ApiCandidateUpdateCandidatePutResponse().pipe(
       map(_r => _r.body)
     );
   }
@@ -317,49 +311,6 @@ export class CandidateService extends BaseService {
     );
   }
   /**
-   * @param userId - undefined
-   * @param entityId - undefined
-   * @param approvalEventId - undefined
-   */
-  ApiCandidateCheckForUserPermissionGetResponse(params: CandidateService.ApiCandidateCheckForUserPermissionGetParams): Observable<HttpResponse<IResult>> {
-    let __params = this.newParams();
-    let __headers = new HttpHeaders();
-    let __body: any = null;
-    if (params.userId != null) __params = __params.set("userId", params.userId.toString());
-    if (params.entityId != null) __params = __params.set("entityId", params.entityId.toString());
-    if (params.approvalEventId != null) __params = __params.set("approvalEventId", params.approvalEventId.toString());
-    let req = new HttpRequest<any>(
-      "GET",
-      this.rootUrl + `/api/Candidate/CheckForUserPermission`,
-      __body,
-      {
-        headers: __headers,
-        params: __params,
-        responseType: 'json'
-      });
-
-    return this.http.request<any>(req).pipe(
-      filter(_r => _r instanceof HttpResponse),
-      map(_r => {
-        let _resp = _r as HttpResponse<any>;
-        let _body: IResult = null;
-        _body = _resp.body as IResult
-        return _resp.clone({body: _body}) as HttpResponse<IResult>;
-      })
-    );
-  }
-
-  /**
-   * @param userId - undefined
-   * @param entityId - undefined
-   * @param approvalEventId - undefined
-   */
-  ApiCandidateCheckForUserPermissionGet(params: CandidateService.ApiCandidateCheckForUserPermissionGetParams): Observable<IResult> {
-    return this.ApiCandidateCheckForUserPermissionGetResponse(params).pipe(
-      map(_r => _r.body)
-    );
-  }
-  /**
    * @param candidateId - undefined
    */
   ApiCandidateApprovedForInterviewPutResponse(candidateId: string): Observable<HttpResponse<IResult>> {
@@ -509,9 +460,4 @@ export class CandidateService extends BaseService {
   }}
 
 export module CandidateService {
-  export interface ApiCandidateCheckForUserPermissionGetParams {
-    userId: string;
-    entityId: string;
-    approvalEventId: number;
-  }
 }

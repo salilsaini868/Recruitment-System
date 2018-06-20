@@ -21,7 +21,8 @@ export class UsersComponent implements OnInit {
   listFilter: string;
   isDesc = false;
 
-  constructor(private userService: UserServiceApp, private router: Router, private displayMessage: DisplayMessageService, private translateService: TranslateService) {
+  constructor(private userService: UserServiceApp, private router: Router, private displayMessage: DisplayMessageService,
+    private translateService: TranslateService) {
   }
 
   ngOnInit() {
@@ -61,8 +62,8 @@ export class UsersComponent implements OnInit {
   }
 
   clear() {
-    if (this.listFilter === "") {
-      this.search()
+    if (this.listFilter === '') {
+      this.search();
     }
     return;
   }

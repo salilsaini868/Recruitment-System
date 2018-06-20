@@ -160,7 +160,7 @@
                     </div>
                     <div>
                         <input type="file" name="resume" (change)="fileChange($event)" placeholder="Upload file" accept=".pdf,.doc,.docx">
-                        <div *ngIf="!isUploaded && submitted" class="validation-error">
+                        <div *ngIf="candidateModel.candidateId == null && !isUploaded && submitted" class="validation-error">
                             {{ 'CANDIDATE.REQUIRED' | translate }}
                         </div>
                     </div>

@@ -9,8 +9,7 @@ import { Status } from '../../app.enum';
 
 @Component({
   selector: 'app-qualifications',
-  templateUrl: 'qualifications.component.html',
-  styleUrls:['qualifications.scss'],
+  templateUrl: 'qualifications.component.html'
 })
 
 export class QualificationsComponent implements OnInit {
@@ -24,7 +23,8 @@ export class QualificationsComponent implements OnInit {
   isDesc = false;
 
 
-  constructor(private qualificationsServiceApp: QualificationsServiceApp, private displayMessage: DisplayMessageService,private translateService: TranslateService) {
+  constructor(private qualificationsServiceApp: QualificationsServiceApp, private displayMessage: DisplayMessageService,
+    private translateService: TranslateService) {
   }
   ngOnInit() {
     this.listQualification();
@@ -83,16 +83,16 @@ export class QualificationsComponent implements OnInit {
             this.qualificationsModel = data.body;
             this.displayMessage.showSuccess('QUALIFICATIONS.DELETEDSUCCESSFULLY');
           }
-         else if (data.status === Status.Fail) {
+          else if (data.status === Status.Fail) {
             this.displayMessage.showWarning('QUALIFICATIONS.FAILEDTODELETE');
           }
-         else if (data.status === Status.Error) {
+          else if (data.status === Status.Error) {
             this.displayMessage.showError('QUALIFICATIONS.DELETEERROR');
           }
         },
         (error) => {
           this.displayMessage.showError('QUALIFICATIONS.DELETEERROR');
-       });
+        });
     }
   }
 
@@ -125,7 +125,7 @@ export class QualificationsComponent implements OnInit {
   getAllQualifications() {
     this.getQualificationResults();
 
-      }
+  }
   sort(property) {
     this.isDesc = !this.isDesc;
     this.searchAndSortModel.direction = this.isDesc ? 1 : -1;
@@ -148,8 +148,8 @@ export class QualificationsComponent implements OnInit {
     this.searchAndSortModel.searchString = this.listFilter.trim();
     this.getQualificationResults();
   }
- 
-  getQualificationResults(){
+
+  getQualificationResults() {
     this.qualificationsServiceApp.GetQualificationsResults(this.searchAndSortModel).subscribe(
       (data) => {
         if (data.status === Status.Success) {

@@ -41,11 +41,6 @@
                                 <div *ngIf="userName.errors && (userName.dirty || userName.touched)" [hidden]="!userName.errors.required" class="validation-error">
                                     {{ 'USER.REQUIRED' | translate }}
                                 </div>
-                                <div [hidden]="!userName.hasError('pattern')">{{ 'USER.USERNAMEFORMAT' | translate }}
-                                    <small>
-                                        <b>{{ 'USER.USERNAMEPATTERN' | translate }}</b>
-                                    </small>
-                                </div>
                             </div>
                         </div>
                     </div>

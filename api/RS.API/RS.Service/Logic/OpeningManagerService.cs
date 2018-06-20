@@ -1,7 +1,5 @@
 ﻿using RS.Service.Interfaces;
 using RS.Common.Enums;
-using RS.Entity;
-using RS.ViewModel.User;
 using System;
 using RS.Data.Interfaces;
 using RS.Common.CommonData;
@@ -14,7 +12,6 @@ using System.Collections.Generic;
 using System.Linq;
 using RS.ViewModel.Skill;
 using RS.ViewModel.Approval;
-using Newtonsoft.Json;
 using Microsoft.Extensions.Configuration;
 
 namespace RS.Service.Logic
