@@ -10,9 +10,9 @@ namespace RS.Common.CommonData
 {
     public static class FileHelper
     {
-        public static void SaveFile(IFormFile file,string documentName,string[] allowedExtensions, IHostingEnvironment hostingEnvironment)
+        public static void SaveFile(IFormFile file,string documentName,string[] allowedExtensions, IHostingEnvironment hostingEnvironment, string folder)
         {
-            string path = Path.Combine(hostingEnvironment.ContentRootPath, "uploadFiles");
+            string path = Path.Combine(hostingEnvironment.ContentRootPath, folder);
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);

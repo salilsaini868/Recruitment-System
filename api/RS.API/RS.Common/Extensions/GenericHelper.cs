@@ -8,7 +8,6 @@ using System.Security.Cryptography;
 using System.Text;
 using RS.Common.Enums;
 using System.IO;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 
 namespace RS.Common.Extensions
