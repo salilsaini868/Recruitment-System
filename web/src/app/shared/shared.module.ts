@@ -8,6 +8,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { ChartModule, HIGHCHARTS_MODULES } from 'angular-highcharts';
+import { ImageCropperModule } from 'ngx-image-cropper';
 import exporting from 'highcharts/modules/exporting.src.js';
 
 // Services
@@ -32,7 +33,7 @@ export function highchartsModules() {
 @NgModule({
     imports: [
         HttpClientModule,
-        CommonModule, FormsModule, ReactiveFormsModule, RouterModule, ChartModule,
+        CommonModule, FormsModule, ReactiveFormsModule, RouterModule, ChartModule, ImageCropperModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
@@ -42,7 +43,7 @@ export function highchartsModules() {
         }),
     ],
     declarations: [HeaderComponent, FooterComponent, LeftSideBarComponent, SideBarPipe, HiringTrendChartComponent],
-    exports: [HeaderComponent, FooterComponent, LeftSideBarComponent, SideBarPipe, HiringTrendChartComponent],
+    exports: [HeaderComponent, FooterComponent, LeftSideBarComponent, SideBarPipe, HiringTrendChartComponent, ImageCropperModule],
     providers: [{ provide: HIGHCHARTS_MODULES, useFactory: highchartsModules }]
 })
 

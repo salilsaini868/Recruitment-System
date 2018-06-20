@@ -14,7 +14,7 @@ namespace RS.ViewModel.User
         public string FullName { get; set; }
         public string Role { get; set; }
         public int RoleId { get; set; }
-        public string Image { get; set; }
-        public Dictionary<String , List<int>> approvalDetail { get; set; }
+        public string ProfileImage { get; set; }
+        public Dictionary<String , List<int>> ApprovalDetail { get; set; }
     }
 }

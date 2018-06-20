@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ImageCropperModule } from 'ngx-image-cropper';
 
 // Route
 import { AdminRouterModule } from './admin.route';
@@ -29,8 +28,7 @@ import { LoginServiceApp } from '../../Login/shared/login.serviceApp';
     TranslateModule,
     BrowserModule,
     SharedModule,
-    AdminRouterModule,
-    ImageCropperModule
+    AdminRouterModule
   ],
   exports: [],
   declarations: [

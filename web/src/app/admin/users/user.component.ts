@@ -105,7 +105,7 @@ export class UserComponent implements OnInit {
                             this.userModel = data.body;
                             this.userModel.password = this.utilityService.decrypt(this.userModel.password);
                             this.userModel.confirmPassword = this.userModel.password;
-                            this.croppedImage = AppConstants.keyString + this.userModel.image;
+                            this.croppedImage = AppConstants.keyString + this.userModel.profileImage;
                         }
                     }
                 );
