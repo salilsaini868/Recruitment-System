@@ -1,7 +1,6 @@
 ﻿using RS.Service.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using RS.Common.CommonData;
 using RS.ViewModel.Qualification;
 using RS.Data.Interfaces;

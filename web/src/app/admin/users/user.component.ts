@@ -9,6 +9,7 @@ import { DisplayMessageService } from '../../shared/toastr/display.message.servi
 import { Status } from '../../app.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { UtilityService } from '../../shared/utility/utility.service';
+import { AppConstants } from 'app/shared/constant/constant.variable';
 
 @Component({
     selector: 'app-user',
@@ -25,6 +26,10 @@ export class UserComponent implements OnInit {
     defaultOption: any;
     isEmailExists = false;
     isUserExists = false;
+    imageChangedEvent: any = '';
+    croppedImage: any = '';
+    uploadedProfile: any;
+    fileName: any;
 
     constructor(private userServiceApp: UserServiceApp, private route: ActivatedRoute, private userService: UserServiceApp,
         private router: Router, private roleServiceApp: RoleServiceApp, private displayMessage: DisplayMessageService,
@@ -41,6 +46,31 @@ export class UserComponent implements OnInit {
         this.getAllRole();
         this.getUserById();
         this.getAllUsers();
+    }
+
+    public onReturnData(data: any) {
+        console.warn(JSON.parse(data));
+    }
+
+    fileChangeEvent(event: any): void {
+        this.imageChangedEvent = event;
+        this.fileName = event.target.files[0].name;
+    }
+
+    imageCropped(image: string) {
+        this.croppedImage = image;
+        this.uploadedProfile = this.dataURLtoFile(this.croppedImage, this.fileName);
+    }
+
+    dataURLtoFile(dataurl, filename) {
+        const arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]);
+        let n = bstr.length;
+        const u8arr = new Uint8Array(n);
+        while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new File([u8arr], filename, { type: mime });
     }
 
     setDefaultOption() {
@@ -75,6 +105,7 @@ export class UserComponent implements OnInit {
                             this.userModel = data.body;
                             this.userModel.password = this.utilityService.decrypt(this.userModel.password);
                             this.userModel.confirmPassword = this.userModel.password;
+                            this.croppedImage = AppConstants.keyString + this.userModel.profileImage;
                         }
                     }
                 );
@@ -109,13 +140,13 @@ export class UserComponent implements OnInit {
                 this.userModel.password = this.utilityService.encrypt(this.userModel.password);
                 this.userModel.confirmPassword = this.userModel.password;
                 if (isNullOrUndefined(this.userModel.userId)) {
-                    this.userServiceApp.createUser(this.userModel).subscribe(
+                    this.userServiceApp.addUser(AppConstants.uriForAddUser, this.userModel, this.uploadedProfile).subscribe(
                         (data) => {
                             this.showUsersList();
                         }
                     );
                 } else {
-                    this.userServiceApp.updateUser(this.userModel).subscribe(
+                    this.userServiceApp.updateUser(AppConstants.uriForUpdateUser, this.userModel, this.uploadedProfile).subscribe(
                         (data) => {
                             this.showUsersList();
                         }
@@ -126,6 +157,7 @@ export class UserComponent implements OnInit {
             }
         }
     }
+
     getAllUsers() {
         this.userService.getAllUsers().subscribe(
             (data) => {

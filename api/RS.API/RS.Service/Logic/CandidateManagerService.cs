@@ -1,9 +1,7 @@
 ﻿using RS.Service.Interfaces;
 using RS.Common.Enums;
-using RS.Entity;
 using RS.ViewModel.User;
 using System;
-using System.Threading.Tasks;
 using RS.Data.Interfaces;
 using RS.Common.CommonData;
 using RS.ViewModel.Candidate;

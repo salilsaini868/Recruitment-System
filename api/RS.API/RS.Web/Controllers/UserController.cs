@@ -17,6 +17,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using RS.ViewModel.SearchAndSortModel;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace RS.Web.Controllers
 {
@@ -27,10 +30,14 @@ namespace RS.Web.Controllers
     public class UserController : Controller
     {
         private readonly IUserManagerService _userService;
+        private readonly IConfiguration _configuration;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public UserController(IUserManagerService userService)
+        public UserController(IUserManagerService userService, IConfiguration configuration, IHostingEnvironment hostingEnvironment)
         {
             _userService = userService;
+            _configuration = configuration;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         [HttpGet]
@@ -41,16 +48,32 @@ namespace RS.Web.Controllers
         }
 
         [HttpPost]
-        public IResult CreateUser([FromBody]UserViewModel userView)
+        public IResult CreateUser()
         {
-            var createdUser = _userService.CreateUser(userView);
+            var userViewModel = JsonConvert.DeserializeObject<UserViewModel>(Request.Form["userView"]);
+            var file = Request.Form.Files["uploadProfile"];
+            var createdUser = _userService.CreateUser(userViewModel);
+            if (createdUser.Body != null)
+            {
+                var allowedExtensions = _configuration["ProfileExtension"].Split(',');
+                var docName = createdUser.Body.ToString() + ".png";
+                FileHelper.SaveFile(file, docName, allowedExtensions, _hostingEnvironment, "uploadProfiles");
+            }
             return createdUser;
         }
 
         [HttpPut]
-        public IResult UpdateUser([FromBody]UserViewModel userView)
+        public IResult UpdateUser()
         {
-            var updatedUser = _userService.UpdateUser(userView);
+            var userViewModel = JsonConvert.DeserializeObject<UserViewModel>(Request.Form["userView"]);
+            var file = Request.Form.Files["uploadProfile"];
+            var updatedUser = _userService.UpdateUser(userViewModel);
+            if (updatedUser.Body != null && file != null)
+            {
+                var allowedExtensions = _configuration["ProfileExtension"].Split(',');
+                var docName = updatedUser.Body.ToString() + ".png";
+                FileHelper.SaveFile(file, docName, allowedExtensions, _hostingEnvironment, "uploadProfiles");
+            }
             return updatedUser;
         }
 
@@ -65,6 +88,10 @@ namespace RS.Web.Controllers
         public IResult GetUserById(Guid id)
         {
             var userRecord = _userService.GetUserById(id);
+            if(userRecord.Body != null)
+            {
+                userRecord.Body.Image = GetProfilePicture(id);
+            }
             return userRecord;
         }
 
@@ -80,6 +107,18 @@ namespace RS.Web.Controllers
         {
             var userList = _userService.GetUsersResults(searchAndSortModel);
             return userList;
+        }
+
+        private string GetProfilePicture(Guid id)
+        {
+            var folder = _configuration["uploadProfiles"];
+            var path = Path.Combine(_hostingEnvironment.ContentRootPath, folder + id + ".png");
+            byte[] data = new byte[100];
+            using (WebClient webClient = new WebClient())
+            {
+                data = webClient.DownloadData(path);
+            }
+            return Convert.ToBase64String(data, 0, data.Length);
         }
 
     }

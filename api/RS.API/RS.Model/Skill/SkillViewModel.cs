@@ -1,7 +1,4 @@
 ﻿using RS.Common.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace RS.ViewModel.Skill
 {

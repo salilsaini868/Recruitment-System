@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="uploadProfiles\" />
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="uploadFiles\" />
     <Folder Include="wwwroot\" />

@@ -12,7 +12,6 @@ using System.Security.Principal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using RS.ViewModel.SearchAndSortModel;
-using System.Collections.Generic;
 
 namespace RS.Service.Logic
 {
@@ -281,7 +280,7 @@ namespace RS.Service.Logic
                     userView.FullName = user.FirstName + " " + user.LastName;
                     var firstOrDefault = user.UserRoles.FirstOrDefault();
                     if (firstOrDefault != null) userView.Role = firstOrDefault.Role.Name;
-                    userView.approvalDetail = _approvalRepository.GetApprovalEventsOfUserForOpening(user.UserId);
+                    userView.ApprovalDetail = _approvalRepository.GetApprovalEventsOfUserForOpening(user.UserId);
                     result.Body = userView;
                 }
                 else

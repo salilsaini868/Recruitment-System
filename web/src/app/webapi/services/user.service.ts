@@ -10,7 +10,6 @@ import { map } from 'rxjs/operators/map';
 import { filter } from 'rxjs/operators/filter';
 
 import { IResult } from '../models/iresult';
-import { UserViewModel } from '../models/user-view-model';
 import { SearchAndSortModel } from '../models/search-and-sort-model';
 
 
@@ -58,13 +57,11 @@ export class UserService extends BaseService {
     );
   }
   /**
-   * @param userView - undefined
    */
-  ApiUserCreateUserPostResponse(userView?: UserViewModel): Observable<HttpResponse<IResult>> {
+  ApiUserCreateUserPostResponse(): Observable<HttpResponse<IResult>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
-    __body = userView;
     let req = new HttpRequest<any>(
       "POST",
       this.rootUrl + `/api/User/CreateUser`,
@@ -87,21 +84,18 @@ export class UserService extends BaseService {
   }
 
   /**
-   * @param userView - undefined
    */
-  ApiUserCreateUserPost(userView?: UserViewModel): Observable<IResult> {
-    return this.ApiUserCreateUserPostResponse(userView).pipe(
+  ApiUserCreateUserPost(): Observable<IResult> {
+    return this.ApiUserCreateUserPostResponse().pipe(
       map(_r => _r.body)
     );
   }
   /**
-   * @param userView - undefined
    */
-  ApiUserUpdateUserPutResponse(userView?: UserViewModel): Observable<HttpResponse<IResult>> {
+  ApiUserUpdateUserPutResponse(): Observable<HttpResponse<IResult>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
-    __body = userView;
     let req = new HttpRequest<any>(
       "PUT",
       this.rootUrl + `/api/User/UpdateUser`,
@@ -124,10 +118,9 @@ export class UserService extends BaseService {
   }
 
   /**
-   * @param userView - undefined
    */
-  ApiUserUpdateUserPut(userView?: UserViewModel): Observable<IResult> {
-    return this.ApiUserUpdateUserPutResponse(userView).pipe(
+  ApiUserUpdateUserPut(): Observable<IResult> {
+    return this.ApiUserUpdateUserPutResponse().pipe(
       map(_r => _r.body)
     );
   }

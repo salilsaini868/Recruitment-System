@@ -79,7 +79,7 @@ namespace RS.Web.Controllers
 
         private string GenerateToken(UserViewModel user)
         {
-            var approval = JsonConvert.SerializeObject(user.approvalDetail);
+            var approval = JsonConvert.SerializeObject(user.ApprovalDetail);
             var claims = new Claim[]
             {
                 new Claim(ClaimTypes.Name, user.FullName),

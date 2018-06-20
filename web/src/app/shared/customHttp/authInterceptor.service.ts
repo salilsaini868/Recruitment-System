@@ -13,7 +13,7 @@ export class AuthInterceptor implements HttpInterceptor {
     const clonedRequest = req.clone({ headers: req.headers.set('Authorization', `Bearer ${token}`) });
 
     this.spinnerService.startRequest();
-
+    debugger;
     return next
       .handle(clonedRequest)
       .catch(response => {
