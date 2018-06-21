@@ -219,8 +219,10 @@ namespace RS.Service.Logic
             };
             try
             {
+                var userModel = new UserViewModel();
                 var identity = (ClaimsIdentity)_principal.Identity;
-                result.Body = GenericHelper.GetUserClaimDetails(identity);
+                var user = GenericHelper.GetUserClaimDetails(identity);
+                result.Body =  userModel.MapFromModel(user);
             }
             catch (Exception e)
             {
@@ -351,53 +353,52 @@ namespace RS.Service.Logic
             return result;
         }
 
-        public IResult UpdateUserProfile(UserViewModel user)
-        {
-            var result = new Result
-            {
-                Operation = Operation.Update,
-                Status = Status.Success
-            };
-            try
-            {
-                var userId = GenericHelper.GetUserClaimDetails((ClaimsIdentity)_principal.Identity).UserId;
-                var duplicateUserName = _userRepository.GetFirstOrDefault(x => (x.IsActive && !x.IsDeleted) && (x.UserName == user.UserName) && (x.UserId != userId));
-                if (duplicateUserName != null)
-                {
-                    result.Status = Status.Fail;
-                    result.Message = UserStatusNotification.DuplicateUserName;
-                    result.Body = null;
-                    return result;
-                }
+        //public IResult UpdateUserProfile(UserViewModel user)
+        //{
+        //    var result = new Result
+        //    {
+        //        Operation = Operation.Update,
+        //        Status = Status.Success
+        //    };
+        //    try
+        //    {
+        //        var userId = GenericHelper.GetUserClaimDetails((ClaimsIdentity)_principal.Identity).UserId;
+        //        var duplicateUserName = _userRepository.GetFirstOrDefault(x => (x.IsActive && !x.IsDeleted) && (x.UserName == user.UserName) && (x.UserId != userId));
+        //        if (duplicateUserName != null)
+        //        {
+        //            result.Status = Status.Fail;
+        //            result.Message = UserStatusNotification.DuplicateUserName;
+        //            result.Body = null;
+        //            return result;
+        //        }
 
-                var duplicateEmail = _userRepository.GetFirstOrDefault(x => (x.IsActive && !x.IsDeleted) && (x.Email == user.Email) && (x.UserId != userId));
-                if (duplicateEmail != null)
-                {
-                    result.Status = Status.Fail;
-                    result.Message = UserStatusNotification.DuplicateEmail;
-                    result.Body = null;
-                    return result;
-                }
+        //        var duplicateEmail = _userRepository.GetFirstOrDefault(x => (x.IsActive && !x.IsDeleted) && (x.Email == user.Email) && (x.UserId != userId));
+        //        if (duplicateEmail != null)
+        //        {
+        //            result.Status = Status.Fail;
+        //            result.Message = UserStatusNotification.DuplicateEmail;
+        //            result.Body = null;
+        //            return result;
+        //        }
 
 
-                var userModel = _userRepository.GetByID(userId);
-                userModel.UserId = userId;
-                userModel.MapFromViewModel((ClaimsIdentity)_principal.Identity);
-                userModel.FirstName = user.FirstName;
-                userModel.LastName = user.LastName;
-                userModel.Email = user.Email;
-                userModel.UserName = user.UserName;
-                _userRepository.Update(userModel);
-                _userRepository.SaveChanges();
-                result.Body = userModel;
-            }
-            catch (Exception e)
-            {
-                result.Message = e.Message;
-                result.Status = Status.Error;
-            }
-            return result;
-        }
+        //        var userModel = _userRepository.GetByID(userId);
+        //        userModel.UserId = userId;
+        //        userModel.MapFromViewModel((ClaimsIdentity)_principal.Identity);
+        //        userModel.FirstName = user.FirstName;
+        //        userModel.LastName = user.LastName;
+        //        userModel.Email = user.Email;
+        //        userModel.UserName = user.UserName;
+        //        _userRepository.UpdateUser(userModel);
+        //        result.Body = userModel;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        result.Message = e.Message;
+        //        result.Status = Status.Error;
+        //    }
+        //    return result;
+        //}
 
 
 

@@ -3,14 +3,11 @@ using RS.Common.CommonData;
 using RS.Common.Enums;
 using RS.ViewModel.User;
 using System;
-using System.Net;
-using System.Net.Http;
 using RS.Service.Interfaces;
 using static RS.ViewModel.User.LoginModel;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
@@ -20,21 +17,21 @@ namespace RS.Web.Controllers
 {
     [Produces("application/json")]
     [Route("api/Login/[Action]")]
-    [AllowAnonymous]
     public class LoginController : Controller
     {
         private readonly IConfiguration _configuration;
         private readonly IUserManagerService _userService;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public LoginController(IConfiguration configuration, IUserManagerService userService)
+        public LoginController(IConfiguration configuration, IUserManagerService userService, IHostingEnvironment hostingEnvironment)
         {
             _userService = userService;
             _configuration = configuration;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         [HttpPost]
         [ValidateModel]
-        [AllowAnonymous]
         public IResult LoginUser([FromBody]UserLoginModel loginModel)
         {
             var userResult = _userService.LoginUser(loginModel.UserEmail, loginModel.UserPassword);
@@ -51,7 +48,6 @@ namespace RS.Web.Controllers
         }
 
         [HttpPut]
-        [AllowAnonymous]
         public IResult ChangePassword([FromBody]ChangePassword changePassword)
         {
             var user = _userService.ChangePassword(changePassword.OldPassword, changePassword.NewPassword);
@@ -59,7 +55,6 @@ namespace RS.Web.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
         public IResult ForgotPassword([FromBody]string userName)
         {
             var userEmail = _userService.ForgotPassword(userName);
@@ -67,11 +62,18 @@ namespace RS.Web.Controllers
         }
 
         [HttpPut]
-        [AllowAnonymous]
-        public IResult UpdateUserProfile([FromBody]UserViewModel userProfile)
+        public IResult UpdateUserProfile()
         {
-            var user = _userService.UpdateUserProfile(userProfile);
-            return user;
+            var userViewModel = JsonConvert.DeserializeObject<UserViewModel>(Request.Form["userView"]);
+            var file = Request.Form.Files["uploadProfile"];
+            var updatedUser = _userService.UpdateUser(userViewModel);
+            if (updatedUser.Body != null && file != null)
+            {
+                var allowedExtensions = _configuration["ProfileExtension"].Split(',');
+                var docName = updatedUser.Body.ToString() + ".png";
+                FileHelper.SaveFile(file, docName, allowedExtensions, _hostingEnvironment, "uploadProfiles");
+            }
+            return updatedUser;
         }
 
 

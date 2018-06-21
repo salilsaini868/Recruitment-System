@@ -18,7 +18,7 @@ namespace RS.Service.Interfaces
 
         IResult UpdateUser(UserViewModel user);
 
-        IResult UpdateUserProfile(UserViewModel user);
+      //  IResult UpdateUserProfile(UserViewModel user);
 
         IResult GetAllUser();
 

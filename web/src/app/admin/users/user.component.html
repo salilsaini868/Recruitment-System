@@ -16,7 +16,7 @@
                             </div>
                             <div class="col-md-9 col-sm-9 col-xs-12">
                                 <input class="full-input" type="text" required name="firstName" [(ngModel)]="userModel.firstName" #firstName="ngModel" maxlength="25">
-                                <div *ngIf="firstName.errors && (firstName.dirty || submitted)" [hidden]="!firstName.errors.required" class="validation-error">
+                                <div *ngIf="firstName.errors && submitted" [hidden]="!firstName.errors.required" class="validation-error">
                                     {{ 'USER.REQUIRED' | translate }}
                                 </div>
                             </div>
@@ -44,7 +44,7 @@
                                 <input class="full-input" type="text" required id="name" id="user" name="userName" [(ngModel)]="userModel.userName" #userName="ngModel"
                                     maxlength="25" (keyup)="checkUserNameExists()">
                                 <div *ngIf="isUserExists" id="nameExists" class="text">{{ 'USER.USERNAMEEXISTMESSAGE' | translate }}</div>
-                                <div *ngIf="userName.errors && (userName.dirty || submitted)" [hidden]="!userName.errors.required" class="validation-error">
+                                <div *ngIf="userName.errors && submitted" [hidden]="!userName.errors.required" class="validation-error">
                                     {{ 'USER.REQUIRED' | translate }}
                                 </div>
                             </div>
@@ -58,7 +58,7 @@
                             <div class="col-md-9 col-sm-9 col-xs-12">
                                 <input class="full-input" type="password" required name="password" pattern="^[a-z0-9_-]{6,}$" [(ngModel)]="userModel.password"
                                     #password="ngModel" maxlength="50">
-                                <div *ngIf="password.errors && (password.dirty || submitted)" [hidden]="!password.errors.required" class="validation-error">
+                                <div *ngIf="password.errors && submitted" [hidden]="!password.errors.required" class="validation-error">
                                     {{ 'USER.REQUIRED' | translate }}
                                 </div>
                             </div>
@@ -75,7 +75,7 @@
                             <div class="col-md-9 col-sm-9 col-xs-12">
                                 <input class="full-input" type="password" required name="confirmPassword" [(ngModel)]="userModel.confirmPassword" #confirmPassword="ngModel"
                                     maxlength="25">
-                                <div *ngIf="confirmPassword.errors && (confirmPassword.dirty || submitted)" [hidden]="!confirmPassword.errors.required" class="validation-error">
+                                <div *ngIf="confirmPassword.errors && submitted" [hidden]="!confirmPassword.errors.required" class="validation-error">
                                     {{ 'USER.REQUIRED' | translate }}
                                 </div>
                             </div>
@@ -92,7 +92,7 @@
                                 <div *ngIf="isEmailExists" id="emailExists" class="text">
                                     {{ 'USER.EMAILIDEXISTMESSAGE' | translate }}
                                 </div>
-                                <div *ngIf="email.errors && (email.dirty || submitted)" [hidden]="!email.errors.required" class="validation-error">
+                                <div *ngIf="email.errors && submitted" [hidden]="!email.errors.required" class="validation-error">
                                     {{ 'USER.REQUIRED' | translate }}
                                 </div>
                                 <div class="validation-error" [hidden]="!email.hasError('pattern')">{{ 'USER.EMAILFORMAT' | translate }}
@@ -115,7 +115,7 @@
                                 <select name="role" [(ngModel)]="userModel.roleId" [ngModelOptions]="{standalone: true}" #role="ngModel" required class="full-input">
                                     <option *ngFor="let role of roles" [attr.value]="role.roleId">{{role.name}}</option>
                                 </select>
-                                <div *ngIf="role.errors && (role.dirty || submitted)" [hidden]="!role.errors.required" class="validation-error">
+                                <div *ngIf="role.errors && submitted" [hidden]="!role.errors.required" class="validation-error">
                                     {{ 'USER.REQUIRED' | translate }}
                                 </div>
                             </div>

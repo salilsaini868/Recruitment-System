@@ -32,7 +32,7 @@ export class UserComponent implements OnInit {
     fileName: any;
 
     constructor(private userServiceApp: UserServiceApp, private route: ActivatedRoute, private userService: UserServiceApp,
-        private router: Router, private roleServiceApp: RoleServiceApp, private displayMessage: DisplayMessageService,
+        private router: Router, private roleServiceApp: RoleServiceApp, private msgService: DisplayMessageService,
         private translateService: TranslateService, private utilityService: UtilityService) {
     }
 
@@ -59,18 +59,7 @@ export class UserComponent implements OnInit {
 
     imageCropped(image: string) {
         this.croppedImage = image;
-        this.uploadedProfile = this.dataURLtoFile(this.croppedImage, this.fileName);
-    }
-
-    dataURLtoFile(dataurl, filename) {
-        const arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-            bstr = atob(arr[1]);
-        let n = bstr.length;
-        const u8arr = new Uint8Array(n);
-        while (n--) {
-            u8arr[n] = bstr.charCodeAt(n);
-        }
-        return new File([u8arr], filename, { type: mime });
+        this.uploadedProfile = this.utilityService.dataURLtoFile(this.croppedImage, this.fileName);
     }
 
     setDefaultOption() {
@@ -84,9 +73,13 @@ export class UserComponent implements OnInit {
     getAllRole() {
         this.roleServiceApp.getAllRoles().subscribe(
             (data) => {
-                this.roles = data.body;
-                const role = this.defaultOption;
-                this.roles.splice(0, 0, { roleId: 0, name: role });
+                if (data.status === Status.Success) {
+                    this.roles = data.body;
+                    const role = this.defaultOption;
+                    this.roles.splice(0, 0, { roleId: 0, name: role });
+                } else {
+                    this.msgService.showError('Error');
+                }
             }
         );
     }
@@ -106,6 +99,8 @@ export class UserComponent implements OnInit {
                             this.userModel.password = this.utilityService.decrypt(this.userModel.password);
                             this.userModel.confirmPassword = this.userModel.password;
                             this.croppedImage = AppConstants.keyString + this.userModel.profileImage;
+                        } else {
+                            this.msgService.showError('Error');
                         }
                     }
                 );
@@ -142,18 +137,27 @@ export class UserComponent implements OnInit {
                 if (isNullOrUndefined(this.userModel.userId)) {
                     this.userServiceApp.addUser(AppConstants.uriForAddUser, this.userModel, this.uploadedProfile).subscribe(
                         (data) => {
-                            this.showUsersList();
+                            if (data.body.status === Status.Success) {
+                                this.showUsersList();
+                            } else {
+                                this.msgService.showError('Error');
+                            }
                         }
                     );
                 } else {
                     this.userServiceApp.updateUser(AppConstants.uriForUpdateUser, this.userModel, this.uploadedProfile).subscribe(
                         (data) => {
-                            this.showUsersList();
+                            debugger;
+                            if (data.body.status === Status.Success) {
+                                this.showUsersList();
+                            } else {
+                                this.msgService.showError('Error');
+                            }
                         }
                     );
                 }
             } else {
-                this.displayMessage.showWarning('USER.PASSWORDMISMATCH');
+                this.msgService.showWarning('USER.PASSWORDMISMATCH');
             }
         }
     }
@@ -163,6 +167,8 @@ export class UserComponent implements OnInit {
             (data) => {
                 if (data.status === Status.Success) {
                     this.users = data.body;
+                } else {
+                    this.msgService.showError('Error');
                 }
             }
         );
