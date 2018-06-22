@@ -9,6 +9,7 @@ using System.Text;
 using RS.Common.Enums;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Hosting;
 
 namespace RS.Common.Extensions
 {
@@ -122,12 +123,14 @@ namespace RS.Common.Extensions
             }
         }
 
-        public static void Send(MailDetailModel mailDetail, IConfiguration config)
+        public static void Send(MailDetailModel mailDetail, IConfiguration config, IHostingEnvironment hostingEnvironment)
         {
             var msgBody = "";
             if (mailDetail.Template == TemplateType.UserRegistration)
             {
-                using (StreamReader reader = new StreamReader(config["UserRegistrationTemplatePath"]))
+                var file = config["UserRegistrationTemplatePath"];
+                var path = Path.Combine(hostingEnvironment.ContentRootPath, file);
+                using (StreamReader reader = new StreamReader(path))
                 {
                     msgBody = reader.ReadToEnd();
                 }
@@ -138,7 +141,9 @@ namespace RS.Common.Extensions
             }
             else if (mailDetail.Template == TemplateType.ScheduleUserForInterview)
             {
-                using (StreamReader reader = new StreamReader(config["ScheduleInterviewTemplatePath"]))
+                var file = config["ScheduleInterviewTemplatePath"];
+                var path = Path.Combine(hostingEnvironment.ContentRootPath, file);
+                using (StreamReader reader = new StreamReader(path))
                 {
                     msgBody = reader.ReadToEnd();
                 }
@@ -151,7 +156,9 @@ namespace RS.Common.Extensions
             }
             else if (mailDetail.Template == TemplateType.InterviewCancelled)
             {
-                using (StreamReader reader = new StreamReader(config["InterviewCancelledTemplatePath"]))
+                var file = config["InterviewCancelledTemplatePath"];
+                var path = Path.Combine(hostingEnvironment.ContentRootPath, file);
+                using (StreamReader reader = new StreamReader(path))
                 {
                     msgBody = reader.ReadToEnd();
                 }
