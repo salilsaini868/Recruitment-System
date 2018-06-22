@@ -23,6 +23,7 @@ namespace RS.Service.Logic
         private readonly IRoleRepository _roleRepository;
         private readonly IApprovalRepository _approvalRepository;
         private readonly IConfiguration _configuration;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
         #endregion
         public UserManagerService(IPrincipal principal, IUserRepository userRepository, IRoleRepository roleRepository,
@@ -33,6 +34,7 @@ namespace RS.Service.Logic
             this._approvalRepository = approvalRepository;
             this._configuration = configuration;
             this._principal = principal as ClaimsPrincipal;
+            this._hostingEnvironment = hostingEnvironment;
         }
 
         public IResult ChangePassword(string oldPassword, string newPassword)
@@ -111,7 +113,7 @@ namespace RS.Service.Logic
                         mailDetail.Subject = "Registration Confirmation";
                         mailDetail.Template = TemplateType.UserRegistration;
                         mailDetail.MessageBody = userViewModel;
-                        GenericHelper.Send(mailDetail, _configuration);
+                        GenericHelper.Send(mailDetail, _configuration, _hostingEnvironment);
                     }
                     result.Body = userModel.UserId;
                 }
