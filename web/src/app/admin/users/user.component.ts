@@ -66,6 +66,9 @@ export class UserComponent implements OnInit {
         this.translateService.get('COMMON.SELECTDEFAULT').subscribe(
             (data) => {
                 this.defaultOption = data;
+            },
+            (error) => {
+                this.msgService.showError('Error');
             }
         );
     }
@@ -80,6 +83,9 @@ export class UserComponent implements OnInit {
                 } else {
                     this.msgService.showError('Error');
                 }
+            },
+            (error) => {
+                this.msgService.showError('Error');
             }
         );
     }
@@ -102,6 +108,9 @@ export class UserComponent implements OnInit {
                         } else {
                             this.msgService.showError('Error');
                         }
+                    },
+                    (error) => {
+                        this.msgService.showError('Error');
                     }
                 );
             }
@@ -142,37 +151,45 @@ export class UserComponent implements OnInit {
                             } else {
                                 this.msgService.showError('Error');
                             }
+                        },
+                        (error) => {
+                            this.msgService.showError('Error');
                         }
                     );
-                } else {
-                    this.userServiceApp.updateUser(AppConstants.uriForUpdateUser, this.userModel, this.uploadedProfile).subscribe(
-                        (data) => {
-                            debugger;
-                            if (data.body.status === Status.Success) {
-                                this.showUsersList();
-                            } else {
-                                this.msgService.showError('Error');
-                            }
-                        }
-                    );
-                }
             } else {
-                this.msgService.showWarning('USER.PASSWORDMISMATCH');
+                this.userServiceApp.updateUser(AppConstants.uriForUpdateUser, this.userModel, this.uploadedProfile).subscribe(
+                    (data) => {
+                        if (data.body.status === Status.Success) {
+                            this.showUsersList();
+                        } else {
+                            this.msgService.showError('Error');
+                        }
+                    },
+                    (error) => {
+                        this.msgService.showError('Error');
+                    }
+                );
             }
+        } else {
+            this.msgService.showWarning('USER.PASSWORDMISMATCH');
         }
     }
+}
 
-    getAllUsers() {
-        this.userService.getAllUsers().subscribe(
-            (data) => {
-                if (data.status === Status.Success) {
-                    this.users = data.body;
-                } else {
-                    this.msgService.showError('Error');
-                }
+getAllUsers() {
+    this.userService.getAllUsers().subscribe(
+        (data) => {
+            if (data.status === Status.Success) {
+                this.users = data.body;
+            } else {
+                this.msgService.showError('Error');
             }
-        );
-    }
+        },
+        (error) => {
+            this.msgService.showError('Error');
+        }
+    );
+}
 
 }
 
