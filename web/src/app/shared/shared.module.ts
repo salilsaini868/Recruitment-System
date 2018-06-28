@@ -13,7 +13,7 @@ import exporting from 'highcharts/modules/exporting.src.js';
 
 // Services
 import {
-    SpinnerService, RoleGuardService, AuthService,
+    SpinnerService, RoleGuardService, AuthService, SharedService,
     HeaderComponent, FooterComponent, LeftSideBarComponent, HiringTrendChartComponent
 } from './index.shared';
 

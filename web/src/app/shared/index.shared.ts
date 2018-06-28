@@ -3,6 +3,7 @@ export { SpinnerDirective } from './spinner/spinner.directive';
 
 // Service
 export { SpinnerService } from './spinner/spinner.service';
+export { SharedService } from './service/shared.service';
 export { AuthInterceptor } from './customHttp/authInterceptor.service';
 export { RoleGuardService } from './guards/role.guard.service';
 export { AuthService } from './guards/auth.service';

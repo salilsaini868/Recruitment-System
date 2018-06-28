@@ -1,25 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
 using RS.Common.CommonData;
-using RS.Common.Extensions;
-using RS.Common.Enums;
 using RS.ViewModel.User;
 using System;
-using System.Collections.Generic;
 using System.Net;
-using System.Net.Http;
 using RS.Service.Interfaces;
-using static RS.ViewModel.User.LoginModel;
-using System.Text;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using RS.ViewModel.SearchAndSortModel;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using System.Security.Principal;
 
 namespace RS.Web.Controllers
 {
@@ -30,20 +22,27 @@ namespace RS.Web.Controllers
     public class UserController : Controller
     {
         private readonly IUserManagerService _userService;
+        private readonly ClaimsPrincipal _principal;
         private readonly IConfiguration _configuration;
         private readonly IHostingEnvironment _hostingEnvironment;
 
-        public UserController(IUserManagerService userService, IConfiguration configuration, IHostingEnvironment hostingEnvironment)
+        public UserController(IPrincipal principal, IUserManagerService userService, IConfiguration configuration, IHostingEnvironment hostingEnvironment)
         {
             _userService = userService;
             _configuration = configuration;
             _hostingEnvironment = hostingEnvironment;
+            this._principal = principal as ClaimsPrincipal;
         }
 
         [HttpGet]
         public IResult GetUserDetails()
         {
-            var userDetails = _userService.GetUserDetail();
+            var identity = (ClaimsIdentity)_principal.Identity;
+            var userDetails = _userService.GetUserById(new Guid(identity.FindFirst(ClaimTypes.Sid).Value));
+            if (userDetails.Body != null)
+            {
+                userDetails.Body.ProfileImage = GetProfilePicture(userDetails.Body.UserId);
+            }
             return userDetails;
         }
 
@@ -90,7 +89,7 @@ namespace RS.Web.Controllers
             var userRecord = _userService.GetUserById(id);
             if(userRecord.Body != null)
             {
-                userRecord.Body.Image = GetProfilePicture(id);
+                userRecord.Body.ProfileImage = GetProfilePicture(id);
             }
             return userRecord;
         }

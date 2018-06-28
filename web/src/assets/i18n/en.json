@@ -123,7 +123,8 @@
     "EDITPROFILE": {
         "UPDATEPROFILESUCCESS": "Profile updated successfully",
         "TITLE": "Edit profile",
-        "DUPLICATEUSER": "UserName or Email Already Exists!"
+        "DUPLICATEUSER": "UserName Already Exists!",
+        "DUPLICATEEMAIL": "Email Already Exists!"
     },
     "CANDIDATE": {
         "NAME": "Name",

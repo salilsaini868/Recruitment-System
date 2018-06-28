@@ -82,8 +82,7 @@ export class UsersComponent implements OnInit {
       (data) => {
         if (data.status === Status.Success) {
           this.users = data.body;
-        }
-        else if (data.status === Status.Error) {
+        } else if (data.status === Status.Error) {
           this.displayMessage.showError('USER.ERROR');
         }
       },

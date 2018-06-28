@@ -14,6 +14,7 @@ using System.Linq;
 using Microsoft.Extensions.Configuration;
 using RS.ViewModel.Organization;
 using RS.ViewModel.Approval;
+using Microsoft.AspNetCore.Hosting;
 
 namespace RS.Service.Logic
 {
@@ -26,11 +27,12 @@ namespace RS.Service.Logic
         private readonly IOpeningRepository _openingRepository;
         private readonly IQualificationRepository _qualificationRepository;
         private readonly IConfiguration _configuration;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
         #endregion
         public CandidateManagerService(IPrincipal principal, ICandidateRepository candidateRepository,
             IOpeningRepository openingRepository, IQualificationRepository qualificationRepository, IApprovalRepository approvalRepository,
-            IConfiguration configuration)
+            IConfiguration configuration, IHostingEnvironment hostingEnvironment)
         {
             _principal = principal as ClaimsPrincipal;
             _candidateRepository = candidateRepository;
@@ -38,6 +40,7 @@ namespace RS.Service.Logic
             _qualificationRepository = qualificationRepository;
             _approvalRepository = approvalRepository;
             _configuration = configuration;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         public IResult AddCandidate(CandidateViewModel candidateViewModel, CandidateDocumentViewModel candidateDocumentViewModel)
@@ -156,7 +159,7 @@ namespace RS.Service.Logic
                         mailDetail.Subject = "Registration Confirmation";
                         mailDetail.Template = TemplateType.ScheduleUserForInterview;
                         mailDetail.MessageBody = assignedUser;
-                        GenericHelper.Send(mailDetail, _configuration);
+                        GenericHelper.Send(mailDetail, _configuration, _hostingEnvironment);
                     }
                 }
 
@@ -481,7 +484,7 @@ namespace RS.Service.Logic
                             mailDetail.Subject = "Interview Cancelled";
                             mailDetail.Template = TemplateType.InterviewCancelled;
                             mailDetail.MessageBody = scheduleUserModel;
-                            GenericHelper.Send(mailDetail, _configuration);
+                            GenericHelper.Send(mailDetail, _configuration, _hostingEnvironment);
                         }
 
                     }
@@ -512,7 +515,7 @@ namespace RS.Service.Logic
                         mailDetail.Subject = "Interview Scheduled";
                         mailDetail.Template = TemplateType.ScheduleUserForInterview;
                         mailDetail.MessageBody = scheduledUser;
-                        GenericHelper.Send(mailDetail, _configuration);
+                        GenericHelper.Send(mailDetail, _configuration, _hostingEnvironment);
                     }
                 }
                 _candidateRepository.SaveChanges();

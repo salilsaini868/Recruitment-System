@@ -12,7 +12,6 @@ import { filter } from 'rxjs/operators/filter';
 import { IResult } from '../models/iresult';
 import { UserLoginModel } from '../models/user-login-model';
 import { ChangePassword } from '../models/change-password';
-import { UserViewModel } from '../models/user-view-model';
 
 
 @Injectable()
@@ -136,13 +135,11 @@ export class LoginService extends BaseService {
     );
   }
   /**
-   * @param userProfile - undefined
    */
-  ApiLoginUpdateUserProfilePutResponse(userProfile?: UserViewModel): Observable<HttpResponse<IResult>> {
+  ApiLoginUpdateUserProfilePutResponse(): Observable<HttpResponse<IResult>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
-    __body = userProfile;
     let req = new HttpRequest<any>(
       "PUT",
       this.rootUrl + `/api/Login/UpdateUserProfile`,
@@ -165,10 +162,9 @@ export class LoginService extends BaseService {
   }
 
   /**
-   * @param userProfile - undefined
    */
-  ApiLoginUpdateUserProfilePut(userProfile?: UserViewModel): Observable<IResult> {
-    return this.ApiLoginUpdateUserProfilePutResponse(userProfile).pipe(
+  ApiLoginUpdateUserProfilePut(): Observable<IResult> {
+    return this.ApiLoginUpdateUserProfilePutResponse().pipe(
       map(_r => _r.body)
     );
   }}

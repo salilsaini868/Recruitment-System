@@ -31,7 +31,7 @@ import { AppConstants } from './shared/constant/constant.variable';
 
 import {
   AuthService, RoleGuardService, SpinnerDirective, SpinnerService,
-  AuthInterceptor, UtilityService
+  AuthInterceptor, UtilityService, SharedService
 } from './shared/index.shared';
 
 
@@ -77,6 +77,7 @@ import { NgModel } from '@angular/forms/src/directives/ng_model';
     JwtHelperService,
     SpinnerService,
     UtilityService,
+    SharedService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

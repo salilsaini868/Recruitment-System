@@ -4,6 +4,10 @@ import { AppConstants } from '../constant/constant.variable';
 import * as $ from 'jquery/dist/jquery.min.js';
 import { isNullOrUndefined } from 'util';
 import decode from 'jwt-decode';
+import { SharedService } from 'app/shared/service/shared.service';
+import { UserServiceApp } from 'app/admin/users/shared/user.serviceApp';
+import { Status } from 'app/app.enum';
+import { DisplayMessageService } from 'app/shared/toastr/display.message.service';
 
 @Component({
     selector: 'app-header',
@@ -13,19 +17,46 @@ import decode from 'jwt-decode';
 export class HeaderComponent implements OnInit {
 
     name: string;
+    userId: any;
     intialOfFirstName: any;
     intialOfLastName: any;
 
-    constructor(private router: Router) { }
+    constructor(private router: Router, private sharedSevice: SharedService, private userService: UserServiceApp,
+        private msgService: DisplayMessageService) {
+        sharedSevice.userDetail.subscribe(user => this.updateUser(user));
+    }
+
     ngOnInit() {
         let tokenPayload = '';
         const token = localStorage.getItem(AppConstants.AuthToken);
         if (!isNullOrUndefined(token)) { tokenPayload = decode(token); }
-        this.name = tokenPayload[AppConstants.NameClaim];
+        this.userId = tokenPayload[AppConstants.IdClaim];
+        this.getUser(this.userId);
+    }
+
+    getUser(userId) {
+        this.userService.getUserById(this.userId).subscribe(
+            (data) => {
+                if (data.status === Status.Success) {
+                    this.updateUser(data.body);
+                } else {
+                    this.msgService.showError('Error');
+                }
+            }
+        );
+    }
+
+    updateUser(user) {
+        this.name = user.firstName + ' ' + user.lastName;
+        this.splitName(this.name);
+    }
+
+    splitName(name) {
         const names = this.name.split(' ');
         this.intialOfFirstName = names[0].charAt(0);
         this.intialOfLastName = names[1].charAt(0);
     }
+
 
     logout() {
         localStorage.removeItem(AppConstants.AuthToken);
