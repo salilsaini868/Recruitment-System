@@ -5,6 +5,8 @@ using RS.Entity.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using RS.ViewModel.SearchAndSortModel;
+using RS.Entity.DTO;
 
 namespace RS.Data.Logic
 {
@@ -51,9 +53,49 @@ namespace RS.Data.Logic
             return _context.OpeningCandidates.Include(t => t.Opening).FirstOrDefault(x => (x.CandidateId == candidateId) && (x.IsActive && !x.IsDeleted));
         }
 
-        List<Candidates> ICandidateRepository.GetAll()
+        List<CandidateModelDTO> ICandidateRepository.GetAll(SearchAndSortModel searchAndSortModel)
         {
-            return _context.Candidates.Include(t => t.Organisation).Include(s => s.CandidateDocuments).Where(x => (x.IsActive && !x.IsDeleted)).ToList();
+
+            var candidateList = (from Candidate in _context.Candidates
+
+                                 join OpeningCandidate in _context.OpeningCandidates on Candidate.CandidateId equals OpeningCandidate.CandidateId
+                                 join ApprovalTrans in _context.ApprovalTransactions on Candidate.CandidateId equals ApprovalTrans.EntityId
+                                 select new CandidateModelDTO
+                                 {
+                                     FirstName = Candidate.FirstName,
+                                     LastName = Candidate.LastName,
+                                     Opening = OpeningCandidate.Opening.Title,
+                                     Status = ApprovalTrans.ApprovalAction.ApprovalActionName,
+                                     CandidateId = Candidate.CandidateId,
+                                     ExperienceYear = Candidate.ExperienceYear,
+                                     ExperienceMonth = Candidate.ExperienceMonth,
+                                     ModifiedDate = OpeningCandidate.ModifiedDate,
+                                     IsApproved = Candidate.IsApproved,
+                                     IsReadyForInterview = Candidate.IsReadyForInterview,
+                                     Documents = Candidate.CandidateDocuments.Count,
+                                     CandidateExperienceTotalMonth = (Candidate.ExperienceYear * 12) + Candidate.ExperienceMonth
+                                 });
+
+            if (searchAndSortModel.SearchString != null)
+            {
+                candidateList = candidateList.Where(x => x.FirstName.ToLower().Contains(searchAndSortModel.SearchString.ToLower())
+                || x.LastName.ToLower().Contains(searchAndSortModel.SearchString.ToLower())
+                || x.Opening.Contains(searchAndSortModel.SearchString.ToLower())
+                || x.Status.ToLower().Contains(searchAndSortModel.SearchString.ToLower()));
+            }
+
+            if (searchAndSortModel.Property != null)
+            {
+                if (searchAndSortModel.Direction == 1)
+                {
+                    candidateList = candidateList.OrderBy(x => x.GetType().GetProperty(searchAndSortModel.Property).GetValue(x, null));
+                }
+                else
+                {
+                    candidateList = candidateList.OrderByDescending(x => x.GetType().GetProperty(searchAndSortModel.Property).GetValue(x, null));
+                }
+            }
+            return candidateList.ToList();
         }
 
         public void AssignUserForCandidate(CandidateAssignedUser candidateAssignedUser)
@@ -67,16 +109,58 @@ namespace RS.Data.Logic
             return _context.CandidateAssignedUser.Where(x => x.CandidateId == candidateId && (x.IsActive && !x.IsDeleted)).ToList();
         }
 
-        public List<ScheduleUserForCandidate> GetCandidatesCorrespondingToLoggedUser(Guid userId)
+        public List<CandidateModelDTO> GetCandidatesCorrespondingToLoggedUser(Guid userId, SearchAndSortModel searchAndSortModel)
         {
-            var ScheduleUserForCandidateList = _context.ScheduleUserForCandidate.Include(t => t.Candidate).Where(x => x.UserId == userId && (x.IsActive && !x.IsDeleted)).Select(x => x.CandidateId).Distinct().ToList();
-            var scheduleUserList = new List<ScheduleUserForCandidate>();
-            ScheduleUserForCandidateList.ForEach(x =>
+            var candidatesdto = new List<CandidateModelDTO>();
+            var lists = (from scheduleUser in _context.ScheduleUserForCandidate.OrderByDescending(x => x.ApprovalEventId)
+
+                         join _candidate in _context.Candidates on scheduleUser.CandidateId equals _candidate.CandidateId
+                         join OpeningCandidate in _context.OpeningCandidates.Include(s => s.Opening) on _candidate.CandidateId equals OpeningCandidate.CandidateId
+                         join Approvaltrans in _context.ApprovalTransactions.Include(x => x.ApprovalAction) on scheduleUser.CandidateId equals Approvaltrans.EntityId
+                         into FinalValue
+                         from CandidateList in FinalValue.DefaultIfEmpty()
+                         where scheduleUser.UserId == userId && scheduleUser.IsActive && !scheduleUser.IsDeleted
+                         && scheduleUser.CandidateId == _candidate.CandidateId
+                         select new { candidate = _candidate, user = scheduleUser, opening = OpeningCandidate, approval = CandidateList }).ToList();
+            lists.ForEach(item =>
             {
-                var scheduleUser = _context.ScheduleUserForCandidate.Include(t => t.Candidate).Where(t => t.CandidateId == x).OrderByDescending(t => t.ApprovalEventId).First();
-                scheduleUserList.Add(scheduleUser);
+                var candidateObj = new CandidateModelDTO
+                {
+                    FirstName = item.candidate.FirstName,
+                    LastName = item.candidate.LastName,
+                    Opening = item.opening.Opening.Title,
+                    CandidateId = item.candidate.CandidateId,
+                    ExperienceYear = item.candidate.ExperienceYear,
+                    ExperienceMonth = item.candidate.ExperienceMonth,
+                    ModifiedDate = item.candidate.ModifiedDate,
+                    IsApproved = item.candidate.IsApproved,
+                    IsReadyForInterview = item.candidate.IsReadyForInterview,
+                    Documents = item.candidate.CandidateDocuments.Count,
+                    Status = item.approval != null ? item.approval.ApprovalAction.ApprovalActionName : "Created",
+                    CandidateExperienceTotalMonth = (item.candidate.ExperienceYear * 12) + item.candidate.ExperienceMonth,
+                    IsFinished = CheckForInterviewCompletion(item.user)
+                };
+                candidatesdto.Add(candidateObj);
             });
-            return scheduleUserList;
+            if (searchAndSortModel.SearchString != null)
+            {
+                candidatesdto = candidatesdto.Where(x => x.FirstName.ToLower().Contains(searchAndSortModel.SearchString.ToLower())
+                || x.LastName.ToLower().Contains(searchAndSortModel.SearchString.ToLower())
+                || x.Opening.Contains(searchAndSortModel.SearchString.ToLower())
+                || x.Status.ToLower().Contains(searchAndSortModel.SearchString.ToLower())).ToList();
+            }
+            if (searchAndSortModel.Property != null)
+            {
+                if (searchAndSortModel.Direction == 1)
+                {
+                    candidatesdto = candidatesdto.OrderBy(x => x.GetType().GetProperty(searchAndSortModel.Property).GetValue(x, null)).ToList();
+                }
+                else
+                {
+                    candidatesdto = candidatesdto.OrderByDescending(x => x.GetType().GetProperty(searchAndSortModel.Property).GetValue(x, null)).ToList();
+                }
+            }
+            return candidatesdto.ToList().GroupBy(xx => xx.CandidateId).Select(g => g.First()).ToList();
         }
 
         public void ApprovedForInterview(Candidates candidate)

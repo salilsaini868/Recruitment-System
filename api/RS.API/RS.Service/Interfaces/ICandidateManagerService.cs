@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using RS.Common.CommonData;
 using RS.ViewModel.Candidate;
+using RS.ViewModel.SearchAndSortModel;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -63,7 +64,7 @@ namespace RS.Service.Interfaces
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        IResult GetCandidatesCorrespondingToLoggedUser(Guid userId);
+        IResult GetCandidatesCorrespondingToLoggedUser(Guid userId, SearchAndSortModel searchAndSortModel);
 
         /// <summary>
         /// 
@@ -92,6 +93,6 @@ namespace RS.Service.Interfaces
         /// <param name="candidateId"></param>
         /// <returns></returns>
         IResult GetScheduledUsersById(Guid candidateId);
-
+        IResult GetCandidateResults(SearchAndSortModel searchAndSortModel);
     }
 }

@@ -1,36 +1,80 @@
 <div class="content-wrapper">
     <h2>{{ 'CANDIDATE.LIST' | translate }}</h2>
+
+    <input (keydown)="onKeydown($event)" (keyup)="clear()" class="search search-user custom-can-input" placeholder="{{ 'CANDIDATE.SEARCH' | translate }}"
+        name="listFilter" type="text" [(ngModel)]="listFilter" />
+    <button [disabled]="!listFilter" type="submit" (click)="search()" class="btn">GO</button>
+
     <button *ngIf="loggedRole == 'Sr.HR'" title="Add" class="btn btn-primary no-radius blue-btn pull-right" (click)="addCandidate()">Add</button>
     <div class="table-responsive-top">
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>{{ 'CANDIDATE.NAME' | translate }}</th>
-                        <th>{{ 'CANDIDATE.EXPERIENCE' | translate }}</th>
-                        <th>{{ 'CANDIDATE.OPENINGFOR' | translate }}</th>
-                        <th>{{ 'CANDIDATE.STATUS' | translate }}</th>
+                        <th class="pointer" (click)="sort('FirstName')">
+                            <span>{{ 'CANDIDATE.NAME' | translate }}</span>
+                            <span class="arrow-gap">
+                                <i class="fa" [ngClass]="{'fa-sort': searchAndSortModel.property !== 'FirstName', 
+                    'fa-sort-asc': (searchAndSortModel.property === 'FirstName' && !isDesc), 
+                    'fa-sort-desc': (searchAndSortModel.property === 'FirstName' && isDesc) }" aria-hidden="true">
+                                </i>
+                            </span>
+                        </th>
+                        <th class="pointer" (click)="sort('CandidateExperienceTotalMonth')">
+                            <span>{{ 'CANDIDATE.EXPERIENCE' | translate }}</span>
+                            <span class="arrow-gap">
+                                <i class="fa" [ngClass]="{'fa-sort': searchAndSortModel.property !== 'CandidateExperienceTotalMonth', 
+                    'fa-sort-asc': (searchAndSortModel.property === 'CandidateExperienceTotalMonth' && !isDesc), 
+                    'fa-sort-desc': (searchAndSortModel.property === 'CandidateExperienceTotalMonth' && isDesc) }" aria-hidden="true">
+                                </i>
+                            </span>
+                        </th>
+                        <th class="pointer" (click)="sort('Opening')">
+                            <span>{{ 'CANDIDATE.OPENINGFOR' | translate }}</span>
+                            <span class="arrow-gap">
+                                <i class="fa" [ngClass]="{'fa-sort': searchAndSortModel.property !== 'Opening', 
+                    'fa-sort-asc': (searchAndSortModel.property === 'Opening' && !isDesc), 
+                    'fa-sort-desc': (searchAndSortModel.property === 'Opening' && isDesc) }" aria-hidden="true">
+                                </i>
+                            </span>
+                        </th>
+                        <th class="pointer" (click)="sort('Status')">
+                            <span>{{ 'CANDIDATE.STATUS' | translate }}</span>
+                            <span class="arrow-gap">
+                                <i class="fa" [ngClass]="{'fa-sort': searchAndSortModel.property !== 'Status', 
+                    'fa-sort-asc': (searchAndSortModel.property === 'Status' && !isDesc), 
+                    'fa-sort-desc': (searchAndSortModel.property === 'Status' && isDesc) }" aria-hidden="true">
+                                </i>
+                            </span>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let candidate of candidates">
-                        <td>{{candidate.firstName}} {{candidate.lastName}}</td>
-                        <td>{{candidate.experienceYear}}{{ 'CANDIDATE.YEAR' | translate }} {{candidate.experienceMonth}}{{ 'CANDIDATE.MONTH'
-                            | translate }}</td>
-                        <td>{{candidate.opening}}</td>
-                        <td>{{candidate.status}}</td>
-                        <td *ngIf="loggedRole == 'Sr.HR'">
-                            <button *ngIf="!candidate.isApproved" title="Delete" class="btn btn-danger no-radius" (click)="deleteCandidate(candidate.candidateId)">{{ 'CANDIDATE.DELETE' | translate }}</button>
-                            <button *ngIf="!candidate.isApproved" title="Edit" class="btn btn-primary blue-btn no-radius" (click)="updateCandidate(candidate.candidateId)">{{ 'CANDIDATE.EDIT' | translate }}</button>
-                            <!--<button *ngIf="!candidate.isReadyForInterview" title="Start Interview" class="btn btn-primary blue-btn no-radius" (click)="startInterview(candidate)">{{ 'CANDIDATE.STARTINTERVIEW' | translate }}</button>!-->
-                            <button *ngIf="!candidate.isApproved" title="Schedule Interview" class="btn btn-primary blue-btn no-radius" (click)="scheduleInterview(candidate.candidateId)">{{ 'CANDIDATE.SCHEDULEINTERVIEW' | translate }}</button>
-                            <button *ngIf="candidate.isApproved" title="View" class="btn btn-primary blue-btn no-radius" (click)="getCandidateDetail(candidate.candidateId)">{{ 'CANDIDATE.VIEW' | translate }}</button>
-                        </td>
-                        <td *ngIf="loggedRole != 'Sr.HR'">
-                            <button *ngIf="!candidate.isFinished" title="TakeInterview" class="btn btn-primary blue-btn no-radius" (click)="startInterview(candidate)">{{ 'CANDIDATE.TAKEINTERVIEW' | translate }}</button>
-                            <button *ngIf="candidate.isFinished" title="View" class="btn btn-primary blue-btn no-radius" (click)="getCandidateDetail(candidate.candidateId)">{{ 'CANDIDATE.VIEW' | translate }}</button>
-                        </td>
+                    <tr *ngIf="candidates.length === 0; else rowTemplate">
+                        <td></td>
+                        <td align="center"> {{ 'CANDIDATE.NORECORD' | translate }} </td>
+                        <td></td>
+                        <td></td>
                     </tr>
+                    <ng-template #rowTemplate>
+                        <tr *ngFor="let candidate of candidates">
+                            <td>{{candidate.firstName}} {{candidate.lastName}}</td>
+                            <td>{{candidate.experienceYear}}{{ 'CANDIDATE.YEAR' | translate }} {{candidate.experienceMonth}}{{
+                                'CANDIDATE.MONTH' | translate }}</td>  
+                            <td>{{candidate.opening}}</td>
+                            <td>{{candidate.status}}</td>
+                            <td *ngIf="loggedRole == 'Sr.HR'">
+                                <button *ngIf="!candidate.isApproved" title="Delete" class="btn btn-danger no-radius" (click)="deleteCandidate(candidate.candidateId)">{{ 'CANDIDATE.DELETE' | translate }}</button>
+                                <button *ngIf="!candidate.isApproved" title="Edit" class="btn btn-primary blue-btn no-radius" (click)="updateCandidate(candidate.candidateId)">{{ 'CANDIDATE.EDIT' | translate }}</button>
+                                <button *ngIf="!candidate.isApproved" title="Schedule Interview" class="btn btn-primary blue-btn no-radius" (click)="scheduleInterview(candidate.candidateId)">{{ 'CANDIDATE.SCHEDULEINTERVIEW' | translate }}</button>
+                                <button *ngIf="candidate.isApproved" title="View" class="btn btn-primary blue-btn no-radius" (click)="getCandidateDetail(candidate.candidateId)">{{ 'CANDIDATE.VIEW' | translate }}</button>
+                            </td>
+                            <td *ngIf="loggedRole != 'Sr.HR'">
+                                <button *ngIf="!candidate.isFinished" title="TakeInterview" class="btn btn-primary blue-btn no-radius" (click)="startInterview(candidate)">{{ 'CANDIDATE.TAKEINTERVIEW' | translate }}</button>
+                                <button *ngIf="candidate.isFinished" title="View" class="btn btn-primary blue-btn no-radius" (click)="getCandidateDetail(candidate.candidateId)">{{ 'CANDIDATE.VIEW' | translate }}</button>
+                            </td>
+                        </tr>
+                    </ng-template>
                 </tbody>
             </table>
         </div>

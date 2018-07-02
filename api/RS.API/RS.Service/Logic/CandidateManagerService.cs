@@ -16,6 +16,8 @@ using System.Linq;
 using Microsoft.Extensions.Configuration;
 using RS.ViewModel.Organization;
 using RS.ViewModel.Approval;
+using RS.ViewModel.SearchAndSortModel;
+using RS.Entity.DTO;
 
 namespace RS.Service.Logic
 {
@@ -224,7 +226,7 @@ namespace RS.Service.Logic
             };
             try
             {
-                var allCandidates = _candidateRepository.GetAll();
+                var allCandidates = _candidateRepository.GetAll().ToList();
                 var candidateList = allCandidates.Select(candidate =>
                 {
                     var openingCandidate = _candidateRepository.GetOpeningCandidate(candidate.CandidateId);
@@ -305,7 +307,7 @@ namespace RS.Service.Logic
             return result;
         }
 
-        public IResult GetCandidatesCorrespondingToLoggedUser(Guid userId)
+        public IResult GetCandidatesCorrespondingToLoggedUser(Guid userId, SearchAndSortModel searchAndSortModel)
         {
             var result = new Result
             {
@@ -314,27 +316,8 @@ namespace RS.Service.Logic
             };
             try
             {
-                var allScheduleUserForCandiadate = _candidateRepository.GetCandidatesCorrespondingToLoggedUser(userId);
-                var candidateList = allScheduleUserForCandiadate.Select(scheduleUser =>
-                {
-                    var openingCandidate = _candidateRepository.GetOpeningCandidate(scheduleUser.CandidateId);
-                    var candidateListModel = new CandidateListModel();
-                    if (openingCandidate != null)
-                    {
-                        candidateListModel.Opening = openingCandidate.Opening.Title;
-                        candidateListModel.ModifiedDate = openingCandidate.Opening.ModifiedDate;
-                    }
-
-                    var approvalTransaction = _approvalRepository.GetApprovalTransactionByEntity(scheduleUser.CandidateId);
-
-                    candidateListModel.Status = approvalTransaction == null ? "Created" : approvalTransaction.ApprovalAction.ApprovalActionName;
-
-                    candidateListModel.ApprovalEventId = scheduleUser.ApprovalEventId;
-                    candidateListModel.IsFinished = _candidateRepository.CheckForInterviewCompletion(scheduleUser);
-                    return candidateListModel.MapFromModel(scheduleUser.Candidate);
-                }).ToList();
-                List<CandidateListModel> candidateListViewModel = candidateList.Cast<CandidateListModel>().ToList();
-                result.Body = candidateListViewModel.OrderByDescending(x => x.ModifiedDate);
+                var candidateList = _candidateRepository.GetCandidatesCorrespondingToLoggedUser(userId, searchAndSortModel).ToList();
+                result.Body = candidateList;
             }
             catch (Exception e)
             {
@@ -575,5 +558,31 @@ namespace RS.Service.Logic
             return date;
         }
 
+
+        public IResult GetCandidateResults(SearchAndSortModel searchAndSortModel)
+        {
+            var result = new Result
+            {
+                Operation = Operation.Read,
+                Status = Status.Success
+            };
+            try
+            {
+                List<CandidateListModel> candidateModelList = new List<CandidateListModel>();
+                var candidateList = _candidateRepository.GetAll(searchAndSortModel).ToList();
+
+                var candidateViewModelLists = candidateModelList.MapFromModel<CandidateModelDTO, CandidateListModel>(candidateList);
+
+                result.Body = candidateViewModelLists;
+
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Fail;
+            }
+            return result;
+
+        }
     }
 }

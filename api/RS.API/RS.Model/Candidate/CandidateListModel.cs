@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace RS.ViewModel.Candidate
 {
@@ -20,5 +23,6 @@ namespace RS.ViewModel.Candidate
         public int AssignedUsers { get; set; }
         public string Status { get; set; }
         public int Documents { get; set; }
+        public int CandidateExperienceTotalMonth { get; set; }
     }
 }

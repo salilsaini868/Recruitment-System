@@ -74,4 +74,7 @@ export class CandidateServiceApp {
         formdata.append('file', fileName);
         return this.http.post(url, formdata, { responseType: 'blob' }).map(x => (x));
     }
+    getCandidateResults(searchAndSortModel): Observable<any> {
+        return this.apiCandidateSevice.ApiCandidateGetCandidateResultsPost(searchAndSortModel).map(x => (x));
+    }
 }

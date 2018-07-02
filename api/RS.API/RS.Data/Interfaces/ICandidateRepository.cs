@@ -1,6 +1,9 @@
-﻿using RS.Entity.Models;
+﻿using RS.Entity.DTO;
+using RS.Entity.Models;
+using RS.ViewModel.SearchAndSortModel;
 using System;
 using System.Collections.Generic;
+
 
 namespace RS.Data.Interfaces
 {
@@ -10,7 +13,7 @@ namespace RS.Data.Interfaces
 
         void UpdateCandidate(Candidates candidate, OpeningCandidates openingCandidate);
 
-        new List<Candidates> GetAll();
+        List<CandidateModelDTO> GetAll(SearchAndSortModel searchAndSortModel);
 
         OpeningCandidates GetOpeningCandidate(Guid candidateId);
 
@@ -22,7 +25,7 @@ namespace RS.Data.Interfaces
 
         List<ScheduleUserForCandidate> GetScheduledUsersById(Guid candidateId);
 
-        List<ScheduleUserForCandidate> GetCandidatesCorrespondingToLoggedUser(Guid userId);
+        List<CandidateModelDTO> GetCandidatesCorrespondingToLoggedUser(Guid userId, SearchAndSortModel searchAndSortModel);
 
         void ApprovedForInterview(Candidates candidate);
 

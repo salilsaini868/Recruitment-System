@@ -167,7 +167,11 @@
         "DATE": "Date",
         "TIME": "Time",
         "TAKENBY": "Taken By",
-        "TAKENON": "On"
+        "TAKENON": "On",
+        "SEARCH":"Search...",
+        "DEFAULTSORTPROPERTY": "FirstName",
+        "NORECORD": "No User found !",
+        "ERROR": "Error Occurred"
     },
     "EVENTROLE": {
         "APPROVALEVENT": "Approval Event",

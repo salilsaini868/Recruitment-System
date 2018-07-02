@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import decode from 'jwt-decode';
 import { ApprovalServiceApp } from '../approval/shared/approval.serviceApp';
 import { window } from 'rxjs/operator/window';
+import { SearchAndSortModel } from '../webapi/models/search-and-sort-model';
 
 @Component({
     selector: 'app-candidates',
@@ -19,9 +20,12 @@ import { window } from 'rxjs/operator/window';
 export class CandidatesComponent implements OnInit {
     candidates: CandidateListModel[] = [] as CandidateListModel[];
     candidate: CandidateViewModel = {} as CandidateViewModel;
+    searchAndSortModel: SearchAndSortModel = {} as SearchAndSortModel;
     loggedRole: string;
     userId: any;
     promptMsg: any;
+    isDesc = false;
+    listFilter: string;
 
     constructor(private candidateServiceApp: CandidateServiceApp, private router: Router,
         private msgService: DisplayMessageService, private translateService: TranslateService,
@@ -30,14 +34,13 @@ export class CandidatesComponent implements OnInit {
 
     ngOnInit() {
         this.getLoggedRole();
-        this.getAllCandidates();
         this.setPromptMsg();
+        this.setDefaultSortOption();
     }
 
     getLoggedRole() {
         let tokenPayload = '';
         const token = localStorage.getItem(AppConstants.AuthToken);
-        // decode the token to get its payload
         if (token !== null) {
             tokenPayload = decode(token);
             this.loggedRole = tokenPayload[AppConstants.RoleClaim];
@@ -51,12 +54,9 @@ export class CandidatesComponent implements OnInit {
                 (data) => {
                     if (data.status === Status.Success) {
                         this.candidates = data.body;
-                    } else {
-                        this.msgService.showError('Error');
                     }
-                }
-            );
-        } else {
+                });
+        }else { 
             this.candidateServiceApp.getCandidatesCorrespondingToLoggedUser(this.userId).subscribe(
                 (data) => {
                     if (data.status === Status.Success) {
@@ -99,7 +99,6 @@ export class CandidatesComponent implements OnInit {
                         this.router.navigate(['CandidateDetails', candidate.candidateId]);
                     }
                 } else {
-
                 }
             }
         );
@@ -108,5 +107,50 @@ export class CandidatesComponent implements OnInit {
     scheduleInterview(candidateId) {
         this.router.navigate(['ScheduleInterview', candidateId]);
     }
+    setDefaultSortOption() {
+        this.searchAndSortModel.direction = -1;
+        this.translateService.get('CANDIDATE.DEFAULTSORTPROPERTY').subscribe(
+            (data) => {
+                this.searchAndSortModel.property = data;
+                this.getAllCandidates();
+            }
+        );
+    }
+    sort(property) {
+        this.isDesc = !this.isDesc;
+        this.searchAndSortModel.direction = this.isDesc ? 1 : -1;
+        this.searchAndSortModel.property = property;
+        this.getCandidateResults();
+    }
+    clear() {
+        if (this.listFilter === "") {
+            this.search()
+        }
+        return;
+    }
+    onKeydown(event) {
+        if (event.key === 'Enter') {
+            this.search();
+        }
+    }
+    search() {
+        this.searchAndSortModel.searchString = this.listFilter.trim();
+        this.getCandidateResults();
+    }
 
+    getCandidateResults() {
+        this.candidateServiceApp.getCandidateResults(this.searchAndSortModel).subscribe(
+            (data) => {
+                if (data.status === Status.Success) {
+                    this.candidates = data.body;
+                }
+                else if (data.status === Status.Error) {
+                    this.msgService.showError('USER.ERROR');
+                }
+            },
+            (error) => {
+                this.msgService.showError('USER.ERROR');
+            }
+        );
+    }
 }

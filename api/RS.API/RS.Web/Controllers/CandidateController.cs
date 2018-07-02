@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
+using RS.ViewModel.SearchAndSortModel;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.Net.Http;
@@ -26,7 +27,7 @@ namespace RS.Web.Controllers
         private readonly ICandidateManagerService _candidateManagerService;
         private readonly IConfiguration _configuration;
         private readonly IHostingEnvironment _hostingEnvironment;
-        
+
         public CandidateController(ICandidateManagerService candidateManager, IConfiguration configuration, IHostingEnvironment hostingEnvironment)
         {
             _candidateManagerService = candidateManager;
@@ -105,9 +106,9 @@ namespace RS.Web.Controllers
         }
 
         [HttpGet]
-        public IResult GetCandidatesCorrespondingToLoggedUser(Guid userId)
+        public IResult GetCandidatesCorrespondingToLoggedUser(Guid userId, SearchAndSortModel searchAndSortModel)
         {
-            var assignedUsers = _candidateManagerService.GetCandidatesCorrespondingToLoggedUser(userId);
+            var assignedUsers = _candidateManagerService.GetCandidatesCorrespondingToLoggedUser(userId, searchAndSortModel);
             return assignedUsers;
         }
 
@@ -154,9 +155,16 @@ namespace RS.Web.Controllers
         private void GetCandidateDocumentDetails(CandidateDocumentViewModel candidateDocumentViewModel, IFormFile file)
         {
             candidateDocumentViewModel.DocumentName = file.FileName;
-            var allowedExtensions = _configuration["ResumeExtension"].Split(',');           
+            var allowedExtensions = _configuration["ResumeExtension"].Split(',');
             var extension = FileHelper.GetExtension(file, allowedExtensions);
             candidateDocumentViewModel.UploadedDocument = Guid.NewGuid().ToString() + extension;
+        }
+
+        [HttpPost]
+        public IResult GetCandidateResults([FromBody]SearchAndSortModel searchAndSortModel)
+        {
+            var userList = _candidateManagerService.GetCandidateResults(searchAndSortModel);
+            return userList;
         }
 
     }

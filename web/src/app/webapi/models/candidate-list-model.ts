@@ -17,4 +17,5 @@ export class CandidateListModel {
     assignedUsers?: number;
     status?: string;
     documents?: number;
+    candidateExperienceTotalMonth?: number;
 }
