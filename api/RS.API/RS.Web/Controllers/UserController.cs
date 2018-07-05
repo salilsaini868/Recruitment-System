@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using System.Security.Principal;
+using RS.Common.Enums;
 
 namespace RS.Web.Controllers
 {
@@ -115,9 +116,25 @@ namespace RS.Web.Controllers
             byte[] data = new byte[100];
             using (WebClient webClient = new WebClient())
             {
-                data = webClient.DownloadData(path);
+               // data = webClient.DownloadData(path);
             }
             return Convert.ToBase64String(data, 0, data.Length);
+        }
+        [HttpPut]
+        public IResult DeleteUser([FromBody]UserViewModel userView)
+        {
+            if (ModelState.IsValid)
+            {
+                var deleteUser = _userService.DeleteUser(userView);
+                return deleteUser;
+            }
+            return new Result
+            {
+                Operation = Operation.Delete,
+                Status = Status.Fail,
+                Message = CommonErrorMessages.BadRequest,
+                Body = null
+            };
         }
 
     }

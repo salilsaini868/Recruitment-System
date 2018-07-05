@@ -48,4 +48,7 @@ export class UserServiceApp {
     GetUsersResults(searchAndSortModel): Observable<any> {
         return this.apiUserService.ApiUserGetUsersResultsPost(searchAndSortModel).map(x => (x));
     }
+    deleteUser(userModel): Observable<any> {
+        return this.apiUserService.ApiUserDeleteUserPut(userModel).map(x => (x));
+    }
 }
