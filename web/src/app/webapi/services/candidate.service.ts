@@ -282,12 +282,20 @@ export class CandidateService extends BaseService {
   }
   /**
    * @param userId - undefined
+   * @param SkillId - undefined
+   * @param Direction - undefined
+   * @param SearchString - undefined
+   * @param Property - undefined
    */
-  ApiCandidateGetCandidatesCorrespondingToLoggedUserGetResponse(userId: string): Observable<HttpResponse<IResult>> {
+  ApiCandidateGetCandidatesCorrespondingToLoggedUserGetResponse(params: CandidateService.ApiCandidateGetCandidatesCorrespondingToLoggedUserGetParams): Observable<HttpResponse<IResult>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
-    if (userId != null) __params = __params.set("userId", userId.toString());
+    if (params.userId != null) __params = __params.set("userId", params.userId.toString());
+    if (params.SkillId != null) __params = __params.set("SkillId", params.SkillId.toString());
+    if (params.Direction != null) __params = __params.set("Direction", params.Direction.toString());
+    if (params.SearchString != null) __params = __params.set("SearchString", params.SearchString.toString());
+    if (params.Property != null) __params = __params.set("Property", params.Property.toString());
     let req = new HttpRequest<any>(
       "GET",
       this.rootUrl + `/api/Candidate/GetCandidatesCorrespondingToLoggedUser`,
@@ -311,9 +319,13 @@ export class CandidateService extends BaseService {
 
   /**
    * @param userId - undefined
+   * @param SkillId - undefined
+   * @param Direction - undefined
+   * @param SearchString - undefined
+   * @param Property - undefined
    */
-  ApiCandidateGetCandidatesCorrespondingToLoggedUserGet(userId: string): Observable<IResult> {
-    return this.ApiCandidateGetCandidatesCorrespondingToLoggedUserGetResponse(userId).pipe(
+  ApiCandidateGetCandidatesCorrespondingToLoggedUserGet(params: CandidateService.ApiCandidateGetCandidatesCorrespondingToLoggedUserGetParams): Observable<IResult> {
+    return this.ApiCandidateGetCandidatesCorrespondingToLoggedUserGetResponse(params).pipe(
       map(_r => _r.body)
     );
   }
@@ -504,4 +516,11 @@ export class CandidateService extends BaseService {
   }}
 
 export module CandidateService {
+  export interface ApiCandidateGetCandidatesCorrespondingToLoggedUserGetParams {
+    userId: string;
+    SkillId: string;
+    Direction: number;
+    SearchString?: string;
+    Property?: string;
+  }
 }

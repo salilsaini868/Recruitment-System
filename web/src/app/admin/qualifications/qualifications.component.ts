@@ -10,7 +10,7 @@ import { Status } from '../../app.enum';
 @Component({
   selector: 'app-qualifications',
   templateUrl: 'qualifications.component.html',
-  styleUrls:['qualifications.scss'],
+  styleUrls: ['shared/qualifications.scss']
 })
 
 export class QualificationsComponent implements OnInit {

@@ -352,6 +352,33 @@ namespace RS.Service.Logic
             return result;
         }
 
+        public IResult DeleteUser(UserViewModel user)
+        {
+            var result = new Result
+            {
+                Operation = Operation.Delete,
+                Status = Status.Success
+            };
+            try
+            {
+                var userObj = _userRepository.GetFirstOrDefault(x => x.UserId == user.UserId);
+                if (userObj != null)
+                {
+                    userObj.MapDeleteColumns((ClaimsIdentity)_principal.Identity);
+                    _userRepository.Update(userObj);
+                    _userRepository.SaveChanges();
+                    result.Message = UserStatusNotification.UserDeleted;
+                }
+                result.Body = userObj;
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Error;
+            }
+            return result;
+        }
+
         public IResult UpdateUserProfile(UserViewModel user)
         {
             var result = new Result
@@ -436,4 +463,6 @@ namespace RS.Service.Logic
 
         #endregion
     }
+
+   
 }

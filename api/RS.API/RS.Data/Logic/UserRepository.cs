@@ -65,11 +65,11 @@ namespace RS.Data.Logic
 
         List<Users> IUserRepository.GetAll(SearchAndSortModel searchAndSortModel)
         {
-            var userList = _context.Users.Include(t => t.UserRoles).ThenInclude(r => r.Role).Where(x => (x.IsActive && !x.IsDeleted));
-            var users = new List<Users>();
+            var userList = _context.Users.Include(t => t.UserRoles).ThenInclude(r => r.Role).Where(x => (x.IsActive && !x.IsDeleted)).ToList();
+          //  var users = new List<Users>();
             if (searchAndSortModel.SearchString != null)
             {
-                users = userList.AsEnumerable().Where(x => x.FirstName.ToLower().Contains(searchAndSortModel.SearchString.ToLower()) ||
+                userList = userList.AsEnumerable().Where(x => x.FirstName.ToLower().Contains(searchAndSortModel.SearchString.ToLower()) ||
                     x.LastName.ToLower().Contains(searchAndSortModel.SearchString.ToLower()) ||
                     x.Email.ToLower().Contains(searchAndSortModel.SearchString.ToLower()) ||
                     x.UserRoles.Where(y => y.Role.Name.ToLower()
@@ -80,14 +80,14 @@ namespace RS.Data.Logic
             {
                 if (searchAndSortModel.Direction == 1)
                 {
-                    users = userList.OrderBy(x => x.GetType().GetProperty(searchAndSortModel.Property).GetValue(x, null)).ToList();
+                    userList = userList.OrderBy(x => x.GetType().GetProperty(searchAndSortModel.Property).GetValue(x, null)).ToList();
                 }
                 else
                 {
-                    users = userList.OrderByDescending(x => x.GetType().GetProperty(searchAndSortModel.Property).GetValue(x, null)).ToList();
+                    userList = userList.OrderByDescending(x => x.GetType().GetProperty(searchAndSortModel.Property).GetValue(x, null)).ToList();
                 }
             }
-            return users;
+            return userList;
         }
 
     }

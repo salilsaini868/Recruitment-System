@@ -15,7 +15,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 
 export class UsersComponent implements OnInit {
-
+  userModel: UserViewModel = {} as UserViewModel;
   users: UserViewModel[] = [] as UserViewModel[];
   searchAndSortModel: SearchAndSortModel = {} as SearchAndSortModel;
   listFilter: string;
@@ -40,8 +40,27 @@ export class UsersComponent implements OnInit {
     this.router.navigate(['User', userId]);
   }
 
-  deleteUser(userId) {
-
+  deleteUser(user,i) {
+    let isDelete = confirm("Are you sure you want to delete user?");
+    if (isDelete) {
+      this.users.splice(i, 1);
+      this.userService.deleteUser(user).subscribe(
+        (data) => {
+          if (data.status === Status.Success) {
+            this.userModel = data.body;
+            this.displayMessage.showSuccess('USER.DELETEDSUCCESSFULLY');
+          }
+          else if (data.status === Status.Fail) {
+            this.displayMessage.showWarning('USER.FAILEDTODELETE');
+          }
+          else if (data.status === Status.Error) {
+            this.displayMessage.showError('USER.DELETEERROR');
+          }
+        },
+        (error) => {
+          this.displayMessage.showError('USER.DELETEERROR');
+        });
+    }
   }
 
   setDefaultSortOption() {

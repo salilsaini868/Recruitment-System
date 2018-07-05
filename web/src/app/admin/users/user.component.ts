@@ -62,6 +62,7 @@ export class UserComponent implements OnInit {
     }
 
     showUsersList() {
+        debugger;
         this.router.navigate(['Users']);
     }
 

@@ -77,7 +77,11 @@
         "DEFAULTSORTPROPERTY": "FirstName",
         "NORECORD": "No User found !",
         "ERROR": "Error Occurred",
-        "SEARCH":"Search..."
+        "SEARCH":"Search...",
+        "DELETEERROR": "User error in deleting",
+        "DELETEDSUCCESSFULLY": "User deleted successfully",
+        "FAILEDTODELETE": "User failled to delete"
+
     },
     "OPENING": {
         "LIST": "List of Openings",

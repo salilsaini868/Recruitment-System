@@ -82,5 +82,22 @@ namespace RS.Web.Controllers
             return userList;
         }
 
+        [HttpPut]
+        public IResult DeleteUser([FromBody]UserViewModel userView)
+        {
+            if (ModelState.IsValid)
+            {
+                var deleteUser = _userService.DeleteUser(userView);
+                return deleteUser;
+            }
+            return new Result
+            {
+                Operation = Operation.Delete,
+                Status = Status.Fail,
+                Message = CommonErrorMessages.BadRequest,
+                Body = null
+            };
+        }
+
     }
 }

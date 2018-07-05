@@ -29,5 +29,8 @@ namespace RS.Service.Interfaces
         IResult GetUserDetail();
         IResult GetUsersResults(SearchAndSortModel searchAndSortModel);
 
+       
+        IResult DeleteUser(UserViewModel user);
+
     }
 }
