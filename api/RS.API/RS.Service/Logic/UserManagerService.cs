@@ -364,7 +364,7 @@ namespace RS.Service.Logic
             };
             try
             {
-                var userObj = _userRepository.GetFirstOrDefault(x => x.UserId == user.UserId);
+                var userObj = _userRepository.GetByID(user.UserId);
                 if (userObj != null)
                 {
                     userObj.MapDeleteColumns((ClaimsIdentity)_principal.Identity);

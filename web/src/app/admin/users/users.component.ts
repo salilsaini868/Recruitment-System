@@ -42,10 +42,8 @@ export class UsersComponent implements OnInit {
   }
 
   deleteUser(user,i) {
-   // debugger;
     let isDelete = confirm("Are you sure you want to delete user?");
     if (isDelete) {
-     // debugger;
       this.users.splice(i, 1);
       this.userService.deleteUser(user).subscribe(
         (data) => {

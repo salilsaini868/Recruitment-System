@@ -78,9 +78,9 @@
         "NORECORD": "No User found !",
         "ERROR": "Error Occurred",
         "SEARCH":"Search...",
-        "DELETEERROR": "User error in deleting",
+        "DELETEERROR": "Error occurred while deleting user",
         "DELETEDSUCCESSFULLY": "User deleted successfully",
-        "FAILEDTODELETE": "User failled to delete"
+        "FAILEDTODELETE": "Failled to delete user"
 
     },
     "OPENING": {
