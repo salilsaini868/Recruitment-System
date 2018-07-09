@@ -59,7 +59,7 @@
                             <td>{{user.email}}</td>
                             <td>{{user.role}}</td>
                             <td>
-                                <button title="Delete" class="btn btn-danger no-radius btn-pad" (click)="deleteUser(user,i)">{{ 'USER.DELETE' | translate }}</button>
+                                <button title="Delete" class="btn btn-danger no-radius btn-pad" (click)="deleteUser(user.userId,i)">{{ 'USER.DELETE' | translate }}</button>
                                 <button title="Edit" class="btn btn-primary  blue-btn" (click)="updateUser(user.userId)">{{ 'USER.UPDATE' | translate }}</button>
                             </td>
                         </tr>

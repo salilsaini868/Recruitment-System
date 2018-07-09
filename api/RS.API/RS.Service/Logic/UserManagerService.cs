@@ -355,7 +355,7 @@ namespace RS.Service.Logic
             return result;
         }
 
-        public IResult DeleteUser(UserViewModel user)
+        public IResult DeleteUser(Guid id)
         {
             var result = new Result
             {
@@ -364,7 +364,7 @@ namespace RS.Service.Logic
             };
             try
             {
-                var userObj = _userRepository.GetByID(user.UserId);
+                var userObj = _userRepository.GetByID(id);
                 if (userObj != null)
                 {
                     userObj.MapDeleteColumns((ClaimsIdentity)_principal.Identity);
@@ -372,7 +372,7 @@ namespace RS.Service.Logic
                     _userRepository.SaveChanges();
                     result.Message = UserStatusNotification.UserDeleted;
                 }
-                result.Body = userObj;
+                result.Body = userObj.UserId;
             }
             catch (Exception e)
             {

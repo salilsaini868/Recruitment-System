@@ -41,11 +41,11 @@ export class UsersComponent implements OnInit {
     this.router.navigate(['User', userId]);
   }
 
-  deleteUser(user,i) {
+  deleteUser(userId,i) {
     let isDelete = confirm("Are you sure you want to delete user?");
     if (isDelete) {
       this.users.splice(i, 1);
-      this.userService.deleteUser(user).subscribe(
+      this.userService.deleteUser(userId).subscribe(
         (data) => {
           if (data.status === Status.Success) {
             this.userModel = data.body;

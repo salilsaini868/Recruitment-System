@@ -11,7 +11,6 @@ import { filter } from 'rxjs/operators/filter';
 
 import { IResult } from '../models/iresult';
 import { SearchAndSortModel } from '../models/search-and-sort-model';
-import { UserViewModel } from '../models/user-view-model';
 
 
 @Injectable()
@@ -271,13 +270,13 @@ export class UserService extends BaseService {
     );
   }
   /**
-   * @param userView - undefined
+   * @param userId - undefined
    */
-  ApiUserDeleteUserPutResponse(userView?: UserViewModel): Observable<HttpResponse<IResult>> {
+  ApiUserDeleteUserPutResponse(userId: string): Observable<HttpResponse<IResult>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
-    __body = userView;
+    if (userId != null) __params = __params.set("userId", userId.toString());
     let req = new HttpRequest<any>(
       "PUT",
       this.rootUrl + `/api/User/DeleteUser`,
@@ -300,10 +299,10 @@ export class UserService extends BaseService {
   }
 
   /**
-   * @param userView - undefined
+   * @param userId - undefined
    */
-  ApiUserDeleteUserPut(userView?: UserViewModel): Observable<IResult> {
-    return this.ApiUserDeleteUserPutResponse(userView).pipe(
+  ApiUserDeleteUserPut(userId: string): Observable<IResult> {
+    return this.ApiUserDeleteUserPutResponse(userId).pipe(
       map(_r => _r.body)
     );
   }}

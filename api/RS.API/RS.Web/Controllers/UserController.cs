@@ -120,21 +120,13 @@ namespace RS.Web.Controllers
             }
             return Convert.ToBase64String(data, 0, data.Length);
         }
+
         [HttpPut]
-        public IResult DeleteUser([FromBody]UserViewModel userView)
+        public IResult DeleteUser(Guid userId)
         {
-            if (ModelState.IsValid)
-            {
-                var deleteUser = _userService.DeleteUser(userView);
+                var deleteUser = _userService.DeleteUser(userId);
                 return deleteUser;
-            }
-            return new Result
-            {
-                Operation = Operation.Delete,
-                Status = Status.Fail,
-                Message = CommonErrorMessages.BadRequest,
-                Body = null
-            };
+
         }
 
     }
