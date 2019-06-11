@@ -355,6 +355,33 @@ namespace RS.Service.Logic
             return result;
         }
 
+        public IResult DeleteUser(Guid id)
+        {
+            var result = new Result
+            {
+                Operation = Operation.Delete,
+                Status = Status.Success
+            };
+            try
+            {
+                var userObj = _userRepository.GetByID(id);
+                if (userObj != null)
+                {
+                    userObj.MapDeleteColumns((ClaimsIdentity)_principal.Identity);
+                    _userRepository.Update(userObj);
+                    _userRepository.SaveChanges();
+                    result.Message = UserStatusNotification.UserDeleted;
+                }
+                result.Body = userObj.UserId;
+            }
+            catch (Exception e)
+            {
+                result.Message = e.Message;
+                result.Status = Status.Error;
+            }
+            return result;
+        }
+
         //public IResult UpdateUserProfile(UserViewModel user)
         //{
         //    var result = new Result

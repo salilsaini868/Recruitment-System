@@ -10,10 +10,6 @@ export class UserServiceApp {
 
     constructor(private apiUserService: UserService, private http: HttpClient, private apiConfig: ApiConfiguration) { }
 
-    // createUser(userModel): Observable<any> {
-    //     return this.apiUserService.ApiUserCreateUserPost(userModel).map(x => (x));
-    // }
-
     GetUserDetails(): Observable<any> {
         return this.apiUserService.ApiUserGetUserDetailsGet().map(x => (x));
     }
@@ -47,5 +43,8 @@ export class UserServiceApp {
     }
     GetUsersResults(searchAndSortModel): Observable<any> {
         return this.apiUserService.ApiUserGetUsersResultsPost(searchAndSortModel).map(x => (x));
+    }
+    deleteUser(userId): Observable<any> {
+        return this.apiUserService.ApiUserDeleteUserPut(userId).map(x => (x));
     }
 }

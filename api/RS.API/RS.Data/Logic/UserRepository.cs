@@ -62,7 +62,6 @@ namespace RS.Data.Logic
             _context.SaveChanges();
         }
 
-
         List<Users> IUserRepository.GetAll(SearchAndSortModel searchAndSortModel)
         {
             var userList = _context.Users.Include(t => t.UserRoles).ThenInclude(r => r.Role).Where(x => (x.IsActive && !x.IsDeleted)).ToList();

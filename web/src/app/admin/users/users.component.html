@@ -53,13 +53,13 @@
                         <td></td>
                     </tr>
                     <ng-template #rowTemplate>
-                        <tr *ngFor="let user of users">
+                        <tr *ngFor="let user of users; let i=index" >
                             <td>{{user.firstName}}</td>
                             <td>{{user.lastName}}</td>
                             <td>{{user.email}}</td>
                             <td>{{user.role}}</td>
                             <td>
-                                <button title="Delete" class="btn btn-danger no-radius btn-pad" (click)="deleteUser(user.userId)">{{ 'USER.DELETE' | translate }}</button>
+                                <button title="Delete" class="btn btn-danger no-radius btn-pad" (click)="deleteUser(user.userId,i)">{{ 'USER.DELETE' | translate }}</button>
                                 <button title="Edit" class="btn btn-primary  blue-btn" (click)="updateUser(user.userId)">{{ 'USER.UPDATE' | translate }}</button>
                             </td>
                         </tr>
